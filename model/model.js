@@ -1,0 +1,24 @@
+const mongoose = require('mongoose');
+const database = require('../db/database');
+
+const Schema = mongoose.Schema;
+
+const UserSchema = new Schema({
+    username: String,
+    password: String,
+    name: String,
+    last_name: String,
+    acknowledgement: Boolean
+});
+
+const ReservedNameSchema = new Schema({
+    name : String
+});
+
+const User = mongoose.model('User', UserSchema );
+const ReservedName = mongoose.model('ReservedName', ReservedNameSchema );
+
+module.exports = {
+    User: User,
+    ReservedName: ReservedName
+}
