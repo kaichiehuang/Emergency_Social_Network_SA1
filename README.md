@@ -1,6 +1,7 @@
 Iteration 0
 ------------------
 Member: Four Heros
+
 Space: https://trello.com/b/KmLktaWm/emergency-social-network
 
 ------------------
@@ -11,6 +12,7 @@ How to set up DB env with migrate-mongo
 - migrate-mongo up     //populate collections of users, reserved_names, etc.
 - check your mongoDB for init data!
 - (optional) migrate-mongo down   //remove the data and collections; execute it to rollback the latest up script, so execute it many times for total removal
+
 ------------------
 How to start app for quick dev and debug?
 
