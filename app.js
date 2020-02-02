@@ -10,6 +10,11 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+//application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+//application/json
+app.use(bodyParser.json());
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -17,11 +22,6 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-//application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-//application/json
-app.use(bodyParser.json());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
