@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const database = require('../db/database');
+const database = require('./database');
 
 const Schema = mongoose.Schema;
 
