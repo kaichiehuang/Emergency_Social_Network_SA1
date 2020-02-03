@@ -1,0 +1,199 @@
+.chat-room-body, .login-signup-form-body, .login-login-form-body {
+    padding: 0px 0px 90px 0;
+    border-bottom: 1px dotted $brand_color1;
+    margin-bottom: 30px;
+}
+.home-instructions {
+    width: 70%;
+    margin: auto auto;
+    li {
+        margin-bottom: 1.25rem;
+    }
+}
+//chat room body
+// .chat-room-body {
+//     @include respond-to('large') {
+//         width: 80%;
+//         margin: auto auto;
+//     }
+//     @include respond-to('medium') {
+//         width: 90%;
+//         margin: auto auto;
+//     }
+//     @include respond-to('small') {
+//         width: 95%;
+//         margin: auto auto;
+//     }
+//     @include respond-to('extra-small') {
+//         width: 95%;
+//         margin: auto auto;
+//     }
+//     padding-bottom: 5px;
+//     /*styles for posts threads*/
+//     .chat-room-body__posts-thread {
+//         background: white;
+//         padding: 0px 25px;
+//         overflow-x: hidden;
+//         background: #fff;
+//         max-height: 70vh;
+//         overflow-y: auto;
+//         overflow-x: hidden;
+//         margin-bottom: 15px;
+//         @include respond-to('small') {
+//             padding: 0px 15px;
+//         }
+//         @include respond-to('extra-small') {
+//             padding: 0px 15px;
+//         }
+//         .post {
+//             padding: 15px;
+//             padding-top: 15px * 1.5;
+//             padding-bottom: 15px * 2;
+//             padding-right: 18.5%;
+//             @include respond-to('small') {
+//                 padding-right: 5%;
+//                 padding-top: 15px;
+//                 padding-bottom: 15px;
+//             }
+//             @include respond-to('extra-small') {
+//                 padding-right: 5%;
+//                 padding-top: 15px;
+//                 padding-bottom: 15px;
+//             }
+//             .post__header {
+//                 color: #000;
+//                 margin-bottom: 7.5px;
+//                 width: 100%;
+//                 @include flexbox;
+//                 @include justify-content(flex-start);
+//                 @include align-items(center);
+//                 span {
+//                     // width: 50%;
+//                 }
+//                 @include respond-to('small') {
+//                     @include flex-wrap(wrap);
+//                 }
+//                 @include respond-to('extra-small') {
+//                     @include flex-wrap(wrap);
+//                 }
+//                 .post__header__timestamp {
+//                     text-align: right;
+//                     font-weight: normal;
+//                     color: #777;
+//                     margin-left: 30px;
+//                     @include respond-to('small') {
+//                         margin-left: 0px;
+//                     }
+//                     @include respond-to('extra-small') {
+//                         margin-left: 0px;
+//                     }
+//                 }
+//                 .post__header__user {
+//                     font-weight: normal;
+//                     color: $brand_color1;
+//                     @include respond-to('small') {
+//                         width: 100%;
+//                     }
+//                     @include respond-to('extra-small') {
+//                         width: 100%;
+//                     }
+//                 }
+//                 .post__message {
+//                     color: #333;
+//                 }
+//             }
+//             &.odd-post {}
+//             &.even-post {
+//                 background: #f9f9f9;
+//             }
+//             &.own-post {
+//                 text-align: right;
+//                 color: $own_post_color;
+//                 padding-left: 18.5%;
+//                 padding-right: 15px;
+//                 @include respond-to('small') {
+//                     padding-left: 5%;
+//                 }
+//                 @include respond-to('extra-small') {
+//                     padding-left: 5%;
+//                 }
+//                 .post__header {
+//                     @include justify-content(flex-end);
+//                     .post__header__user {
+//                         font-weight: bolder;
+//                         color: $brand_color1;
+//                     }
+//                 }
+//             }
+//             &:hover {
+//                 background: rgba($brand_color2, 0.125);
+//             }
+//         }
+//     }
+//     .chat-room-body__new-post-form {
+//         padding: 15px 0px;
+//         padding-top: 0;
+//         height: 12.5vh;
+//         @include respond-to('large') {
+//             height: 15vh;
+//         }
+//         form.post-form {
+//             @include flexbox;
+//             @include justify-content(space-between);
+//             @include align-items(center);
+//             @include flex-wrap(no-wrap);
+//             .form-group {
+//                 width: 90%;
+//                 margin-right: 10px;
+//             }
+//             textarea {
+//                 height: 6.125vh;
+//                 @include respond-to('large') {
+//                     height: 7vh;
+//                 }
+//             }
+//             button {
+//                 margin-top: 13px;
+//             }
+//         }
+//     }
+// }
+//login sigup forms
+.login-signup-intro {
+    .disclaimer {
+        .fa {
+            font-size: $font-size-base * 4;
+            color: $brand_color2;
+        }
+        text-align: center;
+        font-style: italic;
+        width: 70%;
+        margin: auto auto;
+    }
+    .login-signup-body__actions {
+        margin-top: 50px;
+        @include flexbox;
+        @include justify-content(center);
+        @include justify-content(center);
+        margin-bottom: 30px;
+        .btn {
+            margin: 0 15px;
+        }
+    }
+}
+.disclaimers {
+    .fa {
+        font-size: $font-size-base * 4;
+        color: $brand_color2;
+        margin-bottom: 15px
+    }
+    text-align: center;
+    font-style: italic;
+    width: 70%;
+    margin: auto auto;
+    margin-bottom: 30px;
+}
+.required-label:after {
+    content: " *";
+    color: $orange_forms;
+}

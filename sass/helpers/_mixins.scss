@@ -1,0 +1,26 @@
+@mixin respond-to($breakpoint) {
+    @if $breakpoint=="extra-small" {
+        @media (max-width: $screen-xs-max) {
+            @content;
+        }
+    }
+    @if $breakpoint=="small" {
+        @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+            @content;
+        }
+    }
+    @else if $breakpoint=="medium" {
+        @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+            @content;
+        }
+    }
+    @else if $breakpoint=="large" {
+        @media (min-width: $screen-lg-min) {
+            @content;
+        }
+    }
+}
+@mixin reset-margin-padding {
+    margin: 0px;
+    padding: 0px;
+}
