@@ -3,8 +3,8 @@ var router = express.Router();
 const model = require('../model/model');
 const UserModel = model.User;
 const ObjectId = require('mongoose').Types.ObjectId;
-var blacklist = require("the-big-username-blacklist");
-var 
+const blacklist = require("the-big-username-blacklist");
+const tokenMiddleWare = require("../middleware/token"); 
 
 const {validateTokenMid,generateToken} = require  ("../middleware/tokenServer");
 
@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
   //TODO params check, user creation
   var check_usr = req.body.username;
   var check_pwd = req.body.password;
-  if (check_usr.length >= 3 && blacklist.validate(check_usr) && check_pwd.length >= 4)
+  if (check_usr.length >= 3 && blacklist.validate(check_usr) && check_pwd.length >= 4) {}
 
 
 
@@ -40,14 +40,12 @@ router.post('/', (req, res) => {
   });
 
   //TODO return generated token
-  //res.send('respond with a resource');
-
 
   let userId = 1;
 
-  generateToken(userId,false)
+  tokenMiddleWare.generateToken(userId,false)
       .then( generatedToken => {
-        generateToken(userId,true)
+        tokenMiddleWare.generateToken(userId,true)
             .then( genRefToken => {
               let jsonToken = {};
               jsonToken["tokens"] = [];
