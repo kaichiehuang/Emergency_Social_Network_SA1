@@ -6,6 +6,9 @@ const ObjectId = require('mongoose').Types.ObjectId;
 var blacklist = require("the-big-username-blacklist");
 var 
 
+const {validateTokenMid,generateToken} = require  ("../middleware/tokenServer");
+
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -37,10 +40,35 @@ router.post('/', (req, res) => {
   });
 
   //TODO return generated token
-  res.send('respond with a resource');
+  //res.send('respond with a resource');
+
+
+  let userId = 1;
+
+  generateToken(userId,false)
+      .then( generatedToken => {
+        generateToken(userId,true)
+            .then( genRefToken => {
+              let jsonToken = {};
+              jsonToken["tokens"] = [];
+              jsonToken["tokens"].push({token:generatedToken });
+              jsonToken["tokens"].push({ex_token:genRefToken });
+              res.contentType('application/json');
+              res.send(JSON.stringify(jsonToken));
+
+              // res.header('Authorization','BEARER ' + data );
+              // res.send(data);
+            })
+      })
+      .catch(err => {
+        res.send(err);
+      });
+
+
 });
 
-router.put('/:userId', function(req, res, next) {
+
+router.put('/:userId',validateTokenMid, function(req, res, next) {
   var userId = req.params.userId;
   //TODO token validation via middleware?
   console.log(userId);
