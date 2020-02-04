@@ -6,7 +6,16 @@
 
 var app = require('../app');
 var debug = require('debug')('team-sa1-esn:server');
-var http = require('http');
+var https = require('https');
+
+
+var fs = require('fs');
+
+
+const options = {
+  key: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.pem'),
+  cert: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.crt'),
+}
 
 /**
  * Get port from environment and store in Express.
@@ -19,7 +28,7 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = https.createServer(options,app);
 
 /**
  * Listen on provided port, on all network interfaces.
