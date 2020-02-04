@@ -1,3 +1,9 @@
+.main-content-block {
+    display: block;
+}
+.hidden-main-content-block {
+    display: none;
+}
 .chat-room-body, .login-signup-form-body, .login-login-form-body {
     padding: 0px 0px 90px 0;
     border-bottom: 1px dotted $brand_color1;
