@@ -5,7 +5,10 @@ const config = {
 
     // our database name:
     databaseName: "esn_sa1",
-
+    authentication: {
+      username: "root",
+      password: "2244jjla3m",
+    },
     options: {
       useNewUrlParser: true, // removes a deprecation warning when connecting
       useUnifiedTopology: true, // removes a deprecating warning when connecting
