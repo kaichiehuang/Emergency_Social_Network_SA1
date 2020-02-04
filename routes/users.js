@@ -4,12 +4,15 @@ const model = require('../model/model');
 const UserModel = model.User;
 const ObjectId = require('mongoose').Types.ObjectId;
 
+const {validateTokenMid,generateToken} = require  ("../middleware/tokenServer");
+
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/', function(req, res, next) {
+router.post('/', function (req, res, next) {
   //TODO params check, user creation
   console.log('begin to create');
   console.log(req.body);
@@ -30,14 +33,24 @@ router.post('/', function(req, res, next) {
     }
     console.log("user creation success");
   });
-  //TODO return generated token
-  res.redirect('/');
+  //TODO get userID
+
+  let userId = 1;
+
+  generateToken(userId)
+      .then( data => {
+        res.header('Authorization','BEARER ' + data );
+        res.send(data);
+      })
+      .catch(err => {
+        res.send(err);
+      });
+
 });
 
-router.put('/', function(req, res, next) {
+router.put('/',validateTokenMid, function (req, res, next){
   console.log('into PUT');
   var userID = req.query.userID;
-  //TODO token validation
   const validation = true;
   if (!validation) {
     res.redirect('/');
