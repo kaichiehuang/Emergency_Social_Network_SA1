@@ -6,12 +6,18 @@
         @include justify-content(center);
         margin-bottom: 7.5px;
         margin-top: 3.125%;
+        @include respond-to('small') {
+            margin-top: 5%;
+        }
+        @include respond-to('extra-small') {
+            margin-top: 5%;
+        }
         .logo {
             width: 65px;
             margin-right: 20px;
         }
         span {
-            font-size: $font-size-base * 2;
+            font-size: $font-size-base * 1.5;
             color: $brand_color1;
         }
         &.logo-container-not-logged-in {}

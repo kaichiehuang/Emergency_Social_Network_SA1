@@ -44,11 +44,17 @@ body {
   justify-content: center;
   margin-bottom: 7.5px;
   margin-top: 3.125%; }
+  @media (min-width: 768px) and (max-width: 991px) {
+    .header .logo-container {
+      margin-top: 5%; } }
+  @media (max-width: 767px) {
+    .header .logo-container {
+      margin-top: 5%; } }
   .header .logo-container .logo {
     width: 65px;
     margin-right: 20px; }
   .header .logo-container span {
-    font-size: 28px;
+    font-size: 21px;
     color: #3371BC; }
   @media (min-width: 768px) and (max-width: 991px) {
     .header .logo-container.logo-container-logged-in {
@@ -129,7 +135,7 @@ body {
 
 /*---------PIE PAGINA------------*/
 footer {
-  color: #51A466;
+  color: #F58225;
   color: #999; }
   footer * {
     font-size: 1em; }
@@ -154,9 +160,17 @@ footer {
     margin-bottom: 30px; }
   .main-content .home-instructions {
     width: 70%;
-    margin: auto auto; }
+    margin: auto auto;
+    padding-left: 0;
+    list-style: inside; }
     .main-content .home-instructions li {
       margin-bottom: 1.25rem; }
+    @media (min-width: 768px) and (max-width: 991px) {
+      .main-content .home-instructions {
+        width: 90%; } }
+    @media (max-width: 767px) {
+      .main-content .home-instructions {
+        width: 90%; } }
   .main-content .login-signup-intro .disclaimer {
     text-align: center;
     font-style: italic;
@@ -164,7 +178,7 @@ footer {
     margin: auto auto; }
     .main-content .login-signup-intro .disclaimer .fa {
       font-size: 56px;
-      color: #51A466; }
+      color: #F58225; }
   .main-content .login-signup-intro .login-signup-body__actions {
     margin-top: 50px;
     display: -webkit-box;
@@ -193,7 +207,7 @@ footer {
     margin-bottom: 30px; }
     .main-content .disclaimers .fa {
       font-size: 56px;
-      color: #51A466;
+      color: #F58225;
       margin-bottom: 15px; }
   .main-content .required-label:after {
     content: " *";
