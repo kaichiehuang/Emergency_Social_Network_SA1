@@ -23,6 +23,7 @@ router.get('/', function(req, res, next) {
 router.post('/', (req, res) => {
 
   let signUpData = req.body;
+  console.log(signUpData);
 
 
   var check_usr = req.body.username;
@@ -33,7 +34,7 @@ router.post('/', (req, res) => {
 
   console.log('begin to create');
 
-  let user_instance = new User("username","password","name","lastname");
+  let user_instance = new User(signUpData["username"],signUpData["password"],signUpData["name"],signUpData["last_name"]);
   user_instance.registerUser()
       .then( response => {
           console.log();
