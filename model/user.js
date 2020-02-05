@@ -35,21 +35,22 @@ class User {
             res: true,
             msg: ''
         };
-        UserModel.find({'username': this.username}, function(err, users){
-            if(err) {
-                resObj.res = false;
-                resObj.msg = err;
-            }
-            if (users.length != 0) {
-                if (users[0].password === this.hashPassword(this.password)) {
-                    return resObj;
-                } else {
-                    resObj.res = false;
-                    resObj.msg = 'password/username not matched ';
+        UserModel.find({'username': this.username})
+            .then(users => {
+                if (users.length != 0) {
+                    if (users[0].password === this.hashPassword(this.password)) {
+                        return resObj;
+                    } else {
+                        resObj.res = false;
+                        resObj.msg = 'password/username not matched ';
+                    }
                 }
-            }
-            return resObj;
-        });
+                return resObj;
+            }).catch().catch(err => {
+                res.send(500, {
+                    error: err
+                });
+            });
     }
 
     isReservedNames() {
@@ -58,21 +59,21 @@ class User {
             res: true,
             msg: ''
         };
-        ReservedNamesModel.find({'name': this.username}, function(err, names){
-            if(err) {
+        ReservedNamesModel.find({'name': this.username})
+            .then(names => {
+                if (names.length != 0) {
+                    resObj.res = false;
+                    resObj.msg = 'user name is in reserved name list';
+                }
+                return resObj;
+            }).catch().catch(err => {
                 res.send(500, {
                     error: err
                 });
-            }
-            if (names.length != 0) {
-                resObj.res = false;
-                resObj.msg = 'user name is in reserved name list';
-            }
-            return resObj;
-        });
+            });
     }
 
-    validateUserName(){
+    validateUserName() {
         //result object
         let resObj = {
             res: true,
@@ -106,7 +107,7 @@ class User {
      * [registerUser description]
      * @return {[type]} [description]
      */
-    registerUser()  {
+    registerUser() {
         let hash = this.hashPassword(this.password);
         let newUser = new UserModel({
             username: this.username,
