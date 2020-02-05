@@ -1,5 +1,7 @@
 let currentContentPageID = "";
 let userJWT = null;
+let user_id = null;
+let user_name = null;
 
 function swapContent(newID){
     $(".main-content-block").addClass("hidden-main-content-block");
@@ -24,7 +26,10 @@ $(function() {
     }
     //user is logged in
     else{
-        alert("user is loggedin")
+
+        user_id = Cookies.get('user-id');
+        user_name = Cookies.get('user-name');
+        swapContent("welcome-page-content");
         console.log("found cookie = " + userJWT)
     }
 
