@@ -11,7 +11,7 @@ class User {
         this.acknowledgement = false;
     }
 
-    validate() {
+    async validate() {
         let usrRes = this.validateUserName(this.username);
         let pwdRes = this.validatePassword(this.password);
 
@@ -21,7 +21,7 @@ class User {
             return pwdRes;
         } else {
 
-            let passRes = this.isPasswordMatch();
+            let passRes = await this.isPasswordMatch();
             if (!passRes.res) {
                 return passRes;
             }
@@ -29,29 +29,72 @@ class User {
         }
     }
 
-    isPasswordMatch(password) {
-        //check password matched or not
-        let resObj = {
-            res: true,
-            msg: ''
-        };
-        UserModel.find({'username': this.username})
-            .then(users => {
-                if (users.length != 0) {
-                    if (users[0].password === this.hashPassword(this.password)) {
-                        return resObj;
-                    } else {
-                        resObj.res = false;
-                        resObj.msg = 'password/username not matched ';
-                    }
+
+    //WITH PROMISES
+    isPasswordMatch(password){
+        return new Promise((resolve, reject)=>{
+            let resObj = {
+                res: true,
+                msg: ''
+            };
+            let userFind =  UserModel.find({'username': this.username})
+            if (userFind.length !== 0) {
+                if (userFind[0].password === this.hashPassword(this.password)) {
+                    resolve(resObj);
+                } else {
+                    resObj.res = false;
+                    resObj.msg = 'password/username not matched ';
                 }
-                return resObj;
-            }).catch().catch(err => {
-                res.send(500, {
-                    error: err
-                });
-            });
+                reject(resObj);
+            }else{
+                resObj.res = true;
+                resolve(resObj);
+            }
+        })
+
+
     }
+
+    //
+    // async isPasswordMatch(password) {
+    //     //check password matched or not
+    //     let resObj = {
+    //         res: true,
+    //         msg: ''
+    //     };
+    //     // UserModel.find({'username': this.username})
+    //     //     .then(users => {
+    //     //         if (users.length != 0) {
+    //     //             if (users[0].password === this.hashPassword(this.password)) {
+    //     //                 return resObj;
+    //     //             } else {
+    //     //                 resObj.res = false;
+    //     //                 resObj.msg = 'password/username not matched ';
+    //     //             }
+    //     //         }
+    //     //         return resObj;
+    //     //     }).catch().catch(err => {
+    //     //         res.send(500, {
+    //     //             error: err
+    //     //         });
+    //     //     });
+    //
+    //     let userFind = await UserModel.find({'username': this.username})
+    //     if (userFind.length != 0) {
+    //         if (userFind[0].password === this.hashPassword(this.password)) {
+    //             return resObj;
+    //         } else {
+    //             resObj.res = false;
+    //             resObj.msg = 'password/username not matched ';
+    //         }
+    //         return resObj;
+    //     }else{
+    //         resObj.res = true;
+    //         return resObj;
+    //     }
+    //
+    //
+    // }
 
     isReservedNames() {
         //check reserved name
@@ -73,34 +116,74 @@ class User {
             });
     }
 
-    validateUserName() {
-        //result object
-        let resObj = {
-            res: true,
-            msg: ''
-        };
+    // validateUserName() {
+    //     //result object
+    //     let resObj = {
+    //         res: true,
+    //         msg: ''
+    //     };
+    //
+    //     if (this.username.length < 3) {
+    //         resObj.res = false;
+    //         resObj.msg = 'user name too short';
+    //         return resObj;
+    //     }
+    //     return resObj;
+    // }
 
-        if (this.username.length < 3) {
-            resObj.res = false;
-            resObj.msg = 'user name too short';
-            return resObj;
-        }
-        return resObj;
+    //WITH PROMISES
+    validateUserName() {
+        return new Promise((resolve, reject)=>{
+            let resObj = {
+                res: true,
+                msg: ''
+            };
+
+            if (this.username.length < 3) {
+                resObj.res = false;
+                resObj.msg = 'user name too short';
+                reject(resObj);
+            }
+
+            resolve(resObj);
+        })
     }
 
+
+
+    // validatePassword() {
+    //     let resObj = {
+    //         res: true,
+    //         msg: ''
+    //     };
+    //     if (this.password.length < 4) {
+    //         resObj.res = false;
+    //         resObj.msg = 'pwd is too short';
+    //     } else {
+    //         resObj.res = true;
+    //         resObj.msg = '';
+    //     }
+    //     return resObj;
+    // }
+
+    //WITH PROMISES
     validatePassword() {
-        let resObj = {
-            res: true,
-            msg: ''
-        };
-        if (this.password.length < 4) {
-            resObj.res = false;
-            resObj.msg = 'pwd is too short';
-        } else {
-            resObj.res = true;
-            resObj.msg = '';
-        }
-        return resObj;
+        return new Promise((resolve, reject)=>{
+            let resObj = {
+                res: true,
+                msg: ''
+            };
+            if (this.password.length < 4) {
+                resObj.res = false;
+                resObj.msg = 'pwd is too short';
+                reject(resObj);
+            } else {
+                resObj.res = true;
+                resObj.msg = '';
+                resolve(resObj);
+            }
+
+        })
     }
 
     /**
