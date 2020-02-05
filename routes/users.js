@@ -68,10 +68,10 @@ router.put('/:userId', validateTokenMid, function(req, res, next) {
     user_instance.updateKnowledge(userId,true)
         .then( _ => {
             //TODO jump to which view
-            res.send('respond with a resource');
+            return res.send('respond with a resource');
         })
         .catch(err => {
-            res.send(err);
+            return res.send(err);
         });
 
 
