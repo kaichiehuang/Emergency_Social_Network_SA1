@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const User = require('../model/user.js');
+const ReservedNamesModel = require('../model/model').ReservedNamesMongo;
 //const  = model.User;
 const ObjectId = require('mongoose').Types.ObjectId;
 
@@ -34,8 +35,6 @@ router.get('/', function(req, res, next) {
 router.post('/', (req, res) => {
 
   let signUpData = req.body;
-  console.log(signUpData);
-
 
   var check_usr = req.body.username;
   var check_pwd = req.body.password;
@@ -43,9 +42,19 @@ router.post('/', (req, res) => {
   //
   // }
 
-  console.log('begin to create');
+  let user_instance = new User(signUpData["username"],
+                                signUpData["password"],
+                                  signUpData["name"],
+                                  signUpData["last_name"]);
+  user_instance.password = user_instance.hashPassword(user_instance.password);
+  //validations here
+  let validationResult = user_instance.validate();
+  if(!validationResult.res) {
+    console.log(validationResult);
+    res.contentType('application/json');
+    return res.status(422).send({ msg: validationResult.msg});
+  }
 
-  let user_instance = new User(signUpData["username"],signUpData["password"],signUpData["name"],signUpData["last_name"]);
   user_instance.registerUser()
       .then( response => {
           console.log();
