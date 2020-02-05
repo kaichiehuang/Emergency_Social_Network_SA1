@@ -19,6 +19,6 @@ const User = mongoose.model('User', UserSchema );
 const ReservedName = mongoose.model('ReservedName', ReservedNameSchema );
 
 module.exports = {
-    User: User,
-    ReservedName: ReservedName
+    UserMongo: User,
+    ReservedNameMongo: ReservedName
 }
