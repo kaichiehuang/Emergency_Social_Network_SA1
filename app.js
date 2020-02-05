@@ -11,7 +11,7 @@ var usersRouter = require('./routes/users');
 var tokenRouter = require('./routes/token');
 
 //redirect library for https - uncomment on server
-var httpsRedirectTool = require('express-http-to-https').redirectToHTTPS
+// var httpsRedirectTool = require('express-http-to-https').redirectToHTTPS
 
 var app = express();
 //change if using https fo security issues

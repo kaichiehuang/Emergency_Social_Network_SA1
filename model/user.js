@@ -12,7 +12,10 @@ class User {
     }
 
 
-
+    /**
+     * [registerUser description]
+     * @return {[type]} [description]
+     */
     registerUser() {
 
         let hash = this.hashPassword(this.password);
@@ -27,23 +30,23 @@ class User {
         return newUser.save();
     };
 
+    /**
+     * [updateKnowledge description]
+     * @param  {[type]} userId          [description]
+     * @param  {[type]} acknowledgement [description]
+     * @return {[type]}                 [description]
+     */
     updateKnowledge(userId,acknowledgement){
 
         return UserModel.findByIdAndUpdate(userId,{$set:{acknowledgement:acknowledgement}},{new:true});
 
     };
 
-    validateUserName(userName){
-        UserModel.find({
-            "username":userName})
-            .then(res =>{
-                console.log(res);
-            })
-            .catch(err =>{
-                console.error(err);
-            })
-    };
-
+    /**
+     * [findUserById description]
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
     findUserById(userId){
         UserModel.findById(userId)
             .then(res =>{
@@ -54,24 +57,27 @@ class User {
             })
     };
 
-
+    /**
+     * [hashPassword description]
+     * @param  {[type]} password [description]
+     * @return {[type]}          [description]
+     */
     hashPassword(password){
         return bcrypt.hashSync(password,10);
     };
 
-
+    /**
+     * [userExist description]
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
     async userExist(userId){
+
         console.log("before calling findbyId");
         let userInfo =  await UserModel.findById(userId);
         return userInfo._id;
     };
 
-    // userExist(userId) {
-    //     console.log("before calling findbyId");
-    //     UserModel.findById(userId).then(function (userInfo) {
-    //         return userInfo._doc._id.id;
-    //     });
-    // }
 
 }
 

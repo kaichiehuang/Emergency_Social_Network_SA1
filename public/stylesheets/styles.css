@@ -154,6 +154,8 @@ footer {
     transition: all 0.5s ease !important; }
   .main-content.wrapper-div-loggedin {
     padding-top: 5px; }
+  .main-content .form-error-message-container {
+    display: none; }
   .main-content .main-content-block {
     display: block; }
   .main-content .hidden-main-content-block {
