@@ -10,7 +10,7 @@ const {
 } = require("../middleware/tokenServer");
 
 const blacklist = require("the-big-username-blacklist");
-const tokenMiddleWare = require("../middleware/token");
+const tokenMiddleWare = require("../middleware/tokenServer");
 
 
 /* GET users listing. */
