@@ -103,17 +103,17 @@ class User {
             msg: ''
         };
         ReservedNamesModel.find({'name': this.username})
-            .then(names => {
-                if (names.length != 0) {
-                    resObj.res = false;
-                    resObj.msg = 'user name is in reserved name list';
-                }
-                return resObj;
-            }).catch().catch(err => {
-                res.send(500, {
-                    error: err
-                });
+        .then(names => {
+            if (names.length != 0) {
+                resObj.res = false;
+                resObj.msg = 'Invalid username, is in the list of reserved usernames.';
+            }
+            return resObj;
+        }).catch().catch(err => {
+            res.send(500, {
+                error: err
             });
+        });
     }
 
     // validateUserName() {
@@ -190,7 +190,7 @@ class User {
      * [registerUser description]
      * @return {[type]} [description]
      */
-    registerUser() {
+     registerUser() {
         let hash = this.hashPassword(this.password);
         let newUser = new UserModel({
             username: this.username,
@@ -220,14 +220,14 @@ class User {
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
-    findUserById(userId) {
+     findUserById(userId) {
         UserModel.findById(userId)
-            .then(res => {
-                return res;
-            })
-            .catch(err => {
-                return err;
-            });
+        .then(res => {
+            return res;
+        })
+        .catch(err => {
+            return err;
+        });
     }
 
     /**
@@ -235,7 +235,7 @@ class User {
      * @param  {[type]} password [description]
      * @return {[type]}          [description]
      */
-    hashPassword(password) {
+     hashPassword(password) {
         return bcrypt.hashSync(password, 10);
     }
 
