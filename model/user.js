@@ -38,7 +38,13 @@ class User {
             res: true,
             msg: ''
         };
-        UserModel.find({'username': this.username})
+
+        if(this.password == ""){
+            resObj.res = false;
+            resObj.msg = 'Password is mandatory.';
+        }else{
+
+            UserModel.find({'username': this.username})
             .then(users => {
                 if (users.length != 0) {
                     if (users[0].password === this.hashPassword(this.password)) {
@@ -54,6 +60,7 @@ class User {
                     error: err
                 });
             });
+        }
     }
 
     isReservedNames() {
@@ -63,17 +70,17 @@ class User {
             msg: ''
         };
         ReservedNamesModel.find({'name': this.username})
-            .then(names => {
-                if (names.length != 0) {
-                    resObj.res = false;
-                    resObj.msg = 'user name is in reserved name list';
-                }
-                return resObj;
-            }).catch().catch(err => {
-                res.send(500, {
-                    error: err
-                });
+        .then(names => {
+            if (names.length != 0) {
+                resObj.res = false;
+                resObj.msg = 'Invalid username, is in the list of reserved usernames.';
+            }
+            return resObj;
+        }).catch().catch(err => {
+            res.send(500, {
+                error: err
             });
+        });
     }
 
     validateUserName() {
@@ -82,10 +89,13 @@ class User {
             res: true,
             msg: ''
         };
-
-        if (this.username.length < 3) {
+        console.log(this.username)
+        if(this.username == ""){
             resObj.res = false;
-            resObj.msg = 'user name too short';
+            resObj.msg = 'Username is mandatory.';
+        }else if (this.username.length < 3) {
+            resObj.res = false;
+            resObj.msg = 'Username must have more than 3 letters.';
             return resObj;
         }
         return resObj;
@@ -98,7 +108,7 @@ class User {
         };
         if (this.password.length < 4) {
             resObj.res = false;
-            resObj.msg = 'pwd is too short';
+            resObj.msg = 'Password must have more than 4 letters.';
         } else {
             resObj.res = true;
             resObj.msg = '';
@@ -110,7 +120,7 @@ class User {
      * [registerUser description]
      * @return {[type]} [description]
      */
-    registerUser() {
+     registerUser() {
         let hash = this.hashPassword(this.password);
         let newUser = new UserModel({
             username: this.username,
@@ -129,20 +139,20 @@ class User {
      * @param  {[type]} acknowledgement [description]
      * @return {[type]}                 [description]
      */
-    updateKnowledge(userId, acknowledgement) {
+     updateKnowledge(userId, acknowledgement) {
         UserModel.findOne(
-            {
-                _id: userId
-            },
-            function(err, user) {
-                if (err) {
-                    res.send(500, {
-                        error: err
-                    });
-                }
-                user.acknowledgement = acknowledgement;
-                user.save();
+        {
+            _id: userId
+        },
+        function(err, user) {
+            if (err) {
+                res.send(500, {
+                    error: err
+                });
             }
+            user.acknowledgement = acknowledgement;
+            user.save();
+        }
         );
     }
 
@@ -151,14 +161,14 @@ class User {
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
-    findUserById(userId) {
+     findUserById(userId) {
         UserModel.findById(userId)
-            .then(res => {
-                return res;
-            })
-            .catch(err => {
-                return err;
-            });
+        .then(res => {
+            return res;
+        })
+        .catch(err => {
+            return err;
+        });
     }
 
     /**
@@ -166,7 +176,7 @@ class User {
      * @param  {[type]} password [description]
      * @return {[type]}          [description]
      */
-    hashPassword(password) {
+     hashPassword(password) {
         return bcrypt.hashSync(password, 10);
     }
 
@@ -175,16 +185,16 @@ class User {
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
-    userExist(userId) {
+     userExist(userId) {
         console.log('before calling findbyId');
         UserModel.findById(userId)
-            .then(res => {
-                console.log(res);
-                return true;
-            })
-            .catch(err => {
-                return false;
-            });
+        .then(res => {
+            console.log(res);
+            return true;
+        })
+        .catch(err => {
+            return false;
+        });
     }
 }
 
