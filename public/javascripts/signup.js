@@ -23,6 +23,11 @@ $(function() {
                 'password': password
             },
         }).done(function(response) {
+            if(response.user != undefined && response.tokens != undefined){
+                //set token in cookies since it is more secure
+                Cookies.set('user-jwt-esn', response.tokens.token);
+                Cookies.set('user-jwt-refresh-esn', response.tokens.token);
+            }
             console.log(response)
             $("#message").val("");
         }).fail(function() {

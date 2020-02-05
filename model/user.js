@@ -20,14 +20,14 @@ class User {
         } else if (!pwdRes.res) {
             return pwdRes;
         } else {
-            let reservedRes = this.isReservedNames();
-            if (!reservedRes.res) {
-                return reservedRes;
-            }
-            let passRes = this.isPasswordMatch();
-            if (!passRes.res) {
-                return passRes;
-            }
+            // let reservedRes = this.isReservedNames();
+            // if (!reservedRes.res) {
+            //     return reservedRes;
+            // }
+            // let passRes = this.isPasswordMatch();
+            // if (!passRes.res) {
+            //     return passRes;
+            // }
             return usrRes;
         }
     }
