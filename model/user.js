@@ -1,4 +1,5 @@
 const UserModel = require('./model').UserMongo;
+const ReservedNamesModel = require('./model').ReservedNamesMongo;
 const bcrypt = require("bcrypt");
 
 
@@ -11,6 +12,62 @@ class User {
         this.acknowledgement=false;
     }
 
+    validate() {
+        var usrRes = this.validateUserName(this.username);
+        var pwdRes = this.validatePassword(this.password);
+
+        if (!usrRes.res) {
+            return usrRes;
+        } else if (!pwdRes.res) {
+            return pwdRes;
+        } else {
+            return usrRes;
+        }
+    }
+
+    validateUserName() {
+        //check lenth
+        resObj = {
+            res: true,
+            msg: ""
+        };
+
+        if (this.username.length < 3) {
+            resObj.res = false;
+            resObj.msg = "user name too short"
+            return resObj;
+        } else {
+            //check reserved name
+            ReservedNamesModel.findOne({username: this.username}, function(err, res) {
+                if (err) {
+                    resObj.res = false;
+                    resObj.msg = "db query error";
+                    return resObj;
+                }
+
+                if (res) {
+                    resObj.res = false;
+                    resObj.msg = "name is reserved";
+                } else {
+                    resObj.res = true;
+                    resObj.msg = ""; 
+                }
+                return resObj;
+            });
+
+        }
+    }
+
+    validatePassword() {
+        if (this.password.length < 4) {
+            resObj.res = false;
+            resObj.msg = "pwd is too short"; 
+        } else {
+            resObj.res = true;
+            resObj.msg = ""; 
+        }
+        return resObj;
+    }
 
     /**
      * [registerUser description]
