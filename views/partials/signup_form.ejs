@@ -1,12 +1,12 @@
-<div class="login-signup-form-body main-content-block hidden-main-content-block">
+<div class="login-signup-form-body main-content-block hidden-main-content-block" id="login-signup-form-content">
     <p class="disclaimers">
         <i class="fa fa-user-plus" aria-hidden="true"></i>
         <br>
-        All the following fields are required to create an account in <strong>XXXXXXXXX</strong>
+        The following fields are required to create an account in <strong>ESN</strong>
     </p>
 
     <div class="col-xs-24 col-sm-18 col-sm-offset-3 col-md-12 col-md-offset-6">
-        <div class=" alert alert-danger text-center">
+        <div class="form-error-message-container alert alert-danger text-center alert-dismissible fade in" role="alert" id="signup-error-alert">
             alert message example
         </div>
     </div>
@@ -22,22 +22,16 @@
                 <input type="text" id="lastname" class="form-control">
             </div>
             <div class="form-group">
-                <label for="email" class="required-label">Email</label>
-                <input type="email" id="email" class="form-control">
+                <label for="username" class="required-label">Username</label>
+                <input type="username" id="username" class="form-control">
             </div>
             <div class="form-group">
                 <label for="password" class="required-label">Password</label>
                 <input type="password" id="password" class="form-control">
             </div>
-            <div class="checkbox">
-                <label for="">
-                    <input type="checkbox" name="" checked="checked"> By clicking the &quot;Get Started!&quot; button, you are creating a an account in XXXXXXXX platform and you agree to our
-                    <a href="https://www.cmu.edu/legal/" target="_blank">Terms of Use and Privacy Policy</a>
-                </label>
-            </div>
             <br>
             <div class="text-center">
-                <button class="btn btn-primary btn-lg" type="submit"> Get Started</button>
+                <button class="btn btn-primary btn-lg" type="submit" id="signup-submit-button"> Get Started</button>
             </div>
 
         </form>
