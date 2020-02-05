@@ -62,13 +62,19 @@ router.post('/', (req, res) => {
 
 router.put('/:userId', validateTokenMid, function(req, res, next) {
     let user_instance = new User();
-    var userId = req.params.userId;
 
-    //TODO token validation via middleware?
+    let userId = req.params.userId;
     console.log(userId);
+    user_instance.updateKnowledge(userId,true)
+        .then( _ => {
+            //TODO jump to which view
+            res.send('respond with a resource');
+        })
+        .catch(err => {
+            res.send(err);
+        });
 
-    //TODO jump to which view
-    res.send('respond with a resource');
+
 });
 
 
