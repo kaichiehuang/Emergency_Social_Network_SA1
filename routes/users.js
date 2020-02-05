@@ -34,6 +34,14 @@ router.post('/', (req, res) => {
   console.log('begin to create');
 
   let user_instance = new User("username","password","name","lastname");
+
+  //validations here
+  if(!user_instance.validate().res) {
+    res.status(422).end();
+  }
+
+
+
   user_instance.registerUser()
       .then( response => {
           console.log();
