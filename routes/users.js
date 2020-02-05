@@ -55,11 +55,17 @@ router.post('/', (req, res) => {
               tokenMiddleWare.generateToken(response._id,true)
                   .then( genRefToken => {
                     let jsonToken = {};
-                    jsonToken["user"] = [];
-                    jsonToken["user"].push({userId:response._id });
-                    jsonToken["tokens"] = [];
-                    jsonToken["tokens"].push({token:generatedToken });
-                    jsonToken["tokens"].push({ex_token:genRefToken });
+                    jsonToken["user"] = {
+                    	userId:response._id,
+                    	username:response.username,
+                    	name:response.name
+                    };
+                    jsonToken["tokens"] = {
+                    	token: generatedToken,
+                    	ex_token: genRefToken
+                    };
+
+
                     res.contentType('application/json');
                     res.status(201).send(JSON.stringify(jsonToken));
                   })
