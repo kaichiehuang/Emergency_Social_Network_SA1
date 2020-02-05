@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const User = require('../model/user.js');
+const ReservedNamesModel = require('../model/model').ReservedNamesMongo;
 //const  = model.User;
 const ObjectId = require('mongoose').Types.ObjectId;
 
@@ -16,7 +17,7 @@ const tokenMiddleWare = require("../middleware/tokenServer");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    res.send('respond with a resource');
+    res.send('lala respond with a resource');
 });
 
 /* API Define:
@@ -41,8 +42,11 @@ router.post('/', (req, res) => {
   //
   // }
 
-  let user_instance = new User(signUpData["username"],signUpData["password"],signUpData["name"],signUpData["last_name"]);
-
+  let user_instance = new User(signUpData["username"],
+                                signUpData["password"],
+                                  signUpData["name"],
+                                  signUpData["last_name"]);
+  user_instance.password = user_instance.hashPassword(user_instance.password);
   //validations here
   let validationResult = user_instance.validate();
   if(!validationResult.res) {

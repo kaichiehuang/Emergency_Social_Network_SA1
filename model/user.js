@@ -14,55 +14,66 @@ class User {
     validate() {
         let usrRes = this.validateUserName(this.username);
         let pwdRes = this.validatePassword(this.password);
-        if (usrRes != undefined) {
-            if (!usrRes.res) {
-                return usrRes;
-            } else if (!pwdRes.res) {
-                return pwdRes;
-            } else {
-                return usrRes;
-            }
+
+        if (!usrRes.res) {
+            return usrRes;
+        } else if (!pwdRes.res) {
+            return pwdRes;
         } else {
-
-            //insert reserved name npm plugin
-
-
-            // this.validateReservedNames().
-            // then( res => {
-            //     if(res){
-            //         return {
-            //             res: "invalid username 99",
-            //             msg: ''
-            //         };
-            //     }else{
-            //         return {
-            //             res: true,
-            //             msg: ''
-            //         };
-            //     }
-            // }).
-            // catch( err => {
-            //     return {
-            //         res: "invalid username 990000",
-            //         msg: ''
-            //     };
-            // });
-
+            let reservedRes = this.isReservedNames();
+            if (!reservedRes.res) {
+                return reservedRes;
+            }
+            let passRes = this.isPasswordMatch();
+            if (!passRes.res) {
+                return passRes;
+            }
+            return usrRes;
         }
     }
 
-    validateReservedNames() {
-            //check reserved name
-            let resObj = {
-                res: true,
-                msg: ''
-            };
-            console.log("username = ");
-            console.log(this.username);
-            //check reserved name
-            return ReservedNamesModel.findOne( { name: this.username });
+    isPasswordMatch(password) {
+        //check password matched or not
+        let resObj = {
+            res: true,
+            msg: ''
+        };
+        UserModel.find({'username': this.username}, function(err, users){
+            if(err) {
+                res.send(500, {
+                    error: err
+                });
+            }
+            if (users.length != 0) {
+                if (users[0].password === this.hashPassword(this.password)) {
+                    return resObj;
+                } else {
+                    resObj.res = false;
+                    resObj.msg = 'password/username not matched ';
+                }
+            }
+            return resObj;
+        });
+    }
 
-
+    isReservedNames() {
+        //check reserved name
+        let resObj = {
+            res: true,
+            msg: ''
+        };
+        ReservedNamesModel.find({'name': this.username}, function(err, names){
+            if(err) {
+                res.send(500, {
+                    error: err
+                });
+            }
+            if (names.length != 0) {
+                resObj.res = false;
+                resObj.msg = 'user name is in reserved name list';
+            }
+            return resObj;
+        });
     }
 
     validateUserName() {
