@@ -6,21 +6,17 @@
 
 var app = require('../app');
 var debug = require('debug')('team-sa1-esn:server');
-// change for http
-
-let serverType  = "http";
-let http = null;
-let https = null;
-let server = null;
-if(serverType == "http"){
-  http = require('http');
-}else{
-  https = require('https');
-}
-
+// change for https
+// var https = require('https');
+var https = require('http');
 
 var fs = require('fs');
 
+
+const options = {
+  key: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.pem'),
+  cert: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.crt'),
+}
 
 /**
  * Get port from environment and store in Express.
@@ -29,24 +25,12 @@ var fs = require('fs');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+/**
+ * Create HTTP server.
+ */
 
-if(serverType == "http"){
+var server = https.createServer(options,app);
 
-  /**
-   * Create HTTP server.
-   */
-  server = http.createServer(app);
-}else{
-  /**
-   * Create HTTPS server.
-   */
-  const options = {
-    key: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.pem'),
-    cert: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.crt'),
-  }
-
-  server = https.createServer(options,app);
-}
 /**
  * Listen on provided port, on all network interfaces.
  */
