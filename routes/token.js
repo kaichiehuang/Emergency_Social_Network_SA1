@@ -23,8 +23,8 @@ router.post("/", function (req,res, next){
                     });
             })
             .catch(err => {
-                console.log("error en verify: " + err);
-                res.status(401).send(err.message);//UNAUTHORIZED
+                console.log("error en verify: " + verify);
+                res.status(401).send(verify.message);//UNAUTHORIZED
             });
 
     }else{
