@@ -35,18 +35,8 @@ router.get('/', function(req, res, next) {
 router.post('/', (req, res) => {
 
   let signUpData = req.body;
+  let user_instance = new User(signUpData["username"], signUpData["password"], signUpData["name"],signUpData["last_name"]);
 
-  var check_usr = req.body.username;
-  var check_pwd = req.body.password;
-  // if (check_usr.length >= 3 && blacklist.validate(check_usr) && check_pwd.length >= 4) {
-  //
-  // }
-
-  let user_instance = new User(signUpData["username"],
-                                signUpData["password"],
-                                  signUpData["name"],
-                                  signUpData["last_name"]);
-  user_instance.password = user_instance.hashPassword(user_instance.password);
   //validations here
   let validationResult = user_instance.validate();
   if(!validationResult.res) {
@@ -60,7 +50,7 @@ router.post('/', (req, res) => {
           console.log();
           tokenMiddleWare.generateToken(response._id,false)
               .then( generatedToken => {
-                  tokenMiddleWare.generateToken(response._id,true)
+  		            tokenMiddleWare.generateToken(response._id,true)
                       .then( genRefToken => {
                           let jsonToken = {};
                           jsonToken["user"] = [];
