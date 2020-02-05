@@ -25,33 +25,11 @@ class User {
         });
 
         return newUser.save();
-
-        // newUser.save()
-        //     .then( res =>{
-        //         console.log(res);
-        //         return res;
-        //
-        //     })
-        //     .catch(err =>{
-        //         console.error(err);
-        //     });
-
     };
 
     updateKnowledge(userId,acknowledgement){
-        UserModel.findOne({
-            _id: userId
-        }, function(err, user) {
-            if (err) {
-                console.log(err);
-                res.send(500, {
-                    error: err
-                });
-            }
-            console.log(user);
-            user.acknowledgement = acknowledgement;
-            user.save();
-        });
+
+        return UserModel.findByIdAndUpdate(userId,{$set:{acknowledgement:acknowledgement}},{new:true});
 
     };
 
@@ -64,7 +42,7 @@ class User {
             .catch(err =>{
                 console.error(err);
             })
-    }
+    };
 
     findUserById(userId){
         UserModel.findById(userId)
@@ -74,25 +52,26 @@ class User {
             .catch(err =>{
                 return err;
             })
-    }
+    };
 
 
     hashPassword(password){
         return bcrypt.hashSync(password,10);
-    }
+    };
 
 
-    userExist(userId){
+    async userExist(userId){
         console.log("before calling findbyId");
-        UserModel.findById(userId)
-            .then(res =>{
-                console.log(res);
-                return true;
-            })
-            .catch(err =>{
-                return false;
-            })
-    }
+        let userInfo =  await UserModel.findById(userId);
+        return userInfo._id;
+    };
+
+    // userExist(userId) {
+    //     console.log("before calling findbyId");
+    //     UserModel.findById(userId).then(function (userInfo) {
+    //         return userInfo._doc._id.id;
+    //     });
+    // }
 
 }
 
