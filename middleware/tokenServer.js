@@ -73,14 +73,14 @@ const verifyToken = token =>{
             let payload = jwt.verify(token, SECRET_STRING);
             console.log("payload:" + payload.data);
             resolve(true);
-            // let user = new User;
-            //
-            // let exist = await user.userExist(payload.data);
-            // if(exist){
-            //     resolve(true);
-            // }else{
-            //     resolve(false);
-            // }
+            let user = new User;
+
+            let exist = user.userExist(payload.data);
+            if(exist){
+                 resolve(true);
+             }else{
+                 resolve(false);
+            }
 
 
         }catch (e) {

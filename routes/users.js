@@ -54,35 +54,76 @@ router.post('/', (req, res) => {
   }
 
 
+  //
+  // let validationResult = user_instance.validate();
+  // if(!validationResult.res) {
+  //   console.log(validationResult);
+  //   res.contentType('application/json');
+  //   return res.status(422).send({ msg: validationResult.msg});
+  // }
 
-  let validationResult = user_instance.validate();
-  if(!validationResult.res) {
-    console.log(validationResult);
-    res.contentType('application/json');
-    return res.status(422).send({ msg: validationResult.msg});
-  }
+  // user_instance.validate().then(r  =>{
+  //   if (!r.res) {
+  //     console.log(r);
+  //     //res.contentType('application/json');
+  //     //res.status(422).send({msg: r.msg}).end();
+  //     res.send({msg: r.msg});
+  //   }
+  // });
 
-  user_instance.registerUser()
-      .then( response => {
-          console.log();
-          tokenMiddleWare.generateToken(response._id,false)
-              .then( generatedToken => {
-                  tokenMiddleWare.generateToken(response._id,true)
-                      .then( genRefToken => {
-                          let jsonToken = {};
-                          jsonToken["user"] = [];
-                          jsonToken["user"].push({userId:response._id });
-                          jsonToken["tokens"] = [];
-                          jsonToken["tokens"].push({token:generatedToken });
-                          jsonToken["tokens"].push({ex_token:genRefToken });
-                          res.contentType('application/json');
-                          res.status(201).send(JSON.stringify(jsonToken));
-                      })
-              })
-              .catch(err => {
-                  res.status(500).send(err);
-              });
+
+
+
+
+  user_instance.validateUserName().then(function(result){
+        return user_instance.validatePassword();
+      }).then(function(result){
+        return user_instance.registerUser();
+      }).then(function(response){
+        tokenMiddleWare.generateToken(response._id,false)
+            .then( generatedToken => {
+              tokenMiddleWare.generateToken(response._id,true)
+                  .then( genRefToken => {
+                    let jsonToken = {};
+                    jsonToken["user"] = [];
+                    jsonToken["user"].push({userId:response._id });
+                    jsonToken["tokens"] = [];
+                    jsonToken["tokens"].push({token:generatedToken });
+                    jsonToken["tokens"].push({ex_token:genRefToken });
+                    res.contentType('application/json');
+                    res.status(201).send(JSON.stringify(jsonToken));
+                  })
+            })
+            .catch(err => {
+              res.status(500).send(err);
+            });
+      })
+      .catch(err => {
+        res.contentType('application/json');
+        return res.status(422).send({msg: err.msg}).end();
       });
+
+  // user_instance.registerUser()
+  //     .then( response => {
+  //         console.log();
+  //         tokenMiddleWare.generateToken(response._id,false)
+  //             .then( generatedToken => {
+  //                 tokenMiddleWare.generateToken(response._id,true)
+  //                     .then( genRefToken => {
+  //                         let jsonToken = {};
+  //                         jsonToken["user"] = [];
+  //                         jsonToken["user"].push({userId:response._id });
+  //                         jsonToken["tokens"] = [];
+  //                         jsonToken["tokens"].push({token:generatedToken });
+  //                         jsonToken["tokens"].push({ex_token:genRefToken });
+  //                         res.contentType('application/json');
+  //                         res.status(201).send(JSON.stringify(jsonToken));
+  //                     })
+  //             })
+  //             .catch(err => {
+  //                 res.status(500).send(err);
+  //             });
+  //     });
 
 });
 
