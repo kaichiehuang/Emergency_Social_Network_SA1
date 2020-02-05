@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const EXP_TOKEN_TIME  = 3000;
 const EXP_REFRESH_TOKEN_TIME  = "10h"
 const SECRET_STRING = '45A1DD09A2B6298130DB7A922CDED94EE7675072B3823063378D6CE8D8B01598';
+const User = require('../model/user.js');
 
 const validateTokenMid = function (req, res, next){
     console.log("validateTokenMid");
@@ -72,6 +73,16 @@ const verifyToken = token =>{
             let payload = jwt.verify(token, SECRET_STRING);
             console.log("payload:" + payload.data);
             resolve(true);
+            // let user = new User;
+            //
+            // let exist = await user.userExist(payload.data);
+            // if(exist){
+            //     resolve(true);
+            // }else{
+            //     resolve(false);
+            // }
+
+
         }catch (e) {
             console.log("error:" + e);
             rejected(e);

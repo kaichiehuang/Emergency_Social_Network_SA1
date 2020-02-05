@@ -66,9 +66,32 @@ class User {
             })
     }
 
+    findUserById(userId){
+        UserModel.findById(userId)
+            .then(res =>{
+               return res;
+            })
+            .catch(err =>{
+                return err;
+            })
+    }
+
 
     hashPassword(password){
         return bcrypt.hashSync(password,10);
+    }
+
+
+    userExist(userId){
+        console.log("before calling findbyId");
+        UserModel.findById(userId)
+            .then(res =>{
+                console.log(res);
+                return true;
+            })
+            .catch(err =>{
+                return false;
+            })
     }
 
 }
