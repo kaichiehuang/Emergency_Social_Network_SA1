@@ -19,6 +19,12 @@
         span {
             font-size: $font-size-base * 1.5;
             color: $brand_color1;
+            @include respond-to('small') {
+                font-size: $font-size-base * 1.35;
+            }
+            @include respond-to('extra-small') {
+                font-size: $font-size-base * 1.35;
+            }
         }
         &.logo-container-not-logged-in {}
         &.logo-container-logged-in {

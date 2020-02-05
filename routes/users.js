@@ -34,17 +34,8 @@ router.get('/', function(req, res, next) {
 router.post('/', (req, res) => {
 
   let signUpData = req.body;
+  let user_instance = new User(signUpData["username"], signUpData["password"], signUpData["name"],signUpData["last_name"]);
 
-  var check_usr = req.body.username;
-  var check_pwd = req.body.password;
-  // if (check_usr.length >= 3 && blacklist.validate(check_usr) && check_pwd.length >= 4) {
-  //
-  // }
-
-  let user_instance = new User(signUpData["username"],
-                                signUpData["password"],
-                                  signUpData["name"],
-                                  signUpData["last_name"]);
   //validations here
 
   //Validate BlackListUser\
@@ -52,27 +43,6 @@ router.post('/', (req, res) => {
   if(!black){
     return res.status(422).send({ msg: "User name banned"});
   }
-
-
-  //
-  // let validationResult = user_instance.validate();
-  // if(!validationResult.res) {
-  //   console.log(validationResult);
-  //   res.contentType('application/json');
-  //   return res.status(422).send({ msg: validationResult.msg});
-  // }
-
-  // user_instance.validate().then(r  =>{
-  //   if (!r.res) {
-  //     console.log(r);
-  //     //res.contentType('application/json');
-  //     //res.status(422).send({msg: r.msg}).end();
-  //     res.send({msg: r.msg});
-  //   }
-  // });
-
-
-
 
 
   user_instance.validateUserName().then(function(result){
@@ -103,27 +73,6 @@ router.post('/', (req, res) => {
         return res.status(422).send({msg: err.msg}).end();
       });
 
-  // user_instance.registerUser()
-  //     .then( response => {
-  //         console.log();
-  //         tokenMiddleWare.generateToken(response._id,false)
-  //             .then( generatedToken => {
-  //                 tokenMiddleWare.generateToken(response._id,true)
-  //                     .then( genRefToken => {
-  //                         let jsonToken = {};
-  //                         jsonToken["user"] = [];
-  //                         jsonToken["user"].push({userId:response._id });
-  //                         jsonToken["tokens"] = [];
-  //                         jsonToken["tokens"].push({token:generatedToken });
-  //                         jsonToken["tokens"].push({ex_token:genRefToken });
-  //                         res.contentType('application/json');
-  //                         res.status(201).send(JSON.stringify(jsonToken));
-  //                     })
-  //             })
-  //             .catch(err => {
-  //                 res.status(500).send(err);
-  //             });
-  //     });
 
 });
 
