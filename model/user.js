@@ -38,22 +38,22 @@ class User {
             res: true,
             msg: ''
         };
-        UserModel.find({'username': this.username}, function(err, users){
-            if(err) {
+        UserModel.find({'username': this.username})
+            .then(users => {
+                if (users.length != 0) {
+                    if (users[0].password === this.hashPassword(this.password)) {
+                        return resObj;
+                    } else {
+                        resObj.res = false;
+                        resObj.msg = 'password/username not matched ';
+                    }
+                }
+                return resObj;
+            }).catch().catch(err => {
                 res.send(500, {
                     error: err
                 });
-            }
-            if (users.length != 0) {
-                if (users[0].password === this.hashPassword(this.password)) {
-                    return resObj;
-                } else {
-                    resObj.res = false;
-                    resObj.msg = 'password/username not matched ';
-                }
-            }
-            return resObj;
-        });
+            });
     }
 
     isReservedNames() {
@@ -62,18 +62,18 @@ class User {
             res: true,
             msg: ''
         };
-        ReservedNamesModel.find({'name': this.username}, function(err, names){
-            if(err) {
+        ReservedNamesModel.find({'name': this.username})
+            .then(names => {
+                if (names.length != 0) {
+                    resObj.res = false;
+                    resObj.msg = 'user name is in reserved name list';
+                }
+                return resObj;
+            }).catch().catch(err => {
                 res.send(500, {
                     error: err
                 });
-            }
-            if (names.length != 0) {
-                resObj.res = false;
-                resObj.msg = 'user name is in reserved name list';
-            }
-            return resObj;
-        });
+            });
     }
 
     validateUserName() {
