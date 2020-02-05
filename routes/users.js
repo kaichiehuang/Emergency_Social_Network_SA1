@@ -17,7 +17,7 @@ const tokenMiddleWare = require("../middleware/tokenServer");
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    res.send('lala respond with a resource');
+    res.send('respond with a resource');
 });
 
 /* API Define:
