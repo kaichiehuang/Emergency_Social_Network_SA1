@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "bcrypt": "^3.0.7",
-    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
     "bootstrap-sass": "^3.4.1",
     "browser-sync": "^2.26.7",
