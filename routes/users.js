@@ -23,8 +23,6 @@ router.get('/', function(req, res, next) {
 router.post('/', (req, res) => {
 
   let signUpData = req.body;
-  console.log(signUpData);
-
 
   var check_usr = req.body.username;
   var check_pwd = req.body.password;
@@ -32,13 +30,13 @@ router.post('/', (req, res) => {
   //
   // }
 
-  console.log('begin to create');
-
   let user_instance = new User(signUpData["username"],signUpData["password"],signUpData["name"],signUpData["last_name"]);
 
   //validations here
-  if(!user_instance.validate().res) {
-    res.status(422).end();
+  let validationResult = user_instance.validate();
+  if(!validationResult.res) {
+    console.log(validationResult);
+    return res.status(422).send({ msg: validationResult.msg});
   }
 
   user_instance.registerUser()
@@ -56,7 +54,6 @@ router.post('/', (req, res) => {
                           jsonToken["tokens"].push({ex_token:genRefToken });
                           res.contentType('application/json');
                           res.send(JSON.stringify(jsonToken));
-
                       })
               })
               .catch(err => {

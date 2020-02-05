@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "devstart": "nodemon ./bin/www",
+    "debug": "nodemon ./bin/www --debug",
     "start": "node ./bin/www",
     "test": "echo \"Warning: no test specified\" && exit 0"
   },
