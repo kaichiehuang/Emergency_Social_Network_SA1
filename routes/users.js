@@ -19,7 +19,18 @@ router.get('/', function(req, res, next) {
     res.send('respond with a resource');
 });
 
-/*    */
+/* API Define:
+* POST /users
+* Content-Type: application/json
+* Body:
+* {
+    "username": "kevin_durant",
+    "password": "encrypted password",
+    "name": "NAME",
+    "last_name": "family name",
+    "acknowledgement": false
+  }
+* */
 router.post('/', (req, res) => {
 
   let signUpData = req.body;
@@ -49,33 +60,36 @@ router.post('/', (req, res) => {
                           jsonToken["tokens"].push({token:generatedToken });
                           jsonToken["tokens"].push({ex_token:genRefToken });
                           res.contentType('application/json');
-                          res.send(JSON.stringify(jsonToken));
-
+                          res.status(201).send(JSON.stringify(jsonToken));
                       })
               })
               .catch(err => {
-                  res.send(err);
+                  res.status(500).send(err);
               });
       });
 
 });
 
-
+/* API Define:
+* PUT /users/{userId}
+* Content-Type: application/json
+* Body:
+* {
+    "acknowledgement": true
+  }
+* */
 router.put('/:userId', validateTokenMid, function(req, res, next) {
     let user_instance = new User();
-
     let userId = req.params.userId;
+    let acknowledgement = req.body.acknowledgement;
     console.log(userId);
-    user_instance.updateKnowledge(userId,true)
+    user_instance.updateKnowledge(userId, acknowledgement)
         .then( _ => {
-            //TODO jump to which view
-            res.send('respond with a resource');
+            res.status(200).end();
         })
         .catch(err => {
-            res.send(err);
+            res.status(500).send(err);
         });
-
-
 });
 
 
