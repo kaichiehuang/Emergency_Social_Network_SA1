@@ -12,7 +12,10 @@ class User {
     }
 
 
-
+    /**
+     * [registerUser description]
+     * @return {[type]} [description]
+     */
     registerUser() {
 
         let hash = this.hashPassword(this.password);
@@ -25,19 +28,14 @@ class User {
         });
 
         return newUser.save();
-
-        // newUser.save()
-        //     .then( res =>{
-        //         console.log(res);
-        //         return res;
-        //
-        //     })
-        //     .catch(err =>{
-        //         console.error(err);
-        //     });
-
     };
 
+    /**
+     * [updateKnowledge description]
+     * @param  {[type]} userId          [description]
+     * @param  {[type]} acknowledgement [description]
+     * @return {[type]}                 [description]
+     */
     updateKnowledge(userId,acknowledgement){
         UserModel.findOne({
             _id: userId
@@ -55,17 +53,11 @@ class User {
 
     };
 
-    validateUserName(userName){
-        UserModel.find({
-            "username":userName})
-            .then(res =>{
-                console.log(res);
-            })
-            .catch(err =>{
-                console.error(err);
-            })
-    }
-
+    /**
+     * [findUserById description]
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
     findUserById(userId){
         UserModel.findById(userId)
             .then(res =>{
@@ -76,12 +68,20 @@ class User {
             })
     }
 
-
+    /**
+     * [hashPassword description]
+     * @param  {[type]} password [description]
+     * @return {[type]}          [description]
+     */
     hashPassword(password){
         return bcrypt.hashSync(password,10);
     }
 
-
+    /**
+     * [userExist description]
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
     userExist(userId){
         console.log("before calling findbyId");
         UserModel.findById(userId)
