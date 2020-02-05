@@ -129,11 +129,22 @@ class User {
      * @param  {[type]} acknowledgement [description]
      * @return {[type]}                 [description]
      */
-    updateKnowledge(userId,acknowledgement){
-
-        return UserModel.findByIdAndUpdate(userId,{$set:{acknowledgement:acknowledgement}},{new:true});
-
-    };
+    updateKnowledge(userId, acknowledgement) {
+        UserModel.findOne(
+            {
+                _id: userId
+            },
+            function(err, user) {
+                if (err) {
+                    res.send(500, {
+                        error: err
+                    });
+                }
+                user.acknowledgement = acknowledgement;
+                user.save();
+            }
+        );
+    }
 
     /**
      * [findUserById description]
@@ -164,14 +175,17 @@ class User {
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
-    async userExist(userId){
-
-        console.log("before calling findbyId");
-        let userInfo =  await UserModel.findById(userId);
-        return userInfo._id;
-    };
-
-
+    userExist(userId) {
+        console.log('before calling findbyId');
+        UserModel.findById(userId)
+            .then(res => {
+                console.log(res);
+                return true;
+            })
+            .catch(err => {
+                return false;
+            });
+    }
 }
 
 module.exports = User;

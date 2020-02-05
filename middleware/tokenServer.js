@@ -72,22 +72,10 @@ const verifyToken = token =>{
         try {
             let payload = jwt.verify(token, SECRET_STRING);
             console.log("payload:" + payload.data);
-
-            //TODO VALIDATE USER IN DB
-            let user = new User;
-            user.userExist(payload.data)
-                .then( exist => {
-                    console.log("verify: " + exist);
-                    resolve(true);
-                })
-                .catch(err => {
-                    console.log("error en verify: " + err);
-                    resolve(false);
-                });
-
-            // console.log("exist:"  + exist );
-            // resolve(true);
-
+            resolve(true);
+            // let user = new User;
+            //
+            // let exist = await user.userExist(payload.data);
             // if(exist){
             //     resolve(true);
             // }else{
