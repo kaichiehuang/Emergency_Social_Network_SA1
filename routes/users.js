@@ -4,14 +4,13 @@ const User = require('../model/user.js');
 const ReservedNamesModel = require('../model/model').ReservedNamesMongo;
 //const  = model.User;
 const ObjectId = require('mongoose').Types.ObjectId;
+const  blacklist = require("the-big-username-blacklist");
 
 
 const {
-    validateTokenMid,
-    generateToken
+    validateTokenMid
 } = require("../middleware/tokenServer");
 
-const blacklist = require("the-big-username-blacklist");
 const tokenMiddleWare = require("../middleware/tokenServer");
 
 
@@ -46,8 +45,16 @@ router.post('/', (req, res) => {
                                 signUpData["password"],
                                   signUpData["name"],
                                   signUpData["last_name"]);
-  user_instance.password = user_instance.hashPassword(user_instance.password);
   //validations here
+
+  //Validate BlackListUser\
+  let black = blacklist.validate(signUpData["username"]);
+  if(!black){
+    return res.status(422).send({ msg: "User name banned"});
+  }
+
+
+
   let validationResult = user_instance.validate();
   if(!validationResult.res) {
     console.log(validationResult);

@@ -20,10 +20,7 @@ class User {
         } else if (!pwdRes.res) {
             return pwdRes;
         } else {
-            let reservedRes = this.isReservedNames();
-            if (!reservedRes.res) {
-                return reservedRes;
-            }
+
             let passRes = this.isPasswordMatch();
             if (!passRes.res) {
                 return passRes;
@@ -40,9 +37,8 @@ class User {
         };
         UserModel.find({'username': this.username}, function(err, users){
             if(err) {
-                res.send(500, {
-                    error: err
-                });
+                resObj.res = false;
+                resObj.msg = err;
             }
             if (users.length != 0) {
                 if (users[0].password === this.hashPassword(this.password)) {
@@ -76,7 +72,7 @@ class User {
         });
     }
 
-    validateUserName() {
+    validateUserName(){
         //result object
         let resObj = {
             res: true,
@@ -110,7 +106,7 @@ class User {
      * [registerUser description]
      * @return {[type]} [description]
      */
-    registerUser() {
+    registerUser()  {
         let hash = this.hashPassword(this.password);
         let newUser = new UserModel({
             username: this.username,
