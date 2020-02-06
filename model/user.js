@@ -141,7 +141,7 @@ class User {
 
             if (this.username.length < 3) {
                 resObj.res = false;
-                resObj.msg = 'user name too short';
+                resObj.msg = 'Invalid username, please enter a longer username';
                 reject(resObj);
             }
 

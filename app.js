@@ -7,6 +7,7 @@ var compression = require('compression')
 var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var registrationRouter = require('./routes/registration');
+var applicationRouter = require('./routes/application');
 var usersRouter = require('./routes/users');
 var tokenRouter = require('./routes/token');
 
@@ -38,15 +39,20 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/sign-up', registrationRouter);
+// app.use('/sign-up', registrationRouter);
+app.use('/app', applicationRouter);
 app.use('/example', indexRouter);
-app.use('/users', usersRouter);
-app.use('/token', tokenRouter);
-app.use('/getToken', tokenRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/token', tokenRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+// app.use(function(req, res, next) {
+//   next(createError(404));
+// });
+app.get('*', (req, res, next) => {
+    res.render('error', {
+        title: 'FSE chatroom - 404'
+    });
 });
 
 // error handler
