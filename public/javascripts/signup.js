@@ -33,7 +33,12 @@ $(function() {
                 Cookies.set('user-acknowledgement', user_acknowledgement);
 
                 $(".user-name-placeholder").html(user_name)
-                swapContent("acknowledgement-page-content");
+                if (user_acknowledgement) {
+                    window.location.replace("/app")
+                } else {
+                    swapContent("acknowledgement-page-content");
+                }
+
             }
             console.log(response)
             $("#signup-error-alert").hide();
