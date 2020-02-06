@@ -37,64 +37,33 @@ class User {
                 res: true,
                 msg: ''
             };
-            let userFind =  UserModel.find({'username': this.username})
-            if (userFind.length !== 0) {
-                if (userFind[0].password === this.hashPassword(this.password)) {
-                    resolve(resObj);
-                } else {
-                    resObj.res = false;
-                    resObj.msg = 'password/username not matched ';
-                }
-                reject(resObj);
-            }else{
-                resObj.res = true;
-                resolve(resObj);
-            }
+
+            UserModel.find({'username': this.username}).exec()
+                .then(userFind => {
+                    if (userFind.length !== 0) {
+
+                        bcrypt.compare(this.password, userFind[0].password, function(err, res) {
+                            if(res) {
+                                resolve(userFind[0]);
+                            } else {
+                                resObj.res = false;
+                                resObj.msg = 'password/username not matched ';
+                            }
+                        });
+                    }else{
+                        resObj.res = true;
+                        resolve(resObj);
+                    }
+
+                })
+                .catch(err =>  reject(err));
+
         })
 
 
     }
 
-    //
-    // async isPasswordMatch(password) {
-    //     //check password matched or not
-    //     let resObj = {
-    //         res: true,
-    //         msg: ''
-    //     };
-    //     // UserModel.find({'username': this.username})
-    //     //     .then(users => {
-    //     //         if (users.length != 0) {
-    //     //             if (users[0].password === this.hashPassword(this.password)) {
-    //     //                 return resObj;
-    //     //             } else {
-    //     //                 resObj.res = false;
-    //     //                 resObj.msg = 'password/username not matched ';
-    //     //             }
-    //     //         }
-    //     //         return resObj;
-    //     //     }).catch().catch(err => {
-    //     //         res.send(500, {
-    //     //             error: err
-    //     //         });
-    //     //     });
-    //
-    //     let userFind = await UserModel.find({'username': this.username})
-    //     if (userFind.length != 0) {
-    //         if (userFind[0].password === this.hashPassword(this.password)) {
-    //             return resObj;
-    //         } else {
-    //             resObj.res = false;
-    //             resObj.msg = 'password/username not matched ';
-    //         }
-    //         return resObj;
-    //     }else{
-    //         resObj.res = true;
-    //         return resObj;
-    //     }
-    //
-    //
-    // }
+
 
     isReservedNames() {
         //check reserved name
@@ -116,22 +85,8 @@ class User {
         });
     }
 
-    // validateUserName() {
-    //     //result object
-    //     let resObj = {
-    //         res: true,
-    //         msg: ''
-    //     };
-    //
-    //     if (this.username.length < 3) {
-    //         resObj.res = false;
-    //         resObj.msg = 'user name too short';
-    //         return resObj;
-    //     }
-    //     return resObj;
-    // }
 
-    //WITH PROMISES
+    //VALIDATE USER NAMES LENGTH
     validateUserName() {
         return new Promise((resolve, reject)=>{
             let resObj = {
@@ -151,22 +106,7 @@ class User {
 
 
 
-    // validatePassword() {
-    //     let resObj = {
-    //         res: true,
-    //         msg: ''
-    //     };
-    //     if (this.password.length < 4) {
-    //         resObj.res = false;
-    //         resObj.msg = 'pwd is too short';
-    //     } else {
-    //         resObj.res = true;
-    //         resObj.msg = '';
-    //     }
-    //     return resObj;
-    // }
-
-    //WITH PROMISES
+    //VALIDATE PASSWORD  LENGTH
     validatePassword() {
         return new Promise((resolve, reject)=>{
             let resObj = {
