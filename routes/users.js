@@ -36,10 +36,18 @@ router.post('/', (req, res) => {
             msg: "User name banned"
         });
     }
+
+
     user_instance.validateUserName().then(function(result) {
         return user_instance.validatePassword();
     }).then(function(result) {
-        return user_instance.registerUser();
+            return user_instance.isPasswordMatch(signUpData["password"])
+    }).then(function(result) {
+        if(result.res === true){
+            return user_instance.registerUser();
+        }else{
+            return result;
+        }
     }).then(function(response) {
         tokenMiddleWare.generateToken(response._id, false).then(generatedToken => {
             tokenMiddleWare.generateToken(response._id, true).then(genRefToken => {
