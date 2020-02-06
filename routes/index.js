@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 /* GET home page. */
 router.get('/example', function(req, res, next) {
     res.render('example', {
-        title: 'Express sdfsd fs'
+        title: 'Example page'
     });
 });
 module.exports = router;

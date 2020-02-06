@@ -7,7 +7,7 @@ const config = {
     databaseName: "esn_sa1",
     authentication: {
       username: "root",
-      password: "2244jjla3m",
+      password: "",
     },
     options: {
       useNewUrlParser: true, // removes a deprecation warning when connecting
