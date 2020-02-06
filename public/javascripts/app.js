@@ -21,7 +21,7 @@ $(function() {
     //user is not logged in
     if (userJWT == undefined || userJWT == "") {
         console.log("no token found ... user is not logged in")
-        if (window.location.pathname != "/" && window.location.pathname != "/app") {
+        if (window.location.pathname != "/") {
             window.location.replace("/")
         }
     }
