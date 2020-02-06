@@ -8,7 +8,7 @@ var app = require('../app');
 var debug = require('debug')('team-sa1-esn:server');
 // change for http
 
-let serverType  = "https";
+let serverType  = "http";
 let http = null;
 let https = null;
 let server = null;

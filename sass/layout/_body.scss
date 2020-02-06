@@ -26,6 +26,37 @@
     @include respond-to('extra-small') {
         width: 90%;
     }
+    .status-list {
+        padding: 15px 0;
+        li {
+            >div {
+                display: inline-block;
+                width: 90%;
+            }
+            >div>span {
+                @include flexbox;
+                @include align-items(center);
+                @include justify-content(flex-start);
+                @include flex-wrap(wrap);
+                width: 90%;
+                font-weight: bold;
+            }
+            span.status-list__color {
+                width: 30px;
+                height: 30px; // border-radius: 50px;
+                margin-right: 15px;
+                display: block;
+                @include flexbox;
+                @include align-items(center);
+                @include justify-content(center);
+                @include flex-wrap(wrap);
+                i {
+                    color: white;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
 }
 //login sigup forms
 .login-signup-intro {
@@ -100,4 +131,16 @@ form {
             font-weight: bold;
         }
     }
+}
+.background-color-ok {
+    background: $color_ok;
+}
+.background-color-help {
+    background: $color_help;
+}
+.background-color-emergency {
+    background: $color_emergency;
+}
+.background-color-undefined {
+    background: $color_undefined;
 }
