@@ -2,7 +2,7 @@ const UserModel = require('./model').UserMongo;
 const ReservedNamesModel = require('./model').ReservedNamesMongo;
 const bcrypt = require('bcrypt');
 const blacklist = require('the-big-username-blacklist');
-const tokenMiddleWare = require('../middleware/tokenServer');
+
 class User {
     constructor(username, password, name, last_name) {
         this._id = null;
