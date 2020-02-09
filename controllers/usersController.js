@@ -2,10 +2,6 @@ const User = require('../model/user.js');
 const ReservedNamesModel = require('../model/model').ReservedNamesMongo;
 //const  = model.User;
 const ObjectId = require('mongoose').Types.ObjectId;
-const {
-    validateTokenMid
-} = require("../middleware/tokenServer");
-const tokenMiddleWare = require("../middleware/tokenServer");
 
 
 class UsersController {
@@ -15,49 +11,95 @@ class UsersController {
      * @param  {[type]} res [description]
      * @return {[type]}     [description]
      */
-    createUser(req, res) {
+     createUser(req, res) {
         let signUpData = req.body;
         console.log(signUpData);
-
         //1. If no username or password in json set them with emtpy values
-        if(signUpData["username"] == undefined){
-            signUpData["username"] = "";
+        if (signUpData['username'] == undefined) {
+            signUpData['username'] = '';
         }
-        if(signUpData["password"] == undefined){
-            signUpData["password"] = "";
+        if (signUpData['password'] == undefined) {
+            signUpData['password'] = '';
         }
-
         //2. Create user object
-        let user_instance = new User(signUpData["username"], signUpData["password"], signUpData["name"], signUpData["last_name"]);
+        let user_instance = new User(
+            signUpData['username'],
+            signUpData['password'],
+            signUpData['name'],
+            signUpData['last_name']
+            );
+        //3. Validate if user exists
+        User.findUserByUsername(signUpData['username'])
+        .then(user => {
+            console.log('user found = ', user);
 
-        //3. Run validations on user object
-        var result = user_instance.validate()
-        .then(function(result) {
-            return user_instance.registerUser();
-        }).then(function(response) {
-            tokenMiddleWare.generateToken(response._id, false).then(generatedToken => {
-                tokenMiddleWare.generateToken(response._id, true).then(genRefToken => {
-                    let jsonResponseData = {};
-                    jsonResponseData["user"] = {
-                        userId: response._id,
-                        username: response.username,
-                        name: response.name,
-                        acknowledgement: response.acknowledgement
-                    };
-                    jsonResponseData["tokens"] = {
-                        token: generatedToken,
-                        ex_token: genRefToken
-                    };
-                    res.contentType('application/json');
-                    return res.status(201).send(JSON.stringify(jsonResponseData));
-                })
-            }).catch(err => {
-                return res.status(500).send(err);
-            });
-        }).catch(err => {
+                //4. if user doesn't exist validate data and create it
+                if (user == null) {
+                    //3. Run validations on user object
+                    var userData = null;
+                    user_instance.validate()
+                    .then(function(result) {
+                        return user_instance.registerUser();
+                    })
+                    .then(function(response) {
+                        userData = response;
+                        user_instance._id = response._id;
+                        return user_instance.generateTokens();
+                    })
+                    .then(tokens => {
+                        let jsonResponseData = {};
+                        jsonResponseData['user'] = {
+                            userId: userData._id,
+                            username: userData.username,
+                            name: userData.name,
+                            acknowledgement: userData.acknowledgement
+                        };
+                        jsonResponseData['tokens'] = tokens;
+                        res.contentType('application/json');
+                        return res.status(201).send(JSON.stringify(jsonResponseData));
+                    })
+                    .catch(err => {
+                        res.contentType('application/json');
+                        return res.status(422).send({ msg: err}).end();
+                    });
+                } else {
+                    //3. Run validations on user object
+                    var userData = user;
+                    user_instance.isPasswordMatch()
+                    .then(function(response) {
+                        //password not matched
+                        if(response.res == false){
+                            res.contentType('application/json');
+                            return res.status(422).send({ msg: err.msg}).end();
+                        }
+
+                        userData = response;
+                        user_instance._id = response._id;
+                        return user_instance.generateTokens();
+                    })
+                    .then(tokens => {
+                        let jsonResponseData = {};
+                        jsonResponseData['user'] = {
+                            userId: userData._id,
+                            username: userData.username,
+                            name: userData.name,
+                            acknowledgement: userData.acknowledgement
+                        };
+                        jsonResponseData['tokens'] = tokens;
+                        res.contentType('application/json');
+                        return res.status(201).send(JSON.stringify(jsonResponseData));
+                    })
+                    .catch(err => {
+                        res.contentType('application/json');
+                        return res.status(422).send({ msg: err}).end();
+                    });
+                }
+            })
+        .catch(err => {
+            console.log(err);
             res.contentType('application/json');
             return res.status(422).send({
-                msg: err.msg
+                msg: 'no existe'
             }).end();
         });
     }
@@ -67,14 +109,15 @@ class UsersController {
      * @param  {[type]} res [description]
      * @return {[type]}     [description]
      */
-    updateUser(req, res) {
+     updateUser(req, res) {
         let user_instance = new User();
         let userId = req.params.userId;
         let acknowledgement = req.body.acknowledgement;
-        console.log(userId);
-        user_instance.updateKnowledge(userId, acknowledgement).then(usr => {
+        console.log(userId, acknowledgement);
+        user_instance.updateKnowledge(userId, acknowledgement)
+        .then(usr => {
             let jsonResponseData = {};
-            jsonResponseData["user"] = {
+            jsonResponseData['user'] = {
                 userId: usr._id,
                 username: usr.username,
                 name: usr.name,
@@ -82,10 +125,10 @@ class UsersController {
             };
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
-        }).catch(err => {
+        })
+        .catch(err => {
             return res.status(500).send(err);
         });
     }
 }
-
 module.exports = UsersController;

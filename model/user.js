@@ -1,9 +1,11 @@
 const UserModel = require('./model').UserMongo;
 const ReservedNamesModel = require('./model').ReservedNamesMongo;
 const bcrypt = require('bcrypt');
-const blacklist = require("the-big-username-blacklist");
+const blacklist = require('the-big-username-blacklist');
+const tokenMiddleWare = require('../middleware/tokenServer');
 class User {
     constructor(username, password, name, last_name) {
+        this._id = null;
         this.username = username;
         this.password = password;
         this.name = name;
@@ -11,35 +13,31 @@ class User {
         this.acknowledgement = false;
     }
     /**
-     * [validate description]
+     * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
      */
     validate() {
         return new Promise((resolve, reject) => {
             //validate username structure
             this.validateUserName(this.username).then(result => {
-                console.log("Username structure validated");
+                console.log('Username structure validated');
                 //validate banned username
                 return this.validateBannerUsername();
             }).then(result => {
-                console.log("Banned username validated");
+                console.log('Banned username validated');
                 //validate password structure
                 return this.validatePassword();
             }).then(result => {
-                console.log("Password structure validated");
-                //validate user vs DB
-                return this.isPasswordMatch();
-            }).then(result => {
-                console.log("Username and password validated vs DB ---- All validations passed");
+                console.log('Username and password validated vs DB ---- All validations passed');
                 //if no errors resolve promise with result obj
                 resolve(result);
             }).catch(function(err) {
-                console.log("validations not passed");
+                console.log('validations not passed');
                 //if errors reject the promise
                 console.log(err);
                 reject(err);
             });
-        })
+        });
     }
     //WITH PROMISES
     /**
@@ -49,51 +47,20 @@ class User {
      */
     isPasswordMatch(password) {
         return new Promise((resolve, reject) => {
-            let resObj = {
-                res: true,
-                msg: ''
-            };
+            let msg = '';
             UserModel.find({
-                'username': this.username
+                username: this.username
             }).exec().then(userFind => {
                 if (userFind.length !== 0) {
-                    bcrypt.compare(this.password, userFind[0].password, function(err, res) {
-                        if (res) {
-                            resolve(userFind[0]);
-                        } else {
-                            resObj.res = false;
-                            resObj.msg = 'password/username not matched ';
-                        }
-                    });
+                    if (bcrypt.compareSync(this.password, userFind[0].password)) {
+                        resolve(userFind[0]);
+                    } else {
+                        reject('password/username not matched ');
+                    }
                 } else {
-                    resObj.res = true;
-                    resolve(resObj);
+                    reject('password/username not matched ');
                 }
             }).catch(err => reject(err));
-        })
-    }
-    /**
-     * [isReservedNames description]
-     * @return {Boolean} [description]
-     */
-    isReservedNames() {
-        //check reserved name
-        let resObj = {
-            res: true,
-            msg: ''
-        };
-        ReservedNamesModel.find({
-            'name': this.username
-        }).then(names => {
-            if (names.length != 0) {
-                resObj.res = false;
-                resObj.msg = 'Invalid username, is in the list of reserved usernames.';
-            }
-            return resObj;
-        }).catch().catch(err => {
-            res.send(500, {
-                error: err
-            });
         });
     }
     //VALIDATE USER NAMES LENGTH
@@ -103,17 +70,11 @@ class User {
      */
     validateUserName() {
         return new Promise((resolve, reject) => {
-            let resObj = {
-                res: true,
-                msg: ''
-            };
             if (this.username.length < 3) {
-                resObj.res = false;
-                resObj.msg = 'Invalid username, please enter a longer username';
-                reject(resObj);
+                reject('Invalid username, please enter a longer username');
             }
-            resolve(resObj);
-        })
+            resolve(true);
+        });
     }
     //VALIDATE PASSWORD  LENGTH
     /**
@@ -122,20 +83,12 @@ class User {
      */
     validatePassword() {
         return new Promise((resolve, reject) => {
-            let resObj = {
-                res: true,
-                msg: ''
-            };
             if (this.password.length < 4) {
-                resObj.res = false;
-                resObj.msg = 'pwd is too short';
-                reject(resObj);
+                reject('pwd is too short');
             } else {
-                resObj.res = true;
-                resObj.msg = '';
-                resolve(resObj);
+                resolve(true);
             }
-        })
+        });
     }
     /**
      * [registerUser description]
@@ -166,7 +119,7 @@ class User {
         }, {
             new: true
         });
-    };
+    }
     /**
      * [findUserById description]
      * @param  {[type]} userId [description]
@@ -177,6 +130,23 @@ class User {
             return res;
         }).catch(err => {
             return err;
+        });
+    }
+    /**
+     * [findUserByUsername description]
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
+    static findUserByUsername(username) {
+        return new Promise((resolve, reject) => {
+            console.log(username);
+            UserModel.findOne({
+                username: username
+            }).exec().then(user => {
+                resolve(user);
+            }).catch(err => {
+                reject(err);
+            });
         });
     }
     /**
@@ -197,25 +167,52 @@ class User {
             //3. Validate BlackListUser\
             let black = blacklist.validate(this.username);
             if (!black) {
-                resObj.res = false;
-                resObj.msg = 'Invalid username, this username is reserved for the platform. Please enter a different username.';
-                reject(resObj);
+                reject('Invalid username, this username is reserved for the platform. Please enter a different username.');
             } else {
-                resObj.res = true;
-                resObj.msg = '';
-                resolve(resObj);
+                resolve(true);
             }
         });
     }
     /**
-     * [userExist description]
-     * @param  {[type]} userId [description]
-     * @return {[type]}        [description]
+     * [usernameExists description]
+     * @param  {[type]} username [description]
+     * @return {[type]}          [description]
      */
-    async userExist(userId) {
-        console.log("before calling findbyId");
-        let userInfo = await UserModel.findById(userId);
-        return userInfo._id;
-    };
+    static usernameExists(username) {
+        return new Promise((resolve, reject) => {
+            console.log(username);
+            User.findUserByUsername(username).then(user => {
+                console.log('user found = ', user);
+                if (user.username != undefined && user.username == username) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
+    /**
+     * [generateTokens description]
+     * @return {[type]} [description]
+     */
+    generateTokens() {
+        return new Promise((resolve, reject) => {
+            let token = '';
+            tokenMiddleWare.generateToken(this._id, false).then(generatedToken => {
+                token = generatedToken;
+                return tokenMiddleWare.generateToken(this._id, true);
+            }).then(genRefToken => {
+                let tokens = {
+                    token: token,
+                    ex_token: genRefToken
+                };
+                resolve(tokens);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
 }
 module.exports = User;
