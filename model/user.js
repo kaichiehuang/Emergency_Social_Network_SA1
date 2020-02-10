@@ -22,7 +22,7 @@ class User {
             this.validateUserName(this.username).then(result => {
                 console.log('Username structure validated');
                 //validate banned username
-                return this.validateBannerUsername();
+                return this.validateBannedUsername();
             }).then(result => {
                 console.log('Banned username validated');
                 //validate password structure
@@ -91,7 +91,7 @@ class User {
         });
     }
     /**
-     * [registerUser description]
+     * Register a username in DB. it hashes the password
      * @return {[type]} [description]
      */
     registerUser() {
@@ -106,7 +106,7 @@ class User {
         return newUser.save();
     }
     /**
-     * [updateKnowledge description]
+     * Updates the acknowledgement for a user
      * @param  {[type]} userId          [description]
      * @param  {[type]} acknowledgement [description]
      * @return {[type]}                 [description]
@@ -120,20 +120,9 @@ class User {
             new: true
         });
     }
+
     /**
-     * [findUserById description]
-     * @param  {[type]} userId [description]
-     * @return {[type]}        [description]
-     */
-    findUserById(userId) {
-        UserModel.findById(userId).then(res => {
-            return res;
-        }).catch(err => {
-            return err;
-        });
-    }
-    /**
-     * [findUserByUsername description]
+     * Finds a user by username
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
@@ -150,7 +139,7 @@ class User {
         });
     }
     /**
-     * [hashPassword description]
+     * hashes a user password
      * @param  {[type]} password [description]
      * @return {[type]}          [description]
      */
@@ -158,10 +147,10 @@ class User {
         return bcrypt.hashSync(password, 10);
     }
     /**
-     * [validateBannerUsername description]
+     * Validates if a username is banned
      * @return {[type]} [description]
      */
-    validateBannerUsername() {
+    validateBannedUsername() {
         return new Promise((resolve, reject) => {
             var resObj = {};
             //3. Validate BlackListUser\
@@ -174,9 +163,9 @@ class User {
         });
     }
     /**
-     * [usernameExists description]
+     * Checks if a username exists
      * @param  {[type]} username [description]
-     * @return {[type]}          [description]
+     * @return boolean          Resolves True if it exists / resolves False if it doesn't existe, rejects if error
      */
     static usernameExists(username) {
         return new Promise((resolve, reject) => {
@@ -194,7 +183,7 @@ class User {
         });
     }
     /**
-     * [generateTokens description]
+     * Generates a token for a user
      * @return {[type]} [description]
      */
     generateTokens() {
