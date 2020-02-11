@@ -13,7 +13,6 @@ class UsersController {
      */
      createUser(req, res) {
         let signUpData = req.body;
-        console.log(signUpData);
         //1. If no username or password in json set them with emtpy values
         if (signUpData['username'] == undefined) {
             signUpData['username'] = '';
@@ -31,7 +30,6 @@ class UsersController {
         //3. Validate if user exists
         User.findUserByUsername(signUpData['username'])
         .then(user => {
-            console.log('user found = ', user);
 
                 //4. if user doesn't exist validate data and create it
                 if (user == null) {
@@ -43,6 +41,7 @@ class UsersController {
                     })
                     .then(function(response) {
                         userData = response;
+
                         user_instance._id = response._id;
                         return user_instance.generateTokens();
                     })
@@ -67,12 +66,7 @@ class UsersController {
                     var userData = user;
                     user_instance.isPasswordMatch()
                     .then(function(response) {
-                        //password not matched
-                        if(response.res == false){
-                            res.contentType('application/json');
-                            return res.status(422).send({ msg: err.msg}).end();
-                        }
-
+                        console.log(response);
                         userData = response;
                         user_instance._id = response._id;
                         return user_instance.generateTokens();
@@ -96,7 +90,6 @@ class UsersController {
                 }
             })
         .catch(err => {
-            console.log(err);
             res.contentType('application/json');
             return res.status(422).send({
                 msg: 'no existe'

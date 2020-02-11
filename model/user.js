@@ -2,6 +2,8 @@ const UserModel = require('./model').UserMongo;
 const ReservedNamesModel = require('./model').ReservedNamesMongo;
 const bcrypt = require('bcrypt');
 const blacklist = require('the-big-username-blacklist');
+const tokenMiddleWare = require('../middleware/tokenServer');
+
 
 class User {
     constructor(username, password, name, last_name) {
@@ -28,9 +30,9 @@ class User {
                 //validate password structure
                 return this.validatePassword();
             }).then(result => {
-                console.log('Username and password validated vs DB ---- All validations passed');
+                console.log('All validations passed');
                 //if no errors resolve promise with result obj
-                resolve(result);
+                resolve(true);
             }).catch(function(err) {
                 console.log('validations not passed');
                 //if errors reject the promise
@@ -187,9 +189,11 @@ class User {
      * @return {[type]} [description]
      */
     generateTokens() {
+        console.log("into token generate");
         return new Promise((resolve, reject) => {
             let token = '';
-            tokenMiddleWare.generateToken(this._id, false).then(generatedToken => {
+            tokenMiddleWare.generateToken(this._id, false)
+            .then(generatedToken => {
                 token = generatedToken;
                 return tokenMiddleWare.generateToken(this._id, true);
             }).then(genRefToken => {
