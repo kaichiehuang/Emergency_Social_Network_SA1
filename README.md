@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-# s20-ESN-SA1
-YOU ARE *NOT* PERMITTED TO SHARE THIS REPO OUTSIDE THIS GITHUB ORG. YOU ARE *NOT* PERMITTED TO FORK THIS REPO UNDER ANY CIRCUMSTANCES. YOU ARE *NOT* PERMITTED TO CREATE ANY PUBLIC REPOS INSIDE THE CMUSV-FSE ORGANIZATION.  YOU SHOULD HAVE LINKS FROM THIS README FILE TO YOUR PROJECT DOCUMENTS, SUCH AS YOUR REST API SPECS AND YOUR ARCHITECTURE DOCUMENT. *IMPORTANT*: MAKE SURE TO CHECK AND UPDATE YOUR LOCAL GIT CONFIGURATION TO MATCH YOUR LOCAL GIT CREDENTIALS TO YOUR SE-PROJECT GITHUB CREDENTIALS: OTHERWISE YOUR COMMITS WILL NOT BE INCLUDED IN GITHUB STATISTICS AND REPO AUDITS WILL UNDERESTIMATE YOUR CONTRIBUTION. 
-=======
+
 Iteration 0
 ------------------
 Member: Four Heros
@@ -22,3 +19,22 @@ How to start app for quick dev and debug?
 
 npm run devstart   //use nodemon without restart app during dev.
 >>>>>>> development
+
+
+Iteration 1
+------------------
+**Documentation** 
+
+**RESTful API Documentation**
+[RESTful API Documentation](http://google.com)
+
+**Architecture Haiku**
+[Architecture Haiku](https://docs.google.com/document/d/1kW7WspNtR8PcprGhZ-GayGlFRFut4ONFt6KqzD6EFNs/edit#)
+
+
+**Use Case Analysis Model (OOA)**
+[Use Case Analysis Model](https://cacoo.com/diagrams/HDRJVsgsFVwhi0Kx/0FB02)
+
+**Mapping classes**
+[Use Case Analysis Model](https://docs.google.com/spreadsheets/d/1b9aGNw_K7sWPfep2Gq2bhUFPBNmvl179bw3jbGZpxTI/edit?ts=5e3f600d#gid=0
+)
