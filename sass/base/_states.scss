@@ -1,0 +1,14 @@
+.is-last {
+    border-right: none !important;
+    * {
+        border-right: none !important;
+    }
+}
+.is-hidden {
+    display: none;
+}
+.is-hidden-mobile {
+    @include respond-to("extra-small") {
+        display: none;
+    }
+}

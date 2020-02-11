@@ -1,11 +1,41 @@
+<!-- views/pages/index.ejs -->
+
 <!DOCTYPE html>
-<html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<html lang="en">
+<head>
+    <% include partials/head %>
+</head>
+<body class="container">
+
+<header class="header">
+    <% include partials/header %>
+</header>
+
+
+<main class="main-content">
+    <!-- Page content goes here -->
+
+    <% include partials/homepage %>
+
+    <% include partials/signup_form %>
+
+    <% include partials/aknowledgement_page %>
+
+    <!-- END OF CONTENT -->
+</main>
+
+<footer class="footer">
+    <% include partials/footer %>
+</footer>
+
+<% include partials/global_stylesheets %>
+
+<!-- Scripts at the bottom for better performance -->
+<% include partials/global_scripts %>
+
+<!-- LOCAL SCRIPTS -->
+<script src="/javascripts/signup.js?v=1"></script>
+
+
+</body>
 </html>
