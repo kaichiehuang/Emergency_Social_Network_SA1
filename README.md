@@ -26,7 +26,7 @@ Iteration 1
 **Documentation** 
 
 **RESTful API Documentation**
-[RESTful API Documentation](http://google.com)
+[RESTful API Documentation](https://speca.io/fse_sa1/fse-emergency-social-network-api-doc?key=aacc93e57078c4bbb43b35970f898522)
 
 **Architecture Haiku**
 [Architecture Haiku](https://docs.google.com/document/d/1kW7WspNtR8PcprGhZ-GayGlFRFut4ONFt6KqzD6EFNs/edit#)
