@@ -207,5 +207,27 @@ class User {
             });
         });
     }
+
+    /**
+     * [generateTokens description]
+     * @return {[type]} [description]
+     */
+    userExist(userId) {
+        return new Promise((resolve, reject) => {
+            console.log(username);
+            UserModel.findOne({
+                id: id
+            }).exec().then(user => {
+                resolve(true);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+
+        // console.log("before calling findbyId");
+        // let userInfo = await UserModel.findById(userId);
+        // return userInfo._id;
+    };
+
 }
 module.exports = User;
