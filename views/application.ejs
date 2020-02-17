@@ -18,8 +18,7 @@
 
 
     <% include partials/example_partial_content %>
-
-    <button type="" id="test-button"></button>
+    <button class="btn btn-primary btn-lg" type="button" id="send-message-button">Send</button>
 
 
     <!-- END OF CONTENT -->
@@ -33,20 +32,12 @@
 
 <!-- Scripts at the bottom for better performance -->
 <% include partials/global_scripts %>
+
+
+<!-- LOCAL SCRIPTS -->
+<script src="/javascripts/chat.js?v=1"></script>
 <script src="/javascripts/signout.js?v=1"></script>
-
-<script >
-
-    window.addEventListener('beforeunload', function (e) {
-        e.preventDefault();
-        alert("sure you want to close");
-        e.returnValue = null;
-    });
-
-
-    //sends
-</script>
-
+<script src="/socket.io/socket.io.js"></script>
 
 </body>
 </html>

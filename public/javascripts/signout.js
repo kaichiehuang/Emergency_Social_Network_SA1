@@ -25,6 +25,7 @@ $(function() {
 
     $('a[href="#signout-action"]').click(function(e) {
         e.preventDefault();
+        setOnline(false);
         signout();
     });
 
