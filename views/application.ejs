@@ -9,6 +9,7 @@
 
 <header class="header">
     <% include partials/header %>
+    <% include partials/loggedin_header.ejs %>
 </header>
 
 
@@ -21,7 +22,7 @@
     <% include partials/user_list %>
 
 
-
+    <button type="" id="test-button"></button>
 
 
     <!-- END OF CONTENT -->
@@ -35,6 +36,20 @@
 
 <!-- Scripts at the bottom for better performance -->
 <% include partials/global_scripts %>
+<script src="/javascripts/signout.js?v=1"></script>
+
+<script >
+
+    window.addEventListener('beforeunload', function (e) {
+        e.preventDefault();
+        alert("sure you want to close");
+        e.returnValue = null;
+    });
+
+
+    //sends
+</script>
+
 
 </body>
 </html>
