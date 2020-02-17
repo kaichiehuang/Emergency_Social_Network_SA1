@@ -123,5 +123,15 @@ class UsersController {
             return res.status(500).send(err);
         });
     }
+
+    /**
+     * [logoutUser description]
+     * @param  {[type]} req [description]
+     * @param  {[type]} res [description]
+     * @return {[type]}     [description]
+     */
+    logoutUser(req, res) {
+         console.log('user logged out.');
+    }
 }
 module.exports = UsersController;
