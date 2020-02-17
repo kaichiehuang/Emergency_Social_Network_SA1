@@ -6,7 +6,8 @@ module.exports = {
       password: "encrypted password",
       name: "NAME",
       last_name: "family name",
-      acknowledgement: false
+      acknowledgement: false,
+      onLine : false
     });
   },
 
