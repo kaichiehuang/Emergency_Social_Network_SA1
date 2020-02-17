@@ -15,7 +15,7 @@ gulp.task('serve', ['sass'], function() {
         proxy: "http://localhost:3000",
         port: 3010
     });
-    // gulp.watch("index.html", { interval: 500 }).on('change', browserSync.reload);
+    //gulp.watch("index.html", { interval: 500 }).on('change', browserSync.reload);
     gulp.watch(['./sass/**/**/*.scss'], ['sass']);
 });
 
