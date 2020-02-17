@@ -30,4 +30,6 @@ router.post('/', jsonParser, usersController.createUser);
 //put method for updating a user
 router.put('/:userId', validateTokenMid, jsonParser, usersController.updateUser);
 
+router.get("/users", validateTokenMid,jsonParser,usersController.getAllUsers)
+
 module.exports = router;
