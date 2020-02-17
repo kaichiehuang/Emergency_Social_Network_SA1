@@ -1,4 +1,8 @@
 .header {
+    .navbar {
+        margin-bottom: 0;
+    
+    }
     // padding-top: 15px;
     .logo-container {
         @include flexbox();
