@@ -11,6 +11,7 @@ var applicationRouter = require('./routes/application');
 var usersRouter = require('./routes/users');
 var tokenRouter = require('./routes/token');
 
+
 //redirect library for https - uncomment on server
 // var httpsRedirectTool = require('express-http-to-https').redirectToHTTPS
 
@@ -20,7 +21,42 @@ var app = express();
 
 // https redirect uncomment on server
 // app.use(httpsRedirectTool([], [], 301));
+let serverType  = "http";
+let http = null;
+let https = null;
+let server = null;
+if(serverType == "http"){
+  http = require('http');
+}else{
+  https = require('https');
+}
 
+if(serverType == "http"){
+
+  /**
+   * Create HTTP server.
+   */
+  server = http.createServer(app);
+}else{
+  /**
+   * Create HTTPS server.
+   */
+  const options = {
+    key: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.pem'),
+    cert: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.crt'),
+  }
+
+  server = https.createServer(options,app);
+}
+
+server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+//add socket io to our response as a middleware
+app.use(function(req, res, next) {
+    res.io = io;
+    next();
+});
 
 
 
@@ -51,7 +87,7 @@ app.use('/api/token', tokenRouter);
 // });
 app.get('*', (req, res, next) => {
     res.render('error', {
-        title: 'FSE chatroom - 404'
+        title: 'FSE'
     });
 });
 
@@ -66,4 +102,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app;
+
+
+module.exports = { app: app, server: server };
