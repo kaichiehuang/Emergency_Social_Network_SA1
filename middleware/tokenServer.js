@@ -17,16 +17,11 @@ const validateTokenMid = function (req, res, next){
                 console.log("error en verify: " + err);
                 return res.status(401).send(err.message).end();//UNAUTHORIZED
             });
-
-
     }else{
         console.log("before (next) no token provided");
         //next("NOT TOKEN PROVIDED");
         return  res.status(401).send("NOT TOKEN PROVIDED").end(); //UNAUTHORIZED
-
     }
-
-
 };
 
 /**
