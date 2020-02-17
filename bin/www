@@ -4,22 +4,9 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('../app').app;
 var debug = require('debug')('team-sa1-esn:server');
 // change for http
-
-let serverType  = "http";
-let http = null;
-let https = null;
-let server = null;
-if(serverType == "http"){
-  http = require('http');
-}else{
-  https = require('https');
-}
-
-
-var fs = require('fs');
 
 
 /**
@@ -30,23 +17,11 @@ var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 
-if(serverType == "http"){
+/**
+ * Gather HTTP or HTTPS server created in app.js.
+ */
+var server = require('../app').server;
 
-  /**
-   * Create HTTP server.
-   */
-  server = http.createServer(app);
-}else{
-  /**
-   * Create HTTPS server.
-   */
-  const options = {
-    key: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.pem'),
-    cert: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.crt'),
-  }
-
-  server = https.createServer(options,app);
-}
 /**
  * Listen on provided port, on all network interfaces.
  */
