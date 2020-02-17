@@ -3,8 +3,6 @@ const ReservedNamesModel = require('./model').ReservedNamesMongo;
 const bcrypt = require('bcrypt');
 const blacklist = require('the-big-username-blacklist');
 const tokenMiddleWare = require('../middleware/tokenServer');
-
-
 class User {
     constructor(username, password, name, last_name) {
         this._id = null;
@@ -122,7 +120,6 @@ class User {
             new: true
         });
     }
-
     /**
      * Finds a user by username
      * @param  {[type]} userId [description]
@@ -133,6 +130,24 @@ class User {
             console.log(username);
             UserModel.findOne({
                 username: username
+            }).exec().then(user => {
+                resolve(user);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
+    /**
+     * Finds a user by username
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
+    static findUserById(id) {
+        console.log(id);
+        return new Promise((resolve, reject) => {
+            console.log(id);
+            UserModel.findOne({
+                "_id": id
             }).exec().then(user => {
                 resolve(user);
             }).catch(err => {
@@ -192,8 +207,7 @@ class User {
         console.log("into token generate");
         return new Promise((resolve, reject) => {
             let token = '';
-            tokenMiddleWare.generateToken(this._id, false)
-            .then(generatedToken => {
+            tokenMiddleWare.generateToken(this._id, false).then(generatedToken => {
                 token = generatedToken;
                 return tokenMiddleWare.generateToken(this._id, true);
             }).then(genRefToken => {
@@ -207,27 +221,25 @@ class User {
             });
         });
     }
-
     /**
      * [generateTokens description]
      * @return {[type]} [description]
      */
-    userExist(userId) {
+    userExist(id) {
         return new Promise((resolve, reject) => {
-            console.log(username);
-            UserModel.findOne({
-                id: id
-            }).exec().then(user => {
-                resolve(true);
+            this.findUserById(id).then(result => {
+                if (result.id == id) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
             }).catch(err => {
                 reject(err);
             });
         });
-
         // console.log("before calling findbyId");
         // let userInfo = await UserModel.findById(userId);
         // return userInfo._id;
     };
-
 }
 module.exports = User;
