@@ -122,16 +122,29 @@ class UsersController {
         .catch(err => {
             return res.status(500).send(err);
         });
-    }
+  }
 
-    /**
-     * [logoutUser description]
-     * @param  {[type]} req [description]
-     * @param  {[type]} res [description]
-     * @return {[type]}     [description]
-     */
-    logoutUser(req, res) {
-         console.log('user logged out.');
-    }
+  /**
+   * Get the users of the DataBase (only user_name and online fields)
+   * @param req
+   * @param res
+   */
+  getAllUsers(req, res) {
+    let user_instance = new User();
+    user_instance.getUsers()
+        .then(users => {
+          let jsonResponseData = {};
+          res.contentType('application/json');
+          return res.status(201).send(JSON.stringify(users));
+        })
+        .catch(err => {
+          return res.status(500).send(err);
+        });
+
+
+  }
+
+
 }
+
 module.exports = UsersController;
