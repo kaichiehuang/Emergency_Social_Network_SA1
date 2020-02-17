@@ -35,7 +35,6 @@ router.post('/', jsonParser, usersController.createUser);
 //put method for updating a user
 router.put('/:userId', validateTokenMid, jsonParser, usersController.updateUser);
 
-//TODO why go through validateTokenMid?!
-router.put('/logout', jsonParser, usersController.logoutUser);
+router.get("/users", validateTokenMid,jsonParser,usersController.getAllUsers)
 
 module.exports = router;
