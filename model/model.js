@@ -15,10 +15,20 @@ const ReservedNameSchema = new Schema({
     name : String
 });
 
+const ChatMessageSchema = new Schema({
+    user_id: String,
+    message: String,
+    status: String
+}, {
+    timestamps: true
+});
+
 const User = mongoose.model('User', UserSchema );
 const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema );
+const ChatMessages = mongoose.model('Chat_Messages', ChatMessageSchema );
 
 module.exports = {
     UserMongo: User,
-    ReservedNamesMongo: Reserved_names
+    ReservedNamesMongo: Reserved_names,
+    ChatMessagesMongo: ChatMessages
 }
