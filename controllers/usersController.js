@@ -41,7 +41,6 @@ class UsersController {
                     })
                     .then(function(response) {
                         userData = response;
-
                         user_instance._id = response._id;
                         return user_instance.generateTokens();
                     })
