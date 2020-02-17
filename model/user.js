@@ -268,7 +268,9 @@ class User {
 
   getUsers(){
       return new Promise((resolve, reject) => {
-          UserModel.find({}).select("username onLine").then(users => {
+          UserModel.find({}).select("username onLine")
+              .sort({"onLine":-1,"username":"asc"})
+              .then(users => {
               resolve(users);
           }).catch(err => {
               reject(err);

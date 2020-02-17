@@ -19,10 +19,6 @@ $(function() {
   });
 
 
-  $('#logout-button').click(function(e) {
-    setOnline(false);
-  });
-
 });
 
 
@@ -39,7 +35,6 @@ function getUsers(){
   }).fail(function(e) {
     $("#signup-error-alert").html(e);
     $("#signup-error-alert").show();
-    alert(e);
   }).always(function() {
     console.log("complete");
   });
@@ -63,7 +58,6 @@ function setOnline(status){
   }).fail(function(e) {
     $("#signup-error-alert").html(e);
     $("#signup-error-alert").show();
-    alert(e);
   }).always(function() {
     console.log("complete");
   });
