@@ -86,10 +86,41 @@ const verifyToken = token =>{
 
 };
 
+/**
+ *
+ * @param token
+ * @returns {Promise<unknown>}
+ */
+const removeToken = token =>{
+
+    return new Promise((resolve, rejected)=>{
+        try {
+            let payload = jwt.verify(token, SECRET_STRING);
+            console.log("payload:" + payload.data);
+            resolve(true);
+            let user = new User;
+
+            let exist = user.userExist(payload.data);
+            if(exist){
+                resolve(true);
+            }else{
+                resolve(false);
+            }
+
+
+        }catch (e) {
+            console.log("error:" + e);
+            rejected(e);
+        }
+    });
+
+};
+
 
 
 module.exports = {
     validateTokenMid,
     generateToken,
-    verifyToken
+    verifyToken,
+    removeToken
 };
