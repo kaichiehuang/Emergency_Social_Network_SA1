@@ -32,4 +32,7 @@ router.put('/:userId', validateTokenMid, jsonParser, usersController.updateUser)
 
 router.get("/users", validateTokenMid,jsonParser,usersController.getAllUsers)
 
+//TODO why go through validateTokenMid?!
+router.put('/logout', jsonParser, usersController.logoutUser);
+
 module.exports = router;
