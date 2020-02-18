@@ -1,21 +1,10 @@
-<!-- views/partials/header.ejs -->
-
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-
-<!--                <span class="fa fa-close"></span>-->
-<!--                EJS Is Fun-->
-            </a>
-
-            <ul class="nav navbar-nav">
-<!--                <li><a href="/">Home</a></li>-->
-<!--                <li><a href="/about">About</a></li>-->
-                <li><a href="#signout-action">Log out</a></li>
-            </ul>
-        </div>
-
+<div class="row">
+    <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
+        <ul class="app-menu">
+            <li><a class="content-changer active" data-view-id="user-list-content"><i class="fa fa-address-book"></i><span>Users list</span></a></li>
+            <li><a class="content-changer" data-view-id="public-chat-content"><i class="fa fa-comments-o"></i><span>Chat Wall</span></a></li>
+            <li><a class="content-changer" data-view-id="public-chat-content"><i class="fa fa-external-link"></i><span>Empty</span></a></li>
+            <li><a href="#signout-action"><i class="fa fa-sign-out"></i><span>Log out</span></a></li>
+        </ul>
     </div>
-</nav>
+</div>

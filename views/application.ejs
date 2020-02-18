@@ -7,7 +7,7 @@
 </head>
 <body class="container">
 
-<header class="header">
+<header class="header header-loggedin">
     <% include partials/loggedin_header.ejs %>
 </header>
 
@@ -16,7 +16,11 @@
     <!-- Page content goes here -->
 
 
-    <% include partials/example_partial_content %>
+    <% include partials/public_chat_content %>
+
+    <% include partials/user_list %>
+
+
     <button class="btn btn-primary btn-lg" type="button" id="send-message-button">Send</button>
 
 
