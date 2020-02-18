@@ -27,5 +27,21 @@ class ChatMessage{
             });
         });
     }
+
+    getChatMessages(){
+        return new Promise((resolve, reject) => {
+
+            ChatMessageModel.find({})
+                .populate("user_id", "username")
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(function(err) {
+                    console.log("getChatMessages error: " + err);
+                    reject(err);
+                });
+        });
+
+    }
 }
 module.exports = ChatMessage;
