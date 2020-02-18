@@ -41,7 +41,6 @@ class UsersController {
                     })
                     .then(function(response) {
                         userData = response;
-
                         user_instance._id = response._id;
                         return user_instance.generateTokens();
                     })
@@ -106,15 +105,17 @@ class UsersController {
         let user_instance = new User();
         let userId = req.params.userId;
         let acknowledgement = req.body.acknowledgement;
+        let onLine =  req.body.acknowledgement;
         console.log(userId, acknowledgement);
-        user_instance.updateKnowledge(userId, acknowledgement)
+        user_instance.updateUser(userId, acknowledgement,onLine)
         .then(usr => {
             let jsonResponseData = {};
             jsonResponseData['user'] = {
                 userId: usr._id,
                 username: usr.username,
                 name: usr.name,
-                acknowledgement: usr.acknowledgement
+                acknowledgement: usr.acknowledgement,
+                onLine: usr.onLine
             };
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
@@ -133,7 +134,6 @@ class UsersController {
     let user_instance = new User();
     user_instance.getUsers()
         .then(users => {
-          let jsonResponseData = {};
           res.contentType('application/json');
           return res.status(201).send(JSON.stringify(users));
         })

@@ -76,14 +76,11 @@ const verifyToken = token =>{
              }else{
                  resolve(false);
             }
-
-
         }catch (e) {
             console.log("error:" + e);
             rejected(e);
         }
     });
-
 };
 
 /**

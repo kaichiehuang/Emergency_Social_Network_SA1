@@ -22,14 +22,16 @@ var usersController = new UsersController();
     "acknowledgement": false
   }
   * */
-router.get('/',  function(req, res, next) {
-    res.send('404');
-});
+// router.get('/',  function(req, res, next) {
+//     res.send('404');
+// });
+
+router.get("/", validateTokenMid,jsonParser,usersController.getAllUsers);
+
 //post method for creating a user
 router.post('/', jsonParser, usersController.createUser);
 //put method for updating a user
 router.put('/:userId', validateTokenMid, jsonParser, usersController.updateUser);
 
-router.get("/users", validateTokenMid,jsonParser,usersController.getAllUsers)
 
 module.exports = router;
