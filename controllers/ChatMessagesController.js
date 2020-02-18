@@ -46,13 +46,13 @@ class ChatMessagesController {
             //5. return a response
             return res.status(201).send(JSON.stringify({
                 "result": "chat message created",
-                // "data": {
-                //     "id": chatMessageCreated._id,
-                //     "user_id": chatMessageCreated.user_id,
-                //     "message": chatMessageCreated.message,
-                //     "created_at": chatMessageCreated.created_at,
-                //     "username": userFound.username
-                // }
+                "data": {
+                    "id": chatMessageCreated._id,
+                    "user_id": chatMessageCreated.user_id,
+                    "message": chatMessageCreated.message,
+                    "created_at": chatMessageCreated.created_at,
+                    "username": userFound.username
+                }
             }));
         }).catch(err => {
             return res.status(422).send(JSON.stringify({

@@ -5,39 +5,43 @@
 <head>
     <% include partials/head %>
 </head>
-<body class="container loggedin-body">
-
-<header class="header header-loggedin">
-    <% include partials/loggedin_header.ejs %>
-</header>
-
-
-<main class="main-content">
-    <!-- Page content goes here -->
+<body class="loggedin-body">
+    <div class="container">
+        <header class="header header-loggedin">
+            <% include partials/loggedin_header.ejs %>
+        </header>
+    </div>
 
 
-    <% include partials/public_chat_content %>
+    <main class="main-content">
+        <!-- Page content goes here -->
 
-    <% include partials/user_list %>
-
-
-    <!-- END OF CONTENT -->
-</main>
-
-<footer class="footer">
-    <% include partials/footer %>
-</footer>
-
-<% include partials/global_stylesheets %>
-
-<!-- Scripts at the bottom for better performance -->
-<% include partials/global_scripts %>
+        <div class="container">
+            <% include partials/public_chat_content %>
+        </div>
+        <div class="container">
+            <% include partials/user_list %>
+        </div>
 
 
-<!-- LOCAL SCRIPTS -->
-<script src="/javascripts/chat.js?v=1"></script>
-<script src="/javascripts/signout.js?v=1"></script>
-<script src="/socket.io/socket.io.js"></script>
+        <!-- END OF CONTENT -->
+    </main>
+
+    <footer class="footer">
+        <% include partials/footer %>
+    </footer>
+
+    <% include partials/global_stylesheets %>
+
+    <!-- Scripts at the bottom for better performance -->
+    <% include partials/global_scripts %>
+
+
+    <!-- LOCAL SCRIPTS -->
+    <script src="/javascripts/chat.js?v=1"></script>
+    <script src="/javascripts/users_list.js?v=1"></script>
+    <script src="/javascripts/signout.js?v=1"></script>
+    <script src="/socket.io/socket.io.js"></script>
 
 </body>
 </html>
