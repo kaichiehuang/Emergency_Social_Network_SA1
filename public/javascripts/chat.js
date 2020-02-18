@@ -41,7 +41,7 @@ function drawMessageItem(data) {
   new_li.removeAttr('id');
   let child = new_li.html();
   let child_new = child.replace('%username_token%', data.username)
-      .replace('%timestamp_token%', data.created_at)
+      .replace('%timestamp_token%', new Date(data.created_at).toLocaleString())
       .replace('%message_token%', data.message);
   new_li.html(child_new);
   $('#chat').append(new_li);
@@ -113,6 +113,7 @@ function sendMessage(){
     },
     headers: {"Authorization": jwt}
   }).done(function(response) {
+    $("#send-message-content").val("");
     console.log(response);
   }).fail(function(e) {
     $("#signup-error-alert").html(e);
