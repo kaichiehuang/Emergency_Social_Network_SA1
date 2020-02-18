@@ -1,8 +1,8 @@
 $(function() {
 
   const socket = io('http://localhost:3000');
-  socket.on("send message", data =>{
-    alert(data);
+  socket.on("new-chat-message", data =>{
+    alert(data.message);
   });
 
 
@@ -27,7 +27,7 @@ function getUsers(){
 
   let jwt  = Cookies.get('user-jwt-esn');
   $.ajax({
-    url: apiPath + '/users/users',
+    url: apiPath + '/users',
     type: 'get',
     headers: {"Authorization": jwt}
   }).done(function(response) {
@@ -46,11 +46,14 @@ function setOnline(status){
 
   let user_id = Cookies.get('user-id');
   let jwt  = Cookies.get('user-jwt-esn');
+  let acknowledgement = Cookies.get('user-acknowledgement');
+
   $.ajax({
-    url: apiPath + '/chat/' + user_id,
+    url: apiPath + '/users/' + user_id,
     type: 'put',
     data: {
-      'onLine': status
+      'onLine': status,
+      'acknowledgement':acknowledgement
     },
     headers: {"Authorization": jwt}
   }).done(function(response) {
@@ -65,13 +68,14 @@ function setOnline(status){
 
 
 function sendMessage(){
-  let msg = "Hi, this is a test";
+  let user_id = Cookies.get('user-id');
   let jwt  = Cookies.get('user-jwt-esn');
   $.ajax({
-    url: apiPath + '/chat/message',
+    url: apiPath + '/chat-messages',
     type: 'post',
     data: {
-      'message': msg
+      'message': 'msg',
+      "user_id": user_id
     },
     headers: {"Authorization": jwt}
   }).done(function(response) {

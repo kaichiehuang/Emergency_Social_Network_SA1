@@ -1,0 +1,32 @@
+const ChatMessageModel = require('./model').ChatMessage;
+
+
+class ChatMessage{
+    constructor(message, user_id) {
+        this._id = null;
+        this.message = message;
+        this.user_id = user_id;
+    }
+
+    createNewMessage() {
+        return new Promise((resolve, reject) => {
+            let newChatMessage = new ChatMessageModel({
+                message: this.message,
+                user_id: this.user_id,
+            });
+            newChatMessage.save()
+            .then(result => {
+                console.log('message created');
+                this._id = result.id;
+                //validate password structure
+                resolve(newChatMessage);
+            })
+            .catch(function(err) {
+                console.log('message creation failed');
+                console.log(err);
+                reject(err);
+            });
+        });
+    }
+}
+module.exports = ChatMessage;

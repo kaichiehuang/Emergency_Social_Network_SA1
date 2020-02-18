@@ -22,17 +22,17 @@ $(function() {
         }).done(function(response) {
             if (response.user != undefined && response.tokens != undefined) {
                 user_id = response.user.userId;
-                user_name = response.user.name;
+                username = response.user.username;
                 userJWT = response.tokens.token;
                 user_acknowledgement = response.user.acknowledgement;
                 //set token in cookies since it is more secure
                 Cookies.set('user-jwt-esn', userJWT);
                 Cookies.set('user-jwt-refresh-esn', response.tokens.token);
                 Cookies.set('user-id', user_id);
-                Cookies.set('user-name', user_name);
+                Cookies.set('username', username);
                 Cookies.set('user-acknowledgement', user_acknowledgement);
 
-                $(".user-name-placeholder").html(user_name)
+                $(".user-name-placeholder").html(username)
                 if (user_acknowledgement) {
                     window.location.replace("/app")
                 } else {

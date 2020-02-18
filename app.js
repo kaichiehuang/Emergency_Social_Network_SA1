@@ -10,7 +10,7 @@ var registrationRouter = require('./routes/registration');
 var applicationRouter = require('./routes/application');
 var usersRouter = require('./routes/users');
 var tokenRouter = require('./routes/token');
-var chatRouter = require('./routes/chat');
+var chatMessagesRouter = require('./routes/chatMessages');
 
 
 //redirect library for https - uncomment on server
@@ -81,7 +81,7 @@ app.use('/app', applicationRouter);
 app.use('/example', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/token', tokenRouter);
-app.use('/api/chat', chatRouter);
+app.use('/api/chat-messages', chatMessagesRouter);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -104,6 +104,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.disable('etag');
+
 
 
 module.exports = { app: app, server: server };
+
+
