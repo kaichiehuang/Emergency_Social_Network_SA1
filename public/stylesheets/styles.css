@@ -23,13 +23,15 @@
   font-smoothing: antialiased; }
 
 html {
-  width: 100%;
-  overflow: hidden; }
+  width: 100%; }
 
 body {
   margin: 0px;
   padding: 0px;
   background: #f5f5f5; }
+  body.loggedin-body {
+    width: 100%;
+    overflow: hidden; }
 
 .header {
   border: none; }
