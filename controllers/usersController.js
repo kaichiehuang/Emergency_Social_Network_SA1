@@ -105,7 +105,7 @@ class UsersController {
         let user_instance = new User();
         let userId = req.params.userId;
         let acknowledgement = req.body.acknowledgement;
-        let onLine =  req.body.acknowledgement;
+        let onLine =  req.body.onLine;
         console.log(userId, acknowledgement);
         user_instance.updateUser(userId, acknowledgement,onLine)
         .then(usr => {
