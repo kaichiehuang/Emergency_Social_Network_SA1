@@ -1,4 +1,4 @@
-const ChatMessageModel = require('./model').ChatMessage;
+const ChatMessageModel = require('./model').ChatMessagesMongo;
 
 
 class ChatMessage{

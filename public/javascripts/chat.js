@@ -14,7 +14,7 @@ $(function() {
   });
 
   /****** events declaration ********/
-  $('#send-message-button').click(function(e) {
+  $('#send-btn').click(function(e) {
       sendMessage();
   });
 
