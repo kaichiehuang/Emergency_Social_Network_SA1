@@ -13,21 +13,33 @@
 }
 html {
     width: 100%;
-    overflow: hidden; // height: 100vh;
 }
 body {
     @include reset-margin-padding; // padding-top: 15px;
     background: #f5f5f5; // overflow: hidden;
     // height: 100vh;
+    &.loggedin-body {
+        width: 100%;
+        @include respond-to('small') {
+            overflow: hidden;
+        }
+        @include respond-to('extra-small') {
+            overflow: hidden;
+        }
+    }
 }
 @import "layout/_header";
 @import "layout/_footer";
 .main-content {
     @include respond-to('small') {
         padding-top: 0px;
+        height: 90vh;
+        overflow-y: auto;
     }
     @include respond-to('extra-small') {
         padding-top: 0px;
+        height: 90vh;
+        overflow-y: auto;
     }
     .error-message-container {
         padding: 75px 50px;

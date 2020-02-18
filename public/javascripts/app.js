@@ -42,7 +42,7 @@ $(function() {
         user_name = Cookies.get('user-name');
         user_acknowledgement = Cookies.get('user-acknowledgement');
         if (window.location.pathname == "/") {
-            if (user_acknowledgement) {
+            if (user_acknowledgement == true) {
                 window.location.replace("/app")
             } else {
                 swapContent("acknowledgement-page-content");
