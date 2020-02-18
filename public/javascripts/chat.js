@@ -7,7 +7,10 @@ $(function() {
 
 
   setOnline(true);
+  //TODO UI of the users list with the information returned in the next method
   getUsers();
+  //TODO UI of the messsages previously sended with the information returned in the next method
+  getMessages();
 
   $(window).on('unload', function(){
     setOnline(false);
@@ -44,6 +47,10 @@ function drawMessageItem(data) {
   $('#chat').append(new_li);
 }
 
+
+/**
+ * Get the information of the Users (username and online status)
+ */
 function getUsers(){
 
   let jwt  = Cookies.get('user-jwt-esn');
@@ -62,7 +69,10 @@ function getUsers(){
 }
 
 
-
+/**
+ * Updates de status online of the user
+ * @param status
+ */
 function setOnline(status){
 
   let user_id = Cookies.get('user-id');
@@ -88,6 +98,9 @@ function setOnline(status){
 }
 
 
+/**
+ * Sends and saves the message the user post.
+ */
 function sendMessage(){
   let user_id = Cookies.get('user-id');
   let jwt  = Cookies.get('user-jwt-esn');
@@ -98,6 +111,28 @@ function sendMessage(){
       'message': $("#send-message-content").val(),
       "user_id": user_id
     },
+    headers: {"Authorization": jwt}
+  }).done(function(response) {
+    console.log(response);
+  }).fail(function(e) {
+    $("#signup-error-alert").html(e);
+    $("#signup-error-alert").show();
+    alert(e);
+  }).always(function() {
+    console.log("complete");
+  });
+}
+
+
+/**
+ * Get all the messages prevoisly posted
+ * (messages saved on the db)
+ */
+function getMessages(){
+  let jwt  = Cookies.get('user-jwt-esn');
+  $.ajax({
+    url: apiPath + '/chat-messages',
+    type: 'get',
     headers: {"Authorization": jwt}
   }).done(function(response) {
     console.log(response);
