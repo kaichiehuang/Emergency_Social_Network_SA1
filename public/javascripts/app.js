@@ -5,17 +5,28 @@ let user_name = null;
 let user_acknowledgement = null;
 let apiPath = "/api";
 
+/**
+ * Swaps visible content. It receives an ID to show and hides everything with the class  main-content-block
+ * @param  {[type]} newID [description]
+ * @return {[type]}       [description]
+ */
 function swapContent(newID) {
     $(".main-content-block").addClass("hidden-main-content-block");
     $("#" + newID).removeClass("hidden-main-content-block");
     currentContentPageID = newID;
 }
+
 $(function() {
     //events
     $(".content-changer").click(function(event) {
+        $(".content-changer").removeClass('active')
+        $(this).addClass("active");
         event.preventDefault();
-        newID = $(this).data('view-id');
-        swapContent(newID)
+        let newID = $(this).data('view-id');
+        if(newID != undefined && newID != ""){
+            swapContent(newID)
+        }
+
     });
     userJWT = Cookies.get('user-jwt-esn');
     //user is not logged in

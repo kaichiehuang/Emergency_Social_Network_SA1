@@ -3,7 +3,7 @@ const database = require('./database');
 const Schema = mongoose.Schema;
 
 const schemaOptions = {
-    timestamps: { createdAt: 'created_at' },
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
 };
 
 
@@ -13,8 +13,8 @@ const UserSchema = new Schema({
     name: String,
     last_name: String,
     acknowledgement: Boolean,
-    onLine:Boolean
-});
+    onLine:Boolean,
+}, schemaOptions);
 
 const ReservedNameSchema = new Schema({
     name : String
@@ -23,15 +23,13 @@ const ReservedNameSchema = new Schema({
 const UserSocketSchema = new Schema({
     user_id:String,
     socket_id:String
-})
+}, schemaOptions)
 
 const ChatMessageSchema = new Schema({
     user_id: String,
     message: String,
     status: String
-}, {
-    timestamps: true
-});
+}, schemaOptions);
 
 const User = mongoose.model('User', UserSchema );
 const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema );

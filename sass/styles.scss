@@ -3,6 +3,7 @@
     width: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 * {
     font-family: $font-family-base;
@@ -11,8 +12,8 @@
     font-smoothing: antialiased;
 }
 html {
-    // overflow: hidden;
-    // height: 100vh;
+    width: 100%;
+    overflow: hidden; // height: 100vh;
 }
 body {
     @include reset-margin-padding; // padding-top: 15px;
@@ -22,7 +23,6 @@ body {
 @import "layout/_header";
 @import "layout/_footer";
 .main-content {
-    padding-top: 45px;
     @include respond-to('small') {
         padding-top: 0px;
     }
@@ -48,7 +48,6 @@ body {
         margin-bottom: 150px;
         border-bottom: 1px solid #ccc;
     }
-
 }
 @include respond-to("extra-small") {
     @for $i from 1 through 24 {

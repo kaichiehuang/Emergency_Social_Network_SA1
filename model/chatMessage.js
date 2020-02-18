@@ -18,7 +18,6 @@ class ChatMessage{
             .then(result => {
                 console.log('message created');
                 this._id = result.id;
-                //validate password structure
                 resolve(newChatMessage);
             })
             .catch(function(err) {

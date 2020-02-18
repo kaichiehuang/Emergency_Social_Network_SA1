@@ -1,9 +1,8 @@
 .header {
+    border: none;
     .navbar {
         margin-bottom: 0;
-    
-    }
-    // padding-top: 15px;
+    } // padding-top: 15px;
     .logo-container {
         @include flexbox();
         @include align-items(center);
@@ -62,7 +61,7 @@
                     margin-left: 10px;
                 }
                 &:hover {
-                    color: red;
+                    // color: red;
                 }
                 @include respond-to('large') {
                     right: 12.5%;
@@ -71,9 +70,10 @@
         }
     }
     &.header-loggedin {
-        height: 5vh;
         margin-bottom: 0;
-        padding-top: 5px;
+        padding-top: 0px;
+        border-top: 1px solid $brand_color2;
+        background: $brand_color1;
         .logo {
             width: 40px;
             @include respond-to('small') {
@@ -85,13 +85,42 @@
                 margin-right: 10px;
             }
         }
-        span {
-            font-size: $font-size-base * 1.5;
-            @include respond-to('small') {
-                font-size: $font-size-base * 1.35;
-            }
-            @include respond-to('extra-small') {
-                font-size: $font-size-base * 1.35;
+        .app-menu {
+            @include reset-margin-padding;
+            list-style: none;
+            @include flexbox;
+            @include align-items(center);
+            @include justify-content(space-between);
+            li {
+                @include reset-margin-padding;
+                width: 25%;
+                a {
+                    display: block;
+                    color: white;
+                    padding: 10px 15px;
+                    text-align: center;
+                    width: 100%;
+                    text-decoration: none;
+                    border-left: 1px solid rgba(#fff, 0.35);
+                    span {
+                        color: rgba(#fff, 0.9);
+                        font-size: 1rem;
+                    }
+                    i {
+                        font-size: 27.5px;
+                        display: block;
+                    }
+                    &:hover {
+                        i {
+                            color: rgba($brand_color2, 0.75);
+                        }
+                    }
+                    &.active {
+                        i {
+                            color: rgba($brand_color2, 0.9);
+                        }
+                    }
+                }
             }
         }
     }
