@@ -26,7 +26,7 @@ const UserSocketSchema = new Schema({
 }, schemaOptions)
 
 const ChatMessageSchema = new Schema({
-    user_id: String,
+    user_id: { type: Schema.Types.ObjectId, ref: 'User' },
     message: String,
     status: String
 }, schemaOptions);

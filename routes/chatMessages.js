@@ -10,12 +10,13 @@ var jsonParser = bodyParser.json();
 // Require controller
 var chatMessagesController = new ChatMessagesController();
 
-router.get('/',  function(req, res, next) {
-    res.send('200', {"hola": "GET"});
-});
+
+//get method for getting chat messages
+router.get('/', validateTokenMid, jsonParser, chatMessagesController.getChatMessages);
 
 //post method for creating a chat message
 router.post('/', validateTokenMid, jsonParser, chatMessagesController.createMessage);
+
 
 //put method for updating a chat message
 // router.put('/:userId', validateTokenMid, jsonParser, chatMessagesController.updateUser);
