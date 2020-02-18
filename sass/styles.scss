@@ -20,7 +20,12 @@ body {
     // height: 100vh;
     &.loggedin-body {
         width: 100%;
-        overflow: hidden; // height: 100vh;
+        @include respond-to('small') {
+            overflow: hidden;
+        }
+        @include respond-to('extra-small') {
+            overflow: hidden;
+        }
     }
 }
 @import "layout/_header";
@@ -28,9 +33,13 @@ body {
 .main-content {
     @include respond-to('small') {
         padding-top: 0px;
+        height: 90vh;
+        overflow-y: auto;
     }
     @include respond-to('extra-small') {
         padding-top: 0px;
+        height: 90vh;
+        overflow-y: auto;
     }
     .error-message-container {
         padding: 75px 50px;
