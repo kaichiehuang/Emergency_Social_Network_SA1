@@ -60,5 +60,24 @@ class ChatMessagesController {
             }));
         });
     }
+
+    /**
+     * Get all the messages of the DB
+     * @param req
+     * @param res
+     */
+    getChatMessages(req, res){
+        let chatMessage = new ChatMessage();
+        chatMessage.getChatMessages()
+            .then(result => {
+                res.contentType('application/json');
+                res.status(201).send(JSON.stringify(result));
+            }).catch(err => {
+            return res.status(422).send(JSON.stringify({
+                "error": err.message
+            }));
+        });
+    }
+
 }
 module.exports = ChatMessagesController;
