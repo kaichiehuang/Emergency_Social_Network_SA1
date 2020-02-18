@@ -2,7 +2,7 @@ $(function() {
 
   const socket = io('http://localhost:3000');
   socket.on("new-chat-message", data =>{
-    alert(data.message);
+    drawMessageItem(data);
   });
 
 
@@ -21,7 +21,28 @@ $(function() {
 
 });
 
-
+function drawMessageItem(data) {
+  let list_length = $('ul#chat li').length;
+  let new_li = $('ul#chat li#template').clone();
+  let class_ori = new_li.attr("class");
+  class_ori = class_ori.replace(' hide', '');
+  if (list_length % 2 == 1) {
+    new_li.attr("class", class_ori + ' user-post-odd');
+  } else {
+    new_li.attr("class", class_ori + ' user-post-even');
+  }
+  let user_id = Cookies.get('user-id');
+  if (user_id === data.user_id) {
+    new_li.attr("class", new_li.attr("class") + ' user-post-current');
+  }
+  new_li.removeAttr('id');
+  let child = new_li.html();
+  let child_new = child.replace('%username_token%', data.username)
+      .replace('%timestamp_token%', data.created_at)
+      .replace('%message_token%', data.message);
+  new_li.html(child_new);
+  $('#chat').append(new_li);
+}
 
 function getUsers(){
 
@@ -74,7 +95,7 @@ function sendMessage(){
     url: apiPath + '/chat-messages',
     type: 'post',
     data: {
-      'message': 'msg',
+      'message': $("#send-message-content").val(),
       "user_id": user_id
     },
     headers: {"Authorization": jwt}
