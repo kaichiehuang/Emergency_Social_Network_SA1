@@ -1,5 +1,4 @@
 module.exports = {
-    //TODO Bo will learn promise and await
     async up(db) {
         await db.createCollection('reserved_names');
         const fs = require('fs').promises;
