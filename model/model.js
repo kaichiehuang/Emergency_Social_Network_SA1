@@ -25,19 +25,22 @@ const UserSocketSchema = new Schema({
     socket_id:String
 })
 
-const ChatMessagesSchema = new Schema({
-    message : String,
-    user_id : String
-}, schemaOptions);
+const ChatMessageSchema = new Schema({
+    user_id: String,
+    message: String,
+    status: String
+}, {
+    timestamps: true
+});
 
 const User = mongoose.model('User', UserSchema );
 const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema );
 const User_socket = mongoose.model("User_socket",UserSocketSchema);
-const ChatMessage = mongoose.model('Chat_messages', ChatMessagesSchema );
+const ChatMessages = mongoose.model('Chat_Messages', ChatMessageSchema );
 
 module.exports = {
     UserMongo: User,
-    ChatMessage: ChatMessage,
     ReservedNamesMongo: Reserved_names,
-    UserSocketMongo: User_socket
+    UserSocketMongo: User_socket,
+    ChatMessagesMongo: ChatMessages
 }
