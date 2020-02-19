@@ -18,13 +18,21 @@ How to set up DB env with migrate-mongo
 How to start app for quick dev and debug?
 
 npm run devstart   //use nodemon without restart app during dev.
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> development
+>>>>>>> a43f0013cb5cdbdf536d7168c6edc9c5e4210c04
 
 
 Iteration 1
 ------------------
+<<<<<<< HEAD
 **Documentation**
+=======
+**Documentation** 
+>>>>>>> a43f0013cb5cdbdf536d7168c6edc9c5e4210c04
 
 **RESTful API Documentation**
 [RESTful API Documentation](https://speca.io/fse_sa1/fse-emergency-social-network-api-doc?key=aacc93e57078c4bbb43b35970f898522)
@@ -39,4 +47,7 @@ Iteration 1
 **Mapping classes**
 [Use Case Analysis Model](https://docs.google.com/spreadsheets/d/1b9aGNw_K7sWPfep2Gq2bhUFPBNmvl179bw3jbGZpxTI/edit?ts=5e3f600d#gid=0
 )
+<<<<<<< HEAD
 
+=======
+>>>>>>> a43f0013cb5cdbdf536d7168c6edc9c5e4210c04
