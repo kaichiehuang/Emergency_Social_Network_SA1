@@ -3,7 +3,7 @@ var router = express.Router();
 const UsersController = require(__dirname + '/../controllers/usersController');
 var bodyParser = require('body-parser');
 const { validateTokenMid } = require('../middleware/tokenServer');
-const ChatMsg = require('../model/chat_message.js');
+
 
 // application/json parser
 var jsonParser = bodyParser.json();

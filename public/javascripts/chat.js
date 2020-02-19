@@ -7,8 +7,7 @@ $(function() {
 
 
   setOnline(true);
-  //TODO UI of the users list with the information returned in the next method
-  getUsers();
+
   //TODO UI of the messsages previously sended with the information returned in the next method
   getMessages();
 
@@ -35,12 +34,12 @@ function drawMessageItem(data) {
     new_li.attr("class", class_ori + ' user-post-even');
   }
   let user_id = Cookies.get('user-id');
-  if (user_id === data.user_id) {
+  if (user_id === data.user_id._id) {
     new_li.attr("class", new_li.attr("class") + ' user-post-current');
   }
   new_li.removeAttr('id');
   let child = new_li.html();
-  let child_new = child.replace('%username_token%', data.username)
+  let child_new = child.replace('%username_token%', data.user_id.username)
       .replace('%timestamp_token%', new Date(data.created_at).toLocaleString())
       .replace('%message_token%', data.message);
   new_li.html(child_new);
@@ -48,25 +47,6 @@ function drawMessageItem(data) {
 }
 
 
-/**
- * Get the information of the Users (username and online status)
- */
-function getUsers(){
-
-  let jwt  = Cookies.get('user-jwt-esn');
-  $.ajax({
-    url: apiPath + '/users',
-    type: 'get',
-    headers: {"Authorization": jwt}
-  }).done(function(response) {
-    console.log(response);
-  }).fail(function(e) {
-    $("#signup-error-alert").html(e);
-    $("#signup-error-alert").show();
-  }).always(function() {
-    console.log("complete");
-  });
-}
 
 
 /**
@@ -136,7 +116,10 @@ function getMessages(){
     type: 'get',
     headers: {"Authorization": jwt}
   }).done(function(response) {
-    console.log(response);
+    //console.log(response);
+    response.forEach(element => {
+      drawMessageItem(element);
+    });
   }).fail(function(e) {
     $("#signup-error-alert").html(e);
     $("#signup-error-alert").show();
