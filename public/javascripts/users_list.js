@@ -81,9 +81,5 @@ $(function() {
                 User.drawUsers(users, "user-list-content__list")
             }).catch(err => {});
         }
-
     });
-
-
-
 });

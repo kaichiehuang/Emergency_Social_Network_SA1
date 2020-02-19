@@ -111,6 +111,7 @@
                         display: block;
                     }
                     &:hover {
+                        cursor: pointer;
                         i {
                             color: rgba($brand_color2, 0.75);
                         }

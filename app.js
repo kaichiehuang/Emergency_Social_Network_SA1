@@ -83,6 +83,8 @@ app.use('/api/users', usersRouter);
 app.use('/api/token', tokenRouter);
 app.use('/api/chat-messages', chatMessagesRouter);
 
+app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
+
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   next(createError(404));
