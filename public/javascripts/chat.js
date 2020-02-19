@@ -16,9 +16,16 @@ $(function() {
   });
 
   /****** events declaration ********/
-  $('#send-btn').click(function(e) {
-      sendMessage();
+   $('#send-btn').click(function(e) {
+       sendMessage();
+   });
+
+  $("#msg-form").on("submit",function(e){
+     e.preventDefault();
+     sendMessage();
   });
+
+
 
 
 });
@@ -45,6 +52,8 @@ function drawMessageItem(data) {
   new_li.html(child_new);
   $('#chat').append(new_li);
 }
+
+$("#msg_area").scrollTop($("#msg_area").prop("scrollHeight"));
 
 
 
