@@ -181,8 +181,10 @@ body {
           .header.header-loggedin .app-menu li a i {
             font-size: 27.5px;
             display: block; }
-          .header.header-loggedin .app-menu li a:hover i {
-            color: rgba(245, 130, 37, 0.75); }
+          .header.header-loggedin .app-menu li a:hover {
+            cursor: pointer; }
+            .header.header-loggedin .app-menu li a:hover i {
+              color: rgba(245, 130, 37, 0.75); }
           .header.header-loggedin .app-menu li a.active i {
             color: rgba(245, 130, 37, 0.9); }
 

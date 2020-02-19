@@ -44,6 +44,9 @@ $(function() {
     }
     //user is logged in
     else {
+
+        //TODO test if cookie is expired
+
         user_id = Cookies.get('user-id');
         user_name = Cookies.get('username');
         user_acknowledgement = Cookies.get('user-acknowledgement');
