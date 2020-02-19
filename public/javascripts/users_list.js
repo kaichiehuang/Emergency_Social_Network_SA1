@@ -13,6 +13,8 @@ class User {
         //2. find container
         let listContainer = document.getElementById(containerId);
 
+        $("#" + containerId + " li").remove();
+
         if (listContainer != undefined) {
 
             //3. iterate over users list and draw using the appropiate template based on online/offline state
@@ -67,8 +69,21 @@ class User {
  * @return {[type]}   [description]
  */
 $(function() {
-    let userModel = new User;
     User.getUsers().then(users => {
         User.drawUsers(users, "user-list-content__list")
     }).catch(err => {});
+
+    $(".content-changer").click(function(event) {
+        event.preventDefault();
+        let newID = $(this).data('view-id');
+        if(newID === "user-list-content"){
+            User.getUsers().then(users => {
+                User.drawUsers(users, "user-list-content__list")
+            }).catch(err => {});
+        }
+
+    });
+
+
+
 });
