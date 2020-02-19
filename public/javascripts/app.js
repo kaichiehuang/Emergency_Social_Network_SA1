@@ -17,6 +17,11 @@ function swapContent(newID) {
 }
 
 $(function() {
+
+    if(Cookies.get('username')!== undefined){
+        $(".user-name-reference").html(Cookies.get('username'));
+    }
+
     //events
     $(".content-changer").click(function(event) {
         $(".content-changer").removeClass('active')
@@ -28,6 +33,7 @@ $(function() {
         }
 
     });
+
     userJWT = Cookies.get('user-jwt-esn');
     //user is not logged in
     if (userJWT == null || userJWT == undefined || userJWT == "") {
@@ -39,10 +45,10 @@ $(function() {
     //user is logged in
     else {
         user_id = Cookies.get('user-id');
-        user_name = Cookies.get('user-name');
+        user_name = Cookies.get('username');
         user_acknowledgement = Cookies.get('user-acknowledgement');
         if (window.location.pathname == "/") {
-            if (user_acknowledgement == true) {
+            if (  user_acknowledgement === "true") {
                 window.location.replace("/app")
             } else {
                 swapContent("acknowledgement-page-content");
