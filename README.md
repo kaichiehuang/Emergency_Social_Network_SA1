@@ -35,7 +35,7 @@ Iteration 1
 
 **Use Case Analysis Model (OOA)**
 [Use Case Analysis Model](https://cacoo.com/diagrams/HDRJVsgsFVwhi0Kx/0FB02)
-[draw.io](https://www.draw.io/#G1Px7uipSPK16-F2lAAleRD-rLpOp7To9v)
+& [draw.io](https://www.draw.io/#G1Px7uipSPK16-F2lAAleRD-rLpOp7To9v)
 
 **Mapping classes**
 [Use Case Analysis Model](https://docs.google.com/spreadsheets/d/1b9aGNw_K7sWPfep2Gq2bhUFPBNmvl179bw3jbGZpxTI/edit?ts=5e3f600d#gid=0
