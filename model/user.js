@@ -3,6 +3,7 @@ const ReservedNamesModel = require('./model').ReservedNamesMongo;
 const bcrypt = require('bcrypt');
 const blacklist = require('the-big-username-blacklist');
 const tokenMiddleWare = require('../middleware/tokenServer');
+const constants = require('../constants');
 
 
 class User {
@@ -14,6 +15,7 @@ class User {
         this.last_name = last_name;
         this.acknowledgement = false;
         this.onLine = false;
+        this.status = constants.UNDEFINED_STATUS;
     }
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
@@ -105,7 +107,8 @@ class User {
             name: this.name,
             last_name: this.last_name,
             acknowledgement: false,
-          onLine: false,
+            onLine: false,
+            status: constants.UNDEFINED_STATUS,
         });
         return newUser.save();
     }
@@ -113,13 +116,15 @@ class User {
      * Updates the acknowledgement for a user
      * @param  {[type]} userId          [description]
      * @param  {[type]} acknowledgement [description]
+     * @param  {[type]} status          [description]
      * @return {[type]}                 [description]
      */
-    updateUser(userId, acknowledgement,onLine) {
+    updateUser(userId, acknowledgement, onLine, status) {
         return UserModel.findByIdAndUpdate(userId, {
             $set: {
                 acknowledgement: acknowledgement,
-                onLine: onLine
+                onLine: onLine,
+                status: status
             }
         }, {
             new: true

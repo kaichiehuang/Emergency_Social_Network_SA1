@@ -50,7 +50,9 @@ class UsersController {
                             userId: userData._id,
                             username: userData.username,
                             name: userData.name,
-                            acknowledgement: userData.acknowledgement
+                            acknowledgement: userData.acknowledgement,
+                            onLine:userData.onLine,
+                            status:userData.status
                         };
                         jsonResponseData['tokens'] = tokens;
                         res.contentType('application/json');
@@ -76,7 +78,9 @@ class UsersController {
                             userId: userData._id,
                             username: userData.username,
                             name: userData.name,
-                            acknowledgement: userData.acknowledgement
+                            acknowledgement: userData.acknowledgement,
+                            onLine:userData.onLine,
+                            status:userData.status
                         };
                         jsonResponseData['tokens'] = tokens;
                         res.contentType('application/json');
@@ -106,8 +110,9 @@ class UsersController {
         let userId = req.params.userId;
         let acknowledgement = req.body.acknowledgement;
         let onLine =  req.body.onLine;
+        let status = req.body.status;
         console.log(userId, acknowledgement);
-        user_instance.updateUser(userId, acknowledgement,onLine)
+        user_instance.updateUser(userId, acknowledgement,onLine, status)
         .then(usr => {
             let jsonResponseData = {};
             jsonResponseData['user'] = {
@@ -115,7 +120,8 @@ class UsersController {
                 username: usr.username,
                 name: usr.name,
                 acknowledgement: usr.acknowledgement,
-                onLine: usr.onLine
+                onLine: usr.onLine,
+                status: usr.status
             };
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
