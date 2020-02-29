@@ -69,10 +69,25 @@ class User {
  * @return {[type]}   [description]
  */
 $(function() {
+
+    const socket = io('http://localhost:3000');
+
+    //Initial call to get the user list after login
     User.getUsers().then(users => {
         User.drawUsers(users, "user-list-content__list")
     }).catch(err => {});
 
+
+
+    //Socket IO implementation to update user list on every change of users data.
+    socket.on("user-list-update", () => {
+        User.getUsers().then(users => {
+            User.drawUsers(users, "user-list-content__list")
+        }).catch(err => {});
+    });
+
+
+    //Click event, to update user list when the user switch between views
     $(".content-changer").click(function(event) {
         event.preventDefault();
         let newID = $(this).data('view-id');

@@ -4,17 +4,35 @@ class StatusSelection {
   //   $(".content-changer").addEventListener('click', event => this.showModal(event));
   // }
   constructor() {
-
     const statusButton = document.getElementById("status-button");
     statusButton.addEventListener("click", this.showModal);
 
     const confirmButton = document.getElementById("statusConfirmButton");
     confirmButton.addEventListener("click", this.statusConfirm);
 
-
   }
 
-  statusConfirm() {
+
+  updateAllUserLists (){
+    let jwt = Cookies.get('user-jwt-esn');
+    $.ajax({
+      url: apiPath + '/usersList/',
+      type: 'get',
+      headers: {
+        "Authorization": jwt
+      }
+    }).done(function (response) {
+      console.log(response);
+    }).fail(function (e) {
+      $("#update-status-alert").html(e);
+      $("#update-status-alert").show();
+    }).always(function () {
+      console.log("complete");
+    });
+  }
+
+
+  statusConfirm () {
     let status = $('.modal-instructions :checked').val();
     let user_id = Cookies.get('user-id');
     let jwt = Cookies.get('user-jwt-esn');
@@ -37,20 +55,37 @@ class StatusSelection {
       //hide modal
       $('#status-modal').modal('toggle');
       Cookies.set('user-status', response.user.status);
+
+
+      $.ajax({
+        url: apiPath + '/usersList/',
+        type: 'get',
+        headers: {
+          "Authorization": jwt
+        }
+      }).done(function (response) {
+        console.log(response);
+      }).fail(function (e) {
+        $("#update-status-alert").html(e);
+        $("#update-status-alert").show();
+      }).always(function () {
+        console.log("complete");
+      });
+
+
+
     }).fail(function (e) {
       $("#update-status-alert").html(e);
       $("#update-status-alert").show();
     }).always(function () {
       console.log("complete");
     });
+
+
   }
 
-  // setStatus() {
-  //   let status = Cookies.get('user-status');
-  //   $(status).prop( "checked", true );
-  // }
 
-  showModal() {
+  showModal (){
     let newID = $(this).data('view-id');
     if (newID === "status-content") {
       // $('#status-modal').modal({ show: true });

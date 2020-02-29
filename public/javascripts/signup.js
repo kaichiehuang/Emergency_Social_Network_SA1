@@ -1,4 +1,24 @@
 $(function () {
+
+
+    function updateUsersList(){
+        let jwt = Cookies.get('user-jwt-esn');
+        $.ajax({
+            url: apiPath + '/usersList/',
+            type: 'get',
+            headers: {
+                "Authorization": jwt
+            }
+        }).done(function (response) {
+            console.log(response);
+        }).fail(function (e) {
+            $("#update-status-alert").html(e);
+            $("#update-status-alert").show();
+        }).always(function () {
+            console.log("complete");
+        });
+    }
+
     /**
      * [postMessage description]
      * @param  {[type]} e [description]
@@ -37,10 +57,14 @@ $(function () {
 
                 $(".user-name-placeholder").html(username)
                 if (user_acknowledgement) {
+                    setOnline(true);
+                    updateUsersList();
                     window.location.replace("/app")
                 } else {
                     swapContent("acknowledgement-page-content");
                 }
+
+
 
             }
             console.log(response)
@@ -76,6 +100,8 @@ $(function () {
             }).done(function (response) {
                 user_acknowledgement = response.user.acknowledgement;
                 Cookies.set('user-acknowledgement', user_acknowledgement);
+                setOnline(true);
+                updateUsersList();
                 window.location.replace("/app")
             }).fail(function () {
                 $("#signup-error-alert").html();
@@ -88,14 +114,50 @@ $(function () {
     }
 
 
+
+
     /****** events declaration ********/
 
     $('#signup-submit-button').click(function (e) {
         e.preventDefault();
         signup();
+
     });
     $('#acknowledgement-submit-button').click(function (e) {
         e.preventDefault();
         submitAcknowledgment();
     });
 });
+
+
+
+/**
+ * Updates de status online of the user
+ * @param status
+ */
+function setOnline(online_status) {
+    let user_id = Cookies.get('user-id');
+    let jwt = Cookies.get('user-jwt-esn');
+    let acknowledgement = Cookies.get('user-acknowledgement');
+    let status = Cookies.get('user-status');
+    $.ajax({
+        url: apiPath + '/users/' + user_id,
+        type: 'put',
+        data: {
+            'onLine': online_status,
+            'acknowledgement': acknowledgement,
+            'status': status,
+        },
+        headers: {
+            "Authorization": jwt
+        }
+    }).done(function(response) {
+        Cookies.set('online-status', online_status);
+        console.log(response);
+    }).fail(function(e) {
+        $("#signup-error-alert").html(e);
+        $("#signup-error-alert").show();
+    }).always(function() {
+        console.log("complete");
+    });
+}
