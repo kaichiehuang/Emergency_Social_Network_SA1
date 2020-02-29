@@ -259,7 +259,7 @@ class User {
 
     getUsers(){
         return new Promise((resolve, reject) => {
-            UserModel.find({}).select("username onLine")
+            UserModel.find({}).select("username onLine status")
                 .sort({"onLine":-1,"username":"asc"})
                 .then(users => {
                     resolve(users);
