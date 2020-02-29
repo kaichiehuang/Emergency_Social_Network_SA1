@@ -2,16 +2,18 @@
     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
         <div class="user-list-content main-content-block " id="user-list-content">
 
-            <ul class="list-group" id="user-list-content__list">
+            <ul class="list-group list-instructions" id="user-list-content__list">
                 <template id="onlineUserTemplate">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li class="list-group-item">
                         <span class="username"></span>
+                        <span id = "statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
                         <span class="badge progress-bar-success badge-pill">online</span>
                     </li>
                 </template>
                 <template id="offlineUserTemplate">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li class="list-group-item">
                         <span class="username"></span>
+                        <span id = "statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span> 
                         <span class="badge progress-bar-info badge-pill">offline</span>
                     </li>
                 </template>

@@ -13,7 +13,7 @@ class StatusSelection {
   }
 
 
-  updateAllUserLists (){
+  updateAllUserLists() {
     let jwt = Cookies.get('user-jwt-esn');
     $.ajax({
       url: apiPath + '/usersList/',
@@ -32,7 +32,7 @@ class StatusSelection {
   }
 
 
-  statusConfirm () {
+  statusConfirm() {
     let status = $('.modal-instructions :checked').val();
     let user_id = Cookies.get('user-id');
     let jwt = Cookies.get('user-jwt-esn');
@@ -57,6 +57,8 @@ class StatusSelection {
       Cookies.set('user-status', response.user.status);
 
 
+
+
       $.ajax({
         url: apiPath + '/usersList/',
         type: 'get',
@@ -72,6 +74,24 @@ class StatusSelection {
         console.log("complete");
       });
 
+      //change header icon for status
+      if (status === "OK") {
+        $("#statusIcon").removeClass();
+        $("#statusIcon").addClass("fa fa-check");
+      } else if (status === "HELP") {
+        $("#statusIcon").removeClass();
+        $("#statusIcon").addClass("fa fa-exclamation");
+
+      } else if (status === "EMERGENCY") {
+        $("#statusIcon").removeClass();
+        $("#statusIcon").addClass("fa fa-exclamation-triangle");
+
+      } else if (status === "UNDEFINED") {
+        $("#statusIcon").removeClass();
+        $("#statusIcon").addClass("fa fa-question");
+
+      }
+
 
 
     }).fail(function (e) {
@@ -85,14 +105,14 @@ class StatusSelection {
   }
 
 
-  showModal (){
+  showModal() {
     let newID = $(this).data('view-id');
     if (newID === "status-content") {
       // $('#status-modal').modal({ show: true });
       $('#status-modal').modal('toggle');
       let status = Cookies.get('user-status');
-      
-      $("#"+status).prop("checked", true);
+
+      $("#" + status).prop("checked", true);
     }
 
 
