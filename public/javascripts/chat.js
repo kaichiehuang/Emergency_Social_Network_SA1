@@ -6,7 +6,7 @@ $(function() {
         objDiv.scrollTop = objDiv.scrollHeight;
     });
     //
-    setOnline(true);
+    //setOnline(true);
     //TODO UI of the messsages previously sended with the information returned in the next method
     getMessages();
     $(window).on('unload', function() {
@@ -51,36 +51,36 @@ function drawMessageItem(data) {
     new_li.html(child_new);
     $('#chat').append(new_li);
 }
-/**
- * Updates de status online of the user
- * @param status
- */
-function setOnline(online_status) {
-    let user_id = Cookies.get('user-id');
-    let jwt = Cookies.get('user-jwt-esn');
-    let acknowledgement = Cookies.get('user-acknowledgement');
-    let status = Cookies.get('user-status');
-    $.ajax({
-        url: apiPath + '/users/' + user_id,
-        type: 'put',
-        data: {
-            'onLine': online_status,
-            'acknowledgement': acknowledgement,
-            'status': status,
-        },
-        headers: {
-            "Authorization": jwt
-        }
-    }).done(function(response) {
-        Cookies.set('online-status', online_status);
-        console.log(response);
-    }).fail(function(e) {
-        $("#signup-error-alert").html(e);
-        $("#signup-error-alert").show();
-    }).always(function() {
-        console.log("complete");
-    });
-}
+// /**
+//  * Updates de status online of the user
+//  * @param status
+//  */
+// function setOnline(online_status) {
+//     let user_id = Cookies.get('user-id');
+//     let jwt = Cookies.get('user-jwt-esn');
+//     let acknowledgement = Cookies.get('user-acknowledgement');
+//     let status = Cookies.get('user-status');
+//     $.ajax({
+//         url: apiPath + '/users/' + user_id,
+//         type: 'put',
+//         data: {
+//             'onLine': online_status,
+//             'acknowledgement': acknowledgement,
+//             'status': status,
+//         },
+//         headers: {
+//             "Authorization": jwt
+//         }
+//     }).done(function(response) {
+//         Cookies.set('online-status', online_status);
+//         console.log(response);
+//     }).fail(function(e) {
+//         $("#signup-error-alert").html(e);
+//         $("#signup-error-alert").show();
+//     }).always(function() {
+//         console.log("complete");
+//     });
+// }
 /**
  * Sends and saves the message the user post.
  */
