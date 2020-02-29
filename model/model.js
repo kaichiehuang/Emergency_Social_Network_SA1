@@ -14,6 +14,7 @@ const UserSchema = new Schema({
     last_name: String,
     acknowledgement: Boolean,
     onLine:Boolean,
+    status:String,
 }, schemaOptions);
 
 const ReservedNameSchema = new Schema({

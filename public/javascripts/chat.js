@@ -55,21 +55,24 @@ function drawMessageItem(data) {
  * Updates de status online of the user
  * @param status
  */
-function setOnline(status) {
+function setOnline(online_status) {
     let user_id = Cookies.get('user-id');
     let jwt = Cookies.get('user-jwt-esn');
     let acknowledgement = Cookies.get('user-acknowledgement');
+    let status = Cookies.get('user-status');
     $.ajax({
         url: apiPath + '/users/' + user_id,
         type: 'put',
         data: {
-            'onLine': status,
-            'acknowledgement': acknowledgement
+            'onLine': online_status,
+            'acknowledgement': acknowledgement,
+            'status': status,
         },
         headers: {
             "Authorization": jwt
         }
     }).done(function(response) {
+        Cookies.set('online-status', online_status);
         console.log(response);
     }).fail(function(e) {
         $("#signup-error-alert").html(e);

@@ -203,3 +203,54 @@ form {
     width: 100%;
     word-break: break-all;
 }
+
+//popup modal
+.modal-instructions {
+    width: 70%;
+    margin: auto auto;
+    padding-left: 0;
+    list-style: inside;
+    // li {
+    //     margin-bottom: 1.25rem;
+    // }
+    @include respond-to("small") {
+        width: 90%;
+    }
+    @include respond-to("extra-small") {
+        width: 90%;
+    }
+    .status-list {
+        padding: 15px 0;
+        .fake-list {
+            >div {
+                display: inline-block;
+                width: 90%;
+            }
+            >div>span {
+                @include flexbox;
+                @include align-items(center);
+                @include justify-content(flex-start);
+                @include flex-wrap(wrap);
+                width: 90%;
+                font-weight: bold;
+            }
+            span.status-list__color {
+                width: 30px;
+                height: 30px; // border-radius: 50px;
+                margin-right: 15px;
+                display: inline-block;
+                @include flexbox;
+                @include align-items(center);
+                @include justify-content(center);
+                @include flex-wrap(wrap);
+                i {
+                    color: white;
+                    font-size: 16px;
+                }
+            }
+            .radio-inline {
+                Vertical-Align: text-top;
+            }
+        }
+    }
+}
