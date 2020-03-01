@@ -11,6 +11,7 @@ var applicationRouter = require('./routes/application');
 var usersRouter = require('./routes/users');
 var tokenRouter = require('./routes/token');
 var chatMessagesRouter = require('./routes/chatMessages');
+var usersListRouter = require('./routes/usersList');
 
 
 //redirect library for https - uncomment on server
@@ -82,6 +83,7 @@ app.use('/example', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/token', tokenRouter);
 app.use('/api/chat-messages', chatMessagesRouter);
+app.use("/api/usersList",usersListRouter);
 
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
 

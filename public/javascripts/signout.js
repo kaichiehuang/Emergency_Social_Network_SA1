@@ -1,23 +1,31 @@
 $(function() {
     function signout() {
+
+        let jwt = Cookies.get('user-jwt-esn');
+
         Cookies.remove('user-jwt-esn', { path: '' });
         Cookies.remove('user-jwt-refresh-esn', { path: '' });
         Cookies.remove('user-id', { path: '' });
         Cookies.remove('user-name', { path: '' });
         Cookies.remove('user-acknowledgement', { path: '' });
-        // $.ajax({
-        //     url: apiPath + '/users/logout',
-        //     type: 'put',
-        //     headers: {"Authorization": userJWT}
-        // }).done(function(response) {
-        //     window.location.replace("/");
-        // }).fail(function() {
-        //     $("#signup-error-alert").html("asdfghjkdfghj");
-        //     $("#signup-error-alert").show();
-        //     alert("all done")
-        // }).always(function() {
-        //     console.log("sign out complete");
-        // });
+        Cookies.remove('user-status',  { path: '' });
+
+
+        $.ajax({
+            url: apiPath + '/usersList/',
+            type: 'get',
+            headers: {
+                "Authorization": jwt
+            }
+        }).done(function (response) {
+            console.log(response);
+        }).fail(function (e) {
+            $("#update-status-alert").html(e);
+            $("#update-status-alert").show();
+        }).always(function () {
+            console.log("complete");
+        });
+
         window.location.replace("/");
     }
 
