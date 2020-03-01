@@ -1,12 +1,12 @@
 <div class="row">
     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
-        <div class="public-chat-content main-content-block hidden-main-content-block" id="public-chat-content">
+        <div class="public-chat-content main-content-block hidden-main-content-block" id="<%= block_id %>-chat-content">
 
             <div class="msg_border">
                 <div class="messaging">
-                    <div class="msg_area" id="msg_area">
-                        <ul class="list-group list-group-flush" id="chat">
-                            <li id='template' class="user-post list-group-item list-group-item-action flex-column align-items-center hide">
+                    <div class="msg_area" id="<%= block_id %>-msg_area">
+                        <ul class="list-group list-group-flush" id="<%= block_id %>-chat">
+                            <li id='<%= block_id %>-template' class="user-post list-group-item list-group-item-action flex-column align-items-center hide">
                                 <div class="msg_metadata">
                                     <span class="statusIndicator"> &nbsp;  </span>
                                     <small class="username"> %username_token% </small>
@@ -19,12 +19,12 @@
                         </ul>
                     </div>
                     <div class="type_area">
-                        <form id="msg-form" action="">
+                        <form id="<%= block_id %>-msg-form" action="">
                             <div class="input-group">
                                 <input type="text" autocomplete="off" class="form-control" placeholder="Type your message here"
-                                aria-label="Recipient's username" aria-describedby="basic-addon2"  id="send-message-content"/>
+                                aria-label="Recipient's username" aria-describedby="basic-addon2"  id="<%= block_id %>-send-message-content"/>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="button" id="send-btn"><span class="glyphicon glyphicon-send"
+                                    <button class="btn btn-primary" type="button" id="<%= block_id %>-send-btn"><span class="glyphicon glyphicon-send"
                                         aria-hidden="true">
                                     </span>&nbsp;&nbsp;Send</button>
                                 </span>
