@@ -32,8 +32,25 @@ class User {
                     template = offlineTemplate.content.cloneNode(true);
                 }
 
+
                 if (template != undefined && template != null && user != undefined) {
                     template.querySelector('.username').innerText = user.username;
+                    
+                    
+                    if (user.status === "OK") {
+                        template.querySelector("#statusSpan").classList.add("background-color-ok");
+                        template.querySelector("#iconStatus").classList.add("fa-check");
+                    } else if (user.status === "HELP") {
+                        template.querySelector("#statusSpan").classList.add("background-color-help");
+                        template.querySelector("#iconStatus").classList.add("fa-exclamation");
+                    } else if (user.status === "EMERGENCY") {
+                        template.querySelector("#statusSpan").classList.add("background-color-emergency");
+                        template.querySelector("#iconStatus").classList.add("fa-exclamation-triangle");
+                    } else if (user.status === "UNDEFINED") {
+                        template.querySelector("#statusSpan").classList.add("background-color-undefined");
+                        template.querySelector("#iconStatus").classList.add("fa-question");
+                    } 
+
 
                     listContainer.appendChild(template);
                 }
@@ -69,10 +86,25 @@ class User {
  * @return {[type]}   [description]
  */
 $(function() {
+
+    const socket = io('http://localhost:3000');
+
+    //Initial call to get the user list after login
     User.getUsers().then(users => {
         User.drawUsers(users, "user-list-content__list")
     }).catch(err => {});
 
+
+
+    //Socket IO implementation to update user list on every change of users data.
+    socket.on("user-list-update", () => {
+        User.getUsers().then(users => {
+            User.drawUsers(users, "user-list-content__list")
+        }).catch(err => {});
+    });
+
+
+    //Click event, to update user list when the user switch between views
     $(".content-changer").click(function(event) {
         event.preventDefault();
         let newID = $(this).data('view-id');
