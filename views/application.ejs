@@ -17,6 +17,11 @@
         <!-- Page content goes here -->
 
         <div class="container">
+            <% var block_id= 'public'; %>
+            <% include partials/public_chat_content %>
+        </div>
+        <div class="container">
+            <% var block_id= 'private'; %>
             <% include partials/public_chat_content %>
         </div>
         <div class="container">
