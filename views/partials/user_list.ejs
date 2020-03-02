@@ -4,17 +4,33 @@
 
             <ul class="list-group list-instructions" id="user-list-content__list">
                 <template id="onlineUserTemplate">
-                    <li class="list-group-item">
-                        <span class="username"></span>
-                        <span id = "statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
-                        <span class="badge progress-bar-success badge-pill">online</span>
+                    <li class="list-group-item" >
+                        <div class="list-group-item__left">
+                            <span class="username"></span>
+                            <span id = "statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
+                        </div>
+                        <div class="list-group-item__right">
+                            <a class="chat-button chat-button-alert">
+                                <span class="message-counter">23</span> 
+                                <span class="fa fa-comment"></span> 
+                            </a>
+                            <span class="badge progress-bar-success badge-pill">online</span>
+                        </div>
                     </li>
                 </template>
                 <template id="offlineUserTemplate">
                     <li class="list-group-item">
-                        <span class="username"></span>
-                        <span id = "statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span> 
-                        <span class="badge progress-bar-info badge-pill">offline</span>
+                        <div class="list-group-item__left">
+                            <span class="username"></span>
+                            <span id = "statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
+                        </div>
+                        <div class="list-group-item__right">
+                            <a href="" class="chat-button">
+                                <span class="message-counter">13</span>
+                                <span class="fa fa-comment"></span>
+                            </a>
+                            <span class="badge progress-bar-info badge-pill">offline</span>
+                        </div>
                     </li>
                 </template>
             </ul>

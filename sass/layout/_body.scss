@@ -287,3 +287,41 @@ form {
         }
     }
 }
+
+.user-list-content {
+    .list-group-item{
+        @include flexbox;
+        @include align-items(center);
+        @include justify-content(space-between);
+        .list-group-item__left {
+            @include flexbox;
+            @include align-items(center);
+            @include justify-content(flex-start);
+        }
+        .list-group-item__right {
+            @include flexbox;
+            @include align-items(center);
+            @include justify-content(flex-end);
+            .badge{
+                margin-left: 15px;
+            }
+            .chat-button {
+                @include flexbox;
+                @include align-items(center);
+                text-decoration: none;
+                font-size: 22px;
+                color: #aaaaaa;
+                &:hover {
+                    color: #F7241D;
+                }
+                &.chat-button-alert {
+                    color: #F58225;
+                }
+                .message-counter {
+                    margin-right: 5px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
