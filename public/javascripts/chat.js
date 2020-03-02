@@ -1,24 +1,28 @@
-var objDiv = document.getElementById('msg_area');
+var public_wall_container = document.getElementById('public-msg_area');
 $(function() {
     const socket = io('http://localhost:3000');
     socket.on("new-chat-message", data => {
-        drawMessageItem(data);
-        objDiv.scrollTop = objDiv.scrollHeight;
+        drawMessageItem(data, 'public');
+        public_wall_container.scrollTop = public_wall_container.scrollHeight;
     });
-    //
-    //setOnline(true);
-    //TODO UI of the messsages previously sended with the information returned in the next method
-    getMessages();
+    getMessages('public');
     $(window).on('unload', function() {
         setOnline(false);
     });
     /****** events declaration ********/
-    $('#send-btn').click(function(e) {
-        sendMessage();
+    $('#public-send-btn').click(function(e) {
+        sendMessage('public');
     });
-    $("#msg-form").on("submit", function(e) {
+    $("#public-msg-form").on("submit", function(e) {
         e.preventDefault();
-        sendMessage();
+        sendMessage('public');
+    });
+    $('#private-send-btn').click(function(e) {
+        sendMessage('private');
+    });
+    $("#private-msg-form").on("submit", function(e) {
+        e.preventDefault();
+        sendMessage('private');
     });
 
     //capture event to load messages
@@ -26,14 +30,14 @@ $(function() {
         event.preventDefault();
         let newID = $(this).data('view-id');
         if (newID === "public-chat-content") {
-            objDiv.scrollTop = objDiv.scrollHeight;
+            public_wall_container.scrollTop = public_wall_container.scrollHeight;
         }
     });
 });
 
-function drawMessageItem(data) {
-    let list_length = $('ul#chat li').length;
-    let new_li = $('ul#chat li#template').clone();
+function drawMessageItem(data, type) {
+    let list_length = $('ul#' + type + '-chat li').length;
+    let new_li = $('ul#' + type + '-chat li#' + type + '-template').clone();
     let class_ori = new_li.attr("class");
     class_ori = class_ori.replace(' hide', '');
     if (list_length % 2 == 1) {
@@ -49,56 +53,33 @@ function drawMessageItem(data) {
     let child = new_li.html();
     let child_new = child.replace('%username_token%', data.user_id.username).replace('%timestamp_token%', new Date(data.created_at).toLocaleString()).replace('%message_token%', data.message);
     new_li.html(child_new);
-    $('#chat').append(new_li);
+    $('#' + type + '-chat').append(new_li);
 }
-// /**
-//  * Updates de status online of the user
-//  * @param status
-//  */
-// function setOnline(online_status) {
-//     let user_id = Cookies.get('user-id');
-//     let jwt = Cookies.get('user-jwt-esn');
-//     let acknowledgement = Cookies.get('user-acknowledgement');
-//     let status = Cookies.get('user-status');
-//     $.ajax({
-//         url: apiPath + '/users/' + user_id,
-//         type: 'put',
-//         data: {
-//             'onLine': online_status,
-//             'acknowledgement': acknowledgement,
-//             'status': status,
-//         },
-//         headers: {
-//             "Authorization": jwt
-//         }
-//     }).done(function(response) {
-//         Cookies.set('online-status', online_status);
-//         console.log(response);
-//     }).fail(function(e) {
-//         $("#signup-error-alert").html(e);
-//         $("#signup-error-alert").show();
-//     }).always(function() {
-//         console.log("complete");
-//     });
-// }
+
 /**
  * Sends and saves the message the user post.
  */
-function sendMessage() {
+function sendMessage(type) {
     let user_id = Cookies.get('user-id');
     let jwt = Cookies.get('user-jwt-esn');
+    let url = apiPath + '/chat-messages';
+    let message_content = '#public-send-message-content';
+    if (type === 'private') {
+        url = apiPath + '/private-chat-messages';
+        message_content = '#private-send-message-content';
+    }
     $.ajax({
-        url: apiPath + '/chat-messages',
+        url: url,
         type: 'post',
         data: {
-            'message': $("#send-message-content").val(),
+            'message': $(message_content).val(),
             "user_id": user_id
         },
         headers: {
             "Authorization": jwt
         }
     }).done(function(response) {
-        $("#send-message-content").val("");
+        $(message_content).val("");
         console.log(response);
     }).fail(function(e) {
         $("#signup-error-alert").html(e);
@@ -112,10 +93,14 @@ function sendMessage() {
  * Get all the messages prevoisly posted
  * (messages saved on the db)
  */
-function getMessages() {
+function getMessages(type) {
     let jwt = Cookies.get('user-jwt-esn');
+    let url = apiPath + '/chat-messages';
+    if (type === 'private') {
+        url = apiPath + '/private-chat-messages';
+    }
     $.ajax({
-        url: apiPath + '/chat-messages',
+        url: url,
         type: 'get',
         headers: {
             "Authorization": jwt
@@ -123,9 +108,9 @@ function getMessages() {
     }).done(function(response) {
         //console.log(response);
         response.forEach(element => {
-            drawMessageItem(element);
+            drawMessageItem(element, type);
         });
-        objDiv.scrollTop = objDiv.scrollHeight;
+        public_wall_container.scrollTop = public_wall_container.scrollHeight;
     }).fail(function(e) {
         $("#signup-error-alert").html(e);
         $("#signup-error-alert").show();
