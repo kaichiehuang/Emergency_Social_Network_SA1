@@ -32,14 +32,27 @@ const ChatMessageSchema = new Schema({
     status: String
 }, schemaOptions);
 
+const PrivateChatMessageSchema = new Schema({
+    sender_user_id: { type: Schema.Types.ObjectId, ref: 'User' },
+    receiver_user_id: { type: Schema.Types.ObjectId, ref: 'User' },
+    message: String,
+    seen_by_receiver: {
+        type: Boolean,
+        default: 0
+    },
+    status: String,
+}, schemaOptions);
+
 const User = mongoose.model('User', UserSchema );
 const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema );
 const User_socket = mongoose.model("User_socket",UserSocketSchema);
 const ChatMessages = mongoose.model('Chat_Messages', ChatMessageSchema );
+const PrivateChatMessages = mongoose.model('Private_Chat_Messages', PrivateChatMessageSchema );
 
 module.exports = {
     UserMongo: User,
     ReservedNamesMongo: Reserved_names,
     UserSocketMongo: User_socket,
-    ChatMessagesMongo: ChatMessages
+    ChatMessagesMongo: ChatMessages,
+    PrivateChatMessagesMongo: PrivateChatMessages
 }

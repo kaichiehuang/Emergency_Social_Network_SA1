@@ -46,7 +46,6 @@ $(function() {
     else {
 
         //TODO test if cookie is expired
-
         user_id = Cookies.get('user-id');
         user_name = Cookies.get('username');
         user_acknowledgement = Cookies.get('user-acknowledgement');
@@ -60,3 +59,36 @@ $(function() {
         console.log("found cookie = " + userJWT)
     }
 });
+
+/**
+ * Updates de status online of the user
+ * @param status
+ */
+function setOnline(online_status, socketId) {
+    let user_id = Cookies.get('user-id');
+    let jwt = Cookies.get('user-jwt-esn');
+    let acknowledgement = Cookies.get('user-acknowledgement');
+    let status = Cookies.get('user-status');
+
+    $.ajax({
+        url: apiPath + '/users/' + user_id,
+        type: 'put',
+        data: {
+            'onLine': online_status,
+            'acknowledgement': acknowledgement,
+            'status': status,
+            'socketId': socketId
+        },
+        headers: {
+            "Authorization": jwt
+        }
+    }).done(function(response) {
+        Cookies.set('online-status', online_status);
+        console.log(response);
+    }).fail(function(e) {
+        $("#signup-error-alert").html(e);
+        $("#signup-error-alert").show();
+    }).always(function() {
+        console.log("complete");
+    });
+}
