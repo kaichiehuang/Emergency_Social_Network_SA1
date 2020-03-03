@@ -1,46 +1,65 @@
 var public_wall_container = document.getElementById('public-msg_area');
+
 $(function() {
     const socket = io('http://localhost:3000');
+    let socketSynced = false;
 
-    //
-    socket.on("connect", data => {
-        setOnline(true, socket.sessionid);
-    });
-    socket.on("disconnect", data => {
-        setOnline(false, socket.sessionid);
+    socket.on('connect', data => {
+        let oldSocketId = Cookies.get('user-socket-id');
+        // delete old socket from db
+        if (oldSocketId != undefined && oldSocketId != '') {
+            if (oldSocketId !== socket.id) {
+                syncSocketId(oldSocketId, true);
+            }
+        }
+        // register new socket in db
+        syncSocketId(socket.id, false);
+        //store new socket on cookie for future reference
+        Cookies.set('user-socket-id', socket.id);
     });
 
     // listen for public chat events
-    socket.on("new-chat-message", data => {
+    socket.on('new-chat-message', data => {
         drawMessageItem(data, 'public');
         public_wall_container.scrollTop = public_wall_container.scrollHeight;
     });
     getMessages('public');
+
+    /**
+     * on window unload
+     * @param  {[type]} ) {                   let oldSocketId [description]
+     * @return {[type]}   [description]
+     */
     $(window).on('unload', function() {
+        let oldSocketId = Cookies.get('user-socket-id');
+        Cookies.set('user-socket-id', "");
+        syncSocketId(oldSocketId, true);
         setOnline(false);
     });
+
     /****** events declaration ********/
     $('#public-send-btn').click(function(e) {
         sendMessage('public');
     });
-    $("#public-msg-form").on("submit", function(e) {
+    $('#public-msg-form').on('submit', function(e) {
         e.preventDefault();
         sendMessage('public');
     });
     $('#private-send-btn').click(function(e) {
         sendMessage('private');
     });
-    $("#private-msg-form").on("submit", function(e) {
+    $('#private-msg-form').on('submit', function(e) {
         e.preventDefault();
         sendMessage('private');
     });
 
     //capture event to load messages
-    $(".content-changer").click(function(event) {
+    $('.content-changer').click(function(event) {
         event.preventDefault();
         let newID = $(this).data('view-id');
-        if (newID === "public-chat-content") {
-            public_wall_container.scrollTop = public_wall_container.scrollHeight;
+        if (newID === 'public-chat-content') {
+            public_wall_container.scrollTop =
+                public_wall_container.scrollHeight;
         }
     });
 });
@@ -48,20 +67,26 @@ $(function() {
 function drawMessageItem(data, type) {
     let list_length = $('ul#' + type + '-chat li').length;
     let new_li = $('ul#' + type + '-chat li#' + type + '-template').clone();
-    let class_ori = new_li.attr("class");
+    let class_ori = new_li.attr('class');
     class_ori = class_ori.replace(' hide', '');
     if (list_length % 2 == 1) {
-        new_li.attr("class", class_ori + ' user-post-odd');
+        new_li.attr('class', class_ori + ' user-post-odd');
     } else {
-        new_li.attr("class", class_ori + ' user-post-even');
+        new_li.attr('class', class_ori + ' user-post-even');
     }
     let user_id = Cookies.get('user-id');
     if (user_id === data.user_id._id) {
-        new_li.attr("class", new_li.attr("class") + ' user-post-current');
+        new_li.attr('class', new_li.attr('class') + ' user-post-current');
     }
     new_li.removeAttr('id');
     let child = new_li.html();
-    let child_new = child.replace('%username_token%', data.user_id.username).replace('%timestamp_token%', new Date(data.created_at).toLocaleString()).replace('%message_token%', data.message);
+    let child_new = child
+        .replace('%username_token%', data.user_id.username)
+        .replace(
+            '%timestamp_token%',
+            new Date(data.created_at).toLocaleString()
+        )
+        .replace('%message_token%', data.message);
     new_li.html(child_new);
     $('#' + type + '-chat').append(new_li);
 }
@@ -82,22 +107,24 @@ function sendMessage(type) {
         url: url,
         type: 'post',
         data: {
-            'message': $(message_content).val(),
-            "user_id": user_id
+            message: $(message_content).val(),
+            user_id: user_id
         },
         headers: {
-            "Authorization": jwt
+            Authorization: jwt
         }
-    }).done(function(response) {
-        $(message_content).val("");
-        console.log(response);
-    }).fail(function(e) {
-        $("#signup-error-alert").html(e);
-        $("#signup-error-alert").show();
-        alert(e);
-    }).always(function() {
-        console.log("complete");
-    });
+    })
+        .done(function(response) {
+            $(message_content).val('');
+            console.log(response);
+        })
+        .fail(function(e) {
+            $('#signup-error-alert').html(e);
+            $('#signup-error-alert').show();
+        })
+        .always(function() {
+            console.log('complete');
+        });
 }
 /**
  * Get all the messages prevoisly posted
@@ -113,19 +140,22 @@ function getMessages(type) {
         url: url,
         type: 'get',
         headers: {
-            "Authorization": jwt
+            Authorization: jwt
         }
-    }).done(function(response) {
-        //console.log(response);
-        response.forEach(element => {
-            drawMessageItem(element, type);
+    })
+        .done(function(response) {
+            //console.log(response);
+            response.forEach(element => {
+                drawMessageItem(element, type);
+            });
+            public_wall_container.scrollTop =
+                public_wall_container.scrollHeight;
+        })
+        .fail(function(e) {
+            $('#signup-error-alert').html(e);
+            $('#signup-error-alert').show();
+        })
+        .always(function() {
+            console.log('complete');
         });
-        public_wall_container.scrollTop = public_wall_container.scrollHeight;
-    }).fail(function(e) {
-        $("#signup-error-alert").html(e);
-        $("#signup-error-alert").show();
-        alert(e);
-    }).always(function() {
-        console.log("complete");
-    });
 }

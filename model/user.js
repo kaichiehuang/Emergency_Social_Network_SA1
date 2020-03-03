@@ -4,8 +4,6 @@ const bcrypt = require('bcrypt');
 const blacklist = require('the-big-username-blacklist');
 const tokenMiddleWare = require('../middleware/tokenServer');
 const constants = require('../constants');
-
-
 class User {
     constructor(username, password, name, last_name) {
         this._id = null;
@@ -108,7 +106,7 @@ class User {
             last_name: this.last_name,
             acknowledgement: false,
             onLine: false,
-            status: constants.UNDEFINED_STATUS,
+            status: constants.UNDEFINED_STATUS
         });
         return newUser.save();
     }
@@ -130,7 +128,6 @@ class User {
             new: true
         });
     }
-
     /**
      * Finds a user by username
      * @param  {[type]} userId [description]
@@ -197,11 +194,10 @@ class User {
      * @return {[type]} [description]
      */
     generateTokens() {
-        console.log("into token generate");
+        console.log('into token generate');
         return new Promise((resolve, reject) => {
             let token = '';
-            tokenMiddleWare.generateToken(this._id, false)
-            .then(generatedToken => {
+            tokenMiddleWare.generateToken(this._id, false).then(generatedToken => {
                 token = generatedToken;
                 return tokenMiddleWare.generateToken(this._id, true);
             }).then(genRefToken => {
@@ -215,59 +211,111 @@ class User {
             });
         });
     }
-
-  /**
-   * username exists / true or false
-   * @return {[type]} [description]
-   */
-  userExist(id) {
-    return new Promise((resolve, reject) => {
-      this.findUserById(id).then(result => {
-        if (result.id == id) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
-      }).catch(err => {
-        reject(err);
-      });
-    });
-    // console.log("before calling findbyId");
-    // let userInfo = await UserModel.findById(userId);
-    // return userInfo._id;
-  };
-
-  /**
-   * Finds a user by username
-   * @param  {[type]} userId [description]
-   * @return {[type]}        [description]
-   */
-  static findUserById(id) {
-    console.log(id);
-    return new Promise((resolve, reject) => {
-      console.log(id);
-      UserModel.findOne({
-        "_id": id
-      }).exec().then(user => {
-        resolve(user);
-      }).catch(err => {
-        reject(err);
-      });
-    });
-  }
-
-
-    getUsers(){
+    /**
+     * username exists / true or false
+     * @return {[type]} [description]
+     */
+    userExist(id) {
         return new Promise((resolve, reject) => {
-            UserModel.find({}).select("username onLine status")
-                .sort({"onLine":-1,"username":"asc"})
-                .then(users => {
-                    resolve(users);
-                }).catch(err => {
+            this.findUserById(id).then(result => {
+                if (result.id == id) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            }).catch(err => {
+                reject(err);
+            });
+        });
+        // console.log("before calling findbyId");
+        // let userInfo = await UserModel.findById(userId);
+        // return userInfo._id;
+    }
+    /**
+     * Finds a user by username
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
+    static findUserById(id) {
+        console.log(id);
+        return new Promise((resolve, reject) => {
+            console.log(id);
+            UserModel.findOne({
+                _id: id
+            }).exec().then(user => {
+                resolve(user);
+            }).catch(err => {
                 reject(err);
             });
         });
     }
-
+    /**
+     * [getUsers description]
+     * @return {[type]} [description]
+     */
+    getUsers() {
+        return new Promise((resolve, reject) => {
+            UserModel.find({}).select('username onLine status').sort({
+                onLine: -1,
+                username: 'asc'
+            }).then(users => {
+                resolve(users);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
+    /**
+     * Inserts a socket to the sockets map attribute
+     * @param  {[type]} userId   [description]
+     * @param  {[type]} socketId [description]
+     * @return {[type]}          [description]
+     */
+    static insertSocket(userId, socketId) {
+        return new Promise((resolve, reject) => {
+            User.findUserById(userId).then(user => {
+                if (user.sockets == undefined) {
+                    user.sockets = {};
+                }
+                return user.save();
+            }).then(user => {
+                if (user.sockets.has(socketId) == false) {
+                    user.sockets.set(socketId, 1);
+                }
+                return user.save();
+            }).then(user => {
+                resolve(user);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
+    /**
+     * Removes a socket from the sockets map attribute
+     * @param  {[type]} userId   [description]
+     * @param  {[type]} socketId [description]
+     * @return {[type]}          [description]
+     */
+    static removeSocket(userId, socketId) {
+        return new Promise((resolve, reject) => {
+            User.findUserById(userId).then(user => {
+                if (user.sockets == undefined) {
+                    user.sockets = {};
+                }
+                return user.save();
+            }).then(user => {
+                if (user.sockets.has(socketId)) {
+                    user.sockets.delete(socketId);
+                }else{
+                    reject("Socket does not exist");
+                }
+                return user.save();
+            }).then(user => {
+                resolve(user);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
 }
 module.exports = User;
