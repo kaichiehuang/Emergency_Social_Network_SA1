@@ -63,9 +63,6 @@ $(function () {
                 } else {
                     swapContent("acknowledgement-page-content");
                 }
-
-
-
             }
             console.log(response)
             $("#signup-error-alert").hide();
@@ -129,35 +126,3 @@ $(function () {
     });
 });
 
-
-
-/**
- * Updates de status online of the user
- * @param status
- */
-function setOnline(online_status) {
-    let user_id = Cookies.get('user-id');
-    let jwt = Cookies.get('user-jwt-esn');
-    let acknowledgement = Cookies.get('user-acknowledgement');
-    let status = Cookies.get('user-status');
-    $.ajax({
-        url: apiPath + '/users/' + user_id,
-        type: 'put',
-        data: {
-            'onLine': online_status,
-            'acknowledgement': acknowledgement,
-            'status': status,
-        },
-        headers: {
-            "Authorization": jwt
-        }
-    }).done(function(response) {
-        Cookies.set('online-status', online_status);
-        console.log(response);
-    }).fail(function(e) {
-        $("#signup-error-alert").html(e);
-        $("#signup-error-alert").show();
-    }).always(function() {
-        console.log("complete");
-    });
-}

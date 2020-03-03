@@ -1,6 +1,16 @@
 var public_wall_container = document.getElementById('public-msg_area');
 $(function() {
     const socket = io('http://localhost:3000');
+
+    //
+    socket.on("connect", data => {
+        setOnline(true, socket.sessionid);
+    });
+    socket.on("disconnect", data => {
+        setOnline(false, socket.sessionid);
+    });
+
+    // listen for public chat events
     socket.on("new-chat-message", data => {
         drawMessageItem(data, 'public');
         public_wall_container.scrollTop = public_wall_container.scrollHeight;
