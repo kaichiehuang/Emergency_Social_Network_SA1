@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var compression = require('compression')
+var compression = require('compression');
 var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var registrationRouter = require('./routes/registration');
@@ -14,7 +14,6 @@ var chatMessagesRouter = require('./routes/chatMessages');
 var privateChatMessagesRouter = require('./routes/privateChatMessages');
 var usersListRouter = require('./routes/usersList');
 
-
 //redirect library for https - uncomment on server
 // var httpsRedirectTool = require('express-http-to-https').redirectToHTTPS
 
@@ -24,44 +23,56 @@ var app = express();
 
 // https redirect uncomment on server
 // app.use(httpsRedirectTool([], [], 301));
-let serverType  = "http";
+let serverType = 'http';
 let http = null;
 let https = null;
 let server = null;
-if(serverType == "http"){
-  http = require('http');
-}else{
-  https = require('https');
+if (serverType == 'http') {
+    http = require('http');
+} else {
+    https = require('https');
 }
 
-if(serverType == "http"){
+if (serverType == 'http') {
+    /**
+     * Create HTTP server.
+     */
+    server = http.createServer(app);
+} else {
+    /**
+     * Create HTTPS server.
+     */
+    const options = {
+        key: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.pem'),
+        cert: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.crt')
+    };
 
-  /**
-   * Create HTTP server.
-   */
-  server = http.createServer(app);
-}else{
-  /**
-   * Create HTTPS server.
-   */
-  const options = {
-    key: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.pem'),
-    cert: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.crt'),
-  }
-
-  server = https.createServer(options,app);
+    server = https.createServer(options, app);
 }
 
 server = require('http').Server(app);
 var io = require('socket.io')(server);
+var count = 0;
+io.sockets.on('connection', function(socket) {
+    count++;
+    io.sockets.emit('count', {
+        number: count
+    });
+
+    socket.on('disconnect', function() {
+        console.log('DISCONNESSO!!! ', socket.id);
+        count--;
+        io.sockets.emit('count', {
+            number: count
+        });
+    });
+});
 
 //add socket io to our response as a middleware
 app.use(function(req, res, next) {
     res.io = io;
     next();
 });
-
-
 
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -85,9 +96,12 @@ app.use('/api/users', usersRouter);
 app.use('/api/token', tokenRouter);
 app.use('/api/chat-messages', chatMessagesRouter);
 app.use('/api/private-chat-messages', privateChatMessagesRouter);
-app.use("/api/usersList",usersListRouter);
+app.use('/api/usersList', usersListRouter);
 
-app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
+app.use(
+    '/bootstrap',
+    express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets'))
+);
 
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
@@ -101,19 +115,15 @@ app.get('*', (req, res, next) => {
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 app.disable('etag');
 
-
-
 module.exports = { app: app, server: server };
-
-
