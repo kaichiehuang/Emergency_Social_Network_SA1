@@ -58,10 +58,10 @@ class User {
                     if (bcrypt.compareSync(this.password, userFind[0].password)) {
                         resolve(userFind[0]);
                     } else {
-                        reject('password/username not matched ');
+                        reject('Invalid username / password.');
                     }
                 } else {
-                    reject('password/username not matched ');
+                    reject('Invalid username / password.');
                 }
             }).catch(err => reject(err));
         });
@@ -74,7 +74,7 @@ class User {
     validateUserName() {
         return new Promise((resolve, reject) => {
             if (this.username.length < 3) {
-                reject('Invalid username, please enter a longer username');
+                reject('Invalid username, please enter a longer username (min 3 characters)');
             }
             resolve(true);
         });
@@ -87,7 +87,7 @@ class User {
     validatePassword() {
         return new Promise((resolve, reject) => {
             if (this.password.length < 4) {
-                reject('pwd is too short');
+                reject('Invalid password, please enter a longer username (min 4 characters)');
             } else {
                 resolve(true);
             }
@@ -194,7 +194,6 @@ class User {
      * @return {[type]} [description]
      */
     generateTokens() {
-        console.log('into token generate');
         return new Promise((resolve, reject) => {
             let token = '';
             tokenMiddleWare.generateToken(this._id, false).then(generatedToken => {
