@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const database = require('./database');
 const Schema = mongoose.Schema;
 
 const schemaOptions = {
