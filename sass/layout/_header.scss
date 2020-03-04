@@ -1,5 +1,9 @@
 .header {
+    * {
+        transition: all 0.4s ease !important; // @include transition(.6s ease-in-out left);
+    }
     border: none;
+    border-bottom: 1px solid #ccc;
     .navbar {
         margin-bottom: 0;
     } // padding-top: 15px;
@@ -72,7 +76,7 @@
     &.header-loggedin {
         margin-bottom: 0;
         padding-top: 0px;
-        border-top: 1px solid $brand_color2;
+        border-top: 1.5px solid $brand_color2;
         background: $brand_color1;
         .logo {
             width: 40px;
@@ -89,26 +93,36 @@
             @include reset-margin-padding;
             list-style: none;
             @include flexbox;
-            @include align-items(center);
+            @include align-items(stretch);
             @include justify-content(space-between);
+            min-height: 90px;
             li {
+                @include flexbox;
+                @include align-items(stretch);
                 @include reset-margin-padding;
                 width: 25%;
+                min-height: 90px;
                 a {
                     display: block;
                     color: white;
-                    padding: 10px 15px;
+                    padding: 15px 15px;
                     text-align: center;
                     width: 100%;
+                    height: 100%;
                     text-decoration: none;
                     border-left: 1px solid rgba(#fff, 0.35);
+                    @include flexbox;
+                    @include justify-content(center);
+                    @include flex-wrap(wrap);
+                    @include align-items(stretch);
                     span {
                         color: rgba(#fff, 0.9);
-                        font-size: 1rem;
+                        font-size: 1.0rem;
                     }
                     i {
                         font-size: 27.5px;
                         display: block;
+                        width: 100%;
                     }
                     &:hover {
                         cursor: pointer;
@@ -117,8 +131,26 @@
                         }
                     }
                     &.active {
-                        i {
+                        background: #eee;
+                        i, span {
                             color: rgba($brand_color2, 0.9);
+                            color: $brand_color1;
+                            font-weight: bold;
+                        }
+                        i {
+                            font-size: 35px;
+                            margin-bottom: 4px;
+                        }
+                        span {
+                            font-size: 1.1rem !important;
+                        }
+                    }
+                }
+                &:hover {
+                    a {
+                        background: #eee;
+                        i, span {
+                            color: $brand_color1;
                         }
                     }
                 }
