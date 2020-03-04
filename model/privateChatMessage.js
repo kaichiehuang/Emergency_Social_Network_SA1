@@ -47,7 +47,8 @@ class PrivateChatMessage {
                 ]
             })
             .populate("sender_user_id", ["_id", "username"]).populate("receiver_user_id", ["_id", "username"])
-            .then(results => {
+            //FIXME sort it by time
+                .then(results => {
                 resolve(results);
             }).catch(function(err) {
                 console.log("getChatMessages private error: " + err);
