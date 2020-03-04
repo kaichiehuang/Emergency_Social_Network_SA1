@@ -25,26 +25,32 @@ describe("principal", () => {
 
   describe("Getting Messages", () => {
 
-    let messsageId;
-    beforeEach(async () => {
-      let chatMessage = new PrivateChatMessage("This a test message", '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439011');
-      await chatMessage.createNewMessage().then(msg => {
-        console.log('messsage:' + msg);
-        messsageId = msg;
-
-      });
-    })
+    // let messsageId;
+    // beforeEach(async () => {
+    //   let chatMessage = new PrivateChatMessage("This a test message", '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439011');
+    //   await chatMessage.createNewMessage().then(msg => {
+    //     console.log('messsage:' + msg);
+    //     messsageId = msg;
+    //     return
+    //   });
+    // })
 
     test("getting private  messages from  the database", async () => {
-      let chatMessage = new PrivateChatMessage();
-      await chatMessage.getChatMessages(messsageId.sender_user_id, messsageId.receiver_user_id).then(msg => {
-        console.log('msg' + msg);
-        expect(String(msg[0]._id)).toBe(String(messsageId._id));
+      let chatMessage = new PrivateChatMessage("This a test message", '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439012');
+      await chatMessage.createNewMessage().then(async msg => {
+        console.log('messsage:' + msg);
+        let messsageId = msg;
+        await chatMessage.getChatMessages(messsageId.sender_user_id, messsageId.receiver_user_id).then(async msg => {
+          console.log('msg' + msg);
+          console.log("previos:" + messsageId)
+          return expect(String(msg[0]._id)).toBe(String(messsageId._id));
+        });
       });
+
     })
 
     afterAll(async () => {
-      await mongoose.connection.db.dropDatabase();
+      return await mongoose.connection.db.dropDatabase();
     });
 
   })

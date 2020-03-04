@@ -39,6 +39,7 @@ const UserSchema = new Schema(
         acknowledgement: Boolean,
         onLine: Boolean,
         status: String,
+        status_timestamp: Date,
         sockets: {
             type: Map,
             of: Boolean
@@ -55,13 +56,6 @@ const ReservedNameSchema = new Schema({
     name: String
 });
 
-// const UserSocketSchema = new Schema(
-//     {
-//         user_id: String,
-//         socket_id: String
-//     },
-//     schemaOptions
-// );
 
 const ChatMessageSchema = new Schema(
     {
