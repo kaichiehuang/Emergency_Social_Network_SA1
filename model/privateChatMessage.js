@@ -44,7 +44,10 @@ class PrivateChatMessage{
                     reject(err);
                 });
         });
-
     }
+
+    emitMessageToUsersInvolver(senderUser, receiverUser){
+    }
+
 }
 module.exports = PrivateChatMessage;
