@@ -15,6 +15,7 @@ class User {
         this.onLine = false;
         this.status = constants.UNDEFINED_STATUS;
     }
+
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
@@ -66,6 +67,7 @@ class User {
             }).catch(err => reject(err));
         });
     }
+
     //VALIDATE USER NAMES LENGTH
     /**
      * [validateUserName description]
@@ -226,9 +228,6 @@ class User {
                 reject(err);
             });
         });
-        // console.log("before calling findbyId");
-        // let userInfo = await UserModel.findById(userId);
-        // return userInfo._id;
     }
     /**
      * Finds a user by username
@@ -252,7 +251,7 @@ class User {
      * [getUsers description]
      * @return {[type]} [description]
      */
-    getUsers() {
+    static getUsers() {
         return new Promise((resolve, reject) => {
             UserModel.find({}).select('username onLine status').sort({
                 onLine: -1,
@@ -307,6 +306,41 @@ class User {
                     user.sockets.delete(socketId);
                 }else{
                     reject("Socket does not exist");
+                }
+                return user.save();
+            }).then(user => {
+                resolve(user);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
+
+    /**
+     * [changeMessageCount description]
+     * @param  {[type]} senderUserId   [description]
+     * @param  {[type]} receiverUserId [description]
+     * @param  {[type]} increaseCount  [description]
+     * @return {[type]}                [description]
+     */
+    static changeMessageCount(senderUserId, receiverUserId, increaseCount) {
+        return new Promise((resolve, reject) => {
+            User.findUserById(receiverUserId).then(user => {
+                if (user.unread_messages == undefined) {
+                    user.unread_messages = {};
+                }
+                return user.save();
+            }).then(user => {
+                if (user.unread_messages.has(senderUserId) == false) {
+                    user.unread_messages.set(senderUserId, 1);
+                }else{
+                    let count = user.unread_messages.get(senderUserId);
+                    if(increaseCount){
+                        count++;
+                    }else{
+                        count = 0;
+                    }
+                    user.unread_messages.set(senderUserId, count);
                 }
                 return user.save();
             }).then(user => {

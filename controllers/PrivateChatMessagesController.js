@@ -51,7 +51,10 @@ class PrivateChatMessagesController {
             PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, senderUser.sockets, res, senderUser, receiverUser);
             PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, receiverUser.sockets, res, senderUser, receiverUser);
 
-            //8. return a response
+            //8. update message count for receiver
+            User.changeMessageCount(sender_user_id, receiver_user_id, true);
+
+            //9. return a response
             return res.status(201).send(JSON.stringify({
                 result: 'private chat message created',
                 data: {
@@ -94,6 +97,8 @@ class PrivateChatMessagesController {
 
         let privateChatMessage = new PrivateChatMessage();
         privateChatMessage.getChatMessages(requestData['sender_user_id'], requestData['receiver_user_id']).then(result => {
+            //reset counter for user and messages received from user with id receiver_user_id
+            User.changeMessageCount(requestData['receiver_user_id'], requestData['sender_user_id']);
             res.contentType('application/json');
             res.status(201).send(JSON.stringify(result));
         }).catch(err => {

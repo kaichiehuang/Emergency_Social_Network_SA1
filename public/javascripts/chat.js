@@ -2,6 +2,8 @@ var public_wall_container = document.getElementById('public-msg_area');
 var private_wall_container = document.getElementById('private-msg_area');
 
 $(function() {
+
+    //socket for chat messages management
     const socket = io('http://localhost:3000');
     let socketSynced = false;
 
@@ -28,8 +30,13 @@ $(function() {
 
     // listen for private chat events
     socket.on('new-private-chat-message', data => {
-        drawPrivateMessageItem(data);
-        private_wall_container.scrollTop = private_wall_container.scrollHeight;
+        // only draw elements received from the user I am speaking with
+        if(data.sender_user_id._id == Cookies.get('receiver_user_id') || data.sender_user_id._id == Cookies.get('user-id')){
+            drawPrivateMessageItem(data);
+            private_wall_container.scrollTop = private_wall_container.scrollHeight;
+        }else{
+            updateUserListView();
+        }
     });
 
     /**
@@ -198,7 +205,6 @@ function getMessages(type) {
         //console.log(response);
         response.forEach(element => {
             if (type === 'private') {
-                //
                 drawPrivateMessageItem(element);
             } else if (type === 'public') {
                 drawMessageItem(element);
