@@ -1,3 +1,4 @@
+[![BCH compliance](https://bettercodehub.com/edge/badge/cmusv-fse/s20-ESN-SA1?branch=master&token=af54cb573e08df4f068cb13365dc21ec1bcbce68)](https://bettercodehub.com/)
 
 Iteration 0
 ------------------
