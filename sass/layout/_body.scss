@@ -26,34 +26,34 @@
     @include respond-to("extra-small") {
         width: 90%;
     }
-    .status-list {
-        padding: 15px 0;
-        li {
-            >div {
-                display: inline-block;
-                width: 90%;
-            }
-            >div>span {
-                @include flexbox;
-                @include align-items(center);
-                @include justify-content(flex-start);
-                @include flex-wrap(wrap);
-                width: 90%;
-                font-weight: bold;
-            }
-            span.status-list__color {
-                width: 30px;
-                height: 30px; // border-radius: 50px;
-                margin-right: 15px;
-                display: block;
-                @include flexbox;
-                @include align-items(center);
-                @include justify-content(center);
-                @include flex-wrap(wrap);
-                i {
-                    color: white;
-                    font-size: 16px;
-                }
+}
+.status-list {
+    padding: 15px 0;
+    li {
+        >div {
+            display: inline-block;
+            width: 90%;
+        }
+        >div>span {
+            @include flexbox;
+            @include align-items(center);
+            @include justify-content(flex-start);
+            @include flex-wrap(wrap);
+            width: 90%;
+            font-weight: bold;
+        }
+        span.status-list__color {
+            width: 30px;
+            height: 30px; // border-radius: 50px;
+            margin-right: 15px;
+            display: block;
+            @include flexbox;
+            @include align-items(center);
+            @include justify-content(center);
+            @include flex-wrap(wrap);
+            i {
+                color: white;
+                font-size: 16px;
             }
         }
     }
@@ -146,7 +146,8 @@ form {
 }
 //Public chat
 .msg_border {
-    border: 1px solid #c4c4c4;
+    border-bottom: 1px solid #c4c4c4;
+    border-top: none;
     height: 70vh;
     background: white;
 }
@@ -203,14 +204,12 @@ form {
     width: 100%;
     word-break: break-all;
 }
-
 //popup modal
 .modal-instructions {
     width: 70%;
     margin: auto auto;
     padding-left: 0;
-    list-style: inside;
-    // li {
+    list-style: inside; // li {
     //     margin-bottom: 1.25rem;
     // }
     @include respond-to("small") {
@@ -254,30 +253,27 @@ form {
         }
     }
 }
-
 .list-instructions {
     span.status-list__color {
         width: 26px;
         height: 26px;
         border-radius: 15px;
         margin: 10px;
+        margin-left: 0;
         @include flexbox;
         @include align-items(center);
         @include justify-content(center);
         @include flex-wrap(wrap);
         i {
             min-width: 18px;
-            text-align: center;
-            //padding: 5px;
+            text-align: center; //padding: 5px;
             color: white;
             font-size: 17px;
         }
     }
 }
-
-
 .user-list-content {
-    .list-group-item{
+    .list-group-item {
         @include flexbox;
         @include align-items(center);
         @include justify-content(space-between);
@@ -290,7 +286,7 @@ form {
             @include flexbox;
             @include align-items(center);
             @include justify-content(flex-end);
-            .badge{
+            .badge {
                 margin-left: 15px;
             }
             .chat-button {
@@ -312,4 +308,8 @@ form {
             }
         }
     }
+}
+.list-group-item {
+    border-top: none;
+    border-bottom: 2px solid #ddd;
 }
