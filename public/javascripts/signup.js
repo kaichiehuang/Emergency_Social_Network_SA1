@@ -86,15 +86,14 @@ $(function () {
             let status = Cookies.get('status');
             let user_id = Cookies.get('user-id');
             let jwt = Cookies.get('user-jwt-esn');
-            let online_status = Cookies.get('online-status');
             // //validations
             $.ajax({
                 url: apiPath + '/users/' + user_id,
                 type: 'put',
                 data: {
                     'acknowledgement': true,
-                    'status':status,
-                    'onLine':online_status
+                    'status':"UNDEFINED",
+                    'onLine':true
                 },
                 headers: { "Authorization": userJWT }
             }).done(function (response) {

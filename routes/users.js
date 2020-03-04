@@ -11,20 +11,29 @@ var jsonParser = bodyParser.json();
 // Require controller
 var usersController = new UsersController();
 
-/* API Define:
-* POST /users
-* Content-Type: application/json
-* Body:
-* {
-    "username": "kevin_durant",
-    "password": "encrypted password",
-    "name": "NAME",
-    "last_name": "family name",
-    "acknowledgement": false
-  }
-  * */
-
-//get method to obtain all users
+/**
+ * @swagger
+ *
+ * /users:
+ *   post:
+ *     description: Login to the application
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: username
+ *         description: Username to use for login.
+ *         in: formData
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: User's password.
+ *         in: formData
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: login
+ */
 router.get("/", validateTokenMid,jsonParser,usersController.getAllUsers);
 
 //post method for creating a user

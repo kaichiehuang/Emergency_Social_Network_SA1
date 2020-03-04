@@ -20,6 +20,31 @@ const ReservedNameSchema = new Schema({
     name : String
 });
 
+/**
+ * @swagger
+ *
+ * definitions:
+ *   NewUser:
+ *     type: object
+ *     required:
+ *       - username
+ *       - password
+ *     properties:
+ *       username:
+ *         type: string
+ *       password:
+ *         type: string
+ *         format: password
+ *   User:
+ *     allOf:
+ *       - $ref: '#/definitions/NewUser'
+ *       - required:
+ *         - id
+ *       - properties:
+ *         id:
+ *           type: integer
+ *           format: int64
+ */
 const UserSocketSchema = new Schema({
     user_id:String,
     socket_id:String
