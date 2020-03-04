@@ -13,11 +13,27 @@ var tokenRouter = require('./routes/token');
 var chatMessagesRouter = require('./routes/chatMessages');
 var privateChatMessagesRouter = require('./routes/privateChatMessages');
 var usersListRouter = require('./routes/usersList');
-
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+var swaggerDocument = require("./swaggerDocument")
+const Database = require('./model/database');
 //redirect library for https - uncomment on server
 // var httpsRedirectTool = require('express-http-to-https').redirectToHTTPS
 
 var app = express();
+
+Database.connect();
+
+
+const swaggerDocs = swaggerJsDoc(swaggerDocument);
+app.get('/api-docs.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerDocs);
+});
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs,{
+  explorer: true
+}));
+
 //change if using https fo security issues
 // app.use(compression())
 
@@ -74,6 +90,8 @@ app.use(function(req, res, next) {
     next();
 });
 
+
+
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 //application/json
@@ -112,6 +130,7 @@ app.get('*', (req, res, next) => {
         title: 'FSE'
     });
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {
