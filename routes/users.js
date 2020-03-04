@@ -53,6 +53,7 @@ router.get('/', validateTokenMid, jsonParser, usersController.getAllUsers);
  */
 router.get("/", validateTokenMid,jsonParser,usersController.getAllUsers);
 
+router.get('/:userId', validateTokenMid, jsonParser, usersController.getUser);
 //post method for creating a user
 router.post('/', jsonParser, usersController.createUser);
 //put method for updating a user

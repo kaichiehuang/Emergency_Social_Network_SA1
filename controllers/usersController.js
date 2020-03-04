@@ -110,32 +110,36 @@ class UsersController {
                 onLine: usr.onLine,
                 status: usr.status
             };
-            // //save and delete the socket id if its online or offline
-            // if (socketId != undefined && socketId != '' && deleteSocket != undefined) {
-            //     if (deleteSocket === false) {
-            //         User.insertSocket(usr._id.toString(), socketId).then(user => {
-            //             console.log('success storing socket');
-            //         }).catch(err => {
-            //             console.log('error inserting socket');
-            //         });
-            //     } else if (deleteSocket === true) {
-            //         User.removeSocket(usr._id.toString(), socketId);
-            //     }
-            // }
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
         }).catch(err => {
             return res.status(500).send(err);
         });
     }
+
+    /**
+     * Get the users of the DataBase (only user_name and online fields)
+     * @param req
+     * @param res
+     */
+    getUser(req, res) {
+        let userId = req.params.userId;
+        User.findUserById(userId).then(user => {
+            console.log(user);
+            res.contentType('application/json');
+            return res.status(201).send(JSON.stringify(user));
+        }).catch(err => {
+            return res.status(500).send(err);
+        });
+    }
+
     /**
      * Get the users of the DataBase (only user_name and online fields)
      * @param req
      * @param res
      */
     getAllUsers(req, res) {
-        let user_instance = new User();
-        user_instance.getUsers().then(users => {
+        User.getUsers().then(users => {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(users));
         }).catch(err => {
