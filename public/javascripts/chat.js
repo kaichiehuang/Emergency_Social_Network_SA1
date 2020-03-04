@@ -99,17 +99,23 @@ function sendMessage(type) {
     let jwt = Cookies.get('user-jwt-esn');
     let url = apiPath + '/chat-messages';
     let message_content = '#public-send-message-content';
+    let data = {
+        message: $(message_content).val(),
+        user_id: user_id
+    };
     if (type === 'private') {
         url = apiPath + '/private-chat-messages';
         message_content = '#private-send-message-content';
+        data = {
+            message: $(message_content).val(),
+            sender_user_id: user_id,
+            receiver_user_id: Cookies.get('receiver_user_id')
+        }
     }
     $.ajax({
         url: url,
         type: 'post',
-        data: {
-            message: $(message_content).val(),
-            user_id: user_id
-        },
+        data: data,
         headers: {
             Authorization: jwt
         }
@@ -158,4 +164,13 @@ function getMessages(type) {
         .always(function() {
             console.log('complete');
         });
+}
+
+function initiatePrivateChat(receiver_user_id) {
+    Cookies.set('receiver_user_id', receiver_user_id);
+
+    // load history of msg
+    // draw msg, scroll down
+
+
 }
