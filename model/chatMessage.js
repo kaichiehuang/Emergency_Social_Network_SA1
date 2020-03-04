@@ -2,10 +2,11 @@ const ChatMessageModel = require('./model').ChatMessagesMongo;
 
 
 class ChatMessage{
-    constructor(message, user_id) {
+    constructor(message, user_id, user_status) {
         this._id = null;
         this.message = message;
         this.user_id = user_id;
+        this.status = user_status || "UNDEFINED";
     }
 
     createNewMessage() {
@@ -13,6 +14,7 @@ class ChatMessage{
             let newChatMessage = new ChatMessageModel({
                 message: this.message,
                 user_id: this.user_id,
+                status: this.status
             });
             newChatMessage.save()
             .then(result => {

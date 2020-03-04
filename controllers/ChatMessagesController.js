@@ -30,7 +30,7 @@ class ChatMessagesController {
             userFound = result;
             console.log(message, userFound._id);
             //2. Create chat message object
-            let chatMessage = new ChatMessage(message, userFound._id);
+            let chatMessage = new ChatMessage(message, userFound._id, userFound.status);
             //3. save chat message
             return chatMessage.createNewMessage();
         }).then(chatMessageCreated => {
@@ -42,7 +42,8 @@ class ChatMessagesController {
                     "_id": userFound._id,
                     "username": userFound.username
                 },
-                "created_at": chatMessageCreated.created_at
+                "created_at": chatMessageCreated.created_at,
+                "status": chatMessageCreated.status
             });
 
             //5. return a response

@@ -5,7 +5,7 @@ class PrivateChatMessage {
         this.message = message;
         this.sender_user_id = sender_user_id;
         this.receiver_user_id = receiver_user_id;
-        this.status = user_status;
+        this.status = user_status || "UNDEFINED";
     }
     createNewMessage() {
         return new Promise((resolve, reject) => {
