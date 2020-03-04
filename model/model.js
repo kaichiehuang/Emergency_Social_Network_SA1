@@ -56,13 +56,6 @@ const ReservedNameSchema = new Schema({
     name: String
 });
 
-// const UserSocketSchema = new Schema(
-//     {
-//         user_id: String,
-//         socket_id: String
-//     },
-//     schemaOptions
-// );
 
 const ChatMessageSchema = new Schema(
     {

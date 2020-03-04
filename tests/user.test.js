@@ -112,7 +112,7 @@ describe("principal", () => {
 
     test("get users ordered", async () => {
       let user = new User();
-      return user.getUsers().then(listUser => {
+      return User.getUsers().then(listUser => {
         expect(listUser[0].username).toBe("CcccUser")
         expect(listUser[0].onLine).toBeTruthy()
       })
