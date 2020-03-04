@@ -5,8 +5,11 @@ class TestDataBase{
     // Connect to Mongoose
     beforeAll(async () => {
       await mongoose.connect(
+
           global.__MONGO_URI__,
-          { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
+          //process.env.MONGO_URL,
+          //{ useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
+          //{useNewUrlParser: true},
           err => {
             if (err) {
               process.exit(1)
@@ -17,6 +20,10 @@ class TestDataBase{
 
     // Disconnect Mongoose
     afterAll(async () => {
+
+      //await Promise.all(
+      //   mongoose.modelNames().map(model => mongoose.model(model).createIndexes()),
+      // );
       await mongoose.connection.close()
     })
   }
