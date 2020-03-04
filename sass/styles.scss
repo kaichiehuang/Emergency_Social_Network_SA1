@@ -28,10 +28,12 @@ body {
         }
     }
 }
-
 @import "layout/_header";
 @import "layout/_footer";
 .main-content {
+    * {
+        transition: all 0.5s ease !important; // @include transition(.6s ease-in-out left);
+    }
     @include respond-to('small') {
         padding-top: 0px;
         height: 90vh;
