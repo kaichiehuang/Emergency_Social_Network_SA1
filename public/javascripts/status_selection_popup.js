@@ -40,11 +40,9 @@ class StatusSelection {
     let online_status = Cookies.get('online-status');
 
     $.ajax({
-      url: apiPath + '/users/' + user_id,
+      url: apiPath + '/users/' + user_id +'/status',
       type: 'put',
       data: {
-        'onLine': online_status,
-        'acknowledgement': acknowledgement,
         'status': status,
       },
       headers: {
