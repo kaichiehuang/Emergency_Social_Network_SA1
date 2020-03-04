@@ -84,10 +84,7 @@ const User = mongoose.model('User', UserSchema);
 const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema);
 //const User_socket = mongoose.model('User_socket', UserSocketSchema);
 const ChatMessages = mongoose.model('Chat_Messages', ChatMessageSchema);
-const PrivateChatMessages = mongoose.model(
-    'Private_Chat_Messages',
-    PrivateChatMessageSchema
-);
+const PrivateChatMessages = mongoose.model('Private_Chat_Messages', PrivateChatMessageSchema);
 
 module.exports = {
     UserMongo: User,
