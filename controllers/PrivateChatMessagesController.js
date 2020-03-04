@@ -76,8 +76,24 @@ class PrivateChatMessagesController {
      * @param res
      */
     getChatMessages(req, res) {
-        let chatMessage = new ChatMessage();
-        chatMessage.getChatMessages().then(result => {
+        let requestData = req.query;
+        let senderUser = null;
+        let receiverUser = null;
+
+        //0. validate right data from request body
+        if (requestData['sender_user_id'] == undefined) {
+            return res.status(422).send(JSON.stringify({
+                msg: 'invalid sender_user_id'
+            }));
+        }
+        if (requestData['receiver_user_id'] == undefined) {
+            return res.status(422).send(JSON.stringify({
+                msg: 'invalid receiver_user_id'
+            }));
+        }
+
+        let privateChatMessage = new PrivateChatMessage();
+        privateChatMessage.getChatMessages(requestData['sender_user_id'], requestData['receiver_user_id']).then(result => {
             res.contentType('application/json');
             res.status(201).send(JSON.stringify(result));
         }).catch(err => {
