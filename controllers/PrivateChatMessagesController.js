@@ -110,7 +110,7 @@ class PrivateChatMessagesController {
                 response.io.to(socketId).emit('new-private-chat-message', {
                     "id": privateChatMessageCreated._id,
                     "message": privateChatMessageCreated.message,
-                    "user_id": {
+                    "sender_user_id": {
                         "_id": senderUser._id,
                         "username": senderUser.username
                     },

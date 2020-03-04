@@ -21,14 +21,14 @@ $(function() {
 
     // listen for public chat events
     socket.on('new-chat-message', data => {
-        drawMessageItem(data, 'public');
+        drawMessageItem(data);
         public_wall_container.scrollTop = public_wall_container.scrollHeight;
     });
     getMessages('public');
 
     // listen for private chat events
     socket.on('new-private-chat-message', data => {
-        drawMessageItem(data, 'private');
+        drawPrivateMessageItem(data);
         private_wall_container.scrollTop = private_wall_container.scrollHeight;
     });
 
@@ -71,7 +71,8 @@ $(function() {
     });
 });
 
-function drawMessageItem(data, type) {
+function drawMessageItem(data) {
+    let type = 'public';
     let list_length = $('ul#' + type + '-chat li').length;
     let new_li = $('ul#' + type + '-chat li#' + type + '-template').clone();
     let class_ori = new_li.attr('class');
@@ -97,6 +98,37 @@ function drawMessageItem(data, type) {
     new_li.html(child_new);
     $('#' + type + '-chat').append(new_li);
 }
+
+function drawPrivateMessageItem(data) {
+    let type = 'private';
+    let list_length = $('ul#' + type + '-chat li').length;
+    let new_li = $('ul#' + type + '-chat li#' + type + '-template').clone();
+    let class_ori = new_li.attr('class');
+    class_ori = class_ori.replace(' hide', '');
+    if (list_length % 2 == 1) {
+        new_li.attr('class', class_ori + ' user-post-odd');
+    } else {
+        new_li.attr('class', class_ori + ' user-post-even');
+    }
+    let user_id = Cookies.get('user-id');
+    if (user_id === data.sender_user_id._id) {
+        new_li.attr('class', new_li.attr('class') + ' user-post-current');
+    }
+    new_li.removeAttr('id');
+    let child = new_li.html();
+    let child_new = child
+        .replace('%username_token%', data.sender_user_id.username)
+        .replace(
+            '%timestamp_token%',
+            new Date(data.created_at).toLocaleString()
+        )
+        .replace('%message_token%', data.message);
+    new_li.html(child_new);
+    $('#' + type + '-chat').append(new_li);
+}
+
+
+
 
 /**
  * Sends and saves the message the user post.
@@ -146,43 +178,55 @@ function sendMessage(type) {
 function getMessages(type) {
     let jwt = Cookies.get('user-jwt-esn');
     let url = apiPath + '/chat-messages';
+    let data = {};
     if (type === 'private') {
         url = apiPath + '/private-chat-messages';
+        data = {
+            "sender_user_id": Cookies.get('user-id'),
+            "receiver_user_id": Cookies.get('receiver_user_id')
+        };
     }
     $.ajax({
         url: url,
         type: 'get',
         headers: {
             Authorization: jwt
+        },
+        data: data
+    })
+    .done(function(response) {
+        //console.log(response);
+        response.forEach(element => {
+            if (type === 'private') {
+                //
+                drawPrivateMessageItem(element);
+            } else if (type === 'public') {
+                drawMessageItem(element);
+            }
+        });
+        if (type === 'private') {
+            private_wall_container.scrollTop =
+                private_wall_container.scrollHeight;
+        } else if (type === 'public'){
+            public_wall_container.scrollTop =
+                public_wall_container.scrollHeight;
         }
     })
-        .done(function(response) {
-            //console.log(response);
-            response.forEach(element => {
-                drawMessageItem(element, type);
-            });
-            if (type === 'private') {
-                private_wall_container.scrollTop =
-                    private_wall_container.scrollHeight;
-            } else if (type === 'public'){
-                public_wall_container.scrollTop =
-                    public_wall_container.scrollHeight;
-            }
-        })
-        .fail(function(e) {
-            $('#signup-error-alert').html(e);
-            $('#signup-error-alert').show();
-        })
-        .always(function() {
-            console.log('complete');
-        });
+    .fail(function(e) {
+        $('#signup-error-alert').html(e);
+        $('#signup-error-alert').show();
+    })
+    .always(function() {
+        console.log('complete');
+    });
 }
 
 function initiatePrivateChat(receiver_user_id) {
     Cookies.set('receiver_user_id', receiver_user_id);
-
-    // load history of msg
-    // draw msg, scroll down
-
-
+    $("#private-chat .user-post").each(function(index, el) {
+        if ($(this).attr("id") != "private-template") {
+            $(this).remove();
+        }
+    });
+    getMessages('private');
 }
