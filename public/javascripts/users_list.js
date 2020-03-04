@@ -61,7 +61,7 @@ class User {
                     template.querySelector('.username').innerText = user.username;
                     template.querySelector('.chat-button').setAttribute('data-user-id', user._id);
                     //set message counter from user
-                    if (currentUser.unread_messages[user._id] != undefined && currentUser.unread_messages[user._id] > 0) {
+                    if (currentUser.unread_messages != undefined && currentUser.unread_messages[user._id] != undefined && currentUser.unread_messages[user._id] > 0) {
                         template.querySelector('.message-counter').innerText = currentUser.unread_messages[user._id];
                     }
                     if (user.status === "OK") {
