@@ -27,6 +27,7 @@ class User {
                 }
                 if (template != undefined && template != null && user != undefined) {
                     template.querySelector('.username').innerText = user.username;
+                    template.querySelector('.chat-button').setAttribute('data-user-id', user._id);
                     if (user.status === "OK") {
                         template.querySelector("#statusSpan").classList.add("background-color-ok");
                         template.querySelector("#iconStatus").classList.add("fa-check");
@@ -43,6 +44,12 @@ class User {
                     listContainer.appendChild(template);
                 }
             }
+            // assign view change event for chat button for each user in the list
+            viewChangerEvent();
+
+            $('.chat-button').click(function(event) {
+                initiatePrivateChat($(this).data('user-id'));
+            });
         }
     }
     /**
