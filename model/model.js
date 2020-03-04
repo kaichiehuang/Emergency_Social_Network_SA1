@@ -18,6 +18,10 @@ const UserSchema = new Schema(
         sockets: {
             type: Map,
             of: Boolean
+        },
+        unread_messages: {
+            type: Map,
+            of: Number
         }
     },
     schemaOptions
