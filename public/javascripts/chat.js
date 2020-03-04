@@ -1,4 +1,5 @@
 var public_wall_container = document.getElementById('public-msg_area');
+var private_wall_container = document.getElementById('private-msg_area');
 
 $(function() {
     const socket = io('http://localhost:3000');
@@ -24,6 +25,12 @@ $(function() {
         public_wall_container.scrollTop = public_wall_container.scrollHeight;
     });
     getMessages('public');
+
+    // listen for private chat events
+    socket.on('new-private-chat-message', data => {
+        drawMessageItem(data, 'private');
+        private_wall_container.scrollTop = private_wall_container.scrollHeight;
+    });
 
     /**
      * on window unload
@@ -154,8 +161,13 @@ function getMessages(type) {
             response.forEach(element => {
                 drawMessageItem(element, type);
             });
-            public_wall_container.scrollTop =
-                public_wall_container.scrollHeight;
+            if (type === 'private') {
+                private_wall_container.scrollTop =
+                    private_wall_container.scrollHeight;
+            } else if (type === 'public'){
+                public_wall_container.scrollTop =
+                    public_wall_container.scrollHeight;
+            }
         })
         .fail(function(e) {
             $('#signup-error-alert').html(e);
