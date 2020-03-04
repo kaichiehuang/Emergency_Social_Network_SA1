@@ -21,16 +21,7 @@ $(function() {
         $('.user-name-reference').html(Cookies.get('username'));
     }
 
-    //events
-    $('.content-changer').click(function(event) {
-        $('.content-changer').removeClass('active');
-        $(this).addClass('active');
-        event.preventDefault();
-        let newID = $(this).data('view-id');
-        if (newID != undefined && newID != '') {
-            swapContent(newID);
-        }
-    });
+    viewChangerEvent();
 
     userJWT = Cookies.get('user-jwt-esn');
     //user is not logged in
@@ -128,5 +119,19 @@ function syncSocketId(socketId, deleteSocket) {
     })
     .always(function() {
         console.log('complete');
+    });
+}
+
+
+//events
+function viewChangerEvent() {
+    $('.content-changer').click(function(event) {
+        $('.content-changer').removeClass('active');
+        $(this).addClass('active');
+        event.preventDefault();
+        let newID = $(this).data('view-id');
+        if (newID != undefined && newID != '') {
+            swapContent(newID);
+        }
     });
 }

@@ -44,7 +44,7 @@ class PrivateChatMessagesController {
             receiverUser = result;
             //5. Create private chat message object
             let privateChatMessage = new PrivateChatMessage(message, sender_user_id, receiver_user_id);
-            // 6. save private chat message
+            //6. save private chat message
             return privateChatMessage.createNewMessage();
         }).then(privateChatMessageCreated => {
             //7. if private chat message was saved emit the chat message to both users using their current list of sockets
