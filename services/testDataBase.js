@@ -5,7 +5,8 @@ class TestDataBase{
     // Connect to Mongoose
     beforeAll(async () => {
       await mongoose.connect(
-          global.__MONGO_URI__,
+          //global.__MONGO_URI__,
+          process.env.MONGO_URL,
           { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
           err => {
             if (err) {

@@ -86,7 +86,7 @@ describe("Searching for a user previously inserted",()=>{
 describe("get all users ordered by online status and username",()=>{
 
   beforeEach(async () =>{
-    let user = new User("CcccUser","CcccUser","name","last name")
+    let user = new User("CcccUser","zzzzzzzzz","name","last name")
     let newUser =  await user.registerUser();
     let otheruser = new User("BbbbUser","BbbbUser","name","last name")
     await otheruser.registerUser();
