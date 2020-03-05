@@ -1,7 +1,11 @@
 class User {
-    _id = null;
-    username = "";
-    unread_messages = {};
+
+    constructor() {
+        this._id = null;
+        this.username = "";
+        this.unread_messages = {};
+    }
+
     /**
      * [getUserData description]
      * @param  {[type]} userId [description]
