@@ -1,4 +1,5 @@
 [![BCH compliance](https://bettercodehub.com/edge/badge/cmusv-fse/s20-ESN-SA1?branch=master&token=af54cb573e08df4f068cb13365dc21ec1bcbce68)](https://bettercodehub.com/)
+[![Maintainability](https://api.codeclimate.com/v1/badges/79a7a5980bd710e7bea8/maintainability)](https://codeclimate.com/repos/5e5fe6f7bff22c5bb3003e33/maintainability)
 
 Iteration 0
 ------------------
