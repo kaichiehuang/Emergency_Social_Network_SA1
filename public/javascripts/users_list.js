@@ -1,7 +1,11 @@
 class User {
-    _id = null;
-    username = "";
-    unread_messages = {};
+
+    constructor() {
+        this._id = null;
+        this.username = "";
+        this.unread_messages = {};
+    }
+
     /**
      * [getUserData description]
      * @param  {[type]} userId [description]
@@ -117,7 +121,7 @@ class User {
  */
 let currentUser = null;
 $(function() {
-    const socket = io('http://localhost:3000');
+    const socket = io('/');
     //initialize current user
     currentUser = new User();
     currentUser._id = Cookies.get('user-id');

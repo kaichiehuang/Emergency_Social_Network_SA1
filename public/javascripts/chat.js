@@ -4,7 +4,7 @@ var private_wall_container = document.getElementById('private-msg_area');
 $(function() {
 
     //socket for chat messages management
-    const socket = io('http://localhost:3000');
+    const socket = io("");
     let socketSynced = false;
 
     socket.on('connect', data => {

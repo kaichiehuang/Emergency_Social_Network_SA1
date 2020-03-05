@@ -1,12 +1,20 @@
 const TestDatabase = require("../services/testDataBase")
 const ChatMessage = require("../model/chatMessage")
-const mongoose = require('mongoose');
 
+const testDatabase = new TestDatabase();
 
-TestDatabase.setupDB();
+beforeAll(async () => {
+  await testDatabase.start();
+});
 
+afterAll(async () => {
+  await testDatabase.stop();
+});
 
-describe("principal", () => {
+afterEach(async () => {
+  await testDatabase.cleanup();
+});
+
 
   describe("Create Messages", () => {
 
@@ -19,49 +27,27 @@ describe("principal", () => {
       });
     })
 
-    afterEach(async () => {
-      await mongoose.connection.db.dropDatabase();
-    });
   })
 
 
   describe("Getting Messages", () => {
 
-    // let messsageId;
-    // beforeEach(async () => {
-    //   let chatMessage = new ChatMessage("This a test message", '507f1f77bcf86cd799439011');
-    //   await chatMessage.createNewMessage().then(msg => {
-    //     console.log('messsageId' + String(msg._id));
-    //     messsageId = String(msg._id);
-    //
-    //   });
-    // })
-
-    test("getting messages from  the database", async () => {
-      let messsageId;
+    let messsageId;
+    beforeEach( async () => {
       let chatMessage = new ChatMessage("This a test message", '507f1f77bcf86cd799439011');
-      await chatMessage.createNewMessage().then(async msg => {
-        console.log('messsageId' + String(msg._id));
-        return messsageId = String(msg._id);
-        await chatMessage.getChatMessages().then(msg => {
-          console.log('length' + msg.length);
-          return expect(String(msg[0]._id)).toBe(messsageId);
-        });
+       await chatMessage.createNewMessage().then(msg => {
+         messsageId = String(msg._id);
 
       });
-
-      //let chatMessage = new ChatMessage();
-      // await chatMessage.getChatMessages().then(msg => {
-      //   console.log('length' + msg.length);
-      //   expect(String(msg[0]._id)).toBe(messsageId);
-      // });
     })
 
+    test("getting messages from  the database", async () => {
+      let chatMessage = new ChatMessage();
+        await chatMessage.getChatMessages().then(msg => {
+          expect(String(msg[0]._id)).toBe(messsageId);
+        });
+    })
 
-    afterAll(async () => {
-      await mongoose.connection.db.dropDatabase();
-    });
   })
 
 
-})
