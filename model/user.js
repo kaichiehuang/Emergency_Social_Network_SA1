@@ -130,6 +130,26 @@ class User {
             new: true
         });
     }
+
+    /**
+     * Update the user status field
+     * @param userId
+     * @param acknowledgement
+     * @param onLine
+     * @param status
+     * @returns {*}
+     */
+    updateUserStatus(userId, status) {
+        return UserModel.findByIdAndUpdate(userId, {
+            $set: {
+                status: status,
+                status_timestamp: new Date()
+            }
+        }, {
+            new: true
+        });
+    }
+
     /**
      * Finds a user by username
      * @param  {[type]} userId [description]

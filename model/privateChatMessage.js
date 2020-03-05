@@ -1,10 +1,11 @@
 const PrivateChatMessageModel = require('./model').PrivateChatMessagesMongo;
 class PrivateChatMessage {
-    constructor(message, sender_user_id, receiver_user_id) {
+    constructor(message, sender_user_id, receiver_user_id, user_status) {
         this._id = null;
         this.message = message;
         this.sender_user_id = sender_user_id;
         this.receiver_user_id = receiver_user_id;
+        this.status = user_status || "UNDEFINED";
     }
     createNewMessage() {
         return new Promise((resolve, reject) => {
@@ -12,6 +13,7 @@ class PrivateChatMessage {
                 message: this.message,
                 sender_user_id: this.sender_user_id,
                 receiver_user_id: this.receiver_user_id,
+                status: this.status
             });
             newChatMessage.save().then(result => {
                 console.log('private message created');

@@ -1,11 +1,35 @@
 const mongoose = require('mongoose');
-const database = require('./database');
 const Schema = mongoose.Schema;
 
 const schemaOptions = {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 };
 
+/**
+ * @swagger
+ *
+ * definitions:
+ *   NewUser:
+ *     type: object
+ *     required:
+ *       - username
+ *       - password
+ *     properties:
+ *       username:
+ *         type: string
+ *       password:
+ *         type: string
+ *         format: password
+ *   User:
+ *     allOf:
+ *       - $ref: '#/definitions/NewUser'
+ *       - required:
+ *         - id
+ *       - properties:
+ *         id:
+ *           type: integer
+ *           format: int64
+ */
 const UserSchema = new Schema(
     {
         username: String,
@@ -15,6 +39,7 @@ const UserSchema = new Schema(
         acknowledgement: Boolean,
         onLine: Boolean,
         status: String,
+        status_timestamp: Date,
         sockets: {
             type: Map,
             of: Boolean
@@ -31,13 +56,6 @@ const ReservedNameSchema = new Schema({
     name: String
 });
 
-const UserSocketSchema = new Schema(
-    {
-        user_id: String,
-        socket_id: String
-    },
-    schemaOptions
-);
 
 const ChatMessageSchema = new Schema(
     {
@@ -64,17 +82,14 @@ const PrivateChatMessageSchema = new Schema(
 
 const User = mongoose.model('User', UserSchema);
 const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema);
-const User_socket = mongoose.model('User_socket', UserSocketSchema);
+//const User_socket = mongoose.model('User_socket', UserSocketSchema);
 const ChatMessages = mongoose.model('Chat_Messages', ChatMessageSchema);
-const PrivateChatMessages = mongoose.model(
-    'Private_Chat_Messages',
-    PrivateChatMessageSchema
-);
+const PrivateChatMessages = mongoose.model('Private_Chat_Messages', PrivateChatMessageSchema);
 
 module.exports = {
     UserMongo: User,
     ReservedNamesMongo: Reserved_names,
-    UserSocketMongo: User_socket,
+    //UserSocketMongo: User_socket,
     ChatMessagesMongo: ChatMessages,
     PrivateChatMessagesMongo: PrivateChatMessages
 };

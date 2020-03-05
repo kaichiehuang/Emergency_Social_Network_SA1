@@ -183,4 +183,27 @@ class UsersController {
             return res.status(500).send(err);
         });
     }
+
+    updateUserStatus(req, res) {
+        let user_instance = new User();
+        let userId = req.params.userId;
+        let status = req.body.status;
+        //1. update user data
+        user_instance.updateUserStatus(userId,  status).then(usr => {
+            let jsonResponseData = {};
+            jsonResponseData['user'] = {
+                userId: usr._id.toString(),
+                username: usr.username,
+                name: usr.name,
+                acknowledgement: usr.acknowledgement,
+                onLine: usr.onLine,
+                status: usr.status
+            };
+            res.contentType('application/json');
+            return res.status(201).send(JSON.stringify(jsonResponseData));
+        }).catch(err => {
+            return res.status(500).send(err);
+        });
+    }
+
 }module.exports = UsersController;
