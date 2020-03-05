@@ -69,8 +69,9 @@ if (serverType == 'http') {
         };
     }
     // server = https.createServer(options, app);
-    server = http.createServer(app);
+    server = require('http').createServer(app);
 }
+
 var io = require('socket.io')(server);
 var count = 0;
 io.sockets.on('connection', function(socket) {
