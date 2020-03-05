@@ -17,7 +17,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 var swaggerDocument = require("./swaggerDocument")
 const Database = require('./model/database');
-const ENVIRONMENT = "development";
+let ENVIRONMENT = "development";
 if (process.env.NODE_ENV != undefined ) {
     ENVIRONMENT = process.env.NODE_ENV;
 }
