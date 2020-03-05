@@ -68,7 +68,8 @@ if (serverType == 'http') {
             cert: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.crt')
         };
     }
-    server = https.createServer(options, app);
+    // server = https.createServer(options, app);
+    server = http.createServer(app);
 }
 var io = require('socket.io')(server);
 var count = 0;
