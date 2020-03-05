@@ -43,13 +43,13 @@ class PrivateChatMessagesController {
             //4. save receiver
             receiverUser = result;
             //5. Create private chat message object
-            let privateChatMessage = new PrivateChatMessage(message, sender_user_id, receiver_user_id);
+            let privateChatMessage = new PrivateChatMessage(message, sender_user_id, receiver_user_id, senderUser.status);
             //6. save private chat message
             return privateChatMessage.createNewMessage();
         }).then(privateChatMessageCreated => {
             //7. if private chat message was saved emit the chat message to both users using their current list of sockets
-            PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, senderUser.sockets, res, senderUser, receiverUser);
-            PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, receiverUser.sockets, res, senderUser, receiverUser);
+            PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, senderUser.sockets, res, senderUser, receiverUser, senderUser.status);
+            PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, receiverUser.sockets, res, senderUser, receiverUser, senderUser.status);
 
             //8. update message count for receiver
             User.changeMessageCount(sender_user_id, receiver_user_id, true);
@@ -107,7 +107,7 @@ class PrivateChatMessagesController {
             }));
         });
     }
-    static emitToSockets(privateChatMessageCreated, sockets, response, senderUser, receiverUser) {
+    static emitToSockets(privateChatMessageCreated, sockets, response, senderUser, receiverUser, status) {
         //1. iterate the list of sockects and emit the data
         if (sockets != undefined && sockets.size > 0) {
             for (let socketId of sockets.keys()) {
@@ -123,7 +123,8 @@ class PrivateChatMessagesController {
                         "_id": receiverUser._id,
                         "username": receiverUser.username
                     },
-                    "created_at": privateChatMessageCreated.created_at
+                    "created_at": privateChatMessageCreated.created_at,
+                    "status": status
                 });
             }
         }
