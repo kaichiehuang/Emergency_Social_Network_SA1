@@ -28,6 +28,8 @@ $(function() {
     });
     getMessages('public');
 
+    
+
     // listen for private chat events
     socket.on('new-private-chat-message', data => {
         // only draw elements received from the user I am speaking with
@@ -38,6 +40,10 @@ $(function() {
             updateUserListView();
         }
     });
+
+    
+
+    
 
     /**
      * on window unload
@@ -95,14 +101,31 @@ function drawMessageItem(data) {
     }
     new_li.removeAttr('id');
     let child = new_li.html();
+
+    let indicatorStyle;
+    if (data.status === 'OK') {
+        indicatorStye === "statusIndicator background-color-ok"
+    } else if (data.status === 'HELP') {
+        indicatorStyle = 'statusIndicator background-color-help';
+    } else if (data.status === 'EMERGENCY') {
+        indicatorStyle = 'statusIndicator background-color-emergency';
+    } else if (data.status === 'UNDEFINED') {
+        indicatorStyle = 'statusIndicator background-color-undefined';
+    }
+
     let child_new = child
         .replace('%username_token%', data.user_id.username)
         .replace(
             '%timestamp_token%',
             new Date(data.created_at).toLocaleString()
         )
-        .replace('%message_token%', data.message);
+        .replace('%message_token%', data.message)
+        .replace("statusIndicator", indicatorStyle);
+
+    
+    //child_new.find('.statusIndicator').className = indicatorStyle;
     new_li.html(child_new);
+    
     $('#' + type + '-chat').append(new_li);
 }
 
@@ -123,14 +146,30 @@ function drawPrivateMessageItem(data) {
     }
     new_li.removeAttr('id');
     let child = new_li.html();
+
+    let indicatorStyle;
+    if (data.status === 'OK') {
+        indicatorStye === "statusIndicator background-color-ok"
+    } else if (data.status === 'HELP') {
+        indicatorStyle = 'statusIndicator background-color-help';
+    } else if (data.status === 'EMERGENCY') {
+        indicatorStyle = 'statusIndicator background-color-emergency';
+    } else if (data.status === 'UNDEFINED') {
+        indicatorStyle = 'statusIndicator background-color-undefined';
+    }
     let child_new = child
         .replace('%username_token%', data.sender_user_id.username)
         .replace(
             '%timestamp_token%',
             new Date(data.created_at).toLocaleString()
         )
-        .replace('%message_token%', data.message);
+        .replace('%message_token%', data.message)
+        .replace("statusIndicator", indicatorStyle);
+        
+
+    
     new_li.html(child_new);
+    //new_li.find('.statusIndicator').className = indicatorStyle;
     $('#' + type + '-chat').append(new_li);
 }
 

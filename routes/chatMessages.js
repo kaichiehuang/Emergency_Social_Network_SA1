@@ -21,4 +21,5 @@ router.post('/', validateTokenMid, jsonParser, chatMessagesController.createMess
 //put method for updating a chat message
 // router.put('/:userId', validateTokenMid, jsonParser, chatMessagesController.updateUser);
 
+
 module.exports = router;
