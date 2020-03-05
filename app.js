@@ -57,12 +57,13 @@ if (serverType == 'http') {
      */
     server = http.createServer(app);
 } else {
+    let options = {}
     // https certificates for localhost
     if (ENVIRONMENT != "production") {
         /**
          * Create HTTPS server.
          */
-        const options = {
+        options = {
             key: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.pem'),
             cert: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.crt')
         };
