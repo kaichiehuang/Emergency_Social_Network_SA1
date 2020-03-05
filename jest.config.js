@@ -7,5 +7,11 @@ module.exports = {
     "**/test/**/*.js",
     '**/?(*.)+(spec|test).+(ts|tsx|js)',
   ],
-  testEnvironment: 'node'
+  testEnvironment: 'node',
+  collectCoverageFrom: [
+    "**/*.{js,jsx}",
+    "!**/node_modules/**",
+    "!**/vendor/**"
+  ],
+  coverageReporters:["text"]
 };
