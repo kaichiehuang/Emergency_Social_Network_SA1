@@ -40,7 +40,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
 // app.use(httpsRedirectTool([], [], 301));
 let serverType = 'http';
 if (ENVIRONMENT == "production") {
-    serverType = "https";
+    serverType = "http";
 }
 console.log("+=+=+=+= serverType = " + serverType)
 let http = null;
