@@ -51,6 +51,7 @@ class PrivateChatMessagesController {
             PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, senderUser.sockets, res, senderUser, receiverUser, senderUser.status);
             PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, receiverUser.sockets, res, senderUser, receiverUser, senderUser.status);
 
+
             //8. update message count for receiver
             User.changeMessageCount(sender_user_id, receiver_user_id, true);
 
