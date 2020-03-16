@@ -1,12 +1,9 @@
 var public_wall_container = document.getElementById('public-msg_area');
 var private_wall_container = document.getElementById('private-msg_area');
-
 $(function() {
-
     //socket for chat messages management
     const socket = io("");
     let socketSynced = false;
-
     socket.on('connect', data => {
         let oldSocketId = Cookies.get('user-socket-id');
         // delete old socket from db
@@ -20,31 +17,22 @@ $(function() {
         //store new socket on cookie for future reference
         Cookies.set('user-socket-id', socket.id);
     });
-
     // listen for public chat events
     socket.on('new-chat-message', data => {
         drawMessageItem(data);
         public_wall_container.scrollTop = public_wall_container.scrollHeight;
     });
     getMessages('public');
-
-    
-
     // listen for private chat events
     socket.on('new-private-chat-message', data => {
         // only draw elements received from the user I am speaking with
-        if(data.sender_user_id._id == Cookies.get('receiver_user_id') || data.sender_user_id._id == Cookies.get('user-id')){
+        if (data.sender_user_id._id == Cookies.get('receiver_user_id') || data.sender_user_id._id == Cookies.get('user-id')) {
             drawPrivateMessageItem(data);
             private_wall_container.scrollTop = private_wall_container.scrollHeight;
-        }else{
+        } else {
             updateUserListView();
         }
     });
-
-    
-
-    
-
     /**
      * on window unload
      * @param  {[type]} ) {                   let oldSocketId [description]
@@ -56,7 +44,6 @@ $(function() {
         syncSocketId(oldSocketId, true);
         setOnline(false);
     });
-
     /****** events declaration ********/
     $('#public-send-btn').click(function(e) {
         sendMessage('public');
@@ -72,14 +59,12 @@ $(function() {
         e.preventDefault();
         sendMessage('private');
     });
-
     //capture event to load messages
     $('.content-changer').click(function(event) {
         event.preventDefault();
         let newID = $(this).data('view-id');
         if (newID === 'public-chat-content') {
-            public_wall_container.scrollTop =
-                public_wall_container.scrollHeight;
+            public_wall_container.scrollTop = public_wall_container.scrollHeight;
         }
     });
 });
@@ -101,7 +86,6 @@ function drawMessageItem(data) {
     }
     new_li.removeAttr('id');
     let child = new_li.html();
-
     let indicatorStyle;
     if (data.status === 'OK') {
         indicatorStye === "statusIndicator background-color-ok"
@@ -112,20 +96,9 @@ function drawMessageItem(data) {
     } else if (data.status === 'UNDEFINED') {
         indicatorStyle = 'statusIndicator background-color-undefined';
     }
-
-    let child_new = child
-        .replace('%username_token%', data.user_id.username)
-        .replace(
-            '%timestamp_token%',
-            new Date(data.created_at).toLocaleString()
-        )
-        .replace('%message_token%', data.message)
-        .replace("statusIndicator", indicatorStyle);
-
-    
+    let child_new = child.replace('%username_token%', data.user_id.username).replace('%timestamp_token%', new Date(data.created_at).toLocaleString()).replace('%message_token%', data.message).replace("statusIndicator", indicatorStyle);
     //child_new.find('.statusIndicator').className = indicatorStyle;
     new_li.html(child_new);
-    
     $('#' + type + '-chat').append(new_li);
 }
 
@@ -146,7 +119,6 @@ function drawPrivateMessageItem(data) {
     }
     new_li.removeAttr('id');
     let child = new_li.html();
-
     let indicatorStyle;
     if (data.status === 'OK') {
         indicatorStyle === "statusIndicator background-color-ok"
@@ -157,25 +129,11 @@ function drawPrivateMessageItem(data) {
     } else if (data.status === 'UNDEFINED') {
         indicatorStyle = 'statusIndicator background-color-undefined';
     }
-    let child_new = child
-        .replace('%username_token%', data.sender_user_id.username)
-        .replace(
-            '%timestamp_token%',
-            new Date(data.created_at).toLocaleString()
-        )
-        .replace('%message_token%', data.message)
-        .replace("statusIndicator", indicatorStyle);
-        
-
-    
+    let child_new = child.replace('%username_token%', data.sender_user_id.username).replace('%timestamp_token%', new Date(data.created_at).toLocaleString()).replace('%message_token%', data.message).replace("statusIndicator", indicatorStyle);
     new_li.html(child_new);
     //new_li.find('.statusIndicator').className = indicatorStyle;
     $('#' + type + '-chat').append(new_li);
 }
-
-
-
-
 /**
  * Sends and saves the message the user post.
  */
@@ -204,18 +162,15 @@ function sendMessage(type) {
         headers: {
             Authorization: jwt
         }
-    })
-        .done(function(response) {
-            $(message_content).val('');
-            console.log(response);
-        })
-        .fail(function(e) {
-            $('#signup-error-alert').html(e);
-            $('#signup-error-alert').show();
-        })
-        .always(function() {
-            console.log('complete');
-        });
+    }).done(function(response) {
+        $(message_content).val('');
+        console.log(response);
+    }).fail(function(e) {
+        $('#signup-error-alert').html(e);
+        $('#signup-error-alert').show();
+    }).always(function() {
+        console.log('complete');
+    });
 }
 /**
  * Get all the messages prevoisly posted
@@ -239,8 +194,7 @@ function getMessages(type) {
             Authorization: jwt
         },
         data: data
-    })
-    .done(function(response) {
+    }).done(function(response) {
         //console.log(response);
         response.forEach(element => {
             if (type === 'private') {
@@ -250,18 +204,14 @@ function getMessages(type) {
             }
         });
         if (type === 'private') {
-            private_wall_container.scrollTop =
-                private_wall_container.scrollHeight;
-        } else if (type === 'public'){
-            public_wall_container.scrollTop =
-                public_wall_container.scrollHeight;
+            private_wall_container.scrollTop = private_wall_container.scrollHeight;
+        } else if (type === 'public') {
+            public_wall_container.scrollTop = public_wall_container.scrollHeight;
         }
-    })
-    .fail(function(e) {
+    }).fail(function(e) {
         $('#signup-error-alert').html(e);
         $('#signup-error-alert').show();
-    })
-    .always(function() {
+    }).always(function() {
         console.log('complete');
     });
 }
