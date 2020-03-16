@@ -1,0 +1,60 @@
+<div class="modal fade" id="status-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h3 class="modal-title" id="statusModalLabel">Select a Status:</h3>
+        
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group modal-instructions ">
+            <div class="row status-list">
+              <div class="col fake-list">
+                <label class="radio-inline ">
+                  <input type="radio" name="inlineRadioOptions" id="OK" value="OK">
+                    
+                </label>
+                <div><span><span class="status-list__color background-color-ok"><i class="fa fa-check"></i></span> OK</span></div>
+              </div>
+            </div>
+            <div class="row status-list">
+              <div class="col fake-list">
+                <label class="radio-inline">
+                  <input type="radio" name="inlineRadioOptions" id="HELP" value="HELP">
+                    
+                </label>
+                <div><span><span class="status-list__color background-color-help"><i class="fa fa-exclamation"></i></span> HELP</span></div>
+              </div>
+            </div>
+            <div class="row status-list">
+              <div class="col fake-list">
+                <label class="radio-inline">
+                  <input type="radio" name="inlineRadioOptions" id="EMERGENCY" value="EMERGENCY">
+                    
+                </label>
+                <div><span><span class="status-list__color background-color-emergency"><i class="fa fa-exclamation-triangle"></i></span> EMERGENCY</span></div>
+              </div>
+            </div>
+            <div class="row status-list">
+              <div class="col fake-list">
+                <label class="radio-inline">
+                  <input type="radio" name="inlineRadioOptions" id="UNDEFINED" value="UNDEFINED">
+                    
+                </label>
+                <div><span><span class="status-list__color background-color-undefined"><i class="fa fa-question"></i></span> UNDEFINED</span></div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+        <button id = "statusConfirmButton" type="button" class="btn btn-primary">Confirm</button>
+      </div>
+    </div>
+  </div>
+</div>

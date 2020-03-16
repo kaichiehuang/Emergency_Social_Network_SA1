@@ -1,56 +1,51 @@
 const mongoose = require('mongoose');
+const {MongoMemoryServer} = require("mongodb-memory-server");
 
-class TestDataBase{
-  static setupDB () {
-    // Connect to Mongoose
-    beforeAll(async () => {
-      await mongoose.connect(
 
-          global.__MONGO_URI__,
-          //process.env.MONGO_URL,
-          //{ useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
-          //{useNewUrlParser: true},
-          err => {
-            if (err) {
-              process.exit(1)
-            }
-          }
-      )
-    })
 
-    // Disconnect Mongoose
-    afterAll(async () => {
+class TestDataBase {
 
-      //await Promise.all(
-      //   mongoose.modelNames().map(model => mongoose.model(model).createIndexes()),
-      // );
-      await mongoose.connection.close()
-    })
+  constructor() {
+    this.server =  new MongoMemoryServer();
+    this.connection = null;
   }
 
-}
-module.exports= TestDataBase;
+  /**
+   * Start the server and establish a connection
+   * @returns {Promise<unknown>}
+   */
+  start() {
+    return new Promise((resolve, reject) => {
+      this.server.getUri(true).then(url => {
+        resolve(mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true }))
+      });
+    });
 
-// module.exports = {
-//   setupDB () {
-//     // Connect to Mongoose
-//     beforeAll(async () => {
-//       await mongoose.connect(
-//           global.__MONGO_URI__,
-//           { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true },
-//           err => {
-//             if (err) {
-//               process.exit(1)
-//             }
-//           }
-//       )
-//     })
-//
-//     // Disconnect Mongoose
-//     afterAll(async () => {
-//       await mongoose.connection.close()
-//     })
-//   }
-//
-//
-// }
+  }
+
+
+  /**
+   * Disconnect Mongoose
+   * @returns {Promise<unknown>}
+   */
+  stop() {
+    return new Promise((resolve, reject) => {
+      mongoose.connection.close().then(()=>{
+        resolve(this.server.stop())
+      });
+    });
+  }
+
+  /**
+   * Clean created collections
+   * @returns {Promise<void>}
+   */
+  async cleanup() {
+    let promises = [];
+    const collections = await mongoose.connection.db.collections();
+    collections.forEach(collection =>{ collection.remove()});
+    await Promise.all(promises);
+  }
+}
+module.exports = TestDataBase;
+

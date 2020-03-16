@@ -40,9 +40,11 @@ class StatusSelection {
     let online_status = Cookies.get('online-status');
 
     $.ajax({
-      url: apiPath + '/users/' + user_id +'/status',
+      url: apiPath + '/users/' + user_id,
       type: 'put',
       data: {
+        'onLine': online_status,
+        'acknowledgement': acknowledgement,
         'status': status,
       },
       headers: {
@@ -56,7 +58,7 @@ class StatusSelection {
 
 
 
-      //tell server to emit user-list-update event
+
       $.ajax({
         url: apiPath + '/usersList/',
         type: 'get',
@@ -71,7 +73,6 @@ class StatusSelection {
       }).always(function () {
         console.log("complete");
       });
-
 
       //change header icon for status
       if (status === "OK") {

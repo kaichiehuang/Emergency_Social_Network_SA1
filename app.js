@@ -17,29 +17,32 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 var swaggerDocument = require("./swaggerDocument")
 const Database = require('./model/database');
+let ENVIRONMENT = "development";
+if (process.env.NODE_ENV != undefined ) {
+    ENVIRONMENT = process.env.NODE_ENV;
+}
+
 //redirect library for https - uncomment on server
 // var httpsRedirectTool = require('express-http-to-https').redirectToHTTPS
-
 var app = express();
-
 Database.connect();
-
-
 const swaggerDocs = swaggerJsDoc(swaggerDocument);
 app.get('/api-docs.json', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.send(swaggerDocs);
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerDocs);
 });
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs,{
-  explorer: true
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
+    explorer: true
 }));
-
 //change if using https fo security issues
 // app.use(compression())
-
 // https redirect uncomment on server
 // app.use(httpsRedirectTool([], [], 301));
 let serverType = 'http';
+if (ENVIRONMENT == "production") {
+    serverType = "http";
+}
+console.log("+=+=+=+= serverType = " + serverType)
 let http = null;
 let https = null;
 let server = null;
@@ -48,25 +51,26 @@ if (serverType == 'http') {
 } else {
     https = require('https');
 }
-
 if (serverType == 'http') {
     /**
      * Create HTTP server.
      */
     server = http.createServer(app);
 } else {
-    /**
-     * Create HTTPS server.
-     */
-    const options = {
-        key: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.pem'),
-        cert: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.crt')
-    };
-
-    server = https.createServer(options, app);
+    let options = {}
+    // https certificates for localhost
+    if (ENVIRONMENT != "production") {
+        /**
+         * Create HTTPS server.
+         */
+        options = {
+            key: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.pem'),
+            cert: fs.readFileSync(__dirname + '/../ssl/SA1_ESN.crt')
+        };
+    }
+    server = https.createServer({}, app);
 }
 
-server = require('http').Server(app);
 var io = require('socket.io')(server);
 var count = 0;
 io.sockets.on('connection', function(socket) {
@@ -74,7 +78,6 @@ io.sockets.on('connection', function(socket) {
     io.sockets.emit('count', {
         number: count
     });
-
     socket.on('disconnect', function() {
         console.log('DISCONNESSO!!! ', socket.id);
         count--;
@@ -83,29 +86,24 @@ io.sockets.on('connection', function(socket) {
         });
     });
 });
-
 //add socket io to our response as a middleware
 app.use(function(req, res, next) {
     res.io = io;
     next();
 });
-
-
-
 //application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 //application/json
 app.use(bodyParser.json());
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 // set the view engine to ejs
 app.set('view engine', 'ejs');
-
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
 // app.use('/sign-up', registrationRouter);
 app.use('/app', applicationRouter);
@@ -115,12 +113,7 @@ app.use('/api/token', tokenRouter);
 app.use('/api/chat-messages', chatMessagesRouter);
 app.use('/api/private-chat-messages', privateChatMessagesRouter);
 app.use('/api/usersList', usersListRouter);
-
-app.use(
-    '/bootstrap',
-    express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets'))
-);
-
+app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   next(createError(404));
@@ -130,19 +123,17 @@ app.get('*', (req, res, next) => {
         title: 'FSE'
     });
 });
-
-
 // error handler
 app.use(function(err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
-
     // render the error page
     res.status(err.status || 500);
     res.render('error');
 });
-
 app.disable('etag');
-
-module.exports = { app: app, server: server };
+module.exports = {
+    app: app,
+    server: server
+};

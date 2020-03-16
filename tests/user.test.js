@@ -1,8 +1,22 @@
 const TestDatabase = require("../services/testDataBase")
 const User = require("../model/user")
-const mongoose = require('mongoose');
 
-TestDatabase.setupDB()
+const testDatabase = new TestDatabase();
+
+beforeAll(async () => {
+   return testDatabase.start();
+});
+
+afterAll(async () => {
+  return testDatabase.stop();
+});
+
+
+afterEach(async () => {
+  return await testDatabase.cleanup();
+});
+
+
 
 describe("principal", () => {
 
@@ -14,28 +28,28 @@ describe("principal", () => {
     let user = new User(userName, "password", "name", "last name")
     let newUser = await user.registerUser();
 
-    expect(newUser.username).toBe(userName)
+    return await expect(newUser.username).toBe(userName)
 
   })
 
   describe("Business Validations for user", () => {
 
-    test("raise error validating username with less than 3 characters", async () => {
+    test("raise error validating username with less than 3 characters",  () => {
       let userName = "ab"
       let user = new User(userName, "password", "name", "last name")
       return expect(user.validateUserName()).rejects.toMatch('Invalid username, please enter a longer username');
     })
 
 
-    test("raise error validating paaswords with less than 4 characters", async () => {
+    test("raise error validating paaswords with less than 4 characters",  () => {
       let password = "ab"
       let user = new User("userName", password, "name", "last name")
       return expect(user.validatePassword()).rejects.toMatch('Invalid password, please enter a longer username (min 4 characters');
     })
 
-    afterEach(async () => {
-      await mongoose.connection.db.dropDatabase();
-    });
+    // afterEach(async () => {
+    //   await mongoose.connection.db.dropDatabase();
+    // });
 
 
   })
@@ -53,7 +67,7 @@ describe("principal", () => {
 
     })
 
-    test("searching a user by the username", async () => {
+    test("searching a user by the username", () => {
       let userName = "userName"
       return User.findUserByUsername(userName).then(usr => {
         expect(usr.username).toBe("userName")
@@ -61,7 +75,7 @@ describe("principal", () => {
 
     })
 
-    test("password matches with the database paassword", async () => {
+    test("password matches with the database paassword", () => {
       let userName = "userName"
       let user = new User(userName, "password", "name", "last name")
       return user.isPasswordMatch("password").then(usr => {
@@ -79,7 +93,7 @@ describe("principal", () => {
     })
 
 
-    test("searching a user by the id ", async () => {
+    test("searching a user by the id ",  () => {
       return User.findUserById(userId).then(usr => {
         expect(String(usr._id)).toBe(userId)
       })
@@ -87,9 +101,9 @@ describe("principal", () => {
     })
 
 
-    afterEach(async () => {
-      await mongoose.connection.db.dropDatabase();
-    });
+    // afterEach(async () => {
+    //   await mongoose.connection.db.dropDatabase();
+    // });
 
 
   })
@@ -110,7 +124,7 @@ describe("principal", () => {
     })
 
 
-    test("get users ordered", async () => {
+    test("get users ordered", () => {
       let user = new User();
       return User.getUsers().then(listUser => {
         expect(listUser[0].username).toBe("CcccUser")
@@ -118,9 +132,9 @@ describe("principal", () => {
       })
     })
 
-    afterEach(async () => {
-      await mongoose.connection.db.dropDatabase();
-    });
+    // afterEach(async () => {
+    //   await mongoose.connection.db.dropDatabase();
+    // });
 
 
   })
