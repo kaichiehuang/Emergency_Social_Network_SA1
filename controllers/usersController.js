@@ -166,6 +166,12 @@ class UsersController {
             return res.status(500).send(err);
         });
     }
+    /**
+     * Delete user sockets
+     * @param  {[type]} req [description]
+     * @param  {[type]} res [description]
+     * @return {[type]}     [description]
+     */
     deleteSocket(req, res) {
 
         let socketData = req.body;

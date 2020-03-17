@@ -108,6 +108,16 @@ class PrivateChatMessagesController {
             }));
         });
     }
+    /**
+     * [emitToSockets description]
+     * @param  {[type]} privateChatMessageCreated [description]
+     * @param  {[type]} sockets                   [description]
+     * @param  {[type]} response                  [description]
+     * @param  {[type]} senderUser                [description]
+     * @param  {[type]} receiverUser              [description]
+     * @param  {[type]} status                    [description]
+     * @return {[type]}                           [description]
+     */
     static emitToSockets(privateChatMessageCreated, sockets, response, senderUser, receiverUser, status) {
         //1. iterate the list of sockects and emit the data
         if (sockets != undefined && sockets.size > 0) {
