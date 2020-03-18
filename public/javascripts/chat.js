@@ -102,7 +102,7 @@ function drawMessageItem(data) {
     let child = new_li.html();
     let indicatorStyle;
     if (data.status === 'OK') {
-        indicatorStye === "statusIndicator background-color-ok"
+        indicatorStyle = "statusIndicator background-color-ok";
     } else if (data.status === 'HELP') {
         indicatorStyle = 'statusIndicator background-color-help';
     } else if (data.status === 'EMERGENCY') {
@@ -140,7 +140,7 @@ function drawPrivateMessageItem(data) {
     let child = new_li.html();
     let indicatorStyle;
     if (data.status === 'OK') {
-        indicatorStyle === "statusIndicator background-color-ok"
+        indicatorStyle = "statusIndicator background-color-ok";
     } else if (data.status === 'HELP') {
         indicatorStyle = 'statusIndicator background-color-help';
     } else if (data.status === 'EMERGENCY') {
