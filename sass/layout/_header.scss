@@ -16,7 +16,7 @@
             padding: 0;
             list-style: none;
             @include flexbox;
-            @include justify-content(flex-end);
+            @include justify-content(center);
             li {
                 margin-left: 30px;
                 i {
@@ -127,7 +127,7 @@
                 @include flexbox;
                 @include align-items(stretch);
                 @include reset-margin-padding;
-                width: auto;
+                width: 20%;
                 min-height: 85px;
                 a {
                     display: block;
