@@ -1,4 +1,6 @@
 const PrivateChatMessageModel = require('./model').PrivateChatMessagesMongo;
+const stopwords = require('n-stopwords')(['en']);
+
 class PrivateChatMessage {
     constructor(message, sender_user_id, receiver_user_id, user_status) {
         this._id = null;

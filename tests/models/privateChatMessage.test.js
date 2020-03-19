@@ -1,5 +1,5 @@
-const TestDatabase = require("../services/testDataBase")
-const PrivateChatMessage = require("../model/privateChatMessage")
+const TestDatabase = require("../../services/testDataBase")
+const PrivateChatMessage = require("../../model/privateChatMessage")
 
 
 const testDatabase = new TestDatabase();

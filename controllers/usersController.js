@@ -133,19 +133,7 @@ class UsersController {
         });
     }
 
-    /**
-     * Get the users of the DataBase (only user_name and online fields)
-     * @param req
-     * @param res
-     */
-    getAllUsers(req, res) {
-        User.getUsers().then(users => {
-            res.contentType('application/json');
-            return res.status(201).send(JSON.stringify(users));
-        }).catch(err => {
-            return res.status(500).send(err);
-        });
-    }
+
     /**
      * [createSocket description]
      * @param  {[type]} req [description]
@@ -190,6 +178,12 @@ class UsersController {
         });
     }
 
+    /**
+     * Update user status
+     *  An specific Update user for status, to update status timestamp
+     * @param req
+     * @param res
+     */
     updateUserStatus(req, res) {
         let user_instance = new User();
         let userId = req.params.userId;
@@ -211,5 +205,63 @@ class UsersController {
             return res.status(500).send(err);
         });
     }
+
+
+    /**
+     * Search users by username or status
+     * @param req
+     * @param res
+     * @returns {*}
+     */
+    getUsers(req,res){
+        console.log("searchUserInformation")
+        let username = req.query.username;
+        let status = req.query.status;
+        let user_instance;
+
+        res.contentType('application/json');
+        // type of search (username or status)
+        if(username !== undefined && username.length !== 0 ){
+            //search users by username
+            user_instance = new User();
+            User.findUsersByUsername(username)
+                .then( users => {
+                    return res.status(201).send(JSON.stringify(users));
+                })
+                .catch(err => {
+                    console.log("Error searching users by username")
+                    return res.status(500).send(err);
+                });
+        }
+        if(status!== undefined && status.length!==0){
+            //search user by status
+            User.findUsersByStatus(status)
+                .then( users => {
+                    return res.status(201).send(JSON.stringify(users));
+                })
+                .catch(err => {
+                    console.log("Error searching users by username")
+                    return res.status(500).send(err);
+                });
+        }
+
+        //If there's not a query parameter return all users.
+        User.getUsers().then(users => {
+            return res.status(201).send(JSON.stringify(users));
+        }).catch(err => {
+            console.log("Error searching all users")
+            return res.status(500).send(err);
+        });
+
+
+
+
+
+    }
+
+
+
+
+
 
 }module.exports = UsersController;

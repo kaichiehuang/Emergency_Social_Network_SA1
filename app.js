@@ -13,9 +13,7 @@ var tokenRouter = require('./routes/token');
 var chatMessagesRouter = require('./routes/chatMessages');
 var privateChatMessagesRouter = require('./routes/privateChatMessages');
 var usersListRouter = require('./routes/usersList');
-const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUi = require("swagger-ui-express");
-var swaggerDocument = require("./swaggerDocument")
+var announcementRouter = require('./routes/announcements');
 const Database = require('./model/database');
 let ENVIRONMENT = "development";
 if (process.env.NODE_ENV != undefined ) {
@@ -26,14 +24,6 @@ if (process.env.NODE_ENV != undefined ) {
 // var httpsRedirectTool = require('express-http-to-https').redirectToHTTPS
 var app = express();
 Database.connect();
-const swaggerDocs = swaggerJsDoc(swaggerDocument);
-app.get('/api-docs.json', (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(swaggerDocs);
-});
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
-    explorer: true
-}));
 //change if using https fo security issues
 // app.use(compression())
 // https redirect uncomment on server
@@ -113,6 +103,7 @@ app.use('/api/token', tokenRouter);
 app.use('/api/chat-messages', chatMessagesRouter);
 app.use('/api/private-chat-messages', privateChatMessagesRouter);
 app.use('/api/usersList', usersListRouter);
+app.use('/api/announcements',announcementRouter);
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {

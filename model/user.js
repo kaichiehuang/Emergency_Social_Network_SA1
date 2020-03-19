@@ -283,6 +283,48 @@ class User {
             });
         });
     }
+
+    /**
+     * Find users by user name (contains)
+     * @param username
+     * @returns {Promise<unknown>}
+     */
+    static findUsersByUsername(username){
+        return new Promise( (resolve,reject) => {
+            UserModel.find({username: {$regex: username}})
+                .select('username onLine status')
+                .sort({
+                    onLine: -1,
+                    username: 'asc'
+                }).then(users => {
+                    resolve(users);
+                }).catch(err => {
+                    reject(err);
+                });
+        })
+    }
+
+    /**
+     * Find user by user status
+     * @param status
+     * @returns {Promise<unknown>}
+     */
+    static findUsersByStatus(status){
+        return new Promise( (resolve,reject) => {
+            UserModel.find({status: status})
+                .select('username onLine status')
+                .sort({
+                    onLine: -1,
+                    username: 'asc'
+                }).then(users => {
+                resolve(users);
+            }).catch(err => {
+                reject(err);
+            });
+        })
+    }
+
+
     /**
      * Inserts a socket to the sockets map attribute
      * @param  {[type]} userId   [description]
