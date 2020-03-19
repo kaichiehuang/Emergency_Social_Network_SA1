@@ -1,3 +1,5 @@
+
+
 .form-error-message-container {
     display: none;
 }
@@ -185,8 +187,7 @@ form {
             height: 10px;
             border-radius: 10px;
             display: inline-block;
-            background: $color_ok;
-            Vertical-Align: Middle
+            vertical-align: middle;
         }
         .timestamp {
             float: right;

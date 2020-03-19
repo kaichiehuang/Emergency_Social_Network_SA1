@@ -56,7 +56,7 @@ class StatusSelection {
 
 
 
-
+      //tell server to emit user-list-update event
       $.ajax({
         url: apiPath + '/usersList/',
         type: 'get',
@@ -71,6 +71,7 @@ class StatusSelection {
       }).always(function () {
         console.log("complete");
       });
+
 
       //change header icon for status
       if (status === "OK") {
