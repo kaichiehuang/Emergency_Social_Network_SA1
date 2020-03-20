@@ -46,6 +46,8 @@ class TestDataBase {
     collections.forEach(collection =>{ collection.remove()});
     await Promise.all(promises);
   }
+
+
 }
 module.exports = TestDataBase;
 

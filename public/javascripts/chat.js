@@ -225,11 +225,11 @@ function getMessages(type) {
     }).done(function(response) {
         //console.log(response);
         response.forEach(element => {
-            if (type === 'private') {
-                drawPrivateMessageItem(element);
-            } else if (type === 'public') {
-                drawMessageItem(element);
-            }
+          if (type === 'private') {
+            drawPrivateMessageItem(element);
+          } else if (type === 'public') {
+            drawMessageItem(element);
+          }
         });
         if (type === 'private') {
             private_wall_container.scrollTop = private_wall_container.scrollHeight;

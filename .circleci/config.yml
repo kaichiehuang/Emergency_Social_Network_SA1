@@ -2,8 +2,11 @@
 version: 2.1
 jobs: # a collection of steps
   build: # runs that are not using Workflows must have a `build` job as the entry point
+    environment:
+      CC_TEST_REPORTER_ID: c935bbf6a545182cafbde3395eeed182e079b045e2eb64e44bee93431aca0dbc
     docker: # run the steps with Docker
       - image: circleci/node:12.14.1 # ...with this image as the primary container;
+    working_directory: ~/repo
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
       - restore_cache: # special step to restore the dependency cache
@@ -19,10 +22,19 @@ jobs: # a collection of steps
           paths:
             - ./node_modules
       - run:
-          name: Run JEST tests
-          command: sudo npm test
-      - run:
           name: cc-test-reporter
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
+      - run: # run tests
+          name: test
+          command: |
+            ./cc-test-reporter before-build
+            npm test
+            ./cc-test-reporter after-build --coverage-input-type lcov --debug --exit-code $?
+          environment:
+            CC_TEST_REPORTER_ID: c935bbf6a545182cafbde3395eeed182e079b045e2eb64e44bee93431aca0dbc
+      - store_test_results:
+          path: coverage
+      - store_artifacts:
+          path: coverage
