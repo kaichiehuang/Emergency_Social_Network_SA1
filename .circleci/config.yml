@@ -2,8 +2,12 @@
 version: 2.1
 jobs: # a collection of steps
   build: # runs that are not using Workflows must have a `build` job as the entry point
+    environment:
+      CC_TEST_REPORTER_ID: ESN_TEST_REPORT
     docker: # run the steps with Docker
       - image: circleci/node:12.14.1 # ...with this image as the primary container;
+      - image: "mileschou/xdebug:7.3"
+    working_directory: ~/repo
     steps: # a collection of executable commands
       - checkout # special step to check out source code to working directory
       - restore_cache: # special step to restore the dependency cache
@@ -21,6 +25,11 @@ jobs: # a collection of steps
       - run:
           name: Run JEST tests
           command: sudo npm test
+      - run:
+          name: Setup dependencies
+          command: |
+            sudo composer self-update
+            composer install -n --prefer-dist
       - run:
           name: cc-test-reporter
           command: |
