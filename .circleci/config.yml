@@ -20,7 +20,7 @@ jobs: # a collection of steps
             - ./node_modules
       - run:
           name: Run JEST tests
-          command: jest --ci --runInBand --reporters=default --reporters=jest-junit
+          command: sudo jest --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT_DIR: "reports/junit/js-test-results.xml"
       - run:
