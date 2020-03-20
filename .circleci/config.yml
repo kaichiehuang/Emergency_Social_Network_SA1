@@ -36,13 +36,14 @@ jobs: # a collection of steps
           name: test
           command: |
             npm test
+      - store_test_results:
+          path: coverage
+      - store_artifacts:
+          path: coverage
       - run:
           name: after-build
           command: |
             ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
           environment:
             CC_TEST_REPORTER_ID: c935bbf6a545182cafbde3395eeed182e079b045e2eb64e44bee93431aca0dbc
-      - store_test_results:
-          path: coverage
-      - store_artifacts:
-          path: coverage
+
