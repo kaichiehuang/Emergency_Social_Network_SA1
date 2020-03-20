@@ -14,5 +14,8 @@ module.exports = {
     "!**/vendor/**"
   ],
   coverageReporters:["text", "html"],
-  reporters: ["default", "jest-junit"]
+  reporters: [
+      "default",
+      ["jest-junit", {outputDirectory: "./reports", outputName: "jest-junit.xml"}]
+  ]
 };
