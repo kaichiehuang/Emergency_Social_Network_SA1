@@ -29,4 +29,4 @@ jobs: # a collection of steps
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
       - store_test_results:
-          path: reports/junit
+          path: ~/reports/junit/
