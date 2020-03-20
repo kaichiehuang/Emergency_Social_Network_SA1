@@ -16,6 +16,6 @@ module.exports = {
   coverageReporters:["text", "html"],
   reporters: [
       "default",
-      ["jest-junit", {outputDirectory: "./reports", outputName: "jest-junit.xml"}]
+      ["jest-junit", {outputDirectory: "./coverage", outputName: "jest-junit.xml"}]
   ]
 };

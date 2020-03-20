@@ -2,8 +2,6 @@
 version: 2.1
 jobs: # a collection of steps
   build: # runs that are not using Workflows must have a `build` job as the entry point
-    environment:
-      CC_TEST_REPORTER_ID: c935bbf6a545182cafbde3395eeed182e079b045e2eb64e44bee93431aca0dbc
     docker: # run the steps with Docker
       - image: circleci/node:12.14.1 # ...with this image as the primary container;
     working_directory: ~/repo
@@ -28,18 +26,12 @@ jobs: # a collection of steps
             chmod +x ./cc-test-reporter
       - run: # run tests
           name: test
+          command: |
+            ./cc-test-reporter before-build
+            npm test
+            ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
           environment:
             CC_TEST_REPORTER_ID: c935bbf6a545182cafbde3395eeed182e079b045e2eb64e44bee93431aca0dbc
-          command: |
-            if [ "$CIRCLE_BRANCH" == "new_development" ];
-            then
-              ./cc-test-reporter before-build
-            fi
-            npm test
-            if [ "$CIRCLE_BRANCH" == "new_development" ];
-            then
-              ./cc-test-reporter after-build --coverage-input-type lcov --exit-code $?
-            fi
       - store_test_results:
           path: coverage
       - store_artifacts:
