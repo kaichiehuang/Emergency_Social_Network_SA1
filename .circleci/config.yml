@@ -28,6 +28,8 @@ jobs: # a collection of steps
             chmod +x ./cc-test-reporter
       - run: # run tests
           name: test
+          environment:
+            CC_TEST_REPORTER_ID: c935bbf6a545182cafbde3395eeed182e079b045e2eb64e44bee93431aca0dbc
           command: |
             if [ "$CIRCLE_BRANCH" == "new_development" ];
             then
