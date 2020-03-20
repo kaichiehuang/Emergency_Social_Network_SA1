@@ -22,7 +22,7 @@ jobs: # a collection of steps
           name: Run JEST tests
           command: sudo npm test
           environment:
-            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+            JEST_JUNIT_OUTPUT_DIR: "reports/junit/"
       - run:
           name: cc-test-reporter
           command: |
