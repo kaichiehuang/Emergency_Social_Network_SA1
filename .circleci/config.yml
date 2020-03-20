@@ -28,3 +28,10 @@ jobs: # a collection of steps
             chmod +x ./cc-test-reporter
       - store_test_results:
           path: reports
+      - checkout
+          - run: npm install
+          - run:
+              name: "Run Jest and Collect Coverage Reports"
+              command: jest --collectCoverage=true
+          - store_artifacts:
+              path: coverage
