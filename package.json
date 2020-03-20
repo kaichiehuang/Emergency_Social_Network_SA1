@@ -6,7 +6,7 @@
     "devstart": "nodemon ./bin/www",
     "debug": "nodemon ./bin/www --debug",
     "start": "node ./bin/www",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "dependencies": {
     "bcrypt": "^3.0.8",
