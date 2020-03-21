@@ -31,6 +31,7 @@
     "n-stopwords": "^1.1.1",
     "sass-flex-mixin": "^1.0.3",
     "socket.io": "^2.3.0",
+    "superagent": "^5.2.2",
     "the-big-username-blacklist": "^1.5.2"
   },
   "devDependencies": {
@@ -43,5 +44,24 @@
     "mongodb-memory-server": "^6.3.2",
     "node-sass": "^4.13.1",
     "nodemon": "^2.0.2"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/migration/**",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ],
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "./coverage/junit",
+          "outputName": "results.xml"
+        }
+      ]
+    ]
   }
 }

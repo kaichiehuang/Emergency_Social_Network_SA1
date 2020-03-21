@@ -2,8 +2,9 @@ const UserModel = require('./model').UserMongo;
 const ReservedNamesModel = require('./model').ReservedNamesMongo;
 const bcrypt = require('bcrypt');
 const blacklist = require('the-big-username-blacklist');
-const tokenMiddleWare = require('../middleware/tokenServer');
+const TokenServerClass = require("../middleware/TokenServer")
 const constants = require('../constants');
+
 class User {
     constructor(username, password, name, last_name) {
         this._id = null;
@@ -35,7 +36,7 @@ class User {
                 console.log('All validations passed');
                 //if no errors resolve promise with result obj
                 resolve(true);
-            }).catch(function(err) {
+            }).catch(function (err) {
                 console.log('validations not passed');
                 //if errors reject the promise
                 console.log(err);
@@ -43,6 +44,7 @@ class User {
             });
         });
     }
+
     //WITH PROMISES
     /**
      * [isPasswordMatch description]
@@ -81,6 +83,7 @@ class User {
             resolve(true);
         });
     }
+
     //VALIDATE PASSWORD  LENGTH
     /**
      * [validatePassword description]
@@ -95,6 +98,7 @@ class User {
             }
         });
     }
+
     /**
      * Register a username in DB. it hashes the password
      * @return {[type]} [description]
@@ -112,6 +116,7 @@ class User {
         });
         return newUser.save();
     }
+
     /**
      * Updates the acknowledgement for a user
      * @param  {[type]} userId          [description]
@@ -167,6 +172,7 @@ class User {
             });
         });
     }
+
     /**
      * hashes a user password
      * @param  {[type]} password [description]
@@ -175,6 +181,7 @@ class User {
     hashPassword(password) {
         return bcrypt.hashSync(password, 10);
     }
+
     /**
      * Validates if a username is banned
      * @return {[type]} [description]
@@ -191,6 +198,7 @@ class User {
             }
         });
     }
+
     /**
      * Checks if a username exists
      * @param  {[type]} username [description]
@@ -211,6 +219,7 @@ class User {
             });
         });
     }
+
     /**
      * Generates a token for a user
      * @return {[type]} [description]
@@ -218,25 +227,32 @@ class User {
     generateTokens() {
         return new Promise((resolve, reject) => {
             let token = '';
-            tokenMiddleWare.generateToken(this._id, false).then(generatedToken => {
-                token = generatedToken;
-                return tokenMiddleWare.generateToken(this._id, true);
-            }).then(genRefToken => {
-                let tokens = {
-                    token: token,
-                    ex_token: genRefToken
-                };
-                resolve(tokens);
-            }).catch(err => {
-                reject(err);
-            });
+            TokenServerClass.generateToken(this._id, false)
+                .then(generatedToken => {
+                    token = generatedToken;
+                    TokenServerClass.generateToken(this._id, true)
+                        .then(genRefToken => {
+                            let tokens = {
+                                token: token,
+                                ex_token: genRefToken
+                            };
+                            resolve(tokens);
+                        })
+                        .catch(err => {
+                            reject(err);
+                        });
+                })
+                .catch(err => {
+                    reject(err);
+                });
         });
     }
+
     /**
      * username exists / true or false
      * @return {[type]} [description]
      */
-    userExist(id) {
+    static userExist(id) {
         return new Promise((resolve, reject) => {
             this.findUserById(id).then(result => {
                 if (result.id == id) {
@@ -249,6 +265,7 @@ class User {
             });
         });
     }
+
     /**
      * Finds a user by username
      * @param  {[type]} userId [description]
@@ -267,6 +284,7 @@ class User {
             });
         });
     }
+
     /**
      * [getUsers description]
      * @return {[type]} [description]
@@ -289,18 +307,18 @@ class User {
      * @param username
      * @returns {Promise<unknown>}
      */
-    static findUsersByUsername(username){
-        return new Promise( (resolve,reject) => {
+    static findUsersByUsername(username) {
+        return new Promise((resolve, reject) => {
             UserModel.find({username: {$regex: username}})
                 .select('username onLine status')
                 .sort({
                     onLine: -1,
                     username: 'asc'
                 }).then(users => {
-                    resolve(users);
-                }).catch(err => {
-                    reject(err);
-                });
+                resolve(users);
+            }).catch(err => {
+                reject(err);
+            });
         })
     }
 
@@ -309,8 +327,8 @@ class User {
      * @param status
      * @returns {Promise<unknown>}
      */
-    static findUsersByStatus(status){
-        return new Promise( (resolve,reject) => {
+    static findUsersByStatus(status) {
+        return new Promise((resolve, reject) => {
             UserModel.find({status: status})
                 .select('username onLine status')
                 .sort({
@@ -350,6 +368,7 @@ class User {
             });
         });
     }
+
     /**
      * Removes a socket from the sockets map attribute
      * @param  {[type]} userId   [description]
@@ -366,7 +385,7 @@ class User {
             }).then(user => {
                 if (user.sockets.has(socketId)) {
                     user.sockets.delete(socketId);
-                }else{
+                } else {
                     reject("Socket does not exist");
                 }
                 return user.save();
@@ -395,11 +414,11 @@ class User {
             }).then(user => {
                 if (user.unread_messages.has(senderUserId) == false) {
                     user.unread_messages.set(senderUserId, 1);
-                }else{
+                } else {
                     let count = user.unread_messages.get(senderUserId);
-                    if(increaseCount){
+                    if (increaseCount) {
                         count++;
-                    }else{
+                    } else {
                         count = 0;
                     }
                     user.unread_messages.set(senderUserId, count);
@@ -413,4 +432,5 @@ class User {
         });
     }
 }
+
 module.exports = User;

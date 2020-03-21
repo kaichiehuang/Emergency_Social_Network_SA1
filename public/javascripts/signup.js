@@ -48,7 +48,7 @@ $(function () {
                 user_status = response.user.status;
                 //set token in cookies since it is more secure
                 Cookies.set('user-jwt-esn', userJWT);
-                Cookies.set('user-jwt-refresh-esn', response.tokens.token);
+                Cookies.set('user-jwt-refresh-esn', response.tokens.ex_token);
                 Cookies.set('user-id', user_id);
                 Cookies.set('username', username);
                 Cookies.set('user-acknowledgement', user_acknowledgement);
