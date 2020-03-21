@@ -77,19 +77,13 @@ class PrivateChatMessage {
             let preprocessedQuery = stopwords.cleanText(query);
             console.log("after clean: " + preprocessedQuery);
             PrivateChatMessageModel.find({
-                    $or:[{
-                            "sender_user_id": sender_user_id,
-                            "receiver_user_id": receiver_user_id,
-                        }, {
-                            "sender_user_id": receiver_user_id,
-                            "receiver_user_id": sender_user_id
-                        }],
+                    $or:[{"sender_user_id": sender_user_id, "receiver_user_id": receiver_user_id,},
+                        {"sender_user_id": receiver_user_id, "receiver_user_id": sender_user_id}],
                     $text: {$search:preprocessedQuery}
                 })
                 .populate("sender_user_id", ["_id", "username"]).populate("receiver_user_id", ["_id", "username"])
                 .sort({created_at: -1})
-                .skip(skipSize)
-                .limit(pageSize)
+                .skip(skipSize).limit(pageSize)
                 .then(result => {
                     resolve(result);
                 })
