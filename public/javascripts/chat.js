@@ -95,9 +95,10 @@ $(function() {
         if (newID === 'public-chat-content') {
             public_wall_container.scrollTop = public_wall_container.scrollHeight;
         }
-        if (newID === 'announcement-chat-content') {
+        if (newID === 'announcement-chat-content' && oldContentPageID != newID) {
+            $("#announcement-chat li:not(.hide)").remove();
             getMessages('announcement');
-            announcements_container.scrollTop = announcements_container.scrollHeight;
+            announcements_container.scrollTop = 0;
         }
     });
 });
