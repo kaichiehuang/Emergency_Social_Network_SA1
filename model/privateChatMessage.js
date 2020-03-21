@@ -30,6 +30,7 @@ class PrivateChatMessage {
     }
     /**
      * [getChatMessages description]
+     *
      * @param  {[type]} sender_user_id   [description]
      * @param  {[type]} receiver_user_id [description]
      * @return {[type]}                  [description]
