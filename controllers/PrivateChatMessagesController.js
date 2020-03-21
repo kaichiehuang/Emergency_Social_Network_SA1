@@ -147,7 +147,7 @@ function searchPrivateMessage(requestData, res) {
     privateChatMessage.searchChatMessages(requestData['sender_user_id'], requestData['receiver_user_id'],
         query, page, pageSize)
         .then(result => {
-            res.status(200).send(result);
+            res.send(result);
         }).catch(err => {
         return res.status(422).send(JSON.stringify({
             error: err.message
@@ -160,7 +160,7 @@ function getAllPrivateMessage(requestData, res) {
     privateChatMessage.getChatMessages(requestData['sender_user_id'], requestData['receiver_user_id']).then(result => {
         //reset counter for user and messages received from user with id receiver_user_id
         User.changeMessageCount(requestData['receiver_user_id'], requestData['sender_user_id']);
-        res.status(200).send(result);
+        res.send(result);
     }).catch(err => {
         return res.status(422).send(JSON.stringify({
             error: err.message
