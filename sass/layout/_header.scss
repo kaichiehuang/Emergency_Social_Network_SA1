@@ -5,6 +5,20 @@
     border: none;
     &.header-loggedin {
         border-bottom: 1px solid #ccc;
+        @include respond-to('small') {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2;
+        }
+        @include respond-to('extra-small') {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2;
+        }
     }
     .top-header-admin-bar {
         margin: 0;
@@ -21,19 +35,35 @@
             padding-right: 15px;
             @include flexbox;
             @include justify-content(center);
+            @include respond-to('small') {
+                width: 40%;
+            }
+            @include respond-to('extra-small') {
+                width: 40%;
+            }
             li {
                 margin-left: 5px;
-                i {
-                    margin-right: 5px;
-                    font-size: 1.35em;
-                    color: $brand_color1;
-                }
                 a {
-                    text-decoration: underline;
                     font-style: italic;
+                    @include flexbox;
+                    @include align-items(center);
+                    @include flex-wrap(nowrap);
+                    i {
+                        margin-right: 5px;
+                        font-size: 1.35em;
+                        color: $brand_color1;
+                        text-decoration: none;
+                    }
                     span {
                         margin-right: 10px;
                         color: $brand_color1;
+                        text-decoration: underline;
+                        @include respond-to('small') {
+                            font-size: 0.9em;
+                        }
+                        @include respond-to('extra-small') {
+                            font-size: 0.9em;
+                        }
                     }
                 }
                 * {}
@@ -45,16 +75,27 @@
             min-width: 70%;
             max-width: 85%;
             overflow: hidden;
+            @include respond-to('small') {
+                max-width: 65%;
+            }
+            @include respond-to('extra-small') {
+                max-width: 65%;
+            }
             p {
-                width: auto;
+                width: 2500px;
                 margin: 0;
                 padding: 0;
                 color: $brand_color2;
                 font-weight: bold;
-                animation: moveText 25s;
+                animation: moveText 10s;
                 animation-timing-function: linear;
-                animation-iteration-count: 200;
+                animation-iteration-count: 500;
                 position: relative;
+                animation-delay: 2s;
+                max-height: 21px;
+                line-height: 21px;
+                overflow: hidden;
+                font-size: 0.95em;
                 @keyframes moveText {
                     from {
                         right: -100%;
@@ -63,6 +104,8 @@
                         right: 100%;
                     }
                 }
+                @include respond-to('small') {}
+                @include respond-to('extra-small') {}
             }
         }
     }
@@ -157,13 +200,13 @@
             @include flexbox;
             @include align-items(stretch);
             @include justify-content(space-between);
-            min-height: 68px;
+            min-height: 65px;
             li {
                 @include flexbox;
                 @include align-items(stretch);
                 @include reset-margin-padding;
                 width: 20%;
-                min-height: 68px;
+                min-height: 65px;
                 a {
                     display: block;
                     color: white;
@@ -171,7 +214,7 @@
                     padding-top: 10px;
                     text-align: center;
                     width: 100%;
-                    height: 68px;
+                    height: 65px;
                     text-decoration: none;
                     border-left: 1px solid rgba(#fff, 0.35);
                     @include flexbox;

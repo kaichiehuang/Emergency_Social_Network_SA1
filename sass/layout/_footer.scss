@@ -1,11 +1,16 @@
 /*---------PIE PAGINA------------*/
 
 footer {
+    @include respond-to("small") {
+        display: none;
+    }
+    @include respond-to("extra-small") {
+        display: none;
+    }
     color: $brand_color2;
     color: #999;
     * {
-        font-size: 1em;
-        // position: fixed;
+        font-size: 1em; // position: fixed;
         // bottom: 10px;
         // width: 100%;
         // left: 0;

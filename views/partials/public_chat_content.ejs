@@ -4,9 +4,9 @@
 
             <div class="msg_border">
                 <div class="messaging">
-                    <div class="msg_area" id="<%= block_id %>-msg_area">
+                    <div class="msg_area msg_area-<%= block_id %>" id="<%= block_id %>-msg_area">
                         <ul class="list-group list-group-flush" id="<%= block_id %>-chat">
-                            <li id='<%= block_id %>-template' class="user-post list-group-item list-group-item-action flex-column align-items-center hide">
+                            <li id='<%= block_id %>-template' class="user-post user-post- list-group-item list-group-item-action flex-column align-items-center hide">
                                 <div class="msg_metadata">
                                     <span class="statusIndicator"> &nbsp;  </span>
                                     <small class="username"> %username_token% </small>

@@ -3,6 +3,7 @@
 var public_wall_container = document.getElementById('public-msg_area');
 var private_wall_container = document.getElementById('private-msg_area');
 var announcements_container = document.getElementById('announcement-msg_area');
+var lastAnnouncement = null;
 $(function() {
     //socket for chat messages management
     const socket = io("");
@@ -12,7 +13,7 @@ $(function() {
      * @param  {[type]} data [description]
      * @return {[type]}      [description]
      */
-    socket.on('connect', data => {
+     socket.on('connect', data => {
         let oldSocketId = Cookies.get('user-socket-id');
         // delete old socket from db
         if (oldSocketId != undefined && oldSocketId != '') {
@@ -34,7 +35,6 @@ $(function() {
 
     // listen for public chat events
     socket.on('new-announcement', data => {
-        alert(data);
         drawLastAnnouncement(data);
         getMessages('announcement');
         announcements_container.scrollTop = announcements_container.scrollHeight;
@@ -42,7 +42,7 @@ $(function() {
 
     //init public chat messages and announcements
     getMessages('public');
-
+    getLastAnnouncement();
 
     // listen for private chat events
     socket.on('new-private-chat-message', data => {
@@ -60,31 +60,31 @@ $(function() {
      * @param  {[type]} ) {                   let oldSocketId [description]
      * @return {[type]}   [description]
      */
-    $(window).on('unload', function() {
+     $(window).on('unload', function() {
         let oldSocketId = Cookies.get('user-socket-id');
         Cookies.set('user-socket-id', "");
         syncSocketId(oldSocketId, true);
         setOnline(false);
     });
-    /****** events declaration ********/
-    $('#public-send-btn').click(function(e) {
+     /****** events declaration ********/
+     $('#public-send-btn').click(function(e) {
         sendMessage('public');
     });
-    $('#public-msg-form').on('submit', function(e) {
+     $('#public-msg-form').on('submit', function(e) {
         e.preventDefault();
         sendMessage('public');
     });
-    $('#private-send-btn').click(function(e) {
+     $('#private-send-btn').click(function(e) {
         sendMessage('private');
     });
-    $('#private-msg-form').on('submit', function(e) {
+     $('#private-msg-form').on('submit', function(e) {
         e.preventDefault();
         sendMessage('private');
     });
-    $('#announcement-send-btn').click(function(e) {
+     $('#announcement-send-btn').click(function(e) {
         sendMessage('announcement');
     });
-    $('#announcement-msg-form').on('submit', function(e) {
+     $('#announcement-msg-form').on('submit', function(e) {
         e.preventDefault();
         sendMessage('announcement');
     });
@@ -107,7 +107,7 @@ $(function() {
  * @param  {[type]} data [description]
  * @return {[type]}      [description]
  */
-function drawMessageItem(data) {
+ function drawMessageItem(data) {
     let type = 'public';
     let list_length = $('ul#' + type + '-chat li').length;
     let new_li = $('ul#' + type + '-chat li#' + type + '-template').clone();
@@ -161,17 +161,21 @@ function drawAnnouncement(data) {
 
     let child_new = child.replace('%username_token%', data.user_id.username)
     .replace('%timestamp_token%', new Date(data.created_at).toLocaleString())
-    .replace('%message_token%', data.announcement);
-    //child_new.find('.statusIndicator').className = indicatorStyle;
+    .replace('%message_token%', data.message);
     new_li.html(child_new);
     $('#' + type + '-chat').append(new_li);
+}
+
+function drawLastAnnouncement(data) {
+    let lastAnnouncementContainer = $("#last-announcement-container");
+    lastAnnouncementContainer.html(data.message);
 }
 /**
  * [drawPrivateMessageItem description]
  * @param  {[type]} data [description]
  * @return {[type]}      [description]
  */
-function drawPrivateMessageItem(data) {
+ function drawPrivateMessageItem(data) {
     let type = 'private';
     let list_length = $('ul#' + type + '-chat li').length;
     let new_li = $('ul#' + type + '-chat li#' + type + '-template').clone();
@@ -205,7 +209,7 @@ function drawPrivateMessageItem(data) {
 /**
  * Sends and saves the message the user post.
  */
-function sendMessage(type) {
+ function sendMessage(type) {
     let user_id = Cookies.get('user-id');
     let jwt = Cookies.get('user-jwt-esn');
     let url = apiPath + '/chat-messages';
@@ -251,11 +255,41 @@ function sendMessage(type) {
         console.log('complete');
     });
 }
+
+function getLastAnnouncement(){
+    let jwt = Cookies.get('user-jwt-esn');
+    let url = apiPath + '/announcements';
+    let data = {
+        last: true,
+        limit: 1
+    };
+
+    $.ajax({
+        url: url,
+        type: 'get',
+        headers: {
+            Authorization: jwt
+        },
+        data: data
+    }).done(function(response) {
+        //console.log(response);
+        let i =0;
+        if(response.length > 0){
+            drawLastAnnouncement(response[0]);
+        }
+    }).fail(function(e) {
+        $('#signup-error-alert').html(e);
+        $('#signup-error-alert').show();
+    }).always(function() {
+        console.log('complete');
+    });
+}
+
 /**
  * Get all the messages prevoisly posted
  * (messages saved on the db)
  */
-function getMessages(type) {
+ function getMessages(type, limit) {
     let jwt = Cookies.get('user-jwt-esn');
     let url = apiPath + '/chat-messages';
     let data = {};
@@ -270,7 +304,9 @@ function getMessages(type) {
     //data for announcements
     if (type === 'announcement') {
         url = apiPath + '/announcements';
-        data = {};
+        data = {
+            limit: 0
+        };
     }
     $.ajax({
         url: url,
@@ -281,14 +317,16 @@ function getMessages(type) {
         data: data
     }).done(function(response) {
         //console.log(response);
+        let i =0;
         response.forEach(element => {
             if (type === 'private') {
                 drawPrivateMessageItem(element);
             } else if (type === 'public') {
                 drawMessageItem(element);
             } else if (type === 'announcement') {
-                drawAnnouncement(element);
+                drawAnnouncement(element, i);
             }
+            i++;
         });
         if (type === 'private') {
             private_wall_container.scrollTop = private_wall_container.scrollHeight;
@@ -310,7 +348,7 @@ function getMessages(type) {
  * @param  {[type]} receiver_user_id [description]
  * @return {[type]}                  [description]
  */
-function initiatePrivateChat(receiver_user_id) {
+ function initiatePrivateChat(receiver_user_id) {
     Cookies.set('receiver_user_id', receiver_user_id);
     $("#private-chat .user-post").each(function(index, el) {
         if ($(this).attr("id") != "private-template") {

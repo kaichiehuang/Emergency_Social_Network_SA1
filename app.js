@@ -68,19 +68,15 @@ io.sockets.on('connection', function(socket) {
     io.sockets.emit('count', {
         number: count
     });
-    socket.on('disconnect', function() {
-        console.log('DISCONNESSO!!! ', socket.id);
-        count--;
-        io.sockets.emit('count', {
-            number: count
-        });
-    });
 });
+
+
 //add socket io to our response as a middleware
 app.use(function(req, res, next) {
     res.io = io;
     next();
 });
+
 //application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended: false

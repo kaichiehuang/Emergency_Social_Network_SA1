@@ -7,17 +7,17 @@ class AnnouncementController {
      */
     createAnnouncement(req, res) {
         let requestData = req.body;
-        let announcement = requestData['announcement'];
+        let message = requestData['message'];
         let user_id = requestData['user_id'];
-        console.log("announcement" + announcement);
-        console.log("announcement" + user_id);
-        let newAnnouncement = new Announcement(announcement, user_id, 'OK');
+        console.log("message" + message);
+        console.log("announcement id" + user_id);
+        let newAnnouncement = new Announcement(message, user_id, 'OK');
 
         //save new announcement
         newAnnouncement.saveAnnouncement().then(newAnnouncement => {
             res.io.emit('new-announcement', {
                 "id": newAnnouncement._id,
-                "announcement": newAnnouncement.announcement,
+                "message": newAnnouncement.message,
                 "created_at": newAnnouncement.created_at,
             });
 
@@ -41,10 +41,18 @@ class AnnouncementController {
     getAnnouncement(req, res) {
         let keywords = req.query.q;
         let index = req.query.limit;
+        let last = req.query.last;
+        let sort_type = -1;
+        let limit = index;
         console.log("keywords" + keywords);
         console.log("limit" + index);
-        if (keywords === undefined || index === undefined) {
-            Announcement.getAnnouncements().then(announcements => {
+        if (keywords === undefined || index === undefined || last === true) {
+            if(last != undefined && last){
+                limit = parseInt("1");
+                sort_type = -1;
+            }
+
+            Announcement.getAnnouncements(sort_type, limit).then(announcements => {
                 res.contentType('application/json');
                 res.status(201).send(JSON.stringify(announcements));
             }).catch(err => {
@@ -53,7 +61,8 @@ class AnnouncementController {
                 }));
             });
         } else {
-            Announcement.findAnnouncements(keywords, index).then(announcements => {
+            sort_type = -1;
+            Announcement.findAnnouncements(keywords, index, sort_type).then(announcements => {
                 res.contentType('application/json');
                 res.status(201).send(JSON.stringify(announcements));
             }).catch(err => {
