@@ -1,5 +1,5 @@
 const ChatMessageModel = require('./model').ChatMessagesMongo;
-
+const stopwords = require('n-stopwords')(['en']);
 
 class ChatMessage{
 

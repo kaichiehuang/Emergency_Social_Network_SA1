@@ -1,9 +1,21 @@
+//************************************************
+
+
+
+//************************************************
+
 var public_wall_container = document.getElementById('public-msg_area');
 var private_wall_container = document.getElementById('private-msg_area');
+
 $(function() {
     //socket for chat messages management
     const socket = io("");
     let socketSynced = false;
+    /**
+     * [description]
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+     */
     socket.on('connect', data => {
         let oldSocketId = Cookies.get('user-socket-id');
         // delete old socket from db
@@ -30,6 +42,7 @@ $(function() {
             drawPrivateMessageItem(data);
             private_wall_container.scrollTop = private_wall_container.scrollHeight;
         } else {
+            //refreshes user list to update the unseen messages counter for other
             updateUserListView();
         }
     });
@@ -44,6 +57,7 @@ $(function() {
         syncSocketId(oldSocketId, true);
         setOnline(false);
     });
+
     /****** events declaration ********/
     $('#public-send-btn').click(function(e) {
         sendMessage('public');
@@ -88,7 +102,7 @@ function drawMessageItem(data) {
     let child = new_li.html();
     let indicatorStyle;
     if (data.status === 'OK') {
-        indicatorStye === "statusIndicator background-color-ok"
+        indicatorStyle = "statusIndicator background-color-ok";
     } else if (data.status === 'HELP') {
         indicatorStyle = 'statusIndicator background-color-help';
     } else if (data.status === 'EMERGENCY') {
@@ -96,7 +110,12 @@ function drawMessageItem(data) {
     } else if (data.status === 'UNDEFINED') {
         indicatorStyle = 'statusIndicator background-color-undefined';
     }
-    let child_new = child.replace('%username_token%', data.user_id.username).replace('%timestamp_token%', new Date(data.created_at).toLocaleString()).replace('%message_token%', data.message).replace("statusIndicator", indicatorStyle);
+    let child_new = child
+    .replace('%username_token%', data.user_id.username)
+    .replace('%timestamp_token%', new Date(data.created_at).toLocaleString())
+    .replace('%message_token%', data.message)
+    .replace("statusIndicator", indicatorStyle);
+
     //child_new.find('.statusIndicator').className = indicatorStyle;
     new_li.html(child_new);
     $('#' + type + '-chat').append(new_li);
@@ -121,7 +140,7 @@ function drawPrivateMessageItem(data) {
     let child = new_li.html();
     let indicatorStyle;
     if (data.status === 'OK') {
-        indicatorStyle === "statusIndicator background-color-ok"
+        indicatorStyle = "statusIndicator background-color-ok";
     } else if (data.status === 'HELP') {
         indicatorStyle = 'statusIndicator background-color-help';
     } else if (data.status === 'EMERGENCY') {
@@ -129,9 +148,14 @@ function drawPrivateMessageItem(data) {
     } else if (data.status === 'UNDEFINED') {
         indicatorStyle = 'statusIndicator background-color-undefined';
     }
-    let child_new = child.replace('%username_token%', data.sender_user_id.username).replace('%timestamp_token%', new Date(data.created_at).toLocaleString()).replace('%message_token%', data.message).replace("statusIndicator", indicatorStyle);
+    let child_new = child
+    .replace('%username_token%', data.sender_user_id.username)
+    .replace('%timestamp_token%', new Date(data.created_at).toLocaleString())
+    .replace('%message_token%', data.message)
+    .replace("statusIndicator", indicatorStyle);
+
     new_li.html(child_new);
-    //new_li.find('.statusIndicator').className = indicatorStyle;
+
     $('#' + type + '-chat').append(new_li);
 }
 /**
@@ -146,6 +170,8 @@ function sendMessage(type) {
         message: $(message_content).val(),
         user_id: user_id
     };
+
+    //for private messages
     if (type === 'private') {
         url = apiPath + '/private-chat-messages';
         message_content = '#private-send-message-content';
@@ -155,6 +181,8 @@ function sendMessage(type) {
             receiver_user_id: Cookies.get('receiver_user_id')
         }
     }
+
+    //ajax calls
     $.ajax({
         url: url,
         type: 'post',
@@ -197,11 +225,11 @@ function getMessages(type) {
     }).done(function(response) {
         //console.log(response);
         response.forEach(element => {
-            if (type === 'private') {
-                drawPrivateMessageItem(element);
-            } else if (type === 'public') {
-                drawMessageItem(element);
-            }
+          if (type === 'private') {
+            drawPrivateMessageItem(element);
+          } else if (type === 'public') {
+            drawMessageItem(element);
+          }
         });
         if (type === 'private') {
             private_wall_container.scrollTop = private_wall_container.scrollHeight;
@@ -216,6 +244,11 @@ function getMessages(type) {
     });
 }
 
+/**
+ * changes the receiver for the private chat
+ * @param  {[type]} receiver_user_id [description]
+ * @return {[type]}                  [description]
+ */
 function initiatePrivateChat(receiver_user_id) {
     Cookies.set('receiver_user_id', receiver_user_id);
     $("#private-chat .user-post").each(function(index, el) {

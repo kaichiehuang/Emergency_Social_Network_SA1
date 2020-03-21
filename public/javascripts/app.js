@@ -4,7 +4,6 @@ let user_id = null;
 let user_name = null;
 let user_acknowledgement = null;
 let apiPath = '/api';
-
 /**
  * Swaps visible content. It receives an ID to show and hides everything with the class  main-content-block
  * @param  {[type]} newID [description]
@@ -15,14 +14,11 @@ function swapContent(newID) {
     $('#' + newID).removeClass('hidden-main-content-block');
     currentContentPageID = newID;
 }
-
 $(function() {
     if (Cookies.get('username') !== undefined) {
         $('.user-name-reference').html(Cookies.get('username'));
     }
-
     viewChangerEvent();
-
     userJWT = Cookies.get('user-jwt-esn');
     //user is not logged in
     if (userJWT == null || userJWT == undefined || userJWT == '') {
@@ -47,7 +43,6 @@ $(function() {
         console.log('found cookie = ' + userJWT);
     }
 });
-
 /**
  * Updates de status online of the user
  * @param status
@@ -57,7 +52,6 @@ function setOnline(online_status, socketId) {
     let jwt = Cookies.get('user-jwt-esn');
     let acknowledgement = Cookies.get('user-acknowledgement');
     let status = Cookies.get('user-status');
-
     $.ajax({
         url: apiPath + '/users/' + user_id,
         type: 'put',
@@ -69,20 +63,16 @@ function setOnline(online_status, socketId) {
         headers: {
             Authorization: jwt
         }
-    })
-        .done(function(response) {
-            Cookies.set('online-status', online_status);
-            console.log(response);
-        })
-        .fail(function(e) {
-            $('#signup-error-alert').html(e);
-            $('#signup-error-alert').show();
-        })
-        .always(function() {
-            console.log('complete');
-        });
+    }).done(function(response) {
+        Cookies.set('online-status', online_status);
+        console.log(response);
+    }).fail(function(e) {
+        $('#signup-error-alert').html(e);
+        $('#signup-error-alert').show();
+    }).always(function() {
+        console.log('complete');
+    });
 }
-
 /**
  * Syncs socket ids to the users data in the backend. It can delete old socket connections and it can create new ones.
  * @param status
@@ -95,14 +85,12 @@ function syncSocketId(socketId, deleteSocket) {
     let data = {
         "socketId": socketId
     }
-
     //delete scenario
-    if(deleteSocket){
+    if (deleteSocket) {
         url = apiPath + '/users/' + user_id + "/socket/" + socketId;
         method = "delete";
-        data  = {};
+        data = {};
     }
-
     $.ajax({
         url: url,
         type: method,
@@ -110,19 +98,13 @@ function syncSocketId(socketId, deleteSocket) {
         headers: {
             Authorization: jwt
         }
-    })
-    .done(function(response) {
-    })
-    .fail(function(e) {
+    }).done(function(response) {}).fail(function(e) {
         $('#signup-error-alert').html(e);
         $('#signup-error-alert').show();
-    })
-    .always(function() {
+    }).always(function() {
         console.log('complete');
     });
 }
-
-
 //events
 function viewChangerEvent() {
     $('.content-changer').click(function(event) {
@@ -135,5 +117,3 @@ function viewChangerEvent() {
         }
     });
 }
-
-

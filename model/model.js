@@ -5,31 +5,6 @@ const schemaOptions = {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 };
 
-/**
- * @swagger
- *
- * definitions:
- *   NewUser:
- *     type: object
- *     required:
- *       - username
- *       - password
- *     properties:
- *       username:
- *         type: string
- *       password:
- *         type: string
- *         format: password
- *   User:
- *     allOf:
- *       - $ref: '#/definitions/NewUser'
- *       - required:
- *         - id
- *       - properties:
- *         id:
- *           type: integer
- *           format: int64
- */
 const UserSchema = new Schema(
     {
         username: String,
@@ -80,16 +55,28 @@ const PrivateChatMessageSchema = new Schema(
     schemaOptions
 );
 
+
+const AnnouncementSchema = new Schema(
+    {
+        user_id: { type: Schema.Types.ObjectId, ref: 'User' },
+        announcement: String,
+        status: String
+    },
+    schemaOptions
+);
+
+AnnouncementSchema.index({announcement:"text"});
+
 const User = mongoose.model('User', UserSchema);
 const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema);
-//const User_socket = mongoose.model('User_socket', UserSocketSchema);
 const ChatMessages = mongoose.model('Chat_Messages', ChatMessageSchema);
 const PrivateChatMessages = mongoose.model('Private_Chat_Messages', PrivateChatMessageSchema);
+const Announcements= mongoose.model('Announcement', AnnouncementSchema);
 
 module.exports = {
     UserMongo: User,
     ReservedNamesMongo: Reserved_names,
-    //UserSocketMongo: User_socket,
     ChatMessagesMongo: ChatMessages,
-    PrivateChatMessagesMongo: PrivateChatMessages
+    PrivateChatMessagesMongo: PrivateChatMessages,
+    AnnouncementsMongo: Announcements
 };
