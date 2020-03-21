@@ -10,12 +10,13 @@ module.exports = {
   testEnvironment: 'node',
   collectCoverageFrom: [
     "**/*.{js,jsx}",
+    "!**/migration/**",
     "!**/node_modules/**",
     "!**/vendor/**"
   ],
   coverageReporters:["text", "html"],
   reporters: [
       "default",
-      ["jest-junit", {outputDirectory: "./coverage", outputName: "jest-junit.xml"}]
+      ["jest-junit", {outputDirectory: "./coverage/junit", outputName: "results.xml"}]
   ]
 };
