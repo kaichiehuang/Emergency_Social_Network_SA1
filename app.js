@@ -99,7 +99,7 @@ app.use('/', indexRouter);
 app.use('/app', applicationRouter);
 app.use('/example', indexRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/token', tokenRouter);
+//app.use('/api/token', tokenRouter);
 app.use('/api/chat-messages', chatMessagesRouter);
 app.use('/api/private-chat-messages', privateChatMessagesRouter);
 app.use('/api/usersList', usersListRouter);

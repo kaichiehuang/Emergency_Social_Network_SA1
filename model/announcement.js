@@ -70,7 +70,7 @@ class Announcement{
     static findAnnouncements(keywords,index){
         return new Promise( (resolve,reject) =>{
 
-            let totalskip = index * PAGINATION_NUMBER;
+            let totalSkip = index * PAGINATION_NUMBER;
             console.log("before clean keywords: " + keywords);
             let filterKeyWords = stopwords.cleanText(keywords);
             console.log("after clean keywords: " + filterKeyWords);
@@ -81,7 +81,7 @@ class Announcement{
                 .sort({
                     created_at: -1
                 })
-                .skip(totalskip)
+                .skip(totalSkip)
                 .limit(PAGINATION_NUMBER)
                 .then(result => {
                     resolve(result);
