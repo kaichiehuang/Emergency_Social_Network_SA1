@@ -1,4 +1,5 @@
 let currentContentPageID = '';
+let oldContentPageID = '';
 let userJWT = null;
 let user_id = null;
 let user_name = null;
@@ -12,6 +13,7 @@ let apiPath = '/api';
 function swapContent(newID) {
     $('.main-content-block').addClass('hidden-main-content-block');
     $('#' + newID).removeClass('hidden-main-content-block');
+    oldContentPageID = currentContentPageID;
     currentContentPageID = newID;
 }
 $(function() {
