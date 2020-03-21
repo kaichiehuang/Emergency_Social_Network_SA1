@@ -22,6 +22,11 @@ class Announcement{
      */
     saveAnnouncement(){
         return new Promise((resolve, reject) =>{
+            //validate for empty announcement
+            if( new String(this.announcement) == ""){
+                reject("Invalid announcement, please enter the message that you want to send");
+            }
+            //save new announcement
             let newAnnouncement = new AnnouncementModel({
                 announcement: this.announcement,
                 user_id : this.user_id,

@@ -1,6 +1,4 @@
 const Announcement = require("../model/announcement")
-
-
 class AnnouncementController {
     /**
      * Create an annoucement
@@ -11,23 +9,25 @@ class AnnouncementController {
         let requestData = req.body;
         let announcement = requestData['announcement'];
         let user_id = requestData['user_id'];
-
-
         console.log("announcement" + announcement);
         console.log("announcement" + user_id);
+        let newAnnouncement = new Announcement(announcement, user_id, 'OK');
 
-        let newAnnounce = new Announcement(announcement, user_id, 'OK');
-
-        newAnnounce.saveAnnouncement()
-            .then(newAnnounce => {
-                res.contentType('application/json');
-                res.status(201).send(JSON.stringify(newAnnounce));
-            })
-            .catch(err => {
-                return res.status(422).send(JSON.stringify({
-                    "error": err.message
-                }));
+        //save new announcement
+        newAnnouncement.saveAnnouncement().then(newAnnouncement => {
+            res.io.emit('new-announcement', {
+                "id": newAnnouncement._id,
+                "announcement": newAnnouncement.announcement,
+                "created_at": newAnnouncement.created_at,
             });
+
+            res.contentType('application/json');
+            res.status(201).send(JSON.stringify(newAnnouncement));
+        }).catch(err => {
+            return res.status(422).send(JSON.stringify({
+                "error": err.message
+            }));
+        });
     }
 
     /**
@@ -43,34 +43,25 @@ class AnnouncementController {
         let index = req.query.limit;
         console.log("keywords" + keywords);
         console.log("limit" + index);
-
         if (keywords === undefined || index === undefined) {
-            Announcement.getAnnouncements()
-                .then(announcements => {
-                    res.contentType('application/json');
-                    res.status(201).send(JSON.stringify(announcements));
-                })
-                .catch(err => {
-                    return res.status(422).send(JSON.stringify({
-                        "error": err.message
-                    }));
-                });
-
+            Announcement.getAnnouncements().then(announcements => {
+                res.contentType('application/json');
+                res.status(201).send(JSON.stringify(announcements));
+            }).catch(err => {
+                return res.status(422).send(JSON.stringify({
+                    "error": err.message
+                }));
+            });
         } else {
-
-            Announcement.findAnnouncements(keywords, index)
-                .then(announcements => {
-                    res.contentType('application/json');
-                    res.status(201).send(JSON.stringify(announcements));
-                })
-                .catch(err => {
-                    return res.status(422).send(JSON.stringify({
-                        "error": err.message
-                    }));
-                });
+            Announcement.findAnnouncements(keywords, index).then(announcements => {
+                res.contentType('application/json');
+                res.status(201).send(JSON.stringify(announcements));
+            }).catch(err => {
+                return res.status(422).send(JSON.stringify({
+                    "error": err.message
+                }));
+            });
         }
     }
-
 }
-
 module.exports = AnnouncementController
