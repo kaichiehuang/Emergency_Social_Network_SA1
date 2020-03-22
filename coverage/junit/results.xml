@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="22" failures="1" time="14.049">
+  <testsuite name="Can creat an announcement" errors="0" failures="0" skipped="0" timestamp="2020-03-22T02:31:03" time="4.934" tests="3">
+    <testcase classname="Can creat an announcement Creating an announcemet" name="Can creat an announcement Creating an announcemet" time="0.103">
+    </testcase>
+    <testcase classname="Can get announcements Getting all the announcement" name="Can get announcements Getting all the announcement" time="0.082">
+    </testcase>
+    <testcase classname="Can get announcements searching announcement by keyword" name="Can get announcements searching announcement by keyword" time="0.09">
+    </testcase>
+  </testsuite>
+  <testsuite name="principal" errors="0" failures="0" skipped="0" timestamp="2020-03-22T02:31:03" time="4.941" tests="3">
+    <testcase classname="principal Creating Private Messages Create a new private chat message in the database" name="principal Creating Private Messages Create a new private chat message in the database" time="0.135">
+    </testcase>
+    <testcase classname="principal Getting Messages getting private  messages from  the database" name="principal Getting Messages getting private  messages from  the database" time="0.104">
+    </testcase>
+    <testcase classname="principal Search Messages getting private  messages from  the database" name="principal Search Messages getting private  messages from  the database" time="0.055">
+    </testcase>
+  </testsuite>
+  <testsuite name="Create Messages" errors="0" failures="0" skipped="0" timestamp="2020-03-22T02:31:03" time="4.942" tests="2">
+    <testcase classname="Create Messages Create a new message in the database" name="Create Messages Create a new message in the database" time="0.116">
+    </testcase>
+    <testcase classname="Getting Messages getting messages from  the database" name="Getting Messages getting messages from  the database" time="0.209">
+    </testcase>
+  </testsuite>
+  <testsuite name="API USERS TEST" errors="0" failures="1" skipped="0" timestamp="2020-03-22T02:31:03" time="6.077" tests="2">
+    <testcase classname="API USERS TEST Should insert  a new user" name="API USERS TEST Should insert  a new user" time="0.14">
+    </testcase>
+    <testcase classname="API USERS TEST Should get a list of users" name="API USERS TEST Should get a list of users" time="0.082">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 1
+Received: 106
+    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:60:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="principal" errors="0" failures="0" skipped="0" timestamp="2020-03-22T02:31:03" time="7.413" tests="12">
+    <testcase classname="principal adds an User to the database" name="principal adds an User to the database" time="0.194">
+    </testcase>
+    <testcase classname="principal Business Validations for user raise error validating username with less than 3 characters" name="principal Business Validations for user raise error validating username with less than 3 characters" time="0.009">
+    </testcase>
+    <testcase classname="principal Business Validations for user raise error validating paaswords with less than 4 characters" name="principal Business Validations for user raise error validating paaswords with less than 4 characters" time="0.004">
+    </testcase>
+    <testcase classname="principal Searching for a user previously inserted searching a user by the username" name="principal Searching for a user previously inserted searching a user by the username" time="0.184">
+    </testcase>
+    <testcase classname="principal Searching for a user previously inserted password matches with the database paassword" name="principal Searching for a user previously inserted password matches with the database paassword" time="0.221">
+    </testcase>
+    <testcase classname="principal Searching for a user previously inserted update data of the user" name="principal Searching for a user previously inserted update data of the user" time="0.133">
+    </testcase>
+    <testcase classname="principal Searching for a user previously inserted searching a user by the id " name="principal Searching for a user previously inserted searching a user by the id " time="0.14">
+    </testcase>
+    <testcase classname="principal get all users ordered by online status and username get users ordered" name="principal get all users ordered by online status and username get users ordered" time="0.357">
+    </testcase>
+    <testcase classname="principal search users by username get users by username search" name="principal search users by username get users by username search" time="0.298">
+    </testcase>
+    <testcase classname="principal search users by username get users by username search" name="principal search users by username get users by username search" time="0.311">
+    </testcase>
+    <testcase classname="principal search users by status get users by status OK" name="principal search users by status get users by status OK" time="0.287">
+    </testcase>
+    <testcase classname="principal search users by status get users by status UNDEFINED" name="principal search users by status get users by status UNDEFINED" time="0.298">
+    </testcase>
+  </testsuite>
+</testsuites>

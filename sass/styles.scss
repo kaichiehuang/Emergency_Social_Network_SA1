@@ -37,6 +37,7 @@ body {
             transition: all 0.5s ease !important;
         }
     }
+    height: 80vh;
     @include respond-to('small') {
         padding-top: 0px;
         height: 100vh;
