@@ -55,6 +55,7 @@ const PrivateChatMessageSchema = new Schema(
     schemaOptions
 );
 
+PrivateChatMessageSchema.index({message: 'text'});
 
 const AnnouncementSchema = new Schema(
     {

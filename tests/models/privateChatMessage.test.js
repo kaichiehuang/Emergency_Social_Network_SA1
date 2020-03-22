@@ -1,7 +1,6 @@
 const TestDatabase = require("../../services/testDataBase")
 const PrivateChatMessage = require("../../model/privateChatMessage")
 
-
 const testDatabase = new TestDatabase();
 
 beforeAll(async () => {
@@ -56,6 +55,27 @@ describe("principal", () => {
      // afterAll(async () => {
      //   return await mongoose.connection.db.dropDatabase();
      // });
+
+  })
+
+
+  describe("Search Messages", () => {
+
+    let messsageId;
+    beforeEach(async () => {
+      let chatMessage = new PrivateChatMessage("This a test message", '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439011');
+      await chatMessage.createNewMessage().then(msg => {
+        messsageId = msg;
+        return
+      });
+    })
+
+    test("getting private  messages from  the database", async () => {
+      let chatMessage = new PrivateChatMessage();
+      await chatMessage.searchChatMessages(messsageId.sender_user_id, messsageId.receiver_user_id, 'test', 0, 10).then( msg => {
+        return expect(String(msg[0]._id)).toBe(String(messsageId._id));
+      });
+    })
 
   })
 })
