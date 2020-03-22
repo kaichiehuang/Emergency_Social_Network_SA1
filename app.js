@@ -24,6 +24,7 @@ if (process.env.NODE_ENV != undefined ) {
 // var httpsRedirectTool = require('express-http-to-https').redirectToHTTPS
 var app = express();
 
+
 //change if using https fo security issues
 // app.use(compression())
 // https redirect uncomment on server
@@ -120,6 +121,7 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 app.disable('etag');
+
 module.exports = {
     app: app,
     server: server
