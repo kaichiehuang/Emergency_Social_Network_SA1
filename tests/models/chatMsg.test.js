@@ -1,4 +1,4 @@
-const TestDatabase = require("../../services/testDataBase")
+const TestDatabase = require("../services/testDataBase")
 const ChatMessage = require("../../model/chatMessage")
 
 const testDatabase = new TestDatabase();

@@ -47,6 +47,7 @@ class UsersController {
                     return res.status(201).send(JSON.stringify(jsonResponseData));
                 }).catch(err => {
                     res.contentType('application/json');
+                    console.log(err);
                     return res.status(422).send({
                         msg: err
                     }).end();
@@ -74,6 +75,7 @@ class UsersController {
                     return res.status(201).send(JSON.stringify(jsonResponseData));
                 }).catch(err => {
                     res.contentType('application/json');
+                    console.log(err);
                     return res.status(422).send({
                         msg: err
                     }).end();

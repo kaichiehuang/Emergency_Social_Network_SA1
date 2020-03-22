@@ -14,7 +14,7 @@ var chatMessagesRouter = require('./routes/chatMessages');
 var privateChatMessagesRouter = require('./routes/privateChatMessages');
 var usersListRouter = require('./routes/usersList');
 var announcementRouter = require('./routes/announcements');
-const Database = require('./model/database');
+
 let ENVIRONMENT = "development";
 if (process.env.NODE_ENV != undefined ) {
     ENVIRONMENT = process.env.NODE_ENV;
@@ -23,7 +23,8 @@ if (process.env.NODE_ENV != undefined ) {
 //redirect library for https - uncomment on server
 // var httpsRedirectTool = require('express-http-to-https').redirectToHTTPS
 var app = express();
-Database.connect();
+
+
 //change if using https fo security issues
 // app.use(compression())
 // https redirect uncomment on server
@@ -120,6 +121,7 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 app.disable('etag');
+
 module.exports = {
     app: app,
     server: server
