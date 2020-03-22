@@ -3,6 +3,7 @@
 }
 .main-content-block {
     display: block;
+    padding-top: 135px;
     @include respond-to('small') {
         padding-top: 130px;
     }

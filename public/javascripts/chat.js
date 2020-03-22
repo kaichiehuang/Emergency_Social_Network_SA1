@@ -358,3 +358,12 @@ function getLastAnnouncement(){
     });
     getMessages('private');
 }
+
+
+
+
+
+
+/**
+ *
+ */
