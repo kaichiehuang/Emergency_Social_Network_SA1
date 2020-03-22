@@ -56,7 +56,7 @@ class PrivateChatMessagesController {
             User.changeMessageCount(sender_user_id, receiver_user_id, true);
 
             //9. return a response
-            return res.status(201).send(JSON.stringify({
+            return res.status(201).send({
                 result: 'private chat message created',
                 data: {
                     "id": privateChatMessageCreated._id.toString(),
@@ -66,12 +66,12 @@ class PrivateChatMessagesController {
                     "seen_by_receiver": privateChatMessageCreated.seen_by_receiver,
                     "created_at": privateChatMessageCreated.created_at
                 }
-            }));
+            });
         }).catch(err => {
-            console.log('entered to catch ....');
-            return res.status(422).send(JSON.stringify({
+            console.log(err);
+            return res.status(422).send({
                 error: err.message
-            }));
+            });
         });
     }
     /**

@@ -1,6 +1,5 @@
-const TestDatabase = require('../../services/testDataBase')
+const TestDatabase = require('../services/testDataBase')
 const agent = require('superagent')
-var bodyParser = require('body-parser');
 
 // Initiate Server
 let PORT = 3000;
@@ -8,7 +7,7 @@ let HOST = 'http://localhost:' + PORT;
 
 let app = require('../../app').app;
 app.set('port', PORT);
-app.listen(PORT);
+let server = app.listen(PORT);
 
 const testDatabase = new TestDatabase();
 
@@ -19,6 +18,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
     await testDatabase.stop();
+    await server.close();
 });
 
 afterEach(async () => {

@@ -1,4 +1,4 @@
-const TestDatabase = require("../../services/testDataBase")
+const TestDatabase = require("../services/testDataBase")
 const PrivateChatMessage = require("../../model/privateChatMessage")
 
 const testDatabase = new TestDatabase();
@@ -52,12 +52,7 @@ describe("principal", () => {
 
     })
 
-     // afterAll(async () => {
-     //   return await mongoose.connection.db.dropDatabase();
-     // });
-
   })
-
 
   describe("Search Messages", () => {
 

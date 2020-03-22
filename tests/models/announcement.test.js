@@ -1,4 +1,4 @@
-const TestDatabase = require("../../services/testDataBase");
+const TestDatabase = require("../services/testDataBase");
 const  Announcement = require("../../model/announcement");
 
 const testDatabase = new TestDatabase();
