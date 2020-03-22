@@ -5,6 +5,7 @@
             <div class="msg_border">
                 <div class="messaging">
                     <div class="msg_area msg_area-<%= block_id %>" id="<%= block_id %>-msg_area">
+                        <% if (messageBlockTitle != '') { %> <h4 class="text-center block-title"><%= messageBlockTitle %></h4> <% } %>
                         <ul class="list-group list-group-flush" id="<%= block_id %>-chat">
                             <li id='<%= block_id %>-template' class="user-post user-post- list-group-item list-group-item-action flex-column align-items-center hide">
                                 <div class="msg_metadata">
