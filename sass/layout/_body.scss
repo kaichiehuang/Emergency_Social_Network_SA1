@@ -4,14 +4,14 @@
 .main-content-block {
     display: block;
     @include respond-to('small') {
-        padding-top: 100px;
+        padding-top: 130px;
     }
     @include respond-to('extra-small') {
-        padding-top: 100px;
+        padding-top: 130px;
     }
 }
 .hidden-main-content-block {
-    display: none;
+    display: none !important;
 }
 .chat-room-body, .login-signup-form-body, .login-login-form-body {
     padding: 0px 0px 90px 0;
@@ -233,6 +233,7 @@ form {
                 border-right-width: 3px;
             }
             .username {
+                font-size: 1em;
                 color: $brand_color2 !important;
             }
         }
@@ -377,6 +378,14 @@ form {
         @include flexbox;
         @include align-items(center);
         @include justify-content(space-between);
+        border-bottom: none;
+        border-bottom: 2px dotted #ccc !important;
+        @include respond-to("small") {
+            padding: 8px 15px;
+        }
+        @include respond-to("extra-small") {
+            padding: 7px 15px;
+        }
         .list-group-item__left {
             @include flexbox;
             @include align-items(center);
@@ -393,7 +402,7 @@ form {
                 @include flexbox;
                 @include align-items(center);
                 text-decoration: none;
-                font-size: 22px;
+                font-size: 24px;
                 color: #aaaaaa;
                 &:hover {
                     color: #F7241D;
@@ -402,10 +411,14 @@ form {
                     color: #F58225;
                 }
                 .message-counter {
-                    margin-right: 5px;
+                    margin-right: 6px;
                     font-size: 14px;
+                    font-weight: bold;
                 }
             }
+        }
+        .username {
+            font-size: 0.9em;
         }
     }
 }
