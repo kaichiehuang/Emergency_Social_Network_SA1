@@ -46,5 +46,19 @@ class ChatMessage{
         });
 
     }
+
+    static findMessagesByKeyword(keyword) {
+        return new Promise((resolve, reject)  => {
+            ChatMessageModel.find({ $text: { $search: keyword } } )
+                .sort({ created_at: 'asc' })
+                .then(messages => {
+                    resolve(messages);
+                }).catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+
 }
 module.exports = ChatMessage;

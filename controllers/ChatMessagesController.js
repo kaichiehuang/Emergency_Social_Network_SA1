@@ -71,6 +71,32 @@ class ChatMessagesController {
      */
     getChatMessages(req, res){
         let chatMessage = new ChatMessage();
+        let keyword = req.query.keyword;
+        let page = req.query.page; // default = 0
+        
+        //When a keyword is specified 
+        if (keyword !== undefined && keyword.length !== 0) {
+            
+            //search keyword
+            console.log("keyword is: ");
+            console.log(keyword);
+            ChatMessage.findMessagesByKeyword(keyword)
+                .then( messages => {
+                    console.log("found messages with keyword");
+                    //get specific page of 10 messages
+                    let msg = messages.slice(page * 10, page * 10 + 10);
+                    return res.status(201).send(JSON.stringify(msg));
+                })
+                .catch( err => {
+                    console.log("fuck");
+                    console.log("Error searching messages by keyword");
+                    return res.status(500).send(err);
+                });
+        }
+
+
+
+        //If no keyword or status is specified
         chatMessage.getChatMessages()
             .then(result => {
                 res.contentType('application/json');
