@@ -48,8 +48,9 @@ class ChatMessage{
     }
 
     static findMessagesByKeyword(keyword) {
+        let filteredKeyWords = stopwords.cleanText(keyword);
         return new Promise((resolve, reject)  => {
-            ChatMessageModel.find({ $text: { $search: keyword } } )
+            ChatMessageModel.find({ $text: { $search: filteredKeyWords } } )
                 .sort({ created_at: 'asc' })
                 .then(messages => {
                     resolve(messages);
