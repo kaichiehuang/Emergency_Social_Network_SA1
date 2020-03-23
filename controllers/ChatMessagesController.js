@@ -71,12 +71,11 @@ class ChatMessagesController {
      */
     getChatMessages(req, res){
         let chatMessage = new ChatMessage();
-        let keyword = req.query.keyword;
+        let keyword = req.query.q;
         let page = req.query.page; // default = 0
-        
-        //When a keyword is specified 
+        //When a keyword is specified
         if (keyword !== undefined && keyword.length !== 0) {
-            
+
             //search keyword
             console.log("keyword is: ");
             console.log(keyword);
@@ -85,6 +84,7 @@ class ChatMessagesController {
                     console.log("found messages with keyword");
                     //get specific page of 10 messages
                     let msg = messages.slice(page * 10, page * 10 + 10);
+                    res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(msg));
                 })
                 .catch( err => {
