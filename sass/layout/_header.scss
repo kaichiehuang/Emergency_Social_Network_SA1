@@ -1,6 +1,5 @@
 .header {
     border: none;
-    background: white;
     @include respond-to('small') {
         box-shadow: 0 0 15px 1px #aaa;
     }
@@ -13,6 +12,7 @@
         left: 0;
         width: 100%;
         z-index: 2;
+        background: white;
         @include respond-to('small') {
             position: fixed;
             top: 0;
