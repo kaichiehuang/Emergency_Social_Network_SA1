@@ -41,6 +41,9 @@ const ChatMessageSchema = new Schema(
     schemaOptions
 );
 
+ChatMessageSchema.index({message:"text"});
+
+
 const PrivateChatMessageSchema = new Schema(
     {
         sender_user_id: { type: Schema.Types.ObjectId, ref: 'User' },
