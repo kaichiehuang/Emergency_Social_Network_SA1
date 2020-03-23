@@ -53,7 +53,6 @@ describe("Can get announcements", () => {
             '507f1f77bcf86cd799439011',
             'OK',
         );
-
         await announcement.saveAnnouncement();
 
 

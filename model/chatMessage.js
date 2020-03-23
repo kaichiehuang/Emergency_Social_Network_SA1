@@ -1,7 +1,7 @@
 const ChatMessageModel = require('./model').ChatMessagesMongo;
-const stopwords = require('n-stopwords')(['en']);
+const StopWords = require('../utils/StopWords');
 
-class ChatMessage{
+class ChatMessage {
 
     constructor(message, user_id, user_status) {
         this._id = null;
@@ -18,20 +18,20 @@ class ChatMessage{
                 status: this.status
             });
             newChatMessage.save()
-            .then(result => {
-                console.log('message created');
-                this._id = result.id;
-                resolve(newChatMessage);
-            })
-            .catch(function(err) {
-                console.log('message creation failed');
-                console.log(err);
-                reject(err);
-            });
+                .then(result => {
+                    console.log('message created');
+                    this._id = result.id;
+                    resolve(newChatMessage);
+                })
+                .catch(function (err) {
+                    console.log('message creation failed');
+                    console.log(err);
+                    reject(err);
+                });
         });
     }
 
-    getChatMessages(){
+    getChatMessages() {
         return new Promise((resolve, reject) => {
 
             ChatMessageModel.find({})
@@ -39,7 +39,7 @@ class ChatMessage{
                 .then(result => {
                     resolve(result);
                 })
-                .catch(function(err) {
+                .catch(function (err) {
                     console.log("getChatMessages error: " + err);
                     reject(err);
                 });
@@ -48,18 +48,20 @@ class ChatMessage{
     }
 
     static findMessagesByKeyword(keyword) {
-        let filteredKeyWords = stopwords.cleanText(keyword);
-        return new Promise((resolve, reject)  => {
-            ChatMessageModel.find({ $text: { $search: filteredKeyWords } } )
-                .sort({ created_at: 'asc' })
-                .then(messages => {
-                    resolve(messages);
-                }).catch(err => {
+        return new Promise((resolve, reject) => {
+            StopWords.removeStopWords(keyword).then(filteredKeyWords => {
+                ChatMessageModel.find({$text: {$search: filteredKeyWords}})
+                    .sort({created_at: 'asc'})
+                    .then(messages => {
+                        resolve(messages);
+                    }).catch(err => {
                     reject(err);
                 });
+            })
         });
     }
 
 
 }
+
 module.exports = ChatMessage;

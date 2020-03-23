@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="0" time="1.073">
+  <testsuite name="principal" errors="0" failures="0" skipped="0" timestamp="2020-03-23T07:12:39" time="1.031" tests="3">
+    <testcase classname="principal Creating Private Messages Create a new private chat message in the database" name="principal Creating Private Messages Create a new private chat message in the database" time="0.036">
+    </testcase>
+    <testcase classname="principal Getting Messages getting private  messages from  the database" name="principal Getting Messages getting private  messages from  the database" time="0.026">
+    </testcase>
+    <testcase classname="principal Search Messages getting private  messages from  the database" name="principal Search Messages getting private  messages from  the database" time="0.014">
+    </testcase>
+  </testsuite>
+</testsuites>
