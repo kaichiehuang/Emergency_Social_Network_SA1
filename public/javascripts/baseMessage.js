@@ -150,7 +150,8 @@ class BaseMessage {
             if (type === 'announcement') {
                 url = apiPath + '/announcements';
                 data = {
-                    limit: 0
+                    'page': page,
+                    'q': keywords
                 };
             }
             $.ajax({
