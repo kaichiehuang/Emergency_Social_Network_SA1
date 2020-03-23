@@ -1,33 +1,129 @@
 .header {
-    * {
-        transition: all 0.4s ease !important; // @include transition(.6s ease-in-out left);
-    }
     border: none;
+    background: white;
+    @include respond-to('small') {
+        box-shadow: 0 0 15px 1px #aaa;
+    }
+    @include respond-to('extra-small') {
+        box-shadow: 0 0 15px 1px #aaa;
+    }
     &.header-loggedin {
-        border-bottom: 1px solid #ccc;
+        @include respond-to('small') {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2;
+        }
+        @include respond-to('extra-small') {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2;
+        }
+        * {
+            transition: all 0.4s ease !important; // @include transition(.6s ease-in-out left);
+        }
     }
     .top-header-admin-bar {
         margin: 0;
         background: #f7f7f7;
         padding: 4px 10px;
         border-bottom: 1px solid #ccc;
+        @include flexbox;
+        @include justify-content(flex-start);
         .admin-menu {
             margin: 0;
             padding: 0;
             list-style: none;
+            width: auto;
+            padding-right: 15px;
             @include flexbox;
             @include justify-content(center);
+            @include respond-to('small') {
+                width: 40%;
+            }
+            @include respond-to('extra-small') {
+                width: 40%;
+            }
             li {
-                margin-left: 30px;
-                i {
-                    margin-right: 5px;
-                }
+                margin-left: 5px;
                 a {
-                    text-decoration: underline;
+                    font-style: italic;
+                    @include flexbox;
+                    @include align-items(center);
+                    @include flex-wrap(nowrap);
+                    i {
+                        margin-right: 5px;
+                        font-size: 1.35em;
+                        color: $brand_color1;
+                        text-decoration: none;
+                        @include respond-to('small') {
+                            font-size: 1.4em;
+                        }
+                        @include respond-to('extra-small') {
+                            font-size: 1.4em;
+                        }
+                    }
+                    span {
+                        margin-right: 10px;
+                        color: $brand_color1;
+                        text-decoration: underline;
+                        @include respond-to('small') {
+                            font-size: 0.9em;
+                        }
+                        @include respond-to('extra-small') {
+                            font-size: 0.9em;
+                        }
+                    }
                 }
-                * {
-                    color: $brand_color1;
+                * {}
+            }
+        }
+        .announcement-content {
+            margin: 0;
+            text-align: left;
+            min-width: 70%;
+            max-width: 85%;
+            overflow: hidden;
+            @include respond-to('small') {
+                max-width: 65%;
+            }
+            @include respond-to('extra-small') {
+                max-width: 65%;
+            }
+            p {
+                width: 2500px;
+                margin: 0;
+                padding: 0;
+                color: $brand_color2;
+                font-weight: bold;
+                animation: moveText 10s;
+                animation-timing-function: linear;
+                animation-iteration-count: 500;
+                position: relative;
+                animation-delay: 2s;
+                max-height: 21px;
+                line-height: 21px;
+                overflow: hidden;
+                font-size: 0.95em;
+                @include respond-to('small') {
+                    animation-timing-function: linear;
                 }
+                @include respond-to('extra-small') {
+                    animation-timing-function: linear;
+                }
+                @keyframes moveText {
+                    from {
+                        right: -100%;
+                    }
+                    to {
+                        right: 100%;
+                    }
+                }
+                @include respond-to('small') {}
+                @include respond-to('extra-small') {}
             }
         }
     }
@@ -105,6 +201,7 @@
         padding-top: 0px;
         border-top: 1.5px solid $brand_color2;
         background: $brand_color1;
+        background: white;
         .logo {
             width: 40px;
             @include respond-to('small') {
@@ -122,41 +219,48 @@
             @include flexbox;
             @include align-items(stretch);
             @include justify-content(space-between);
-            min-height: 85px;
+            background: $brand_color1;
+            min-height: 58px;
             li {
                 @include flexbox;
                 @include align-items(stretch);
                 @include reset-margin-padding;
                 width: 20%;
-                min-height: 85px;
+                min-height: 58px;
                 a {
                     display: block;
                     color: white;
                     padding: 0px 10px;
-                    padding-top: 10px;
+                    padding-top: 8px;
                     text-align: center;
                     width: 100%;
-                    height: 85px;
+                    height: 58px;
                     text-decoration: none;
                     border-left: 1px solid rgba(#fff, 0.35);
                     @include flexbox;
                     @include justify-content(center);
                     @include flex-wrap(wrap);
                     @include align-items(flex-start);
-                    line-height: 1.3em;
+                    line-height: 1.2em;
                     span {
                         color: rgba(#fff, 0.9);
                         font-size: 1.0rem;
                         margin: 0;
                         min-height: 35px;
-                        margin-top: -5px;
+                        margin-top: 0px;
                     }
                     i {
                         margin: 0;
                         font-size: 23px;
                         display: block;
                         width: 100%;
-                        line-height: 36px;
+                        line-height: 25px;
+                        @include respond-to('small') {
+                            font-size: 20px;
+                        }
+                        @include respond-to('extra-small') {
+                            font-size: 20px;
+                        }
                     }
                     &:hover {
                         cursor: pointer;
@@ -165,13 +269,19 @@
                         }
                     }
                     &.active {
-                        background: #eee;
+                        background: #f3f3f3;
                         i, span {
                             color: $brand_color1;
                             font-weight: bold;
                         }
                         i {
                             font-size: 23px; // margin-bottom: 4px;
+                            @include respond-to('small') {
+                                font-size: 20px;
+                            }
+                            @include respond-to('extra-small') {
+                                font-size: 20px;
+                            }
                         }
                         span {
                             font-size: 1.1rem !important;
@@ -184,6 +294,65 @@
                         i, span {
                             color: $brand_color1;
                         }
+                    }
+                }
+            }
+        }
+    }
+    .block-search-form {
+        // background: white;
+        background: #f3f3f3;
+        margin: 0;
+        border-bottom: 1px solid $brand_color1;
+        .form-group {
+            margin: 0;
+            @include flexbox;
+            @include align-items(center);
+            @include justify-content(center);
+            @include respond-to('small') {
+                @include justify-content(space-around);
+            }
+            @include respond-to('extra-small') {
+                @include justify-content(space-around);
+            }
+            padding: 6.5px 15px;
+            input {
+                max-width: 65%;
+                border: 1px solid #bbb;
+                height: 28px;
+                text-align: center;
+                margin: 0 10px;
+                font-size: 0.9em;
+                border-radius: 5px;
+                @include respond-to('small') {
+                    max-width: 80%;
+                    margin: 0 5px;
+                }
+                @include respond-to('extra-small') {
+                    max-width: 80%;
+                    margin: 0 5px;
+                }
+                &:focus {
+                    border-color: $brand_color2;
+                    border: 1px solid $brand_color1;
+                }
+            }
+            button {
+                margin: 0 5px;
+                border: none;
+                background: none;
+                i {
+                    font-size: 24px;
+                    color: $brand_color2;
+                    -moz-transform: scale(-1, 1);
+                    -webkit-transform: scale(-1, 1);
+                    -o-transform: scale(-1, 1);
+                    -ms-transform: scale(-1, 1);
+                    transform: scale(-1, 1);
+                }
+                &:hover, &:active {
+                    i {
+                        color: $brand_color1;
                     }
                 }
             }

@@ -58,11 +58,12 @@ const PrivateChatMessageSchema = new Schema(
     schemaOptions
 );
 
+PrivateChatMessageSchema.index({message: 'text'});
 
 const AnnouncementSchema = new Schema(
     {
         user_id: { type: Schema.Types.ObjectId, ref: 'User' },
-        announcement: String,
+        message: String,
         status: String
     },
     schemaOptions

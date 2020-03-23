@@ -2,15 +2,54 @@
     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
         <div class="top-header-admin-bar">
             <ul class="admin-menu">
-                <li><a id = "announcement-button" data-view-id="status-content"><i id = "announcementIcon" class="fa fa-bullhorn" aria-hidden="true"></i><span> Announcements</span></a></li>
+                <li><a id="announcement-button" data-view-id="announcement-chat-content" class="content-changer" data-view-group-class="announcements-components"><span>Announcements </span><i id = "announcementIcon" class="fa fa-bullhorn" aria-hidden="true"></i></a></li>
             </ul>
+            <div class="announcement-content">
+                <p id="last-announcement-container"></p>
+            </div>
         </div>
         <ul class="app-menu">
-            <li><a class="content-changer active" data-view-id="user-list-content"><i class="fa fa-address-book"></i><span>Users</span></a></li>
-            <li><a class="content-changer" data-view-id="public-chat-content"><i class="fa fa-comments"></i><span>Public Chat</span></a></li>
-            <li><a class="content-changer" data-view-id="private-chat-content"><i class="fa fa-comment"></i><span>Single Chat</span></a></li>
-            <li><a id = "status-button" data-view-id="status-content"><i id = "statusIcon" class="fa fa-question"></i><span>Status</span></a></li>
+            <li><a class="content-changer active" data-view-id="user-list-content" data-view-group-class="user-list-components"><i class="fa fa-address-book"></i><span>Users</span></a></li>
+            <li><a class="content-changer" data-view-id="public-chat-content" data-view-group-class="public-chat-components"><i class="fa fa-comments"></i><span>Public</span></a></li>
+            <li><a class="content-changer" data-view-id="private-chat-content" data-view-group-class="private-chat-components"><i class="fa fa-comment"></i><span>Private</span></a></li>
+            <li><a id="status-button" data-view-id="status-content"><i id = "statusIcon" class="fa fa-question"></i><span>Status</span></a></li>
             <li><a href="#signout-action"><i class="fa fa-sign-out"></i><span>Logout</a></li>
-        </ul>
+            </ul>
+        </div>
+        <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
+            <div class="search-forms-container">
+                <div class="block-search-form hideable-group-component user-list-components">
+                    <form accept-charset="utf-8">
+                        <div class="form-group">
+                            <input type="text" id="search-users-list__input" class="form-control" placeholder="Search here for users">
+                            <button class="" type="submit" id="search-users-list__button"><i class="fa fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="block-search-form hidden-group-component hideable-group-component public-chat-components">
+                    <form accept-charset="utf-8">
+                        <div class="form-group">
+                            <input type="text" id="search-users-list__input" class="form-control" placeholder="Search for messages in this group chat">
+                            <button class="" type="submit" id="search-users-list__button"><i class="fa fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="block-search-form hidden-group-component hideable-group-component private-chat-components">
+                    <form accept-charset="utf-8">
+                        <div class="form-group">
+                            <input type="text" id="search-users-list__input" class="form-control" placeholder="Search for messages in this private chat">
+                            <button class="" type="submit" id="search-users-list__button"><i class="fa fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="block-search-form hidden-group-component hideable-group-component announcements-components">
+                    <form accept-charset="utf-8">
+                        <div class="form-group">
+                            <input type="text" id="search-users-list__input" class="form-control" placeholder="Search here for previous announcements">
+                            <button class="" type="submit" id="search-users-list__button"><i class="fa fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-</div>

@@ -1,4 +1,16 @@
+/**
+ *  group class Users list      ---->  user-list-components
+ *  group class Public chat     ---->  public-chat-components
+ *  group class Private chat    ---->  private-chat-components
+ *  group class Announcements   ---->  announcements-components
+ *
+ *
+ */
+
 let currentContentPageID = '';
+let oldContentPageID = '';
+let currentContentGroupClass = '';
+
 let userJWT = null;
 let user_id = null;
 let user_name = null;
@@ -12,14 +24,36 @@ let apiPath = '/api';
 function swapContent(newID) {
     $('.main-content-block').addClass('hidden-main-content-block');
     $('#' + newID).removeClass('hidden-main-content-block');
+
+    oldContentPageID = currentContentPageID;
     currentContentPageID = newID;
 }
+/**
+ * [swapGroupContent description]
+ * @param  {[type]} newGroupClass [description]
+ * @return {[type]}               [description]
+ */
+function swapGroupContent(newGroupClass) {
+    $('.hideable-group-component').addClass('hidden-group-component');
+    $('.' + newGroupClass).removeClass('hidden-group-component');
+
+    currentContentGroupClass = newGroupClass;
+}
+
+/**
+ * On load init
+ * @param  {[type]} ) {               if (Cookies.get('username') ! [description]
+ * @return {[type]}   [description]
+ */
 $(function() {
     if (Cookies.get('username') !== undefined) {
         $('.user-name-reference').html(Cookies.get('username'));
     }
-    viewChangerEvent();
+    //init events for content change
+    contentChangerEvent();
+    //init JWT token
     userJWT = Cookies.get('user-jwt-esn');
+
     //user is not logged in
     if (userJWT == null || userJWT == undefined || userJWT == '') {
         console.log('no token found ... user is not logged in');
@@ -106,14 +140,18 @@ function syncSocketId(socketId, deleteSocket) {
     });
 }
 //events
-function viewChangerEvent() {
+function contentChangerEvent() {
     $('.content-changer').click(function(event) {
         $('.content-changer').removeClass('active');
         $(this).addClass('active');
         event.preventDefault();
         let newID = $(this).data('view-id');
+        let groupClass = $(this).data('view-group-class');
         if (newID != undefined && newID != '') {
             swapContent(newID);
+        }
+        if (groupClass != undefined && groupClass != '') {
+            swapGroupContent(groupClass);
         }
     });
 }

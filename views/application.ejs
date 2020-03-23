@@ -6,22 +6,31 @@
     <% include partials/head %>
 </head>
 <body class="loggedin-body">
-    <div class="container">
+    <div class="">
         <header class="header header-loggedin">
-            <% include partials/loggedin_header.ejs %>
+            <div class="container">
+                <% include partials/loggedin_header.ejs %>
+            </div>
         </header>
     </div>
 
 
-    <main class="main-content">
+    <main class="main-content main-content-loggedin">
         <!-- Page content goes here -->
 
         <div class="container">
             <% var block_id= 'public'; %>
+            <% var messageBlockTitle= ''; %>
             <% include partials/public_chat_content %>
         </div>
         <div class="container">
             <% var block_id= 'private'; %>
+            <% var messageBlockTitle= ''; %>
+            <% include partials/public_chat_content %>
+        </div>
+        <div class="container">
+            <% var block_id= 'announcement'; %>
+            <% var messageBlockTitle= 'Previous Announcements'; %>
             <% include partials/public_chat_content %>
         </div>
         <div class="container">
@@ -47,10 +56,10 @@
 
 
     <!-- LOCAL SCRIPTS -->
-    <script src="/javascripts/users_list.js?v=2"></script>
-    <script src="/javascripts/chat.js?v=2"></script>
-    <script src="/javascripts/signup.js?v=2"></script>
-    <script src="/javascripts/signout.js?v=2"></script>
+    <script src="/javascripts/users_list.js?v=3"></script>
+    <script src="/javascripts/chat.js?v=3"></script>
+    <script src="/javascripts/signup.js?v=3"></script>
+    <script src="/javascripts/signout.js?v=3"></script>
     <script src="/javascripts/status_selection_popup.js"></script>
 
 

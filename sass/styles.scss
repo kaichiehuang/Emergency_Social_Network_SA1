@@ -15,6 +15,7 @@ html {
     width: 100%;
 }
 body {
+    overscroll-behavior-y: none;
     @include reset-margin-padding; // padding-top: 15px;
     background: #f5f5f5; // overflow: hidden;
     // height: 100vh;
@@ -31,17 +32,19 @@ body {
 @import "layout/_header";
 @import "layout/_footer";
 .main-content {
-    * {
-        transition: all 0.5s ease !important; // @include transition(.6s ease-in-out left);
+    &.main-content-loggedin {
+        * {
+            transition: all 0.5s ease !important;
+        }
     }
     @include respond-to('small') {
         padding-top: 0px;
-        height: 90vh;
+        height: 100vh;
         overflow-y: auto;
     }
     @include respond-to('extra-small') {
         padding-top: 0px;
-        height: 90vh;
+        height: 100vh;
         overflow-y: auto;
     }
     .error-message-container {
@@ -63,7 +66,23 @@ body {
         margin-bottom: 150px;
         border-bottom: 1px solid #ccc;
     }
+    .block-title {
+        color: $brand-color1;
+    }
 }
+.hideable-group-component {
+    // no display since it applies to both block or inline elements ... this is class is only to reference elements to be hidden
+}
+.hidden-group-component {
+    display: none !important;
+}
+/********************************************
+*
+*       new grid 24 columns
+*
+*
+******************************************/
+
 @include respond-to("extra-small") {
     @for $i from 1 through 24 {
         .col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}, .div#{$i} {

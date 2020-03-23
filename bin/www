@@ -15,7 +15,8 @@ var debug = require('debug')('team-sa1-esn:server');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
+const Database = require('../model/database');
+Database.connect();
 
 /**
  * Gather HTTP or HTTPS server created in app.js.

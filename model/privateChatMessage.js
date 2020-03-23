@@ -30,6 +30,7 @@ class PrivateChatMessage {
     }
     /**
      * [getChatMessages description]
+     *
      * @param  {[type]} sender_user_id   [description]
      * @param  {[type]} receiver_user_id [description]
      * @return {[type]}                  [description]
@@ -60,6 +61,39 @@ class PrivateChatMessage {
             });
         });
     }
+
+    /**
+     *
+     * @param sender_user_id
+     * @param receiver_user_id
+     * @param query
+     * @param page
+     * @param pageSize
+     * @returns {Promise<unknown>}
+     */
+    searchChatMessages(sender_user_id, receiver_user_id, query, page, pageSize) {
+        return new Promise( (resolve,reject) =>{
+            let skipSize = page * pageSize;
+            let preprocessedQuery = stopwords.cleanText(query);
+            console.log("after clean: " + preprocessedQuery);
+            PrivateChatMessageModel.find({
+                    $or:[{"sender_user_id": sender_user_id, "receiver_user_id": receiver_user_id,},
+                        {"sender_user_id": receiver_user_id, "receiver_user_id": sender_user_id}],
+                    $text: {$search:preprocessedQuery}
+                })
+                .populate("sender_user_id", ["_id", "username"]).populate("receiver_user_id", ["_id", "username"])
+                .sort({created_at: -1})
+                .skip(skipSize).limit(pageSize)
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(function(err) {
+                    console.log("Error getting Private message by query: " + err);
+                    reject(err);
+                });
+        })
+    }
+
     emitMessageToUsersInvolver(senderUser, receiverUser) {}
 }
 module.exports = PrivateChatMessage;

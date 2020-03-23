@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 class Database{
 
-    static async connect(){
+    static connect(){
         const mongoDBURL = 'mongodb://localhost:27017/esn_sa1';
         mongoose.connect(process.env.MONGODB_URI || mongoDBURL, {
             useNewUrlParser: true,
@@ -13,7 +13,7 @@ class Database{
             process.exit(1);
         });
     }
-    static async close() {
+    static close() {
         mongoose.connection.close()
     }
 }

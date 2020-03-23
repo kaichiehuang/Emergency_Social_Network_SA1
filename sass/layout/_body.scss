@@ -3,9 +3,15 @@
 }
 .main-content-block {
     display: block;
+    @include respond-to('small') {
+        padding-top: 130px;
+    }
+    @include respond-to('extra-small') {
+        padding-top: 130px;
+    }
 }
 .hidden-main-content-block {
-    display: none;
+    display: none !important;
 }
 .chat-room-body, .login-signup-form-body, .login-login-form-body {
     padding: 0px 0px 90px 0;
@@ -151,35 +157,95 @@ form {
     border-top: none;
     height: 70vh;
     background: white;
+    @include respond-to("small") {
+        height: auto;
+        min-height: 150vh;
+        padding-bottom: 100px;
+    }
+    @include respond-to("extra-small") {
+        height: auto;
+        min-height: 150vh;
+        padding-bottom: 100px;
+    }
 }
 .messaging {
-    padding: 15px 15px 10px 15px;
+    padding: 15px 0px 15px 0px;
     height: 100%;
 }
 .type_area {
     border-top: 1px solid #c4c4c4;
     position: relative;
-    padding: 10px 5px 5px 5px;
+    padding: 15px 15px 5px 15px;
+    background: white;
+    @include respond-to("small") {
+        padding: 15px 15px 15px 15px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        z-index: 2;
+    }
+    @include respond-to("extra-small") {
+        padding: 15px 15px 15px 15px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        z-index: 2;
+    }
 }
 .msg_area {
-    height: 90%;
+    height: 100%;
     overflow-y: auto;
     background: white;
+    padding: 0px 15px 0px 15px;
     .user-post {
         margin-bottom: 10px;
         border-radius: 12.5px;
+        border: 1px solid #eee;
         &.user-post-odd {
             background: white;
             margin-right: 25%;
+            border-left-color: $brand_color1;
         }
         &.user-post-even {
             background: #f3f3f3;
             margin-right: 25%;
+            border-left-color: $brand_color1;
         }
         &.user-post-current {
-            // background: yellow;
             margin-left: 25%;
             margin-right: 0%;
+            border-right-color: $brand_color2;
+            border-left: none;
+            @include respond-to("small") {
+                margin-left: 0;
+                margin-right: 0;
+                width: 100%;
+                border-right-color: $brand_color2;
+                border-right-width: 3px;
+            }
+            @include respond-to("extra-small") {
+                margin-left: 0;
+                margin-right: 0;
+                width: 100%;
+                border-right-color: $brand_color2;
+                border-right-width: 3px;
+            }
+            .username {
+                font-size: 1em;
+                color: $brand_color2 !important;
+            }
+        }
+        @include respond-to("small") {
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
+        @include respond-to("extra-small") {
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
         }
         .statusIndicator {
             width: 10px;
@@ -191,9 +257,44 @@ form {
         .timestamp {
             float: right;
         }
+        .username {
+            font-size: 0.9em;
+            font-weight: bold;
+            color: $brand_color1;
+            color: #555;
+        }
+        .msg {
+            margin-top: 2px;
+        }
     }
     .list-group-item {
         padding: 7.5px 12.5px;
+    }
+    &.msg_area-announcement {
+        .user-post {
+            width: 100%;
+            margin-right: 0;
+            margin-left: 0;
+            border: none !important;
+            background: white;
+            border-bottom: 1px dotted $brand_color1 !important;
+            border-radius: 0;
+            .statusIndicator {
+                display: none;
+            }
+            &.user-post-odd {
+                border-color: $brand_color2;
+            }
+            &.user-post-even {
+                border: none;
+            }
+            .msg_metadata {
+                margin-bottom: 5px;
+            }
+            .username {
+                color: #999 !important;
+            }
+        }
     }
 }
 .msg_metadata {
@@ -277,6 +378,14 @@ form {
         @include flexbox;
         @include align-items(center);
         @include justify-content(space-between);
+        border-bottom: none;
+        border-bottom: 2px dotted #ccc !important;
+        @include respond-to("small") {
+            padding: 8px 15px;
+        }
+        @include respond-to("extra-small") {
+            padding: 7px 15px;
+        }
         .list-group-item__left {
             @include flexbox;
             @include align-items(center);
@@ -293,7 +402,7 @@ form {
                 @include flexbox;
                 @include align-items(center);
                 text-decoration: none;
-                font-size: 22px;
+                font-size: 24px;
                 color: #aaaaaa;
                 &:hover {
                     color: #F7241D;
@@ -302,14 +411,49 @@ form {
                     color: #F58225;
                 }
                 .message-counter {
-                    margin-right: 5px;
+                    margin-right: 6px;
                     font-size: 14px;
+                    font-weight: bold;
                 }
             }
+        }
+        .username {
+            font-size: 0.9em;
         }
     }
 }
 .list-group-item {
     border-top: none;
     border-bottom: 2px solid #ddd;
+}
+#status-modal {
+    .modal-body {
+        padding: 10px 15px;
+        @include respond-to("small") {
+            padding: 5px 15px;
+        }
+        @include respond-to("extra-small") {
+            padding: 5px 15px;
+        }
+    }
+    .modal-dialog {
+        margin-top: 15%;
+    }
+    .modal-header {
+        .close {
+            opacity: 1 !important;
+            span {
+                color: $brand_color2;
+                font-size: 1.5em;
+                top: 5px;
+                position: absolute;
+                right: 10px;
+            }
+        }
+        h3 {
+            font-size: 1.25em;
+            text-align: center;
+            color: $brand_color1;
+        }
+    }
 }
