@@ -1,5 +1,5 @@
 const PrivateChatMessageModel = require('./model').PrivateChatMessagesMongo;
-const stopwords = require('n-stopwords')(['en']);
+const StopWords = require('../utils/StopWords');
 
 class PrivateChatMessage {
     constructor(message, sender_user_id, receiver_user_id, user_status) {
@@ -74,23 +74,24 @@ class PrivateChatMessage {
     searchChatMessages(sender_user_id, receiver_user_id, query, page, pageSize) {
         return new Promise( (resolve,reject) =>{
             let skipSize = page * pageSize;
-            let preprocessedQuery = stopwords.cleanText(query);
-            console.log("after clean: " + preprocessedQuery);
-            PrivateChatMessageModel.find({
-                    $or:[{"sender_user_id": sender_user_id, "receiver_user_id": receiver_user_id,},
+            StopWords.removeStopWords(query).then(preprocessedQuery => {
+                console.log("after clean: " + preprocessedQuery);
+                PrivateChatMessageModel.find({
+                    $or: [{"sender_user_id": sender_user_id, "receiver_user_id": receiver_user_id,},
                         {"sender_user_id": receiver_user_id, "receiver_user_id": sender_user_id}],
-                    $text: {$search:preprocessedQuery}
+                    $text: {$search: preprocessedQuery}
                 })
-                .populate("sender_user_id", ["_id", "username"]).populate("receiver_user_id", ["_id", "username"])
-                .sort({created_at: -1})
-                .skip(skipSize).limit(pageSize)
-                .then(result => {
-                    resolve(result);
-                })
-                .catch(function(err) {
-                    console.log("Error getting Private message by query: " + err);
-                    reject(err);
-                });
+                    .populate("sender_user_id", ["_id", "username"]).populate("receiver_user_id", ["_id", "username"])
+                    .sort({created_at: -1})
+                    .skip(skipSize).limit(pageSize)
+                    .then(result => {
+                        resolve(result);
+                    })
+                    .catch(function (err) {
+                        console.log("Error getting Private message by query: " + err);
+                        reject(err);
+                    });
+            })
         })
     }
 
