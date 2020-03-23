@@ -88,24 +88,21 @@ class ChatMessagesController {
                     return res.status(201).send(JSON.stringify(msg));
                 })
                 .catch( err => {
-                    console.log("fuck");
                     console.log("Error searching messages by keyword");
                     return res.status(500).send(err);
                 });
-        }
-
-
-
-        //If no keyword or status is specified
-        chatMessage.getChatMessages()
+        } else {
+            //If no keyword or status is specified
+            chatMessage.getChatMessages()
             .then(result => {
                 res.contentType('application/json');
                 res.status(201).send(JSON.stringify(result));
             }).catch(err => {
-            return res.status(422).send(JSON.stringify({
-                "error": err.message
-            }));
-        });
+                return res.status(422).send(JSON.stringify({
+                    "error": err.message
+                }));
+            });
+        }
     }
 
     //update message user status
