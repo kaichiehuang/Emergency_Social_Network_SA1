@@ -21,7 +21,7 @@ $(function() {
     });
 
     //init public chat messages and announcements
-    publicChatMessageModel.getMessages('public');
+    publicChatMessageModel.updateMessageListView('public');
 
      /****** events declaration ********/
      $('#public-send-btn').click(function(e) {
@@ -39,5 +39,14 @@ $(function() {
         if (newID === 'public-chat-content') {
             public_wall_container.scrollTop = public_wall_container.scrollHeight;
         }
+    });
+
+    /**
+     * form submit button event // triggered by submit and enter event by default
+     */
+    $("#search-public-chat__button").click(function (e) {
+        e.preventDefault();
+        let searchKeyword = $("#search-public-chat__input").val();
+        publicChatMessageModel.updateMessageListView('public', searchKeyword, 0);
     });
 });

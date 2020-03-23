@@ -82,11 +82,5 @@ class ChatMessagesController {
         });
     }
 
-    //update message user status
-    // updateChatMessages(req,res){
-    //     res.io.emit('update-user-status-in-chat');
-    //     res.status(201).send("Updating chat messages");
-    // }
-
 }
 module.exports = ChatMessagesController;

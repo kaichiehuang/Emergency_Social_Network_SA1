@@ -83,9 +83,9 @@ class User {
                 }
             }
             // assign view change event for chat button for each user in the list
-            viewChangerEvent();
+            contentChangerEvent();
             $('.chat-button').click(function(event) {
-                initiatePrivateChat($(this).data('user-id'));
+                PrivateChatMessage.initiatePrivateChat($(this).data('user-id'));
             });
         }
     }
@@ -168,3 +168,4 @@ $(function() {
         User.updateUserListView(currentUser, searchKeyword, "");
     });
 });
+

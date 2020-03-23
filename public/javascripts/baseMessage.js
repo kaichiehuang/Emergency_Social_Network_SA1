@@ -9,45 +9,76 @@ class BaseMessage {
      * @param  {[type]} data [description]
      * @return {[type]}      [description]
      */
-    drawMessageItem(type, data) {
-        if(data.user_id == null || data.user_id == undefined){
+     drawMessageItem(type, message) {
+        if(message.sender_user_id != undefined){
+            message.user_id = message.sender_user_id;
+        }
+        if (message.user_id == null || message.user_id == undefined) {
             return;
         }
+        //1. find template
+        const messagesTemplate = document.querySelector('template#' + type + '-template');
+        //2. find container
+        let listContainer = document.getElementById(type + '-chat');
 
-        let list_length = $('ul#' + type + '-chat li').length;
-        let new_li = $('ul#' + type + '-chat li#' + type + '-template').clone();
-        let class_ori = new_li.attr('class');
-        class_ori = class_ori.replace(' hide', '');
-        if (list_length % 2 == 1) {
-            new_li.attr('class', class_ori + ' user-post-odd');
-        } else {
-            new_li.attr('class', class_ori + ' user-post-even');
+        if (listContainer != undefined) {
+            const list_length = $("#"+type + '-chat > li').length;
+            //3. iterate over users list and draw using the appropiate template based on online/offline state
+            var template = messagesTemplate.content.cloneNode(true);;
+            if (template != undefined && template != null && message != undefined) {
+                let new_li = $('ul#' + type + '-chat li#' + type + '-template').clone();
+                if (list_length % 2 == 1) {
+                    template.querySelector(".user-post").classList.add('user-post-odd');
+                } else {
+                    template.querySelector(".user-post").classList.add('user-post-even');
+                }
+                let user_id = Cookies.get('user-id');
+                if (user_id === message.user_id._id) {
+                    template.querySelector(".user-post").classList.add('user-post-current');
+                }
+                let indicatorStyle = '';
+                console.log("mesage status = ", message.status);
+                if(message.status != undefined && message.status != ""){
+                    if (message.status === 'OK') {
+                        indicatorStyle = "background-color-ok";
+                    } else if (message.status === 'HELP') {
+                        indicatorStyle = 'background-color-help';
+                    } else if (message.status === 'EMERGENCY') {
+                        indicatorStyle = 'background-color-emergency';
+                    } else if (message.status === 'UNDEFINED') {
+                        indicatorStyle = 'background-color-undefined';
+                    }
+                    console.log(indicatorStyle)
+                    template.querySelector('.status-indicator-element').classList.add("statusIndicator");
+                    template.querySelector('.status-indicator-element').classList.add(indicatorStyle);
+                }
+
+                template.querySelector('.msg').innerText = message.message;
+                template.querySelector('.timestamp').innerText = new Date(message.created_at).toLocaleString();
+                template.querySelector('.username').innerText = message.user_id.username;
+
+                listContainer.appendChild(template);
+            }
         }
-        let user_id = Cookies.get('user-id');
-        if (user_id === data.user_id._id) {
-            new_li.attr('class', new_li.attr('class') + ' user-post-current');
-        }
-        new_li.removeAttr('id');
-        let child = new_li.html();
-        let indicatorStyle;
-        if (data.status === 'OK') {
-            indicatorStyle = "statusIndicator background-color-ok";
-        } else if (data.status === 'HELP') {
-            indicatorStyle = 'statusIndicator background-color-help';
-        } else if (data.status === 'EMERGENCY') {
-            indicatorStyle = 'statusIndicator background-color-emergency';
-        } else if (data.status === 'UNDEFINED') {
-            indicatorStyle = 'statusIndicator background-color-undefined';
-        }
-        let child_new = child.replace('%username_token%', data.user_id.username).replace('%timestamp_token%', new Date(data.created_at).toLocaleString()).replace('%message_token%', data.message).replace("statusIndicator", indicatorStyle);
-        //child_new.find('.statusIndicator').className = indicatorStyle;
-        new_li.html(child_new);
-        $('#' + type + '-chat').append(new_li);
+    }
+    /**
+     * [drawMessage description]
+     * @param  {[type]} type     [description]
+     * @param  {[type]} messages [description]
+     * @return {[type]}          [description]
+     */
+     drawMessages(type, messages) {
+        let i = 0;
+        $('ul#' + type + '-chat li').remove();
+        messages.forEach(element => {
+            this.drawMessageItem(type, element);
+            i++;
+        });
     }
     /**
      * Sends and saves the message the user post.
      */
-    sendMessage(type) {
+     sendMessage(type) {
         let user_id = Cookies.get('user-id');
         let jwt = Cookies.get('user-jwt-esn');
         let url = apiPath + '/chat-messages';
@@ -97,44 +128,61 @@ class BaseMessage {
      * Get all the messages prevoisly posted
      * (messages saved on the db)
      */
-    getMessages(type, limit) {
+     getMessages(type, keywords, page) {
         let jwt = Cookies.get('user-jwt-esn');
         let url = apiPath + '/chat-messages';
-        let data = {};
-        let self = this;
-        //data for private chat
-        if (type === 'private') {
-            url = apiPath + '/private-chat-messages';
-            data = {
-                "sender_user_id": Cookies.get('user-id'),
-                "receiver_user_id": Cookies.get('receiver_user_id')
-            };
-        }
-        //data for announcements
-        if (type === 'announcement') {
-            url = apiPath + '/announcements';
-            data = {
-                limit: 0
-            };
-        }
-        $.ajax({
-            url: url,
-            type: 'get',
-            headers: {
-                Authorization: jwt
-            },
-            data: data
-        }).done(function(response) {
-            let i = 0;
-            response.forEach(element => {
-                self.drawMessageItem(type, element);
-                i++;
+        let data = {
+            'page': page,
+            'q': keywords
+        };
+        return new Promise((resolve, reject) => {
+            //data for private chat
+            if (type === 'private') {
+                url = apiPath + '/private-chat-messages';
+                data = {
+                    'page': page,
+                    'q': keywords,
+                    "sender_user_id": Cookies.get('user-id'),
+                    "receiver_user_id": Cookies.get('receiver_user_id')
+                };
+            }
+            //data for announcements
+            if (type === 'announcement') {
+                url = apiPath + '/announcements';
+                data = {
+                    limit: 0
+                };
+            }
+            $.ajax({
+                url: url,
+                type: 'get',
+                headers: {
+                    Authorization: jwt
+                },
+                data: data
+            }).done(function(response) {
+                resolve(response);
+            }).fail(function(e) {
+                reject(e.message)
+            }).always(function() {
+                console.log("complete");
             });
-        }).fail(function(e) {
-            $('#signup-error-alert').html(e);
-            $('#signup-error-alert').show();
-        }).always(function() {
-            console.log('complete');
+        });
+    }
+    /**
+     * [updateMessageListView description]
+     * @param  {[type]} type          [description]
+     * @param  {[type]} searchKeyword [description]
+     * @param  {[type]} page          [description]
+     * @return {[type]}               [description]
+     */
+     updateMessageListView(type, searchKeyword, page) {
+        let self = this;
+        //get user data and then get messages to paint and to check for unread messages
+        this.getMessages(type, searchKeyword, page).then(results => {
+            self.drawMessages(type, results);
+        }).catch(err => {
+            console.log(err)
         });
     }
 }
