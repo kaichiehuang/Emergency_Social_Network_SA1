@@ -1,11 +1,9 @@
 class User {
-
     constructor() {
         this._id = null;
         this.username = "";
         this.unread_messages = {};
     }
-
     /**
      * [getUserData description]
      * @param  {[type]} userId [description]
@@ -85,9 +83,9 @@ class User {
                 }
             }
             // assign view change event for chat button for each user in the list
-            viewChangerEvent();
+            contentChangerEvent();
             $('.chat-button').click(function(event) {
-                initiatePrivateChat($(this).data('user-id'));
+                PrivateChatMessage.initiatePrivateChat($(this).data('user-id'));
             });
         }
     }
@@ -95,15 +93,20 @@ class User {
      * Returns a list of users from the API
      * @return {[type]} [description]
      */
-    static getUsers() {
+    static getUsers(keyword, status) {
+        let data = {
+            "username": keyword,
+            "status": status
+        };
         return new Promise((resolve, reject) => {
             let jwt = Cookies.get('user-jwt-esn');
             $.ajax({
-                url: apiPath + '/users',
-                type: 'get',
-                headers: {
+                "url": apiPath + '/users',
+                "type": 'get',
+                "headers": {
                     "Authorization": jwt
-                }
+                },
+                "data": data
             }).done(function(response) {
                 resolve(response);
             }).fail(function(e) {
@@ -113,40 +116,56 @@ class User {
             });
         });
     }
+    //todo pass this to a class AddressBook that has an attribute currentUser
+    static updateUserListView(currentUser, searchKeyword, searchStatus) {
+        //get user data and then get messages to paint and to check for unread messages
+        User.getUserData(currentUser._id).then(user => {
+            currentUser.unread_messages = user.unread_messages;
+            return User.getUsers(searchKeyword, searchStatus);
+        }).then(users => {
+            User.drawUsers(users, "user-list-content__list", currentUser)
+        }).catch(err => {});
+    }
 }
+
 /**
  * User behavior using jquery
  * @param  {[type]} ) {}          [description]
  * @return {[type]}   [description]
  */
 let currentUser = null;
+
 $(function() {
     const socket = io('/');
+
     //initialize current user
     currentUser = new User();
     currentUser._id = Cookies.get('user-id');
+
     //Initial call to get the user list after login
-    updateUserListView()
+    User.updateUserListView(currentUser, "", "");
+
     //Socket IO implementation to update user list on every change of users data.
     socket.on("user-list-update", () => {
-        updateUserListView()
+        updateUserListView(currentUser, $("#search-users-list__input").val(), "")
     });
     //Click event, to update user list when the user switch between views
     $(".content-changer").click(function(event) {
         event.preventDefault();
         let newID = $(this).data('view-id');
         if (newID === "user-list-content") {
-            updateUserListView();
+            User.updateUserListView(currentUser, $("#search-users-list__input").val(), "");
         }
     });
+
+    /**
+     * form submit button event // triggered by submit and enter event by default
+     */
+    $("#search-users-list__button").click(function (e) {
+        e.preventDefault();
+        let searchKeyword = $("#search-users-list__input").val();
+        let searchStatus = ""; //$("#search-users-list__input").val();
+        User.updateUserListView(currentUser, searchKeyword, "");
+    });
 });
-//todo pass this to a class AddressBook that has an attribute currentUser
-function updateUserListView() {
-    //get user data and then get messages to paint and to check for unread messages
-    User.getUserData(currentUser._id).then(user => {
-        currentUser.unread_messages = user.unread_messages;
-        return User.getUsers();
-    }).then(users => {
-        User.drawUsers(users, "user-list-content__list", currentUser)
-    }).catch(err => {});
-}
+

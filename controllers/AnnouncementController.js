@@ -40,13 +40,16 @@ class AnnouncementController {
      */
     getAnnouncement(req, res) {
         let keywords = req.query.q;
-        let index = req.query.limit;
+        let index = req.query.page;
+        let limit = req.query.limit;
         let last = req.query.last;
         let sort_type = -1;
-        let limit = index;
-        console.log("keywords" + keywords);
-        console.log("limit" + index);
-        if (keywords === undefined || index === undefined || last === true) {
+
+        console.log("keywords = " + keywords);
+        console.log("limit=" + limit);
+        console.log("page=" + index);
+
+        if (keywords === undefined || keywords == '' || index === undefined || last === true) {
             if(last != undefined && last){
                 limit = parseInt("1");
                 sort_type = -1;

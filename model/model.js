@@ -41,7 +41,7 @@ const ChatMessageSchema = new Schema(
     schemaOptions
 );
 
-ChatMessageSchema.index({message:"text"});
+ChatMessageSchema.index({"message":"text"});
 
 
 const PrivateChatMessageSchema = new Schema(
@@ -58,7 +58,7 @@ const PrivateChatMessageSchema = new Schema(
     schemaOptions
 );
 
-PrivateChatMessageSchema.index({message: 'text'});
+PrivateChatMessageSchema.index({"message": 'text'});
 
 const AnnouncementSchema = new Schema(
     {
@@ -69,7 +69,7 @@ const AnnouncementSchema = new Schema(
     schemaOptions
 );
 
-AnnouncementSchema.index({announcement:"text"});
+AnnouncementSchema.index({"message":"text"});
 
 const User = mongoose.model('User', UserSchema);
 const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema);

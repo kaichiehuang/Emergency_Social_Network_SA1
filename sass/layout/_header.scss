@@ -8,6 +8,11 @@
         box-shadow: 0 0 15px 1px #aaa;
     }
     &.header-loggedin {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 2;
         @include respond-to('small') {
             position: fixed;
             top: 0;

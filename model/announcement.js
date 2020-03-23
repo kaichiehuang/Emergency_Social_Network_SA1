@@ -15,7 +15,6 @@ class Announcement{
         this.status = user_status;
     }
 
-
     /**
      * Create Announcement
      * @returns {Promise<unknown>}

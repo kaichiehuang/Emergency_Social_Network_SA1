@@ -255,15 +255,6 @@ class UsersController {
             return res.status(500).send(err);
         });
 
-
-
-
-
     }
-
-
-
-
-
 
 }module.exports = UsersController;
