@@ -9,5 +9,21 @@
     "node": true,
     "browser": true
   },
-  "extends": "google"
+  "extends": "google",
+  "rules": {
+    "indent": ["error", 4],
+    "require-jsdoc": "warn",
+    "prefer-const": "warn",
+    "spaced-comment": "warn",
+    "comma-dangle": "off",
+    "camelcase": "off",
+    "max-len": "warn",
+    "quotes": "warn",
+    "valid-jsdoc": "warn",
+
+
+
+
+    "arrow-parens": "warn"
+  }
 }
