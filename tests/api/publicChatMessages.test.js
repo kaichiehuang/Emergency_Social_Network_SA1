@@ -130,6 +130,34 @@ describe('public chat messages API test', () => {
             })
         });
 
+    test('User2 search with keyword', async() =>{
+        expect.assertions(1);
+        await agent.get(HOST + '/api/chat-messages')
+            .accept('application/json')
+            .query({ q: 'public' })
+            .query({ page: 0 })
+            .send()
+            .set('Authorization', token2)
+            .set('accept', 'json')
+            .then(res =>{
+                expect(res.body[0].message).toBe('This is a public message');
+            })
+        });
 
+    test('User3 search with stop-word keyword', async() =>{
+        expect.assertions(1);
+        await agent.get(HOST + '/api/chat-messages')
+            .accept('application/json')
+            .query({ q: 'a' })
+            .query({ page: 0 })
+            .send()
+            .set('Authorization', token3)
+            .set('accept', 'json')
+            .then(res =>{
+                //console.log(res.body)
+                expect(res.body.length).toBe(0);
+            })
+        });
+    
 //end of describe    
 });
