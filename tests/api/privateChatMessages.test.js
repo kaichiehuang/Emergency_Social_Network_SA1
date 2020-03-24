@@ -98,4 +98,74 @@ describe('private chat messages API TEST', () => {
             })
     })
 
+    test('Should not create a new private msg with an error input msg', async () =>{
+        let err_input_private_msg = {
+            sender_user_id: sender_user_id,
+            receiver_user_id: receiver_user_id
+        };
+        await agent.post(HOST + '/api/private-chat-messages')
+            .send(err_input_private_msg)
+            .set('Authorization', token)
+            .end((err, res) => {
+                expect(err).not.toBe(null);
+                expect(res.statusCode).toBe(422);
+            })
+    })
+
+    test('Should not create a new private msg with an error input sender_user_id', async () =>{
+        let err_input_private_msg = {
+            message: 'enjoy today',
+            receiver_user_id: receiver_user_id
+        };
+        await agent.post(HOST + '/api/private-chat-messages')
+            .send(err_input_private_msg)
+            .set('Authorization', token)
+            .set('accept', 'json')
+            .end((err, res) => {
+                expect(err).not.toBe(null);
+                expect(res.statusCode).toBe(422);
+            })
+    })
+
+    test('Should not create a new private msg with an error input receiver_user_id', async () =>{
+        let err_input_private_msg = {
+            message: 'enjoy today',
+            sender_user_id: sender_user_id
+        };
+        await agent.post(HOST + '/api/private-chat-messages')
+            .send(err_input_private_msg)
+            .set('Authorization', token)
+            .set('accept', 'json')
+            .end((err, res) => {
+                expect(err).not.toBe(null);
+                expect(res.statusCode).toBe(422);
+            })
+    })
+
+    test('Should not get a list of private msg with an error query', async() =>{
+        await agent.get(HOST + '/api/private-chat-messages')
+            .query('receiver_user_id=' + receiver_user_id)
+            .accept('application/json')
+            .send()
+            .set('Authorization', token)
+            .set('accept', 'json')
+            .end((err, res) => {
+                expect(err).not.toBe(null);
+                expect(res.statusCode).toBe(422);
+            })
+    })
+
+    test('Should not get a list of private msg with an error query receiver_user_id', async() =>{
+        await agent.get(HOST + '/api/private-chat-messages')
+            .query('sender_user_id=' + sender_user_id)
+            .accept('application/json')
+            .send()
+            .set('Authorization', token)
+            .set('accept', 'json')
+            .end((err, res) => {
+                expect(err).not.toBe(null);
+                expect(res.statusCode).toBe(422);
+            })
+    })
+
 })
