@@ -1,4 +1,4 @@
-const TestDatabase = require("../services/testDataBase")
+const TestDatabase = require("../../services/testDataBase")
 const ChatMessage = require("../../model/chatMessage")
 
 const testDatabase = new TestDatabase();
@@ -47,20 +47,6 @@ afterEach(async () => {
           expect(String(msg[0]._id)).toBe(messsageId);
         });
     })
-
-    test("find messages by normal keyword", async () => {
-      await ChatMessage.findMessagesByKeyword("test").then(msg => {
-        expect(String(msg[0]._id)).toBe(messsageId);
-      });
-    })
-
-    test("find messages by stop-word", async () => {
-      await ChatMessage.findMessagesByKeyword("a").then(msg => {
-        expect(msg.length).toBe(0);
-      });
-    })
-
-
 
   })
 
