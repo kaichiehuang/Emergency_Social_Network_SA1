@@ -322,7 +322,7 @@
             }
             padding: 6.5px 15px;
             input {
-                max-width: 65%;
+                max-width: 70%;
                 border: 1px solid #bbb;
                 height: 28px;
                 text-align: center;
@@ -331,11 +331,11 @@
                 border-radius: 5px;
                 @include respond-to('small') {
                     max-width: 80%;
-                    margin: 0 5px;
+                    margin: 0 4px;
                 }
                 @include respond-to('extra-small') {
                     max-width: 80%;
-                    margin: 0 5px;
+                    margin: 0 4px;
                 }
                 &:focus {
                     border-color: $brand_color2;
@@ -343,7 +343,7 @@
                 }
             }
             button {
-                margin: 0 5px;
+                margin: 0 0px;
                 border: none;
                 background: none;
                 i {
@@ -358,6 +358,61 @@
                 &:hover, &:active {
                     i {
                         color: $brand_color1;
+                    }
+                }
+            }
+        }
+        &.user-list-components {
+            .form-group {
+                // @include flex-wrap(wrap);
+            }
+            .status-list {
+                padding: 3px 0;
+                margin: 0;
+                list-style: none;
+                @include flexbox;
+                @include align-items(center);
+                height: 28px;
+                li {
+                    height: 24px;
+                    >div {
+                        display: inline-block;
+                        width: 100%;
+                    }
+                    >div>span {
+                        @include flexbox;
+                        @include align-items(center);
+                        @include justify-content(flex-start);
+                        width: 100%;
+                    }
+                    span.status-list__color {
+                        padding: 0;
+                        margin: 0;
+                        border-radius: 24px;
+                        width: 24px;
+                        height: 24px; // border-radius: 50px;
+                        margin-right: 8px;
+                        display: block;
+                        @include flexbox;
+                        @include align-items(center);
+                        @include justify-content(center);
+                        @include flex-wrap(wrap);
+                        i {
+                            color: white;
+                            display: inline-block;
+                            font-size: 12px;
+                            line-height: 24px;
+                        }
+                        &.selected {
+                            border: 1px solid #ccc;
+                        }
+                        &.non-selected {
+                            background: #eee !important;
+                            border: 1px solid #ccc;
+                            i {
+                                color: #888;
+                            }
+                        }
                     }
                 }
             }
