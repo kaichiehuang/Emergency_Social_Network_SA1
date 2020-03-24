@@ -191,7 +191,7 @@ class UsersController {
         let userId = req.params.userId;
         let status = req.body.status;
         //1. update user data
-        user_instance.updateUserStatus(userId,  status).then(usr => {
+        user_instance.updateUserStatus(userId, status).then(usr => {
             let jsonResponseData = {};
             jsonResponseData['user'] = {
                 userId: usr._id.toString(),
@@ -234,8 +234,8 @@ class UsersController {
                     console.log("Error searching users by username")
                     return res.status(500).send(err);
                 });
-        }
-        if(status!== undefined && status.length!==0){
+        } else if (status !== undefined && status.length !== 0) {
+            console.log("filtering by status");
             //search user by status
             User.findUsersByStatus(status)
                 .then( users => {
@@ -245,16 +245,18 @@ class UsersController {
                     console.log("Error searching users by username")
                     return res.status(500).send(err);
                 });
+        } else {
+            console.log("not filtering");
+            //If there's not a query parameter return all users.
+            User.getUsers().then(users => {
+                return res.status(201).send(JSON.stringify(users));
+            }).catch(err => {
+                console.log("Error searching all users")
+                return res.status(500).send(err);
+            });
         }
-
-        //If there's not a query parameter return all users.
-        User.getUsers().then(users => {
-            return res.status(201).send(JSON.stringify(users));
-        }).catch(err => {
-            console.log("Error searching all users")
-            return res.status(500).send(err);
-        });
-
     }
 
-}module.exports = UsersController;
+}
+
+module.exports = UsersController;
