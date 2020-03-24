@@ -1,6 +1,6 @@
 const PrivateChatMessage = require('../model/privateChatMessage.js');
 const User = require('../model/user.js');
-const PAGE_SIZE = 10;
+const constants = require('../constants');
 
 class PrivateChatMessagesController {
     /**
@@ -142,7 +142,7 @@ class PrivateChatMessagesController {
 function searchPrivateMessage(requestData, res) {
     let query = requestData['q'];
     let page = isNaN(requestData['page']) ? 0 : requestData['page'];
-    let pageSize = PAGE_SIZE;
+    let pageSize = constants.PAGINATION_NUMBER;
     let privateChatMessage = new PrivateChatMessage();
     privateChatMessage.searchChatMessages(requestData['sender_user_id'], requestData['receiver_user_id'],
         query, page, pageSize)

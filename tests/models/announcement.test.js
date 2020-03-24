@@ -18,7 +18,7 @@ afterEach(async () => {
 
 
 describe("Can creat an announcement", ()=> {
-    test("Creating an announcemet", async () => {
+    test("Should create an announcement", async () => {
         expect.assertions(1);
         let announcement = new Announcement(
             "this is an announcement",
@@ -33,6 +33,21 @@ describe("Can creat an announcement", ()=> {
                 console.log("Error creating announcement:" + err)
             })
     })
+
+
+    test('should reject announcement creation',async () =>{
+        expect.assertions(1);
+        let announcement = new Announcement(
+            "",
+            '507f1f77bcf86cd799439011',
+            'OK',
+        );
+
+        return expect(announcement.saveAnnouncement()).rejects.toEqual(
+            'Invalid announcement, please enter the message that you want to send',
+        );
+    })
+
 })
 
 
@@ -53,7 +68,6 @@ describe("Can get announcements", () => {
             '507f1f77bcf86cd799439011',
             'OK',
         );
-
         await announcement.saveAnnouncement();
 
 
@@ -90,3 +104,38 @@ describe("Can get announcements", () => {
 
 })
 
+
+//
+// describe("Database error", () =>{
+//
+//
+//     test("Should return an error message creating an announcement", async () => {
+//         expect.assertions(1);
+//
+//         await testDatabase.stop();
+//
+//         let announcement = new Announcement(
+//             "this is an announcement",
+//             '507f1f77bcf86cd799439011',
+//             'OK',
+//         );
+//
+//         return expect(announcement.saveAnnouncement()).rejects.toContain(
+//             'Error creating announcement:',
+//         );
+//     })
+//
+//
+//     test("Should return an error message getting an announcement", async () => {
+//         expect.assertions(1);
+//
+//         testDatabase.stop();
+//
+//         return expect(Announcement.getAnnouncements(-1,"p")).rejects.toHaveBeenCalled()
+//
+//
+//     })
+//
+//
+//
+// })

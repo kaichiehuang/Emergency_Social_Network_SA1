@@ -1,6 +1,6 @@
 const ChatMessage = require('../model/chatMessage.js');
 const User = require('../model/user.js');
-//const  = model.User;
+const constants = require('../constants');
 const ObjectId = require('mongoose').Types.ObjectId;
 class ChatMessagesController {
     /**
@@ -83,7 +83,7 @@ class ChatMessagesController {
                 .then( messages => {
                     console.log("found messages with keyword");
                     //get specific page of 10 messages
-                    let msg = messages.slice(page * 10, page * 10 + 10);
+                    let msg = messages.slice(page * constants.PAGINATION_NUMBER, page * constants.PAGINATION_NUMBER + constants.PAGINATION_NUMBER);
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(msg));
                 })

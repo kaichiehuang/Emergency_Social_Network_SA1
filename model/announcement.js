@@ -1,14 +1,12 @@
-const AnnouncementModel= require('./model').AnnouncementsMongo;
-const stopwords = require('n-stopwords')(['en']);
-
-//Number of maximum values returned in the announcement search by keyword
-const PAGINATION_NUMBER = 10;
+const AnnouncementModel = require('./model').AnnouncementsMongo;
+const StopWords = require('../utils/StopWords');
+const constants = require('../constants');
 
 //Create index on mongodb
 //db.announcements.createIndex({"message":"text"})
 
-class Announcement{
-    constructor(message,user_id,user_status ){
+class Announcement {
+    constructor(message, user_id, user_status) {
         this._id = null;
         this.message = message;
         this.user_id = user_id;
@@ -19,24 +17,24 @@ class Announcement{
      * Create Announcement
      * @returns {Promise<unknown>}
      */
-    saveAnnouncement(){
-        return new Promise((resolve, reject) =>{
+    saveAnnouncement() {
+        return new Promise((resolve, reject) => {
             //validate for empty announcement
-            if( new String(this.announcement) == ""){
+            if (new String(this.message) == "") {
                 reject("Invalid announcement, please enter the message that you want to send");
             }
             //save new announcement
             let newAnnouncement = new AnnouncementModel({
                 message: this.message,
-                user_id : this.user_id,
-                status : this.status
+                user_id: this.user_id,
+                status: this.status
             });
             newAnnouncement.save()
                 .then(result => {
                     this._id = result.id;
-                    resolve(newAnnouncement);
+                    resolve(result);
                 })
-                .catch(err =>{
+                .catch(err => {
                     console.log("Error creating announcement:" + err)
                     reject(err);
                 })
@@ -50,19 +48,19 @@ class Announcement{
      * @returns {Promise<unknown>}
      */
     static getAnnouncements(sort_type, limit) {
-        return new Promise((resolve,reject) =>{
-            let query = AnnouncementModel.find({})
+        return new Promise((resolve, reject) => {
+            AnnouncementModel.find({})
                 .populate("user_id", ["_id", "username"])
                 .sort({
                     created_at: sort_type
                 }).limit(parseInt(limit))
-
-                query.then(result => {
-                    resolve(result);
-                })
-                .catch(function(err) {
+                .then(result => {
+                resolve(result);
+            })
+                .catch((err) => {
                     console.log("Error getting Announcements: " + err);
-                    reject(err);
+                    //throw err.message;
+                    reject("Error getting Announcements: " + err.message);
                 });
         })
     }
@@ -72,29 +70,28 @@ class Announcement{
      * @param keywords
      * @returns {Promise<unknown>}
      */
-    static findAnnouncements(keywords,index, sort_type){
-        return new Promise( (resolve,reject) =>{
-
-            let totalSkip = index * PAGINATION_NUMBER;
+    static findAnnouncements(keywords, index, sort_type) {
+        return new Promise((resolve, reject) => {
+            let totalSkip = index * constants.PAGINATION_NUMBER;
             console.log("before clean keywords: " + keywords);
-            let filterKeyWords = stopwords.cleanText(keywords);
-            console.log("after clean keywords: " + filterKeyWords);
-
-            AnnouncementModel.find(
-                {$text: {$search:filterKeyWords}})
-                .populate("user_id", ["_id", "username"])
-                .sort({
-                    created_at: sort_type
-                })
-                .skip(totalSkip)
-                .limit(PAGINATION_NUMBER)
-                .then(result => {
-                    resolve(result);
-                })
-                .catch(function(err) {
-                    console.log("Error getting Announcements by keyword: " + err);
-                    reject(err);
-                });
+            StopWords.removeStopWords(keywords).then(filteredKeyWords => {
+                console.log("after clean keywords: " + filteredKeyWords);
+                AnnouncementModel.find(
+                    {$text: {$search: filteredKeyWords}})
+                    .populate("user_id", ["_id", "username"])
+                    .sort({
+                        created_at: sort_type
+                    })
+                    .skip(totalSkip)
+                    .limit(constants.PAGINATION_NUMBER)
+                    .then(result => {
+                        resolve(result);
+                    })
+                    .catch(function (err) {
+                        console.log("Error getting Announcements by keyword: " + err);
+                        reject(err);
+                    });
+            })
         })
     }
 
