@@ -20,7 +20,7 @@ class Announcement {
     saveAnnouncement() {
         return new Promise((resolve, reject) => {
             //validate for empty announcement
-            if (new String(this.announcement) == "") {
+            if (new String(this.message) == "") {
                 reject("Invalid announcement, please enter the message that you want to send");
             }
             //save new announcement
@@ -32,7 +32,7 @@ class Announcement {
             newAnnouncement.save()
                 .then(result => {
                     this._id = result.id;
-                    resolve(newAnnouncement);
+                    resolve(result);
                 })
                 .catch(err => {
                     console.log("Error creating announcement:" + err)
@@ -49,18 +49,18 @@ class Announcement {
      */
     static getAnnouncements(sort_type, limit) {
         return new Promise((resolve, reject) => {
-            let query = AnnouncementModel.find({})
+            AnnouncementModel.find({})
                 .populate("user_id", ["_id", "username"])
                 .sort({
                     created_at: sort_type
                 }).limit(parseInt(limit))
-
-            query.then(result => {
+                .then(result => {
                 resolve(result);
             })
-                .catch(function (err) {
+                .catch((err) => {
                     console.log("Error getting Announcements: " + err);
-                    reject(err);
+                    //throw err.message;
+                    reject("Error getting Announcements: " + err.message);
                 });
         })
     }
