@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="4" failures="0" time="2.852">
+  <testsuite name="public chat messages API test" errors="0" failures="0" skipped="0" timestamp="2020-03-24T21:31:56" time="2.771" tests="4">
+    <testcase classname="public chat messages API test User1 create a new public message" name="public chat messages API test User1 create a new public message" time="0.019">
+    </testcase>
+    <testcase classname="public chat messages API test User1 receive public message" name="public chat messages API test User1 receive public message" time="0.016">
+    </testcase>
+    <testcase classname="public chat messages API test User2 receive public message" name="public chat messages API test User2 receive public message" time="0.008">
+    </testcase>
+    <testcase classname="public chat messages API test User3 receive public message" name="public chat messages API test User3 receive public message" time="0.006">
+    </testcase>
+  </testsuite>
+</testsuites>
