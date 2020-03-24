@@ -7,7 +7,7 @@ let HOST = 'http://localhost:' + PORT;
 
 let app = require('../../app').app;
 app.set('port', PORT);
-let server = app.listen(PORT);
+let server;
 
 const testDatabase = new TestDatabase();
 let token;
@@ -16,6 +16,7 @@ let receiver_user_id;
 let private_msg;
 
 beforeAll(async () => {
+    server = await app.listen(PORT);
     await testDatabase.start();
     const user = {
         username: 'APIUserTest1',
@@ -82,19 +83,19 @@ describe('private chat messages API TEST', () => {
             })
     })
 
-//TODO full text search
-    // test('Should search a list of private msg', async() =>{
-    //     expect.assertions(1);
-    //     await agent.get(HOST + '/api/private-chat-messages')
-    //         .query('sender_user_id=' + sender_user_id)
-    //         .query('receiver_user_id=' + receiver_user_id)
-    //         .query('q=enjoy')
-    //         .accept('application/json')
-    //         .send()
-    //         .set('Authorization', token)
-    //         .set('accept', 'json')
-    //         .then(res =>{
-    //             expect(res.body.length).toBe(1);
-    //         })
-    // })
+    test('Should search a list of private msg', async() =>{
+        expect.hasAssertions();
+        await agent.get(HOST + '/api/private-chat-messages')
+            .query('sender_user_id=' + sender_user_id)
+            .query('receiver_user_id=' + receiver_user_id)
+            .query('q=enjoy')
+            .accept('application/json')
+            .send()
+            .set('Authorization', token)
+            .set('accept', 'json')
+            .then(res =>{
+                expect(res.body.length).toBe(1);
+            })
+    })
+
 })

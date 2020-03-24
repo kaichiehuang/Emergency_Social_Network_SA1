@@ -149,9 +149,10 @@ function searchPrivateMessage(requestData, res) {
         .then(result => {
             res.send(result);
         }).catch(err => {
-        return res.status(422).send(JSON.stringify({
-            error: err.message
-        }));
+            console.log(err);
+            return res.status(422).send({
+                error: err.message
+            });
     });
 }
 
