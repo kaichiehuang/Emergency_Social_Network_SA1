@@ -51,6 +51,12 @@
     "testEnvironment": "node",
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
+      "!gulpfile.js",
+      "!public/javascripts/**",
+      "!model/database.js",
+      "!routes/token.js",
+      "!tests/**",
+      "!coverage/**",
       "!**/migration/**",
       "!**/node_modules/**",
       "!**/vendor/**"
