@@ -191,3 +191,15 @@ body {
 .container-fluid {
     padding: 0 15px !important;
 }
+.background-color-ok {
+    background: $color_ok;
+}
+.background-color-help {
+    background: $color_help;
+}
+.background-color-emergency {
+    background: $color_emergency;
+}
+.background-color-undefined {
+    background: $color_undefined;
+}
