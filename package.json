@@ -54,6 +54,7 @@
       "!public/javascripts/**",
       "!model/database.js",
       "!routes/token.js",
+      "!tests/**",
       "!coverage/**",
       "!**/migration/**",
       "!**/node_modules/**",
