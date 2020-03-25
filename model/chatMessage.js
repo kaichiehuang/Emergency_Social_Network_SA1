@@ -60,6 +60,7 @@ class ChatMessage {
         return new Promise((resolve, reject) => {
             StopWords.removeStopWords(keyword).then((filteredKeyWords) => {
                 ChatMessageModel.find({$text: {$search: filteredKeyWords}})
+                    .populate('user_id', ['_id', 'username'])
                     .sort({created_at: 'asc'})
                     .then((messages) => {
                         resolve(messages);
