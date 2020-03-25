@@ -81,7 +81,9 @@ class BaseMessage {
 
         $("#"+type+"-msg_area .no-results-message").addClass("hidden");
         if(messages.length == 0){
-            $("#"+type+"-msg_area .no-results-message").removeClass("hidden");
+            if(page == 0){
+                $("#"+type+"-msg_area .no-results-message").removeClass("hidden");
+            }
             this.deactivateSearchButtonsLoadMore(type);
         }
     }

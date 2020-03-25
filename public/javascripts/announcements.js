@@ -42,6 +42,8 @@ let announcementModel = new Announcement();
 $(function() {
     //socket for chat messages management
     const socket = io("");
+     let page = 0;
+
     // listen for announcement chat events
     socket.on('new-chat-message', data => {
         announcementModel.drawMessageItem('announcement', data);
@@ -81,6 +83,14 @@ $(function() {
     $("#search-announcements__button").click(function(e) {
         e.preventDefault();
         let searchKeyword = $("#search-announcements__input").val();
-        announcementModel.updateMessageListView('announcement', searchKeyword, 0);
+        page = 0;
+        announcementModel.updateMessageListView('announcement', searchKeyword, page);
+    });
+
+    $("#search-announcement-chat__more-button").click(function (e) {
+        e.preventDefault();
+        let searchKeyword = $("#search-announcements__input").val();
+        page++;
+        announcementModel.updateMessageListView('announcement', searchKeyword, page);
     });
 });
