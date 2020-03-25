@@ -38,6 +38,7 @@
   "devDependencies": {
     "browser-sync": "^2.26.7",
     "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
     "gulp": "^4.0.2",
     "gulp-sass": "^4.0.2",
     "jest": "^25.1.0",
@@ -50,6 +51,12 @@
     "testEnvironment": "node",
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
+      "!gulpfile.js",
+      "!public/javascripts/**",
+      "!model/database.js",
+      "!routes/token.js",
+      "!tests/**",
+      "!coverage/**",
       "!**/migration/**",
       "!**/node_modules/**",
       "!**/vendor/**"

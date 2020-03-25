@@ -81,8 +81,6 @@ class PrivateChatMessagesController {
      */
     getChatMessages(req, res) {
         let requestData = req.query;
-        let senderUser = null;
-        let receiverUser = null;
 
         //0. validate right data from request body
         if (requestData['sender_user_id'] == undefined) {
@@ -149,10 +147,11 @@ function searchPrivateMessage(requestData, res) {
         .then(result => {
             res.send(result);
         }).catch(err => {
-        return res.status(422).send(JSON.stringify({
-            error: err.message
-        }));
-    });
+            console.log(err);
+            return res.status(422).send({
+                error: err.message
+            });
+        });
 }
 
 function getAllPrivateMessage(requestData, res) {
@@ -167,7 +166,6 @@ function getAllPrivateMessage(requestData, res) {
         }));
     });
 }
-
 
 
 module.exports = PrivateChatMessagesController;

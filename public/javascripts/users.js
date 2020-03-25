@@ -134,6 +134,7 @@ class User {
  * @return {[type]}   [description]
  */
 let currentUser = null;
+let selectedStatus = null;
 
 $(function() {
     const socket = io('/');
@@ -161,11 +162,27 @@ $(function() {
     /**
      * form submit button event // triggered by submit and enter event by default
      */
-    $("#search-users-list__button").click(function (e) {
+    $("#search-users-list__button, #users-search-form .status-list__color").click(function (e) {
         e.preventDefault();
         let searchKeyword = $("#search-users-list__input").val();
-        let searchStatus = ""; //$("#search-users-list__input").val();
-        User.updateUserListView(currentUser, searchKeyword, "");
+        let newSelectedStatus = $(this).data('status');
+        if(newSelectedStatus != undefined ){
+            //removing filter
+            if(selectedStatus == newSelectedStatus){
+                $("#users-search-form .status-list__color").addClass('non-selected');
+                selectedStatus = null;
+            }
+            else{
+                $("#users-search-form .status-list__color").addClass('non-selected');
+                $(this).removeClass('non-selected');
+                selectedStatus = newSelectedStatus;
+            }
+        }
+
+
+
+        User.updateUserListView(currentUser, searchKeyword, selectedStatus);
     });
+
 });
 

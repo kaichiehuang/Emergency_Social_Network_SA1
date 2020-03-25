@@ -25,7 +25,7 @@ afterEach(async () => {
         expect(String(msg.user_id)).toBe("507f1f77bcf86cd799439011")
 
       });
-    })
+    });
 
   })
 
@@ -46,7 +46,19 @@ afterEach(async () => {
         await chatMessage.getChatMessages().then(msg => {
           expect(String(msg[0]._id)).toBe(messsageId);
         });
-    })
+    });
+
+    test("find messages by normal keyword", async () => {
+      await ChatMessage.findMessagesByKeyword("test").then(msg => {
+        expect(String(msg[0]._id)).toBe(messsageId);
+      });
+    });
+
+    test("find messages by stop-word", async () => {
+      await ChatMessage.findMessagesByKeyword("a").then(msg => {
+        expect(msg.length).toBe(0);
+      });
+    });
 
   })
 
