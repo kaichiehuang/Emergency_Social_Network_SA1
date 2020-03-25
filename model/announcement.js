@@ -55,8 +55,8 @@ class Announcement {
                     created_at: sort_type
                 }).limit(parseInt(limit))
                 .then(result => {
-                resolve(result);
-            })
+                    resolve(result);
+                })
                 .catch((err) => {
                     console.log("Error getting Announcements: " + err);
                     //throw err.message;
@@ -87,7 +87,7 @@ class Announcement {
                     .then(result => {
                         resolve(result);
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         console.log("Error getting Announcements by keyword: " + err);
                         reject(err);
                     });

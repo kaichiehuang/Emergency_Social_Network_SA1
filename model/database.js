@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 
-class Database{
-
-    static connect(){
+class Database {
+    static connect() {
         const mongoDBURL = 'mongodb://localhost:27017/esn_sa1';
         mongoose.connect(process.env.MONGODB_URI || mongoDBURL, {
             useNewUrlParser: true,
@@ -14,7 +13,7 @@ class Database{
         });
     }
     static close() {
-        mongoose.connection.close()
+        mongoose.connection.close();
     }
 }
 

@@ -7,17 +7,17 @@ class PrivateChatMessage {
         this.message = message;
         this.sender_user_id = sender_user_id;
         this.receiver_user_id = receiver_user_id;
-        this.status = user_status || "UNDEFINED";
+        this.status = user_status || 'UNDEFINED';
     }
     createNewMessage() {
         return new Promise((resolve, reject) => {
-            let newChatMessage = new PrivateChatMessageModel({
+            const newChatMessage = new PrivateChatMessageModel({
                 message: this.message,
                 sender_user_id: this.sender_user_id,
                 receiver_user_id: this.receiver_user_id,
                 status: this.status
             });
-            newChatMessage.save().then(result => {
+            newChatMessage.save().then((result) => {
                 console.log('private message created');
                 this._id = result.id;
                 resolve(newChatMessage);
@@ -38,27 +38,27 @@ class PrivateChatMessage {
     getChatMessages(sender_user_id, receiver_user_id) {
         return new Promise((resolve, reject) => {
             PrivateChatMessageModel.find({
-                $or:[
+                $or: [
                     {
-                        //condition 1
-                        "sender_user_id": sender_user_id,
-                        "receiver_user_id": receiver_user_id,
+                        // condition 1
+                        'sender_user_id': sender_user_id,
+                        'receiver_user_id': receiver_user_id,
                     },
                     {
-                        //condition 2
-                        "sender_user_id": receiver_user_id,
-                        "receiver_user_id": sender_user_id
+                        // condition 2
+                        'sender_user_id': receiver_user_id,
+                        'receiver_user_id': sender_user_id
                     }
                 ]
             })
-            .populate("sender_user_id", ["_id", "username"]).populate("receiver_user_id", ["_id", "username"])
-            //FIXME sort it by time
-                .then(results => {
-                resolve(results);
-            }).catch(function(err) {
-                console.log("getChatMessages private error: " + err);
-                reject(err);
-            });
+                .populate('sender_user_id', ['_id', 'username']).populate('receiver_user_id', ['_id', 'username'])
+            // FIXME sort it by time
+                .then((results) => {
+                    resolve(results);
+                }).catch(function(err) {
+                    console.log('getChatMessages private error: ' + err);
+                    reject(err);
+                });
         });
     }
 
@@ -69,30 +69,30 @@ class PrivateChatMessage {
      * @param query
      * @param page
      * @param pageSize
-     * @returns {Promise<unknown>}
+     * @return {Promise<unknown>}
      */
     searchChatMessages(sender_user_id, receiver_user_id, query, page, pageSize) {
-        return new Promise( (resolve,reject) =>{
-            let skipSize = page * pageSize;
-            StopWords.removeStopWords(query).then(preprocessedQuery => {
-                console.log("after clean: " + preprocessedQuery);
+        return new Promise( (resolve, reject) =>{
+            const skipSize = page * pageSize;
+            StopWords.removeStopWords(query).then((preprocessedQuery) => {
+                console.log('after clean: ' + preprocessedQuery);
                 PrivateChatMessageModel.find({
-                    $or: [{"sender_user_id": sender_user_id, "receiver_user_id": receiver_user_id,},
-                        {"sender_user_id": receiver_user_id, "receiver_user_id": sender_user_id}],
+                    $or: [{'sender_user_id': sender_user_id, 'receiver_user_id': receiver_user_id,},
+                        {'sender_user_id': receiver_user_id, 'receiver_user_id': sender_user_id}],
                     $text: {$search: preprocessedQuery}
                 })
-                    .populate("sender_user_id", ["_id", "username"]).populate("receiver_user_id", ["_id", "username"])
+                    .populate('sender_user_id', ['_id', 'username']).populate('receiver_user_id', ['_id', 'username'])
                     .sort({created_at: -1})
                     .skip(skipSize).limit(pageSize)
-                    .then(result => {
+                    .then((result) => {
                         resolve(result);
                     })
-                    .catch(function (err) {
-                        console.log("Error getting Private message by query: " + err);
+                    .catch(function(err) {
+                        console.log('Error getting Private message by query: ' + err);
                         reject(err);
                     });
-            })
-        })
+            });
+        });
     }
 
     emitMessageToUsersInvolver(senderUser, receiverUser) {}
