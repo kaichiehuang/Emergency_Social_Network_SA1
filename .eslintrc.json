@@ -12,11 +12,11 @@
   "extends": "google",
   "rules": {
     "indent": ["error", 4],
-    "require-jsdoc": "warn",
     "prefer-const": "warn",
+    "require-jsdoc": "warn",
     "spaced-comment": "warn",
     "comma-dangle": "off",
-    "camelcase": "off",
+    "camelcase": "warn",
     "max-len": "warn",
     "quotes": "warn",
     "valid-jsdoc": "warn",

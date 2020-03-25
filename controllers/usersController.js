@@ -215,6 +215,7 @@ class UsersController {
         if ((username !== undefined && username.length !== 0) || (status !== undefined && status.length !== 0)) {
             //search users by username
             user_instance = new User();
+<<<<<<< HEAD
             User.findUsersByParams({
                 "username": username,
                 "status": status
@@ -236,3 +237,39 @@ class UsersController {
     }
 }
 module.exports = UsersController;
+=======
+            User.findUsersByUsername(username)
+                .then( users => {
+                    return res.status(201).send(JSON.stringify(users));
+                })
+                .catch(err => {
+                    console.log("Error searching users by username")
+                    return res.status(500).send(err);
+                });
+        } else if (status !== undefined && status.length !== 0) {
+            console.log("filtering by status");
+            //search user by status
+            User.findUsersByStatus(status)
+                .then( users => {
+                    return res.status(201).send(JSON.stringify(users));
+                })
+                .catch(err => {
+                    console.log("Error searching users by username")
+                    return res.status(500).send(err);
+                });
+        } else {
+            console.log("not filtering");
+            //If there's not a query parameter return all users.
+            User.getUsers().then(users => {
+                return res.status(201).send(JSON.stringify(users));
+            }).catch(err => {
+                console.log("Error searching all users")
+                return res.status(500).send(err);
+            });
+        }
+    }
+
+}
+
+module.exports = UsersController;
+>>>>>>> 3c6ad6491e550c497047a332c8ea2706fb53d3d5

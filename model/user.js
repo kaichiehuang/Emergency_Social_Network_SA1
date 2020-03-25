@@ -51,7 +51,7 @@ class User {
      * @param  {[type]}  password [description]
      * @return {Boolean}          [description]
      */
-    isPasswordMatch(password) {
+    isPasswordMatch() {
         return new Promise((resolve, reject) => {
             let msg = '';
             UserModel.find({
@@ -206,7 +206,12 @@ class User {
     static usernameExists(username) {
         return new Promise((resolve, reject) => {
             User.findUserByUsername(username).then(user => {
+<<<<<<< HEAD
                 if (user.username != undefined && user.username == username) {
+=======
+                console.log('user found = ', user);
+                if (user!== null && user.username != undefined && user.username == username) {
+>>>>>>> 3c6ad6491e550c497047a332c8ea2706fb53d3d5
                     resolve(true);
                 } else {
                     resolve(false);
@@ -252,7 +257,7 @@ class User {
     static userExist(id) {
         return new Promise((resolve, reject) => {
             this.findUserById(id).then(result => {
-                if (result.id == id) {
+                if (result !== null && result.id == id) {
                     resolve(true);
                 } else {
                     resolve(false);

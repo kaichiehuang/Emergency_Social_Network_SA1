@@ -1,4 +1,4 @@
-const Announcement = require("../model/announcement")
+const Announcement = require('../model/announcement');
 class AnnouncementController {
     /**
      * Create an annoucement
@@ -6,24 +6,33 @@ class AnnouncementController {
      * @param res
      */
     createAnnouncement(req, res) {
+<<<<<<< HEAD
         let requestData = req.body;
         let message = requestData['message'];
         let user_id = requestData['user_id'];
         let newAnnouncement = new Announcement(message, user_id, 'OK');
+=======
+        const requestData = req.body;
+        const message = requestData['message'];
+        const user_id = requestData['user_id'];
+        console.log('message' + message);
+        console.log('announcement id' + user_id);
+        const newAnnouncement = new Announcement(message, user_id, 'OK');
+>>>>>>> 3c6ad6491e550c497047a332c8ea2706fb53d3d5
 
-        //save new announcement
-        newAnnouncement.saveAnnouncement().then(newAnnouncement => {
+        // save new announcement
+        newAnnouncement.saveAnnouncement().then((newAnnouncement) => {
             res.io.emit('new-announcement', {
-                "id": newAnnouncement._id,
-                "message": newAnnouncement.message,
-                "created_at": newAnnouncement.created_at,
+                'id': newAnnouncement._id,
+                'message': newAnnouncement.message,
+                'created_at': newAnnouncement.created_at,
             });
 
             res.contentType('application/json');
             res.status(201).send(JSON.stringify(newAnnouncement));
-        }).catch(err => {
+        }).catch((err) => {
             return res.status(422).send(JSON.stringify({
-                "error": err.message
+                'error': err.message
             }));
         });
     }
@@ -37,37 +46,44 @@ class AnnouncementController {
      * @param res
      */
     getAnnouncement(req, res) {
-        let keywords = req.query.q;
-        let index = req.query.page;
+        const keywords = req.query.q;
+        const index = req.query.page;
         let limit = req.query.limit;
-        let last = req.query.last;
+        const last = req.query.last;
         let sort_type = -1;
 
+<<<<<<< HEAD
+=======
+        console.log('keywords = ' + keywords);
+        console.log('limit=' + limit);
+        console.log('page=' + index);
+
+>>>>>>> 3c6ad6491e550c497047a332c8ea2706fb53d3d5
         if (keywords === undefined || keywords == '' || index === undefined || last === true) {
-            if(last != undefined && last){
-                limit = parseInt("1");
+            if (last != undefined && last) {
+                limit = parseInt('1');
                 sort_type = -1;
             }
 
-            Announcement.getAnnouncements(sort_type, limit).then(announcements => {
+            Announcement.getAnnouncements(sort_type, limit).then((announcements) => {
                 res.contentType('application/json');
                 res.status(201).send(JSON.stringify(announcements));
-            }).catch(err => {
+            }).catch((err) => {
                 return res.status(422).send(JSON.stringify({
-                    "error": err.message
+                    'error': err.message
                 }));
             });
         } else {
             sort_type = -1;
-            Announcement.findAnnouncements(keywords, index, sort_type).then(announcements => {
+            Announcement.findAnnouncements(keywords, index, sort_type).then((announcements) => {
                 res.contentType('application/json');
                 res.status(201).send(JSON.stringify(announcements));
-            }).catch(err => {
+            }).catch((err) => {
                 return res.status(422).send(JSON.stringify({
-                    "error": err.message
+                    'error': err.message
                 }));
             });
         }
     }
 }
-module.exports = AnnouncementController
+module.exports = AnnouncementController;
