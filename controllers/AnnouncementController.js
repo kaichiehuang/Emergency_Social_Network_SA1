@@ -9,8 +9,6 @@ class AnnouncementController {
         let requestData = req.body;
         let message = requestData['message'];
         let user_id = requestData['user_id'];
-        console.log("message" + message);
-        console.log("announcement id" + user_id);
         let newAnnouncement = new Announcement(message, user_id, 'OK');
 
         //save new announcement
@@ -44,10 +42,6 @@ class AnnouncementController {
         let limit = req.query.limit;
         let last = req.query.last;
         let sort_type = -1;
-
-        console.log("keywords = " + keywords);
-        console.log("limit=" + limit);
-        console.log("page=" + index);
 
         if (keywords === undefined || keywords == '' || index === undefined || last === true) {
             if(last != undefined && last){

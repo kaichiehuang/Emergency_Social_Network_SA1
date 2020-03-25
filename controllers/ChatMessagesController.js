@@ -28,7 +28,6 @@ class ChatMessagesController {
         //1. Get user and validate that it exists
         User.findUserById(user_id).then(result => {
             userFound = result;
-            console.log(message, userFound._id);
             //2. Create chat message object
             let chatMessage = new ChatMessage(message, userFound._id, userFound.status);
             //3. save chat message
@@ -77,11 +76,8 @@ class ChatMessagesController {
         if (keyword !== undefined && keyword.length !== 0) {
 
             //search keyword
-            console.log("keyword is: ");
-            console.log(keyword);
             ChatMessage.findMessagesByKeyword(keyword)
                 .then( messages => {
-                    console.log("found messages with keyword");
                     //get specific page of 10 messages
                     let msg = messages.slice(page * constants.PAGINATION_NUMBER, page * constants.PAGINATION_NUMBER + constants.PAGINATION_NUMBER);
                     res.contentType('application/json');
