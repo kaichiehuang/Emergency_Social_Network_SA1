@@ -11,6 +11,9 @@ class PrivateChatMessage {
     }
     createNewMessage() {
         return new Promise((resolve, reject) => {
+            if(this.sender_user_id == this.receiver_user_id){
+                reject("Cannot chat with himself");
+            }
             const newChatMessage = new PrivateChatMessageModel({
                 message: this.message,
                 sender_user_id: this.sender_user_id,

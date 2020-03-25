@@ -72,6 +72,7 @@ class ChatMessagesController {
         const keyword = req.query.q;
         const page = req.query.page; // default = 0
         // When a keyword is specified
+        console.log(keyword, page);
         if (keyword !== undefined && keyword.length !== 0) {
             // search keyword
             ChatMessage.findMessagesByKeyword(keyword)

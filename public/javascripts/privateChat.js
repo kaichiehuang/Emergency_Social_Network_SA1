@@ -27,6 +27,7 @@ let privateChatMessageModel = new PrivateChatMessage();
 $(function() {
     //socket for chat messages management
     const socket = io("");
+    let page = 0;
 
     //sync sockets
      socket.on('connect', data => {
@@ -83,6 +84,14 @@ $(function() {
     $("#search-private-chat__button").click(function (e) {
         e.preventDefault();
         let searchKeyword = $("#search-private-chat__input").val();
-        privateChatMessageModel.updateMessageListView('private', searchKeyword, 0);
+        page = 0;
+        privateChatMessageModel.updateMessageListView('private', searchKeyword, page);
+    });
+
+    $("#search-private-chat__more-button").click(function (e) {
+        e.preventDefault();
+        let searchKeyword = $("#search-private-chat__input").val();
+        page++;
+        privateChatMessageModel.updateMessageListView('private', searchKeyword, page);
     });
 });
