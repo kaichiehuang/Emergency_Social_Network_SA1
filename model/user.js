@@ -206,12 +206,7 @@ class User {
     static usernameExists(username) {
         return new Promise((resolve, reject) => {
             User.findUserByUsername(username).then(user => {
-<<<<<<< HEAD
-                if (user.username != undefined && user.username == username) {
-=======
-                console.log('user found = ', user);
                 if (user!== null && user.username != undefined && user.username == username) {
->>>>>>> 3c6ad6491e550c497047a332c8ea2706fb53d3d5
                     resolve(true);
                 } else {
                     resolve(false);
