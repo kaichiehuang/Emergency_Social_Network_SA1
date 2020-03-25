@@ -18,7 +18,7 @@ afterEach(async () => {
 describe('principal', () => {
     describe('Creating Private Messages', () => {
         test('Create a new private chat message in the database', async () => {
-            const chatMessage = new PrivateChatMessage('This a test message', '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439011');
+            const chatMessage = new PrivateChatMessage('This a test message', '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439012');
             await chatMessage.createNewMessage().then((msg) => {
                 expect(msg.message).toBe('This a test message');
                 expect(String(msg.sender_user_id)).toBe('507f1f77bcf86cd799439011');
@@ -33,7 +33,7 @@ describe('principal', () => {
     describe('Getting Messages', () => {
         let messsageId;
         beforeEach(async () => {
-            const chatMessage = new PrivateChatMessage('This a test message', '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439011');
+            const chatMessage = new PrivateChatMessage('This a test message', '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439012');
             await chatMessage.createNewMessage().then((msg) => {
                 messsageId = msg;
                 return;
@@ -51,7 +51,7 @@ describe('principal', () => {
     describe('Search Messages', () => {
         let messsageId;
         beforeEach(async () => {
-            const chatMessage = new PrivateChatMessage('This a test message', '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439011');
+            const chatMessage = new PrivateChatMessage('This a test message', '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439012');
             await chatMessage.createNewMessage().then((msg) => {
                 messsageId = msg;
                 return;
