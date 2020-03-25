@@ -240,7 +240,7 @@ describe("User registration ", () => {
     test("get users by username search", async () => {
       expect.assertions(1);
       let usernametoSearch = 'User'
-      return await  User.findUsersByUsername(usernametoSearch)
+      return await  User.findUsersByParams({"username":usernametoSearch})
           .then(listUser => {
             expect(listUser.length).toBe(3)
           })
@@ -249,7 +249,7 @@ describe("User registration ", () => {
     test("get users by username search",async  () => {
       expect.assertions(1);
       let usernametoSearch = 'ccc'
-      return await  User.findUsersByUsername(usernametoSearch)
+      return await  User.findUsersByParams({"username":usernametoSearch})
           .then(listUser => {
             expect(listUser.length).toBe(1)
           })
@@ -276,7 +276,7 @@ describe("User registration ", () => {
     test("get users by status OK" , async () => {
       expect.assertions(1);
       let status = 'OK'
-      return await  User.findUsersByStatus(status)
+      return await  User.findUsersByParams({"status":status})
           .then(listUser => {
             expect(listUser.length).toBe(1)
           })
@@ -285,7 +285,7 @@ describe("User registration ", () => {
     test("get users by status UNDEFINED", async() => {
       expect.assertions(1);
       let status = 'UNDEFINED'
-      return await  User.findUsersByStatus(status)
+      return await  User.findUsersByParams({"status":status})
           .then(listUser => {
             expect(listUser.length).toBe(2)
           })
