@@ -6,12 +6,10 @@ class AnnouncementController {
      * @param res
      */
     createAnnouncement(req, res) {
-        const requestData = req.body;
-        const message = requestData['message'];
-        const user_id = requestData['user_id'];
-        console.log('message' + message);
-        console.log('announcement id' + user_id);
-        const newAnnouncement = new Announcement(message, user_id, 'OK');
+        let requestData = req.body;
+        let message = requestData['message'];
+        let user_id = requestData['user_id'];
+        let newAnnouncement = new Announcement(message, user_id, 'OK');
 
         // save new announcement
         newAnnouncement.saveAnnouncement().then((newAnnouncement) => {
@@ -44,10 +42,6 @@ class AnnouncementController {
         let limit = req.query.limit;
         const last = req.query.last;
         let sort_type = -1;
-
-        console.log('keywords = ' + keywords);
-        console.log('limit=' + limit);
-        console.log('page=' + index);
 
         if (keywords === undefined || keywords == '' || index === undefined || last === true) {
             if (last != undefined && last) {

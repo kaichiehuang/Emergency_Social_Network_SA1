@@ -148,7 +148,7 @@ $(function() {
 
     //Socket IO implementation to update user list on every change of users data.
     socket.on("user-list-update", () => {
-        updateUserListView(currentUser, $("#search-users-list__input").val(), "")
+        User.updateUserListView(currentUser, $("#search-users-list__input").val(), "")
     });
     //Click event, to update user list when the user switch between views
     $(".content-changer").click(function(event) {

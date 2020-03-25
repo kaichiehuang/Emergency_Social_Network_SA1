@@ -33,7 +33,7 @@ let serverType = 'http';
 if (ENVIRONMENT == "production") {
     serverType = "http";
 }
-console.log("+=+=+=+= serverType = " + serverType)
+
 let http = null;
 let https = null;
 let server = null;

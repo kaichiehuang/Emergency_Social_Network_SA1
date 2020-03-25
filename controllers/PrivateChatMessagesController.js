@@ -117,7 +117,6 @@ class PrivateChatMessagesController {
         //1. iterate the list of sockects and emit the data
         if (sockets != undefined && sockets.size > 0) {
             for (let socketId of sockets.keys()) {
-                // console.log('------------' + socketId);
                 response.io.to(socketId).emit('new-private-chat-message', {
                     "id": privateChatMessageCreated._id,
                     "message": privateChatMessageCreated.message,
