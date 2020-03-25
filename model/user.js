@@ -1,8 +1,7 @@
 const UserModel = require('./model').UserMongo;
-const ReservedNamesModel = require('./model').ReservedNamesMongo;
 const bcrypt = require('bcrypt');
 const blacklist = require('the-big-username-blacklist');
-const TokenServerClass = require("../middleware/TokenServer")
+const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
 
 class User {
@@ -23,29 +22,29 @@ class User {
      */
     validate() {
         return new Promise((resolve, reject) => {
-            //validate username structure
-            this.validateUserName(this.username).then(result => {
+            // validate username structure
+            this.validateUserName(this.username).then((result) => {
                 console.log('Username structure validated');
-                //validate banned username
+                // validate banned username
                 return this.validateBannedUsername();
-            }).then(result => {
+            }).then((result) => {
                 console.log('Banned username validated');
-                //validate password structure
+                // validate password structure
                 return this.validatePassword();
-            }).then(result => {
+            }).then((result) => {
                 console.log('All validations passed');
-                //if no errors resolve promise with result obj
+                // if no errors resolve promise with result obj
                 resolve(true);
-            }).catch(function (err) {
+            }).catch(function(err) {
                 console.log('validations not passed');
-                //if errors reject the promise
+                // if errors reject the promise
                 console.log(err);
                 reject(err);
             });
         });
     }
 
-    //WITH PROMISES
+    // WITH PROMISES
     /**
      * [isPasswordMatch description]
      * @param  {[type]}  password [description]
@@ -53,10 +52,9 @@ class User {
      */
     isPasswordMatch() {
         return new Promise((resolve, reject) => {
-            let msg = '';
             UserModel.find({
                 username: this.username
-            }).exec().then(userFind => {
+            }).exec().then((userFind) => {
                 if (userFind.length !== 0) {
                     if (bcrypt.compareSync(this.password, userFind[0].password)) {
                         resolve(userFind[0]);
@@ -66,11 +64,11 @@ class User {
                 } else {
                     reject('Invalid username / password.');
                 }
-            }).catch(err => reject(err));
+            }).catch((err) => reject(err));
         });
     }
 
-    //VALIDATE USER NAMES LENGTH
+    // VALIDATE USER NAMES LENGTH
     /**
      * [validateUserName description]
      * @return {[type]} [description]
@@ -84,7 +82,7 @@ class User {
         });
     }
 
-    //VALIDATE PASSWORD  LENGTH
+    // VALIDATE PASSWORD  LENGTH
     /**
      * [validatePassword description]
      * @return {[type]} [description]
@@ -104,8 +102,8 @@ class User {
      * @return {[type]} [description]
      */
     registerUser() {
-        let hash = this.hashPassword(this.password);
-        let newUser = new UserModel({
+        const hash = this.hashPassword(this.password);
+        const newUser = new UserModel({
             username: this.username,
             password: hash,
             name: this.name,
@@ -142,7 +140,7 @@ class User {
      * @param acknowledgement
      * @param onLine
      * @param status
-     * @returns {*}
+     * @return {*}
      */
     updateUserStatus(userId, status) {
         return UserModel.findByIdAndUpdate(userId, {
@@ -165,9 +163,9 @@ class User {
             console.log(username);
             UserModel.findOne({
                 username: username
-            }).exec().then(user => {
+            }).exec().then((user) => {
                 resolve(user);
-            }).catch(err => {
+            }).catch((err) => {
                 reject(err);
             });
         });
@@ -188,9 +186,8 @@ class User {
      */
     validateBannedUsername() {
         return new Promise((resolve, reject) => {
-            var resObj = {};
-            //3. Validate BlackListUser\
-            let black = blacklist.validate(this.username);
+            // 3. Validate BlackListUser\
+            const black = blacklist.validate(this.username);
             if (!black) {
                 reject('Invalid username, this username is reserved for the platform. Please enter a different username.');
             } else {
@@ -207,14 +204,14 @@ class User {
     static usernameExists(username) {
         return new Promise((resolve, reject) => {
             console.log(username);
-            User.findUserByUsername(username).then(user => {
+            User.findUserByUsername(username).then((user) => {
                 console.log('user found = ', user);
                 if (user!== null && user.username != undefined && user.username == username) {
                     resolve(true);
                 } else {
                     resolve(false);
                 }
-            }).catch(err => {
+            }).catch((err) => {
                 reject(err);
             });
         });
@@ -228,21 +225,21 @@ class User {
         return new Promise((resolve, reject) => {
             let token = '';
             TokenServerClass.generateToken(this._id, false)
-                .then(generatedToken => {
+                .then((generatedToken) => {
                     token = generatedToken;
                     TokenServerClass.generateToken(this._id, true)
-                        .then(genRefToken => {
-                            let tokens = {
+                        .then((genRefToken) => {
+                            const tokens = {
                                 token: token,
                                 ex_token: genRefToken
                             };
                             resolve(tokens);
                         })
-                        .catch(err => {
+                        .catch((err) => {
                             reject(err);
                         });
                 })
-                .catch(err => {
+                .catch((err) => {
                     reject(err);
                 });
         });
@@ -254,13 +251,13 @@ class User {
      */
     static userExist(id) {
         return new Promise((resolve, reject) => {
-            this.findUserById(id).then(result => {
+            this.findUserById(id).then((result) => {
                 if (result !== null && result.id == id) {
                     resolve(true);
                 } else {
                     resolve(false);
                 }
-            }).catch(err => {
+            }).catch((err) => {
                 reject(err);
             });
         });
@@ -277,9 +274,9 @@ class User {
             console.log(id);
             UserModel.findOne({
                 _id: id
-            }).exec().then(user => {
+            }).exec().then((user) => {
                 resolve(user);
-            }).catch(err => {
+            }).catch((err) => {
                 reject(err);
             });
         });
@@ -294,9 +291,9 @@ class User {
             UserModel.find({}).select('username onLine status').sort({
                 onLine: -1,
                 username: 'asc'
-            }).then(users => {
+            }).then((users) => {
                 resolve(users);
-            }).catch(err => {
+            }).catch((err) => {
                 reject(err);
             });
         });
@@ -305,7 +302,7 @@ class User {
     /**
      * Find users by user name (contains)
      * @param username
-     * @returns {Promise<unknown>}
+     * @return {Promise<unknown>}
      */
     static findUsersByUsername(username) {
         return new Promise((resolve, reject) => {
@@ -314,18 +311,18 @@ class User {
                 .sort({
                     onLine: -1,
                     username: 'asc'
-                }).then(users => {
-                resolve(users);
-            }).catch(err => {
-                reject(err);
-            });
-        })
+                }).then((users) => {
+                    resolve(users);
+                }).catch((err) => {
+                    reject(err);
+                });
+        });
     }
 
     /**
      * Find user by user status
      * @param status
-     * @returns {Promise<unknown>}
+     * @return {Promise<unknown>}
      */
     static findUsersByStatus(status) {
         return new Promise((resolve, reject) => {
@@ -334,12 +331,12 @@ class User {
                 .sort({
                     onLine: -1,
                     username: 'asc'
-                }).then(users => {
-                resolve(users);
-            }).catch(err => {
-                reject(err);
-            });
-        })
+                }).then((users) => {
+                    resolve(users);
+                }).catch((err) => {
+                    reject(err);
+                });
+        });
     }
 
 
@@ -351,19 +348,19 @@ class User {
      */
     static insertSocket(userId, socketId) {
         return new Promise((resolve, reject) => {
-            User.findUserById(userId).then(user => {
+            User.findUserById(userId).then((user) => {
                 if (user.sockets == undefined) {
                     user.sockets = {};
                 }
                 return user.save();
-            }).then(user => {
+            }).then((user) => {
                 if (user.sockets.has(socketId) == false) {
                     user.sockets.set(socketId, 1);
                 }
                 return user.save();
-            }).then(user => {
+            }).then((user) => {
                 resolve(user);
-            }).catch(err => {
+            }).catch((err) => {
                 reject(err);
             });
         });
@@ -377,21 +374,21 @@ class User {
      */
     static removeSocket(userId, socketId) {
         return new Promise((resolve, reject) => {
-            User.findUserById(userId).then(user => {
+            User.findUserById(userId).then((user) => {
                 if (user.sockets == undefined) {
                     user.sockets = {};
                 }
                 return user.save();
-            }).then(user => {
+            }).then((user) => {
                 if (user.sockets.has(socketId)) {
                     user.sockets.delete(socketId);
                 } else {
-                    reject("Socket does not exist");
+                    reject('Socket does not exist');
                 }
                 return user.save();
-            }).then(user => {
+            }).then((user) => {
                 resolve(user);
-            }).catch(err => {
+            }).catch((err) => {
                 reject(err);
             });
         });
@@ -406,12 +403,12 @@ class User {
      */
     static changeMessageCount(senderUserId, receiverUserId, increaseCount) {
         return new Promise((resolve, reject) => {
-            User.findUserById(receiverUserId).then(user => {
+            User.findUserById(receiverUserId).then((user) => {
                 if (user.unread_messages == undefined) {
                     user.unread_messages = {};
                 }
                 return user.save();
-            }).then(user => {
+            }).then((user) => {
                 if (user.unread_messages.has(senderUserId) == false) {
                     user.unread_messages.set(senderUserId, 1);
                 } else {
@@ -424,9 +421,9 @@ class User {
                     user.unread_messages.set(senderUserId, count);
                 }
                 return user.save();
-            }).then(user => {
+            }).then((user) => {
                 resolve(user);
-            }).catch(err => {
+            }).catch((err) => {
                 reject(err);
             });
         });

@@ -1,9 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 /* home page for logged in users . */
 router.get('/', function(req, res, next) {
-
     console.log(res.cookie());
 
     res.render('application', {

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schemaOptions = {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
+    timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}
 };
 
 const UserSchema = new Schema(
@@ -34,20 +34,20 @@ const ReservedNameSchema = new Schema({
 
 const ChatMessageSchema = new Schema(
     {
-        user_id: { type: Schema.Types.ObjectId, ref: 'User' },
+        user_id: {type: Schema.Types.ObjectId, ref: 'User'},
         message: String,
         status: String
     },
     schemaOptions
 );
 
-ChatMessageSchema.index({"message":"text"});
+ChatMessageSchema.index({'message': 'text'});
 
 
 const PrivateChatMessageSchema = new Schema(
     {
-        sender_user_id: { type: Schema.Types.ObjectId, ref: 'User' },
-        receiver_user_id: { type: Schema.Types.ObjectId, ref: 'User' },
+        sender_user_id: {type: Schema.Types.ObjectId, ref: 'User'},
+        receiver_user_id: {type: Schema.Types.ObjectId, ref: 'User'},
         message: String,
         seen_by_receiver: {
             type: Boolean,
@@ -58,18 +58,18 @@ const PrivateChatMessageSchema = new Schema(
     schemaOptions
 );
 
-PrivateChatMessageSchema.index({"message": 'text'});
+PrivateChatMessageSchema.index({'message': 'text'});
 
 const AnnouncementSchema = new Schema(
     {
-        user_id: { type: Schema.Types.ObjectId, ref: 'User' },
+        user_id: {type: Schema.Types.ObjectId, ref: 'User'},
         message: String,
         status: String
     },
     schemaOptions
 );
 
-AnnouncementSchema.index({"message":"text"});
+AnnouncementSchema.index({'message': 'text'});
 
 const User = mongoose.model('User', UserSchema);
 const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema);

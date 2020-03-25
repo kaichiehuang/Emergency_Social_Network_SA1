@@ -1,7 +1,5 @@
 const User = require('../model/user.js');
-const ReservedNamesModel = require('../model/model').ReservedNamesMongo;
-//const  = model.User;
-const ObjectId = require('mongoose').Types.ObjectId;
+
 class UsersController {
     /**
      * [createUser description]
@@ -25,7 +23,7 @@ class UsersController {
             //4. if user doesn't exist validate data and create it
             if (user == null) {
                 //3. Run validations on user object
-                var userData = null;
+                let userData = null;
                 user_instance.validate().then(function(result) {
                     return user_instance.registerUser();
                 }).then(function(response) {
@@ -54,7 +52,7 @@ class UsersController {
                 });
             } else {
                 //3. Run validations on user object
-                var userData = user;
+                let userData = user;
                 user_instance.isPasswordMatch().then(function(response) {
                     console.log(response);
                     userData = response;
@@ -143,7 +141,6 @@ class UsersController {
      * @return {[type]}     [description]
      */
     createSocket(req, res) {
-        let socketData = req.body;
         let socketId = req.body.socketId;
         let userId = req.params.userId;
         //1. Validate if user exists
@@ -163,8 +160,6 @@ class UsersController {
      * @return {[type]}     [description]
      */
     deleteSocket(req, res) {
-
-        let socketData = req.body;
         let socketId = req.params.socketId;
         let userId = req.params.userId;
 
@@ -215,17 +210,15 @@ class UsersController {
      * @param res
      * @returns {*}
      */
-    getUsers(req,res){
+    getUsers(req, res) {
         console.log("searchUserInformation")
         let username = req.query.username;
         let status = req.query.status;
-        let user_instance;
 
         res.contentType('application/json');
         // type of search (username or status)
-        if(username !== undefined && username.length !== 0 ){
+        if (username !== undefined && username.length !== 0 ){
             //search users by username
-            user_instance = new User();
             User.findUsersByUsername(username)
                 .then( users => {
                     return res.status(201).send(JSON.stringify(users));
@@ -256,7 +249,6 @@ class UsersController {
             });
         }
     }
-
 }
 
 module.exports = UsersController;
