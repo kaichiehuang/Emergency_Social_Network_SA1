@@ -9,6 +9,10 @@ class ChatMessage {
         this.status = user_status || 'UNDEFINED';
     }
 
+    /**
+     * Creates a new message
+     * @return {[type]} [description]
+     */
     createNewMessage() {
         return new Promise((resolve, reject) => {
             const newChatMessage = new ChatMessageModel({
@@ -30,6 +34,10 @@ class ChatMessage {
         });
     }
 
+    /**
+     * Gets a list of chat messages without using filters
+     * @return {[type]} [description]
+     */
     getChatMessages() {
         return new Promise((resolve, reject) => {
             ChatMessageModel.find({})
@@ -44,6 +52,10 @@ class ChatMessage {
         });
     }
 
+    /**
+     * Gets a list of chat messages with using filters
+     * @return {[type]} [description]
+     */
     static findMessagesByKeyword(keyword) {
         return new Promise((resolve, reject) => {
             StopWords.removeStopWords(keyword).then((filteredKeyWords) => {

@@ -38,7 +38,9 @@ class User {
      * @param  {[type]} containerId [description]
      * @return {[type]}             [description]
      */
-    static drawUsers(users, containerId, currentUser) {
+    static drawUsers(users, currentUser) {
+        let containerId = "user-list-content__list";
+        $("#user-list-content .no-results-message").addClass("hidden");
         //1. find templates in html
         const onlineTemplate = document.querySelector('template#onlineUserTemplate');
         const offlineTemplate = document.querySelector('template#offlineUserTemplate');
@@ -89,6 +91,15 @@ class User {
             });
         }
     }
+
+    /**
+     * draws empty list of users
+     * @return {[type]} [description]
+     */
+    static drawNoUsers(){
+        $("#user-list-content__list li").remove();
+        $("#user-list-content .no-results-message").removeClass("hidden");
+    }
     /**
      * Returns a list of users from the API
      * @return {[type]} [description]
@@ -123,7 +134,12 @@ class User {
             currentUser.unread_messages = user.unread_messages;
             return User.getUsers(searchKeyword, searchStatus);
         }).then(users => {
-            User.drawUsers(users, "user-list-content__list", currentUser)
+            if(users.length > 0){
+                User.drawUsers(users, currentUser);
+            }else{
+                User.drawNoUsers();
+            }
+
         }).catch(err => {});
     }
 }

@@ -10,6 +10,12 @@
     @include respond-to('extra-small') {
         padding-top: 130px;
     }
+    .no-results-message {
+        padding: 60px;
+        color: $brand_color1;
+        font-weight: bold;
+        padding-bottom: 200px;
+    }
 }
 .hidden-main-content-block {
     display: none !important;
@@ -376,6 +382,9 @@ form {
     }
 }
 .user-list-content {
+    >div {
+        background: white;
+    }
     .list-group-item {
         @include flexbox;
         @include align-items(center);
