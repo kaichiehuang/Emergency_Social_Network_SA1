@@ -74,6 +74,11 @@ class BaseMessage {
             this.drawMessageItem(type, element);
             i++;
         });
+
+        $("#"+type+"-msg_area .no-results-message").addClass("hidden");
+        if(messages.length == 0){
+            $("#"+type+"-msg_area .no-results-message").removeClass("hidden");
+        }
     }
     /**
      * Sends and saves the message the user post.
