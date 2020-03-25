@@ -1,11 +1,5 @@
 .header {
     border: none;
-    @include respond-to('small') {
-        box-shadow: 0 0 15px 1px #aaa;
-    }
-    @include respond-to('extra-small') {
-        box-shadow: 0 0 15px 1px #aaa;
-    }
     &.header-loggedin {
         position: fixed;
         top: 0;
@@ -19,6 +13,7 @@
             left: 0;
             width: 100%;
             z-index: 2;
+            box-shadow: 0 0 15px 1px #aaa;
         }
         @include respond-to('extra-small') {
             position: fixed;
@@ -26,6 +21,7 @@
             left: 0;
             width: 100%;
             z-index: 2;
+            box-shadow: 0 0 15px 1px #aaa;
         }
         * {
             transition: all 0.4s ease !important; // @include transition(.6s ease-in-out left);

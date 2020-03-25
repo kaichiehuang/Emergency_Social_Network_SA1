@@ -468,3 +468,19 @@ form {
         }
     }
 }
+.more-results-button-container {
+    a {
+        border: 1px solid $brand_color1;
+        border-radius: 5px;
+        padding: 4px 15px;
+        text-decoration: none;
+        &:hover, &:active {
+            background: $brand_color1;
+            color: #ddd;
+            cursor: pointer;
+        }
+        &:active {
+            color: white;
+        }
+    }
+}

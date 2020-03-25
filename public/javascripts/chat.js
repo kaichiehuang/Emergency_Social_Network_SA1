@@ -10,9 +10,11 @@ class PublicChatMessage extends BaseMessage {
 //************************************************
 var public_wall_container = document.getElementById('public-msg_area');
 let publicChatMessageModel = new PublicChatMessage();
+
 $(function() {
     //socket for chat messages management
     const socket = io("");
+    let page = 0;
 
     // listen for public chat events
     socket.on('new-chat-message', data => {
@@ -47,6 +49,14 @@ $(function() {
     $("#search-public-chat__button").click(function (e) {
         e.preventDefault();
         let searchKeyword = $("#search-public-chat__input").val();
-        publicChatMessageModel.updateMessageListView('public', searchKeyword, 0);
+        page = 0;
+        publicChatMessageModel.updateMessageListView('public', searchKeyword, page);
+    });
+
+    $("#search-public-chat__more-button").click(function (e) {
+        e.preventDefault();
+        let searchKeyword = $("#search-public-chat__input").val();
+        page++;
+        publicChatMessageModel.updateMessageListView('public', searchKeyword, page);
     });
 });

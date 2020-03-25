@@ -67,9 +67,13 @@ class BaseMessage {
      * @param  {[type]} messages [description]
      * @return {[type]}          [description]
      */
-     drawMessages(type, messages) {
+     drawMessages(type, messages, page) {
         let i = 0;
-        $('ul#' + type + '-chat li').remove();
+        //only delete previous results if page is 0
+        if(page == 0){
+            $('ul#' + type + '-chat li').remove();
+        }
+
         messages.forEach(element => {
             this.drawMessageItem(type, element);
             i++;
@@ -78,6 +82,7 @@ class BaseMessage {
         $("#"+type+"-msg_area .no-results-message").addClass("hidden");
         if(messages.length == 0){
             $("#"+type+"-msg_area .no-results-message").removeClass("hidden");
+            this.deactivateSearchButtonsLoadMore(type);
         }
     }
     /**
@@ -140,6 +145,11 @@ class BaseMessage {
             'page': page,
             'q': keywords
         };
+
+        if(keywords != undefined && keywords.length > 0){
+            this.activateSearchButtonsLoadMore(type);
+        }
+
         return new Promise((resolve, reject) => {
             //data for private chat
             if (type === 'private') {
@@ -184,11 +194,33 @@ class BaseMessage {
      */
      updateMessageListView(type, searchKeyword, page) {
         let self = this;
+        if(searchKeyword == undefined || searchKeyword.length == 0){
+            this.deactivateSearchButtonsLoadMore(type);
+        }
         //get user data and then get messages to paint and to check for unread messages
         this.getMessages(type, searchKeyword, page).then(results => {
-            self.drawMessages(type, results);
+            self.drawMessages(type, results, page);
         }).catch(err => {
             console.log(err)
         });
+    }
+
+    /**
+     * [activateSearchButtonsLoadMore description]
+     * @param  {[type]} type [description]
+     * @return {[type]}      [description]
+     */
+    activateSearchButtonsLoadMore(type){
+        this.deactivateSearchButtonsLoadMore(type);
+        $("#search-"+type+"-chat__more").removeClass("hidden");
+    }
+
+    /**
+     * [activateSearchButtonsLoadMore description]
+     * @param  {[type]} type [description]
+     * @return {[type]}      [description]
+     */
+    deactivateSearchButtonsLoadMore(type){
+        $(".more-results-button-container").addClass("hidden");
     }
 }
