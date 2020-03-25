@@ -1,7 +1,5 @@
 const User = require('../model/user.js');
-const ReservedNamesModel = require('../model/model').ReservedNamesMongo;
-//const  = model.User;
-const ObjectId = require('mongoose').Types.ObjectId;
+// const  = model.User;
 class UsersController {
     /**
      * [createUser description]
@@ -10,30 +8,30 @@ class UsersController {
      * @return {[type]}     [description]
      */
     createUser(req, res) {
-        let signUpData = req.body;
-        //1. If no username or password in json set them with emtpy values
+        const signUpData = req.body;
+        // 1. If no username or password in json set them with emtpy values
         if (signUpData['username'] == undefined) {
             signUpData['username'] = '';
         }
         if (signUpData['password'] == undefined) {
             signUpData['password'] = '';
         }
-        //2. Create user object
-        let user_instance = new User(signUpData['username'], signUpData['password'], signUpData['name'], signUpData['last_name']);
-        //3. Validate if user exists
-        User.findUserByUsername(signUpData['username']).then(user => {
-            //4. if user doesn't exist validate data and create it
+        // 2. Create user object
+        const user_instance = new User(signUpData['username'], signUpData['password'], signUpData['name'], signUpData['last_name']);
+        // 3. Validate if user exists
+        User.findUserByUsername(signUpData['username']).then((user) => {
+            // 4. if user doesn't exist validate data and create it
             if (user == null) {
-                //3. Run validations on user object
-                var userData = null;
+                // 3. Run validations on user object
+                let userData = null;
                 user_instance.validate().then(function(result) {
                     return user_instance.registerUser();
                 }).then(function(response) {
                     userData = response;
                     user_instance._id = response._id;
                     return user_instance.generateTokens();
-                }).then(tokens => {
-                    let jsonResponseData = {};
+                }).then((tokens) => {
+                    const jsonResponseData = {};
                     jsonResponseData['user'] = {
                         userId: userData._id,
                         username: userData.username,
@@ -45,7 +43,7 @@ class UsersController {
                     jsonResponseData['tokens'] = tokens;
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(jsonResponseData));
-                }).catch(err => {
+                }).catch((err) => {
                     res.contentType('application/json');
                     console.log(err);
                     return res.status(422).send({
@@ -53,14 +51,14 @@ class UsersController {
                     }).end();
                 });
             } else {
-                //3. Run validations on user object
-                var userData = user;
+                // 3. Run validations on user object
+                let userData = user;
                 user_instance.isPasswordMatch().then(function(response) {
                     userData = response;
                     user_instance._id = response._id;
                     return user_instance.generateTokens();
-                }).then(tokens => {
-                    let jsonResponseData = {};
+                }).then((tokens) => {
+                    const jsonResponseData = {};
                     jsonResponseData['user'] = {
                         userId: userData._id.toString(),
                         username: userData.username,
@@ -72,7 +70,7 @@ class UsersController {
                     jsonResponseData['tokens'] = tokens;
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(jsonResponseData));
-                }).catch(err => {
+                }).catch((err) => {
                     res.contentType('application/json');
                     console.log(err);
                     return res.status(422).send({
@@ -80,7 +78,7 @@ class UsersController {
                     }).end();
                 });
             }
-        }).catch(err => {
+        }).catch((err) => {
             res.contentType('application/json');
             return res.status(422).send({
                 msg: 'no existe'
@@ -94,14 +92,14 @@ class UsersController {
      * @return {[type]}     [description]
      */
     updateUser(req, res) {
-        let user_instance = new User();
-        let userId = req.params.userId;
-        let acknowledgement = req.body.acknowledgement;
-        let onLine = req.body.onLine;
-        let status = req.body.status;
-        //1. update user data
-        user_instance.updateUser(userId, acknowledgement, onLine, status).then(usr => {
-            let jsonResponseData = {};
+        const user_instance = new User();
+        const userId = req.params.userId;
+        const acknowledgement = req.body.acknowledgement;
+        const onLine = req.body.onLine;
+        const status = req.body.status;
+        // 1. update user data
+        user_instance.updateUser(userId, acknowledgement, onLine, status).then((usr) => {
+            const jsonResponseData = {};
             jsonResponseData['user'] = {
                 userId: usr._id.toString(),
                 username: usr.username,
@@ -112,7 +110,7 @@ class UsersController {
             };
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
-        }).catch(err => {
+        }).catch((err) => {
             return res.status(500).send(err);
         });
     }
@@ -122,11 +120,11 @@ class UsersController {
      * @param res
      */
     getUser(req, res) {
-        let userId = req.params.userId;
-        User.findUserById(userId).then(user => {
+        const userId = req.params.userId;
+        User.findUserById(userId).then((user) => {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(user));
-        }).catch(err => {
+        }).catch((err) => {
             return res.status(500).send(err);
         });
     }
@@ -137,16 +135,15 @@ class UsersController {
      * @return {[type]}     [description]
      */
     createSocket(req, res) {
-        let socketData = req.body;
-        let socketId = req.body.socketId;
-        let userId = req.params.userId;
-        //1. Validate if user exists
-        User.findUserById(userId).then(user => {
+        const socketId = req.body.socketId;
+        const userId = req.params.userId;
+        // 1. Validate if user exists
+        User.findUserById(userId).then((user) => {
             return User.insertSocket(userId, socketId);
-        }).then(user => {
+        }).then((user) => {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(user));
-        }).catch(err => {
+        }).catch((err) => {
             return res.status(500).send(err);
         });
     }
@@ -157,17 +154,16 @@ class UsersController {
      * @return {[type]}     [description]
      */
     deleteSocket(req, res) {
-        let socketData = req.body;
-        let socketId = req.params.socketId;
-        let userId = req.params.userId;
-        //1. Validate if user exists
-        User.findUserById(userId).then(user => {
+        const socketId = req.params.socketId;
+        const userId = req.params.userId;
+        // 1. Validate if user exists
+        User.findUserById(userId).then((user) => {
             return User.removeSocket(userId, socketId);
-        }).then(user => {
+        }).then((user) => {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(user));
-        }).catch(err => {
-            console.log("catch when socket id doesn't exist")
+        }).catch((err) => {
+            console.log('catch when socket id doesn\'t exist');
             return res.status(500).send(err);
         });
     }
@@ -178,12 +174,12 @@ class UsersController {
      * @param res
      */
     updateUserStatus(req, res) {
-        let user_instance = new User();
-        let userId = req.params.userId;
-        let status = req.body.status;
-        //1. update user data
-        user_instance.updateUserStatus(userId, status).then(usr => {
-            let jsonResponseData = {};
+        const user_instance = new User();
+        const userId = req.params.userId;
+        const status = req.body.status;
+        // 1. update user data
+        user_instance.updateUserStatus(userId, status).then((usr) => {
+            const jsonResponseData = {};
             jsonResponseData['user'] = {
                 userId: usr._id.toString(),
                 username: usr.username,
@@ -194,7 +190,7 @@ class UsersController {
             };
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
-        }).catch(err => {
+        }).catch((err) => {
             return res.status(500).send(err);
         });
     }
@@ -202,34 +198,31 @@ class UsersController {
      * Search users by username or status
      * @param req
      * @param res
-     * @returns {*}
+     * @return {*}
      */
     getUsers(req, res) {
-        console.log("searchUserInformation")
-        let username = req.query.username;
-        let status = req.query.status;
-        let user_instance;
-        let data = {};
+        console.log('searchUserInformation');
+        const username = req.query.username;
+        const status = req.query.status;
         res.contentType('application/json');
         // type of search (username or status)
         if ((username !== undefined && username.length !== 0) || (status !== undefined && status.length !== 0)) {
-            //search users by username
-            user_instance = new User();
+            // search users by username
             User.findUsersByParams({
-                "username": username,
-                "status": status
-            }).then(users => {
+                'username': username,
+                'status': status
+            }).then((users) => {
                 return res.status(201).send(JSON.stringify(users));
-            }).catch(err => {
-                console.log("Error searching users by username")
+            }).catch((err) => {
+                console.log('Error searching users by username');
                 return res.status(500).send(err);
             });
         } else {
-            //If there's not a query parameter return all users.
-            User.getUsers().then(users => {
+            // If there's not a query parameter return all users.
+            User.getUsers().then((users) => {
                 return res.status(201).send(JSON.stringify(users));
-            }).catch(err => {
-                console.log("Error searching all users")
+            }).catch((err) => {
+                console.log('Error searching all users');
                 return res.status(500).send(err);
             });
         }
