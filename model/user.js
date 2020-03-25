@@ -162,7 +162,6 @@ class User {
      */
     static findUserByUsername(username) {
         return new Promise((resolve, reject) => {
-            console.log(username);
             UserModel.findOne({
                 username: username
             }).exec().then(user => {
@@ -206,10 +205,13 @@ class User {
      */
     static usernameExists(username) {
         return new Promise((resolve, reject) => {
-            console.log(username);
             User.findUserByUsername(username).then(user => {
+<<<<<<< HEAD
+                if (user.username != undefined && user.username == username) {
+=======
                 console.log('user found = ', user);
                 if (user!== null && user.username != undefined && user.username == username) {
+>>>>>>> 3c6ad6491e550c497047a332c8ea2706fb53d3d5
                     resolve(true);
                 } else {
                     resolve(false);
@@ -272,9 +274,7 @@ class User {
      * @return {[type]}        [description]
      */
     static findUserById(id) {
-        console.log(id);
         return new Promise((resolve, reject) => {
-            console.log(id);
             UserModel.findOne({
                 _id: id
             }).exec().then(user => {
@@ -307,9 +307,17 @@ class User {
      * @param username
      * @returns {Promise<unknown>}
      */
-    static findUsersByUsername(username) {
+    static findUsersByParams(params) {
         return new Promise((resolve, reject) => {
-            UserModel.find({username: {$regex: username}})
+            let data = {};
+            if(params.username != undefined && params.username.length > 0){
+                data.username = {$regex: params.username};
+            }
+            if(params.status != undefined && params.status.length > 0){
+                data.status = params.status;
+            }
+            console.log(data);
+            UserModel.find(data)
                 .select('username onLine status')
                 .sort({
                     onLine: -1,

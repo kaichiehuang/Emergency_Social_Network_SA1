@@ -56,7 +56,6 @@ class UsersController {
                 //3. Run validations on user object
                 var userData = user;
                 user_instance.isPasswordMatch().then(function(response) {
-                    console.log(response);
                     userData = response;
                     user_instance._id = response._id;
                     return user_instance.generateTokens();
@@ -100,7 +99,6 @@ class UsersController {
         let acknowledgement = req.body.acknowledgement;
         let onLine = req.body.onLine;
         let status = req.body.status;
-        console.log(userId, acknowledgement);
         //1. update user data
         user_instance.updateUser(userId, acknowledgement, onLine, status).then(usr => {
             let jsonResponseData = {};
@@ -118,7 +116,6 @@ class UsersController {
             return res.status(500).send(err);
         });
     }
-
     /**
      * Get the users of the DataBase (only user_name and online fields)
      * @param req
@@ -127,15 +124,12 @@ class UsersController {
     getUser(req, res) {
         let userId = req.params.userId;
         User.findUserById(userId).then(user => {
-            console.log(user);
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(user));
         }).catch(err => {
             return res.status(500).send(err);
         });
     }
-
-
     /**
      * [createSocket description]
      * @param  {[type]} req [description]
@@ -163,11 +157,9 @@ class UsersController {
      * @return {[type]}     [description]
      */
     deleteSocket(req, res) {
-
         let socketData = req.body;
         let socketId = req.params.socketId;
         let userId = req.params.userId;
-
         //1. Validate if user exists
         User.findUserById(userId).then(user => {
             return User.removeSocket(userId, socketId);
@@ -179,7 +171,6 @@ class UsersController {
             return res.status(500).send(err);
         });
     }
-
     /**
      * Update user status
      *  An specific Update user for status, to update status timestamp
@@ -207,25 +198,46 @@ class UsersController {
             return res.status(500).send(err);
         });
     }
-
-
     /**
      * Search users by username or status
      * @param req
      * @param res
      * @returns {*}
      */
-    getUsers(req,res){
+    getUsers(req, res) {
         console.log("searchUserInformation")
         let username = req.query.username;
         let status = req.query.status;
         let user_instance;
-
+        let data = {};
         res.contentType('application/json');
         // type of search (username or status)
-        if(username !== undefined && username.length !== 0 ){
+        if ((username !== undefined && username.length !== 0) || (status !== undefined && status.length !== 0)) {
             //search users by username
             user_instance = new User();
+<<<<<<< HEAD
+            User.findUsersByParams({
+                "username": username,
+                "status": status
+            }).then(users => {
+                return res.status(201).send(JSON.stringify(users));
+            }).catch(err => {
+                console.log("Error searching users by username")
+                return res.status(500).send(err);
+            });
+        }
+
+        //If there's not a query parameter return all users.
+        User.getUsers().then(users => {
+            return res.status(201).send(JSON.stringify(users));
+        }).catch(err => {
+            console.log("Error searching all users")
+            return res.status(500).send(err);
+        });
+    }
+}
+module.exports = UsersController;
+=======
             User.findUsersByUsername(username)
                 .then( users => {
                     return res.status(201).send(JSON.stringify(users));
@@ -260,3 +272,4 @@ class UsersController {
 }
 
 module.exports = UsersController;
+>>>>>>> 3c6ad6491e550c497047a332c8ea2706fb53d3d5

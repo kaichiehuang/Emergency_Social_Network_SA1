@@ -13,7 +13,6 @@ class TokenServer {
                 let payload = jwt.verify(token, SECRET_STRING)
                 resolve(payload);
             }catch (e) {
-            console.log("error:" + e);
             rejected(e);
         }
         })
