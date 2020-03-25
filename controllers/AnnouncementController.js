@@ -43,7 +43,7 @@ class AnnouncementController {
         const last = req.query.last;
         let sort_type = -1;
 
-        if (keywords === undefined || keywords == '' || index === undefined || last === true) {
+        if (keywords === undefined || keywords.length == 0 || index === undefined || last === true) {
             if (last != undefined && last) {
                 limit = parseInt('1');
                 sort_type = -1;
