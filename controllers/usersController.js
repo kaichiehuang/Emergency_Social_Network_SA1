@@ -224,16 +224,15 @@ class UsersController {
                 console.log("Error searching users by username")
                 return res.status(500).send(err);
             });
+        } else {
+            //If there's not a query parameter return all users.
+            User.getUsers().then(users => {
+                return res.status(201).send(JSON.stringify(users));
+            }).catch(err => {
+                console.log("Error searching all users")
+                return res.status(500).send(err);
+            });
         }
-
-        //If there's not a query parameter return all users.
-        User.getUsers().then(users => {
-            return res.status(201).send(JSON.stringify(users));
-        }).catch(err => {
-            console.log("Error searching all users")
-            return res.status(500).send(err);
-        });
     }
 }
 module.exports = UsersController;
-
