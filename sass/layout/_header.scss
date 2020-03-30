@@ -220,6 +220,7 @@
             @include flexbox;
             @include align-items(stretch);
             @include justify-content(space-between);
+            @include flex-wrap(wrap);
             background: $brand_color1;
             min-height: 58px;
             li {
@@ -286,6 +287,23 @@
                         }
                         span {
                             font-size: 1.1rem !important;
+                        }
+                    }
+                    &.menu-more {
+                        span.dots-container {
+                            min-height: auto;
+                            width: 100%;
+                            padding: 0 10%;
+                            @include flexbox;
+                            @include justify-content(space-around);
+                            i {
+                                width: 5px;
+                                margin: 0 2px;
+                                font-size: 0.6rem;
+                            }
+                        }
+                        i {
+                            display: inline-block;
                         }
                     }
                 }
