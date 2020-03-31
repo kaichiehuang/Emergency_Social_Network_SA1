@@ -75,6 +75,23 @@ $(function() {
             }
         }
         console.log('found cookie = ' + userJWT);
+
+        $('.hideadble-menu-item a').click(function(event) {
+            $('.menu-less').parent().addClass('hidden');
+            $('.menu-more').parent().removeClass('hidden');
+            $('.hideadble-menu-item').removeClass('active-hideadble-menu-item').addClass('hidden');
+            $(this).parent().addClass('active-hideadble-menu-item').removeClass('hidden');
+        });
+        $('.menu-more').click(function(event) {
+            $('.menu-more').parent().addClass('hidden');
+            $('.menu-less').parent().removeClass('hidden');
+            $('.hideadble-menu-item:not(.active-hideadble-menu-item)').removeClass('hidden');
+        });
+        $('.menu-less').click(function(event) {
+            $('.menu-less').parent().addClass('hidden');
+            $('.menu-more').parent().removeClass('hidden');
+            $('.hideadble-menu-item:not(.active-hideadble-menu-item)').addClass('hidden');
+        });
     }
 });
 /**
@@ -155,3 +172,6 @@ function contentChangerEvent() {
         }
     });
 }
+
+
+// function swapMenu()
