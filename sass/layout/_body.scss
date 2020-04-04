@@ -484,3 +484,77 @@ form {
         }
     }
 }
+/********** user profile ************/
+
+.user-profile-content {
+    padding: 30px;
+    padding-top: 90px;
+    background: white;
+    @include respond-to("small") {
+        padding: 15px;
+        padding-top: 90px;
+    }
+    @include respond-to("extra-small") {
+        padding: 15px;
+        padding-top: 90px;
+    }
+    .profile-block {
+        position: relative;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+        border-bottom: 1px dotted $brand_color2;
+        .edit-button {
+            position: absolute;
+            right: 0px;
+            top: 7.5px;
+        }
+        .profile-block__subtitle {
+            color: $brand_color1;
+            margin: 0;
+            margin-bottom: 22.5px;
+        }
+        .profile-block__user-attribute-data {
+            @include flexbox;
+            @include align-items(flex-start);
+            @include justify-content(flex-start);
+            @include flex-wrap(wrap);
+            margin-bottom: 12.5px;
+            >span {
+                width: 37%;
+                color: #666666;
+                margin-bottom: 2.5px;
+            }
+            >strong, p {
+                color: #333;
+            }
+            >strong {
+                width: 63%;
+            }
+        }
+        .user-attribute-data__personal-message {
+            font-style: italic;
+            color: #000;
+            font-weight: bold;
+            margin: 10px 0;
+            margin-bottom: 45px;
+        }
+        form {
+            width: 100%;
+        }
+        .form-group {
+            width: 100%;
+            @include flexbox;
+            @include align-items(flex-start);
+            @include justify-content(flex-end);
+            @include flex-wrap(wrap);
+            label {
+                width: 100%;
+            }
+            input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
