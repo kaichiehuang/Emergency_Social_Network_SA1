@@ -486,7 +486,8 @@ form {
 }
 /********** user profile ************/
 
-.user-profile-content {
+//profile
+.user-profile-content, .user-profile-forms {
     padding: 30px;
     padding-top: 90px;
     background: white;
@@ -554,6 +555,123 @@ form {
             input {
                 width: 100%;
                 margin-bottom: 10px;
+            }
+        }
+    }
+    .disclaimer, .profile-form {
+        .subtitle {
+            color: $brand_color1;
+            margin: 0;
+            margin-bottom: 22.5px;
+            font-size: 18px;
+        }
+    }
+    .profile-form {
+        position: relative;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+        border-bottom: 1px dotted $brand_color2;
+        .edit-button {
+            position: absolute;
+            right: 0px;
+            top: 7.5px;
+        }
+        label, li, p, span, strong {
+            line-height: 1.6em;
+        }
+        .profile-form__user-attribute-data {
+            .form-group {
+                @include flexbox;
+                @include align-items(center);
+                @include justify-content(flex-start);
+                @include flex-wrap(wrap);
+                margin-bottom: 15px;
+                label {
+                    width: 37%;
+                    color: #666666;
+                    margin-bottom: 2.5px;
+                    font-size: 1em;
+                    &.required {
+                        &:after {
+                            content: " *";
+                            color: $brand-color2;
+                        }
+                    }
+                }
+                input, textarea {
+                    width: 63%;
+                    border: 1px solid #999;
+                    text-align: center;
+                }
+                textarea {
+                    width: 100%;
+                    min-height: 100px;
+                    padding: 10px;
+                }
+                .radio {
+                    @include flexbox;
+                    @include align-items(center);
+                    @include justify-content(flex-start);
+                    width: 63%;
+                    >div {
+                        width: 35%;
+                        @include flexbox;
+                        @include align-items(center);
+                        @include justify-content(flex-start);
+                        label, input {
+                            width: auto;
+                            margin: 0;
+                            padding: 0;
+                            position: relative;
+                        }
+                        input {
+                            width: auto;
+                            margin-right: 10px;
+                        }
+                    }
+                }
+            }
+        }
+        .profile-form__submit {
+            text-align: right;
+            width: 100%;
+            .btn {}
+        }
+        .user-attribute-data__personal-message {
+            font-style: italic;
+            color: #000;
+            font-weight: bold;
+            margin: 10px 0;
+            margin-bottom: 45px;
+        }
+    }
+    .disclaimer {
+        ul {
+            padding-left: 15px;
+            li {
+                margin-bottom: 10px;
+            }
+        }
+    }
+    .user-profile-menu {
+        padding: 0;
+        margin: 0;
+        @include flexbox;
+        @include align-items(center);
+        @include justify-content(space-between);
+        list-style: none;
+        li {
+            padding: 5px 12.5px;
+            min-width: 33.333333%;
+            a {
+                display: block;
+                width: 100%;
+                border-radius: 5px;
+                &.active {
+                    background: #f3f3f3;
+                    color: #333;
+                }
             }
         }
     }

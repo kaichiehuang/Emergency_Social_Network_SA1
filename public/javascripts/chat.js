@@ -23,7 +23,7 @@ $(function() {
     });
 
     //init public chat messages and announcements
-    publicChatMessageModel.updateMessageListView('public');
+    // publicChatMessageModel.updateMessageListView('public');
 
      /****** events declaration ********/
      $('#public-send-btn').click(function(e) {

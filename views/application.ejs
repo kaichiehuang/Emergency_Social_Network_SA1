@@ -19,6 +19,13 @@
         <!-- Page content goes here -->
 
         <div class="container">
+            <% include partials/user_profile %>
+        </div>
+        <div class="container">
+            <% include partials/user_profile_forms %>
+        </div>
+
+        <div class="container">
             <% var block_id= 'public'; %>
             <% var messageBlockTitle= ''; %>
             <% include partials/public_chat_content %>
@@ -39,9 +46,7 @@
         <div class="container">
             <% include partials/status-selection-popup %>
         </div>
-        <div class="container">
-            <% include partials/user_profile %>
-        </div>
+
 
         <!-- END OF CONTENT -->
     </main>
