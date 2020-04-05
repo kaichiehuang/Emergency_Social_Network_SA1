@@ -4,23 +4,33 @@ const blacklist = require('the-big-username-blacklist');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
 
-class User {
-    constructor(username, password, name, last_name) {
-        this._id = null;
+class User extends UserModel {
+    // constructor() {
+    //     this._id = null;
+    //     this.username = null;
+    //     this.password = null;
+    //     this.name = null;
+    //     this.last_name = null;
+    //     this.acknowledgement = false;
+    //     this.onLine = false;
+    //     this.status = constants.UNDEFINED_STATUS;
+    // }
+
+    /**
+     * Sets registration data
+     * @param {[type]} username [description]
+     * @param {[type]} password [description]
+     */
+     setRegistrationData(username, password) {
         this.username = username;
         this.password = password;
-        this.name = name;
-        this.last_name = last_name;
-        this.acknowledgement = false;
-        this.onLine = false;
-        this.status = constants.UNDEFINED_STATUS;
     }
 
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
      */
-    validate() {
+     validateCreate() {
         return new Promise((resolve, reject) => {
             // validate username structure
             this.validateUserName(this.username).then((result) => {
@@ -50,9 +60,9 @@ class User {
      * @param  {[type]}  password [description]
      * @return {Boolean}          [description]
      */
-    isPasswordMatch() {
+     isPasswordMatch() {
         return new Promise((resolve, reject) => {
-            UserModel.find({
+            this.find({
                 username: this.username
             }).exec().then((userFind) => {
                 if (userFind.length !== 0) {
@@ -68,12 +78,12 @@ class User {
         });
     }
 
-    // VALIDATE USER NAMES LENGTH
     /**
+     * VALIDATE USER NAMES LENGTH
      * [validateUserName description]
      * @return {[type]} [description]
      */
-    validateUserName() {
+     validateUserName() {
         return new Promise((resolve, reject) => {
             if (this.username.length < 3) {
                 reject('Invalid username, please enter a longer username (min 3 characters)');
@@ -87,7 +97,7 @@ class User {
      * [validatePassword description]
      * @return {[type]} [description]
      */
-    validatePassword() {
+     validatePassword() {
         return new Promise((resolve, reject) => {
             if (this.password.length < 4) {
                 reject('Invalid password, please enter a longer username (min 4 characters)');
@@ -98,10 +108,64 @@ class User {
     }
 
     /**
+     * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
+     * @return {[type]} [description]
+     */
+     validateUpdate(data) {
+        return new Promise((resolve, reject) => {
+            //no validation required
+            if(data.phone_number == undefined && data.medical_information == undefined){
+                resolve(true);
+            }
+            //validate medical information and personal information and emergency contact information
+            this.validateRequiredFieldsUpdate("personal", data)
+            .then((result) => {
+                return this.validateRequiredFieldsUpdate("medical", data)
+            })
+            .then((result) => {
+                console.log('All validations passed');
+                // if no errors resolve promise with result obj
+                resolve(true);
+            }).catch(err => {
+                console.log('validations not passed');
+                // if errors reject the promise
+                console.log(err);
+                reject(err);
+            });
+        });
+    }
+
+    /**
+     * VALIDATE USER NAMES LENGTH
+     * [validateUserName description]
+     * @return {[type]} [description]
+     */
+     validateRequiredFieldsUpdate(type, data) {
+        return new Promise((resolve, reject) => {
+            if(type == "personal"){
+                if (data.name == undefined || data.last_name == undefined || data.birth_date == undefined || data.city == undefined || data.address == undefined || data.phone_number == 0 || data.emergency_contact == undefined || data.emergency_contact.name == undefined || data.emergency_contact.phone_number == undefined || data.emergency_contact.address == 0) {
+                    reject("Missing required fields. Every field in this step is mandatory.");
+                }else{
+                    if (data.name.length == 0 || data.last_name.length == 0 || data.birth_date.length == 0 || data.city.length == 0 || data.address.length == 0 || data.phone_number.length == 0 || data.emergency_contact == undefined || data.emergency_contact.name.length == 0 || data.emergency_contact.phone_number.length == 0 || data.emergency_contact.address.length == 0) {
+                        reject('Missing required fields. Every field in this step is mandatory.');
+                    }
+                }   
+            }
+            else if(type == "medical"){
+                if (data.medical_information.blood_type == 0) {
+                    reject('Blood type is a mandatory field, please select a valid blood type');
+                }
+            }
+
+            resolve(true);
+        });
+    }
+
+    /**
      * Register a username in DB. it hashes the password
      * @return {[type]} [description]
      */
-    registerUser() {
+     registerUser() {
         const hash = this.hashPassword(this.password);
         const newUser = new UserModel({
             username: this.username,
@@ -122,34 +186,23 @@ class User {
      * @param  {[type]} status          [description]
      * @return {[type]}                 [description]
      */
-    updateUser(userId, acknowledgement, onLine, status) {
-        return UserModel.findByIdAndUpdate(userId, {
-            $set: {
-                acknowledgement: acknowledgement,
-                onLine: onLine,
-                status: status
-            }
-        }, {
-            new: true
-        });
-    }
-
-    /**
-     * Update the user status field
-     * @param userId
-     * @param acknowledgement
-     * @param onLine
-     * @param status
-     * @return {*}
-     */
-    updateUserStatus(userId, status) {
-        return UserModel.findByIdAndUpdate(userId, {
-            $set: {
-                status: status,
-                status_timestamp: new Date()
-            }
-        }, {
-            new: true
+     updateUser(userId, data) {
+        return new Promise((resolve, reject) => {
+            this.validateUpdate(data)
+            .then(result =>{
+                UserModel.findByIdAndUpdate(userId, {
+                    $set: data
+                }, {
+                    new: true
+                }).then(usr => {
+                    resolve(usr);
+                }).catch((err) => {
+                    reject(err);
+                });
+            })
+            .catch((err) => {
+                reject(err);
+            });
         });
     }
 
@@ -158,7 +211,7 @@ class User {
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
-    static findUserByUsername(username) {
+     static findUserByUsername(username) {
         return new Promise((resolve, reject) => {
             UserModel.findOne({
                 username: username
@@ -175,7 +228,7 @@ class User {
      * @param  {[type]} password [description]
      * @return {[type]}          [description]
      */
-    hashPassword(password) {
+     hashPassword(password) {
         return bcrypt.hashSync(password, 10);
     }
 
@@ -183,7 +236,7 @@ class User {
      * Validates if a username is banned
      * @return {[type]} [description]
      */
-    validateBannedUsername() {
+     validateBannedUsername() {
         return new Promise((resolve, reject) => {
             // 3. Validate BlackListUser\
             const black = blacklist.validate(this.username);
@@ -200,7 +253,7 @@ class User {
      * @param  {[type]} username [description]
      * @return boolean          Resolves True if it exists / resolves False if it doesn't existe, rejects if error
      */
-    static usernameExists(username) {
+     static usernameExists(username) {
         return new Promise((resolve, reject) => {
             User.findUserByUsername(username).then((user) => {
                 if (user!== null && user.username != undefined && user.username == username) {
@@ -218,27 +271,27 @@ class User {
      * Generates a token for a user
      * @return {[type]} [description]
      */
-    generateTokens() {
+     generateTokens() {
         return new Promise((resolve, reject) => {
             let token = '';
             TokenServerClass.generateToken(this._id, false)
-                .then((generatedToken) => {
-                    token = generatedToken;
-                    TokenServerClass.generateToken(this._id, true)
-                        .then((genRefToken) => {
-                            const tokens = {
-                                token: token,
-                                ex_token: genRefToken
-                            };
-                            resolve(tokens);
-                        })
-                        .catch((err) => {
-                            reject(err);
-                        });
+            .then((generatedToken) => {
+                token = generatedToken;
+                TokenServerClass.generateToken(this._id, true)
+                .then((genRefToken) => {
+                    const tokens = {
+                        token: token,
+                        ex_token: genRefToken
+                    };
+                    resolve(tokens);
                 })
                 .catch((err) => {
                     reject(err);
                 });
+            })
+            .catch((err) => {
+                reject(err);
+            });
         });
     }
 
@@ -246,7 +299,7 @@ class User {
      * username exists / true or false
      * @return {[type]} [description]
      */
-    static userExist(id) {
+     static userExist(id) {
         return new Promise((resolve, reject) => {
             this.findUserById(id).then((result) => {
                 if (result !== null && result.id == id) {
@@ -265,7 +318,7 @@ class User {
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
-    static findUserById(id) {
+     static findUserById(id) {
         return new Promise((resolve, reject) => {
             UserModel.findOne({
                 _id: id
@@ -281,7 +334,7 @@ class User {
      * [getUsers description]
      * @return {[type]} [description]
      */
-    static getUsers() {
+     static getUsers() {
         return new Promise((resolve, reject) => {
             UserModel.find({}).select('username onLine status').sort({
                 onLine: -1,
@@ -299,7 +352,7 @@ class User {
      * @param username
      * @return {Promise<unknown>}
      */
-    static findUsersByParams(params) {
+     static findUsersByParams(params) {
         return new Promise((resolve, reject) => {
             const data = {};
             if (params.username != undefined && params.username.length > 0) {
@@ -310,15 +363,15 @@ class User {
             }
             console.log(data);
             UserModel.find(data)
-                .select('username onLine status')
-                .sort({
-                    onLine: -1,
-                    username: 'asc'
-                }).then((users) => {
-                    resolve(users);
-                }).catch((err) => {
-                    reject(err);
-                });
+            .select('username onLine status')
+            .sort({
+                onLine: -1,
+                username: 'asc'
+            }).then((users) => {
+                resolve(users);
+            }).catch((err) => {
+                reject(err);
+            });
         });
     }
 
@@ -327,18 +380,18 @@ class User {
      * @param status
      * @return {Promise<unknown>}
      */
-    static findUsersByStatus(status) {
+     static findUsersByStatus(status) {
         return new Promise((resolve, reject) => {
             UserModel.find({status: status})
-                .select('username onLine status')
-                .sort({
-                    onLine: -1,
-                    username: 'asc'
-                }).then((users) => {
-                    resolve(users);
-                }).catch((err) => {
-                    reject(err);
-                });
+            .select('username onLine status')
+            .sort({
+                onLine: -1,
+                username: 'asc'
+            }).then((users) => {
+                resolve(users);
+            }).catch((err) => {
+                reject(err);
+            });
         });
     }
 
@@ -349,7 +402,7 @@ class User {
      * @param  {[type]} socketId [description]
      * @return {[type]}          [description]
      */
-    static insertSocket(userId, socketId) {
+     static insertSocket(userId, socketId) {
         return new Promise((resolve, reject) => {
             User.findUserById(userId).then((user) => {
                 if (user.sockets == undefined) {
@@ -375,7 +428,7 @@ class User {
      * @param  {[type]} socketId [description]
      * @return {[type]}          [description]
      */
-    static removeSocket(userId, socketId) {
+     static removeSocket(userId, socketId) {
         return new Promise((resolve, reject) => {
             User.findUserById(userId).then((user) => {
                 if (user.sockets == undefined) {
@@ -404,7 +457,7 @@ class User {
      * @param  {[type]} increaseCount  [description]
      * @return {[type]}                [description]
      */
-    static changeMessageCount(senderUserId, receiverUserId, increaseCount) {
+     static changeMessageCount(senderUserId, receiverUserId, increaseCount) {
         return new Promise((resolve, reject) => {
             User.findUserById(receiverUserId).then((user) => {
                 if (user.unread_messages == undefined) {

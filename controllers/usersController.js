@@ -17,14 +17,16 @@ class UsersController {
             signUpData['password'] = '';
         }
         // 2. Create user object
-        const user_instance = new User(signUpData['username'], signUpData['password'], signUpData['name'], signUpData['last_name']);
+        const user_instance = new User();
+        user_instance.setRegistrationData(signUpData['username'], signUpData['password']);
         // 3. Validate if user exists
         User.findUserByUsername(signUpData['username']).then((user) => {
             // 4. if user doesn't exist validate data and create it
             if (user == null) {
                 // 3. Run validations on user object
                 let userData = null;
-                user_instance.validate().then(function(result) {
+                user_instance.validateCreate()
+                .then(function(result) {
                     return user_instance.registerUser();
                 }).then(function(response) {
                     userData = response;
@@ -94,11 +96,10 @@ class UsersController {
     updateUser(req, res) {
         const user_instance = new User();
         const userId = req.params.userId;
-        const acknowledgement = req.body.acknowledgement;
-        const onLine = req.body.onLine;
-        const status = req.body.status;
+
         // 1. update user data
-        user_instance.updateUser(userId, acknowledgement, onLine, status).then((usr) => {
+        user_instance.updateUser(userId, req.body)
+        .then((usr) => {
             const jsonResponseData = {};
             jsonResponseData['user'] = {
                 userId: usr._id.toString(),
@@ -111,7 +112,7 @@ class UsersController {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
         }).catch((err) => {
-            return res.status(500).send(err);
+            return res.status(422).send(err);
         });
     }
     /**
@@ -178,7 +179,7 @@ class UsersController {
         const userId = req.params.userId;
         const status = req.body.status;
         // 1. update user data
-        user_instance.updateUserStatus(userId, status).then((usr) => {
+        user_instance.updateUser(userId, req.body).then((usr) => {
             const jsonResponseData = {};
             jsonResponseData['user'] = {
                 userId: usr._id.toString(),
