@@ -71,16 +71,27 @@ const AnnouncementSchema = new Schema(
 
 AnnouncementSchema.index({'message': 'text'});
 
+const SpamReportSchema = new Schema(
+    {
+        level: String,
+        type: String,
+        description: String
+    },
+    schemaOptions
+);
+
 const User = mongoose.model('User', UserSchema);
 const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema);
 const ChatMessages = mongoose.model('Chat_Messages', ChatMessageSchema);
 const PrivateChatMessages = mongoose.model('Private_Chat_Messages', PrivateChatMessageSchema);
 const Announcements= mongoose.model('Announcement', AnnouncementSchema);
+const SpamReport = mongoose.model("Spam_Report", SpamReportSchema);
 
 module.exports = {
     UserMongo: User,
     ReservedNamesMongo: Reserved_names,
     ChatMessagesMongo: ChatMessages,
     PrivateChatMessagesMongo: PrivateChatMessages,
-    AnnouncementsMongo: Announcements
+    AnnouncementsMongo: Announcements,
+    SpamReportMongo: SpamReport
 };

@@ -4,4 +4,6 @@ module.exports = {
     EMERGENCY_STATUS: 'EMERGENCY',
     UNDEFINED_STATUS: 'UNDEFINED',
     PAGINATION_NUMBER: 10,
+    MESSAGE_LEVEL_SPAM: 'message',
+    USER_LEVEL_SPAM: 'user'
 };
