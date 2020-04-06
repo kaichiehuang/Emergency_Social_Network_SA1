@@ -1,5 +1,6 @@
 const ChatMessageModel = require('./model').ChatMessagesMongo;
 const StopWords = require('../utils/StopWords');
+const constants = require('../constants');
 
 class ChatMessage {
     constructor(message, user_id, user_status) {
@@ -67,6 +68,41 @@ class ChatMessage {
                     }).catch((err) => {
                         reject(err);
                     });
+            });
+        });
+    }
+
+    static findMessageById(id) {
+        return new Promise((resolve, reject) => {
+            ChatMessageModel.findOne({
+                _id: id
+            }).exec().then((message) => {
+                resolve(message);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    /**
+     * set report spam reporter for current message
+     * @param messageId
+     * @param reporterUserId
+     * @returns {Promise<unknown>}
+     */
+    static setReportSpam(messageId, reporterUserId) {
+        return new Promise((resolve, reject) => {
+            ChatMessage.findMessageById(messageId).then((message) => {
+                if (message.reported_spams == undefined) {
+                    message.reported_spams = {};
+                }
+                message.reported_spams.set(reporterUserId, true);
+                message.spam = (message.reported_spams.size >= constants.MESSAGE_SPAM_REPORTED_LIMIT);
+                return message.save();
+            }).then((user) => {
+                resolve(user);
+            }).catch((err) => {
+                reject(err);
             });
         });
     }
