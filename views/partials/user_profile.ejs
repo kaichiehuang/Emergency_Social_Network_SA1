@@ -1,90 +1,95 @@
 <div class="row">
     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
         <div class="user-profile-content main-content-block hidden-main-content-block " id="user-profile-content">
+            <template id="userProfileTemplate">
+                <h3 class="text-center block-title">User profile - <strong class="user-profile__username"></strong></h3>
 
-            <h3 class="text-center block-title">User profile - username</h3>
+                <!-- Personal info content -->
+                <div class="profile-block profile-block__personal-info">
+                    <h4 class="profile-block__subtitle">Personal Information</h4>
+                    <button class="edit-button btn btn-primary">Edit</button>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Name</span>
+                        <strong class="user-profile__name"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Last Name</span>
+                        <strong class="user-profile__last_name"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Birth date</span>
+                        <strong class="user-profile__birth_date"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>City</span>
+                        <strong class="user-profile__city"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Address</span>
+                        <strong class="user-profile__address"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Phone #</span>
+                        <strong class="user-profile__phone_number"></strong>
+                    </div>
+                    <br>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Emergency Contact</span>
+                        <strong class="user-profile__emergency_contact"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Emergency contact phone #</span>
+                        <strong class="user-profile__emergency_contact_phone_number"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Emergency contact address</span>
+                        <strong class="user-profile__emergency_contact_address"></strong>
+                    </div>
+                </div>
 
-            <!-- Personal info content -->
-            <div class="profile-block profile-block__personal-info">
-                <h4 class="profile-block__subtitle">Personal Information</h4>
-                <button class="edit-button btn btn-primary">Edit</button>
-                <div class="profile-block__user-attribute-data">
-                    <span>Name</span>
-                    <strong class="user-attribute-data__user-name">James</strong>
+                <!-- Medical info content -->
+                <div class="profile-block profile-block__personal-info">
+                    <h4 class="profile-block__subtitle">Medical Information</h4>
+                    <button class="edit-button btn btn-primary">Edit</button>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Blood Type</span>
+                        <strong class="user-profile__blood_type"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Prescribed drugs</span>
+                        <p class="user-profile__drugs"></p>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Allergies</span>
+                        <p class="user-profile__allergies"></p>
+                    </div>
                 </div>
-                <div class="profile-block__user-attribute-data">
-                    <span>Last Name</span>
-                    <strong class="user-attribute-data__user-name">Bond</strong>
+
+
+                <!-- Other info content -->
+                <div class="profile-block profile-block__personal-info">
+                    <h4 class="profile-block__subtitle">If something happens ... </h4>
+                    <button class="edit-button btn btn-primary">Edit</button>
+
+                    <div class="profile-block__user-attribute-data">
+                        <p class="user-profile__personal-message"></p>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <p class="">Please answer the following question to display <strong class="user-profile__username"></strong> personal message ... </p>
+                        <form id="user-profile__personal-message-form">
+                            <div class="form-group">
+                                <label class="user-profile__personal-message-q">What is the name of my dog?</label>
+                                <input type="text" class="user-profile__personal-message-q-answer" class="form-control" placeholder="Answer question here ..." >
+                                <button class="btn btn-primary" type="submit" class="user-profile__personal-message-q-submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="profile-block__user-attribute-data">
-                    <span>Birth date</span>
-                    <strong class="user-attribute-data__user-name">May 23 / 1900</strong>
-                </div>
-                <div class="profile-block__user-attribute-data">
-                    <span>City</span>
-                    <strong class="user-attribute-data__user-name">Sunnyvale</strong>
-                </div>
-                <div class="profile-block__user-attribute-data">
-                    <span>Address</span>
-                    <strong class="user-attribute-data__user-name">450 Palmetto dr, 94086</strong>
-                </div>
-                <div class="profile-block__user-attribute-data">
-                    <span>Phone #</span>
-                    <strong class="user-attribute-data__user-name">+1 408 8888 222</strong>
-                </div>
-                <br>
-                <div class="profile-block__user-attribute-data">
-                    <span>Emergency Contact</span>
-                    <strong class="user-attribute-data__user-name">Mario Bros</strong>
-                </div>
-                <div class="profile-block__user-attribute-data">
-                    <span>Emergency contact phone #</span>
-                    <strong class="user-attribute-data__user-name">+1 999 4444 444</strong>
-                </div>
-                <div class="profile-block__user-attribute-data">
-                    <span>Emergency contact address</span>
-                    <strong class="user-attribute-data__user-name">123 Zoom call 5pm</strong>
-                </div>
+            </template>
+            <div id="user-profile-content__container">
+
             </div>
 
-            <!-- Medical info content -->
-            <div class="profile-block profile-block__personal-info">
-                <h4 class="profile-block__subtitle">Medical Information</h4>
-                <button class="edit-button btn btn-primary">Edit</button>
-                <div class="profile-block__user-attribute-data">
-                    <span>Blood Type</span>
-                    <strong class="user-attribute-data__blood-type">AB+</strong>
-                </div>
-                <div class="profile-block__user-attribute-data">
-                    <span>Prescribed drugs</span>
-                    <p class="user-attribute-data__drugs">Nullam quis risus eget urna mollis ornare vel eu leo. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Nulla vitae elit libero, a pharetra augue.</p>
-                </div>
-                <div class="profile-block__user-attribute-data">
-                    <span>Allergies</span>
-                    <p class="user-attribute-data__allergies">Nullam quis risus eget urna mollis ornare vel eu leo. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Nulla vitae elit libero, a pharetra augue.</p>
-                </div>
-            </div>
-
-
-            <!-- Other info content -->
-            <div class="profile-block profile-block__personal-info">
-                <h4 class="profile-block__subtitle">If something happens ... </h4>
-                <button class="edit-button btn btn-primary">Edit</button>
-
-                <div class="profile-block__user-attribute-data">
-                    <p class="user-attribute-data__personal-message">Nullam quis risus eget urna mollis ornare vel eu leo. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Sed posuere consectetur est at lobortis. Nulla vitae elit libero, a pharetra augue.</p>
-                </div>
-                <div class="profile-block__user-attribute-data">
-                    <p class="">Please answer the following question to display <strong>username</strong> personal message ... </p>
-                    <form id="user-profile__personal-message-form">
-                        <div class="form-group">
-                            <label>What is the name of my dog?</label>
-                            <input type="text" id="user-profile__personal-message-q-answer" class="form-control" placeholder="Answer question here ..." >
-                            <button class="btn btn-primary" type="submit" id="user-profile__personal-message-q-submit">Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
 </div>

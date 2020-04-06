@@ -3,12 +3,10 @@ class Announcement extends BaseMessage {
         super();
         this.type = "announcement";
     }
-
     static drawLastAnnouncement(data) {
         let lastAnnouncementContainer = $("#last-announcement-container");
         lastAnnouncementContainer.html(data.message);
     }
-
     static getLastAnnouncement() {
         let jwt = Cookies.get('user-jwt-esn');
         let url = apiPath + '/announcements';
@@ -29,8 +27,7 @@ class Announcement extends BaseMessage {
             if (response.length > 0) {
                 Announcement.drawLastAnnouncement(response[0]);
             }
-        }).fail(function(e) {})
-        .always(function() {
+        }).fail(function(e) {}).always(function() {
             console.log('complete');
         });
     }
@@ -40,9 +37,8 @@ class Announcement extends BaseMessage {
 var announcement_wall_container = document.getElementById('announcement-msg_area');
 let announcementModel = new Announcement();
 $(function() {
-    //socket for chat messages management
-    const socket = io("");
-     let page = 0;
+
+    let page = 0;
 
     // listen for announcement chat events
     socket.on('new-chat-message', data => {
@@ -55,11 +51,8 @@ $(function() {
         announcementModel.updateMessageListView("announcement")
         announcements_container.scrollTop = announcements_container.scrollHeight;
     });
-
-
     //init announcement chat messages and announcements
     Announcement.getLastAnnouncement();
-
     /****** events declaration ********/
     $('#announcement-send-btn').click(function(e) {
         announcementModel.sendMessage('announcement');
@@ -86,8 +79,7 @@ $(function() {
         page = 0;
         announcementModel.updateMessageListView('announcement', searchKeyword, page);
     });
-
-    $("#search-announcement-chat__more-button").click(function (e) {
+    $("#search-announcement-chat__more-button").click(function(e) {
         e.preventDefault();
         let searchKeyword = $("#search-announcements__input").val();
         page++;

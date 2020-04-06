@@ -4,17 +4,17 @@ const blacklist = require('the-big-username-blacklist');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
 
-class User extends UserModel {
-    // constructor() {
-    //     this._id = null;
-    //     this.username = null;
-    //     this.password = null;
-    //     this.name = null;
-    //     this.last_name = null;
-    //     this.acknowledgement = false;
-    //     this.onLine = false;
-    //     this.status = constants.UNDEFINED_STATUS;
-    // }
+class User {
+    constructor() {
+        this._id = null;
+        this.username = null;
+        this.password = null;
+        this.name = null;
+        this.last_name = null;
+        this.acknowledgement = false;
+        this.onLine = false;
+        this.status = constants.UNDEFINED_STATUS;
+    }
 
     /**
      * Sets registration data
@@ -62,7 +62,7 @@ class User extends UserModel {
      */
      isPasswordMatch() {
         return new Promise((resolve, reject) => {
-            this.find({
+            UserModel.find({
                 username: this.username
             }).exec().then((userFind) => {
                 if (userFind.length !== 0) {
@@ -149,7 +149,7 @@ class User extends UserModel {
                     if (data.name.length == 0 || data.last_name.length == 0 || data.birth_date.length == 0 || data.city.length == 0 || data.address.length == 0 || data.phone_number.length == 0 || data.emergency_contact == undefined || data.emergency_contact.name.length == 0 || data.emergency_contact.phone_number.length == 0 || data.emergency_contact.address.length == 0) {
                         reject('Missing required fields. Every field in this step is mandatory.');
                     }
-                }   
+                }
             }
             else if(type == "medical"){
                 if (data.medical_information.blood_type == 0) {

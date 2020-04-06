@@ -37,7 +37,6 @@ class BaseMessage {
                     template.querySelector(".user-post").classList.add('user-post-current');
                 }
                 let indicatorStyle = '';
-                console.log("mesage status = ", message.status);
                 if(message.status != undefined && message.status != ""){
                     if (message.status === 'OK') {
                         indicatorStyle = "background-color-ok";
@@ -48,7 +47,7 @@ class BaseMessage {
                     } else if (message.status === 'UNDEFINED') {
                         indicatorStyle = 'background-color-undefined';
                     }
-                    console.log(indicatorStyle)
+
                     template.querySelector('.status-indicator-element').classList.add("statusIndicator");
                     template.querySelector('.status-indicator-element').classList.add(indicatorStyle);
                 }

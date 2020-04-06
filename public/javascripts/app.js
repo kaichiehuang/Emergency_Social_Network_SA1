@@ -16,6 +16,11 @@ let user_id = null;
 let user_name = null;
 let user_acknowledgement = null;
 let apiPath = '/api';
+let currentUser = null;
+let selectedStatus = null;
+
+let socket = null;
+
 /**
  * Swaps visible content. It receives an ID to show and hides everything with the class  main-content-block
  * @param  {[type]} newID [description]
@@ -49,6 +54,13 @@ $(function() {
     if (Cookies.get('username') !== undefined) {
         $('.user-name-reference').html(Cookies.get('username'));
     }
+
+    socket = io('/');
+    //initialize current user
+    currentUser = new User();
+    currentUser._id = Cookies.get('user-id');
+
+
     //init events for content change
     contentChangerEvent();
     //init JWT token
@@ -173,5 +185,3 @@ function contentChangerEvent() {
     });
 }
 
-
-// function swapMenu()

@@ -12,8 +12,6 @@ var public_wall_container = document.getElementById('public-msg_area');
 let publicChatMessageModel = new PublicChatMessage();
 
 $(function() {
-    //socket for chat messages management
-    const socket = io("");
     let page = 0;
 
     // listen for public chat events
@@ -39,6 +37,8 @@ $(function() {
         event.preventDefault();
         let newID = $(this).data('view-id');
         if (newID === 'public-chat-content') {
+            page = 0;
+            publicChatMessageModel.updateMessageListView('public', "", page);
             public_wall_container.scrollTop = public_wall_container.scrollHeight;
         }
     });

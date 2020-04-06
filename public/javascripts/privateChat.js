@@ -25,8 +25,6 @@ class PrivateChatMessage extends BaseMessage {
 var private_wall_container = document.getElementById('private-msg_area');
 let privateChatMessageModel = new PrivateChatMessage();
 $(function() {
-    //socket for chat messages management
-    const socket = io("");
     let page = 0;
 
     //sync sockets

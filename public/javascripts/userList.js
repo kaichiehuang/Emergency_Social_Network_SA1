@@ -1,38 +1,4 @@
-class User {
-    constructor() {
-        this._id = null;
-        this.username = "";
-        this.unread_messages = {};
-    }
-    /**
-     * [getUserData description]
-     * @param  {[type]} userId [description]
-     * @return {[type]}        [description]
-     */
-    static getUserData(userId) {
-        if (userId != null) {
-            return new Promise((resolve, reject) => {
-                let jwt = Cookies.get('user-jwt-esn');
-                $.ajax({
-                    url: apiPath + '/users/' + userId,
-                    type: 'get',
-                    headers: {
-                        "Authorization": jwt
-                    }
-                }).done(function(response) {
-                    let user = new User;
-                    user.username = response.username;
-                    user.unread_messages = {};
-                    user.unread_messages = response.unread_messages;
-                    resolve(user);
-                }).fail(function(e) {
-                    reject(e.message)
-                }).always(function() {
-                    console.log("complete");
-                });
-            });
-        }
-    }
+class UserList {
     /**
      * [drawUsers description]
      * @param  {[type]} containerId [description]
@@ -100,44 +66,18 @@ class User {
         $("#user-list-content__list li").remove();
         $("#user-list-content .no-results-message").removeClass("hidden");
     }
-    /**
-     * Returns a list of users from the API
-     * @return {[type]} [description]
-     */
-    static getUsers(keyword, status) {
-        let data = {
-            "username": keyword,
-            "status": status
-        };
-        return new Promise((resolve, reject) => {
-            let jwt = Cookies.get('user-jwt-esn');
-            $.ajax({
-                "url": apiPath + '/users',
-                "type": 'get',
-                "headers": {
-                    "Authorization": jwt
-                },
-                "data": data
-            }).done(function(response) {
-                resolve(response);
-            }).fail(function(e) {
-                reject(e.message)
-            }).always(function() {
-                console.log("complete");
-            });
-        });
-    }
+
     //todo pass this to a class AddressBook that has an attribute currentUser
-    static updateUserListView(currentUser, searchKeyword, searchStatus) {
+    static updateComponentView(currentUser, searchKeyword, searchStatus) {
         //get user data and then get messages to paint and to check for unread messages
-        User.getUserData(currentUser._id).then(user => {
+        User.getUser(currentUser._id).then(user => {
             currentUser.unread_messages = user.unread_messages;
             return User.getUsers(searchKeyword, searchStatus);
         }).then(users => {
             if(users.length > 0){
-                User.drawUsers(users, currentUser);
+                UserList.drawUsers(users, currentUser);
             }else{
-                User.drawNoUsers();
+                UserList.drawNoUsers();
             }
 
         }).catch(err => {});
@@ -149,29 +89,24 @@ class User {
  * @param  {[type]} ) {}          [description]
  * @return {[type]}   [description]
  */
-let currentUser = null;
-let selectedStatus = null;
+
 
 $(function() {
-    const socket = io('/');
 
-    //initialize current user
-    currentUser = new User();
-    currentUser._id = Cookies.get('user-id');
 
     //Initial call to get the user list after login
-    User.updateUserListView(currentUser, "", "");
+    UserList.updateComponentView(currentUser, "", "");
 
     //Socket IO implementation to update user list on every change of users data.
     socket.on("user-list-update", () => {
-        User.updateUserListView(currentUser, $("#search-users-list__input").val(), "")
+        UserList.updateComponentView(currentUser, $("#search-users-list__input").val(), "")
     });
     //Click event, to update user list when the user switch between views
     $(".content-changer").click(function(event) {
         event.preventDefault();
         let newID = $(this).data('view-id');
         if (newID === "user-list-content") {
-            User.updateUserListView(currentUser, $("#search-users-list__input").val(), "");
+            UserList.updateComponentView(currentUser, $("#search-users-list__input").val(), "");
         }
     });
 
@@ -195,9 +130,7 @@ $(function() {
             }
         }
 
-
-
-        User.updateUserListView(currentUser, searchKeyword, selectedStatus);
+        UserList.updateComponentView(currentUser, searchKeyword, selectedStatus);
     });
 
 });

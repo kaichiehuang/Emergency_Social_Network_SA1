@@ -17,7 +17,7 @@ class UsersController {
             signUpData['password'] = '';
         }
         // 2. Create user object
-        const user_instance = new User();
+        let user_instance = new User();
         user_instance.setRegistrationData(signUpData['username'], signUpData['password']);
         // 3. Validate if user exists
         User.findUserByUsername(signUpData['username']).then((user) => {
