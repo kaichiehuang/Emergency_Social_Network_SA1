@@ -99,8 +99,8 @@ class ChatMessage {
                 message.reported_spams.set(reporterUserId, true);
                 message.spam = (message.reported_spams.size >= constants.MESSAGE_SPAM_REPORTED_LIMIT);
                 return message.save();
-            }).then((user) => {
-                resolve(user);
+            }).then((message) => {
+                resolve(message);
             }).catch((err) => {
                 reject(err);
             });

@@ -440,18 +440,19 @@ class User {
      */
     static setReportSpam(userId, reporterUserId) {
         return new Promise((resolve, reject) => {
-            User.findUserById(userId).then((user) => {
-                if (user.reported_spams == undefined) {
-                    user.reported_spams = {};
-                }
-                user.reported_spams.set(reporterUserId, true);
-                user.spam = (user.reported_spams.size >= constants.USER_SPAM_REPORTED_LIMIT);
-                return user.save();
-            }).then((user) => {
-                resolve(user);
-            }).catch((err) => {
-                reject(err);
-            });
+            User.findUserById(userId)
+                .then((user) => {
+                    if (user.reported_spams == undefined) {
+                        user.reported_spams = {};
+                    }
+                    user.reported_spams.set(reporterUserId, true);
+                    user.spam = (user.reported_spams.size >= constants.USER_SPAM_REPORTED_LIMIT);
+                    return user.save();
+                }).then((user) => {
+                    resolve(user);
+                }).catch((err) => {
+                    reject(err);
+                });
         });
     }
 }

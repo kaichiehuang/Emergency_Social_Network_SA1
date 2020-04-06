@@ -8,7 +8,7 @@ class PublicChatMessage extends BaseMessage {
 
 //************************************************
 //************************************************
-var public_wall_container = document.getElementById('public-msg_area');
+let public_wall_container = document.getElementById('public-msg_area');
 let publicChatMessageModel = new PublicChatMessage();
 
 $(function() {
@@ -20,6 +20,11 @@ $(function() {
     socket.on('new-chat-message', data => {
         publicChatMessageModel.drawMessageItem('public', data);
         public_wall_container.scrollTop = public_wall_container.scrollHeight;
+    });
+
+    // listen for spam events
+    socket.on('spam-report-number', data => {
+        console.log(data);
     });
 
     //init public chat messages and announcements
