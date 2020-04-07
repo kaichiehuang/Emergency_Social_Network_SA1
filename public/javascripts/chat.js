@@ -50,11 +50,8 @@ $(function() {
     $('.list-group').on('click', ".report-link", function(e) {
         e.preventDefault();
         console.log(e.target);
-        console.log(e.toElement.getAttribute('msg_id'));
-        console.log(e.toElement.getAttribute('user_id'));
-        messages.forEach(element => {
-            publicChatMessageModel.drawMessageItem(type, element);
-        });
+        $("#spam_user_id").val(e.toElement.getAttribute('user_id'));
+        $("#spam_msg_id").val(e.toElement.getAttribute('msg_id'));
     });
 
     /**

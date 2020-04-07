@@ -9,7 +9,7 @@ class BaseMessage {
      * @param  {[type]} data [description]
      * @return {[type]}      [description]
      */
-     drawMessageItem(type, message, targetMsgId, targetUserId) {
+    drawMessageItem(type, message) {
         if (message.sender_user_id != undefined) {
             message.user_id = message.sender_user_id;
         }
@@ -60,10 +60,6 @@ class BaseMessage {
                 template.querySelector('.report').setAttribute("user_id", message.user_id._id);
 
                 listContainer.appendChild(template);
-
-                if (message._id === targetMsgId) {
-                    drawSpamForm(targetMsgId, targetUserId);
-                }
             }
         }
     }
