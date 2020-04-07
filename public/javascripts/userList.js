@@ -51,7 +51,7 @@ class UserList {
                 }
             }
             // assign view change event for chat button for each user in the list
-            contentChangerEvent();
+            menuContentChangerEvent();
             $('.chat-button').click(function(event) {
                 PrivateChatMessage.initiatePrivateChat($(this).data('user-id'));
             });
@@ -102,7 +102,7 @@ $(function() {
         UserList.updateComponentView(currentUser, $("#search-users-list__input").val(), "")
     });
     //Click event, to update user list when the user switch between views
-    $(".content-changer").click(function(event) {
+    $(".menu-content-changer").click(function(event) {
         event.preventDefault();
         let newID = $(this).data('view-id');
         if (newID === "user-list-content") {

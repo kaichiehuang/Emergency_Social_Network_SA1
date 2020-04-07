@@ -22,30 +22,6 @@ let selectedStatus = null;
 let socket = null;
 
 /**
- * Swaps visible content. It receives an ID to show and hides everything with the class  main-content-block
- * @param  {[type]} newID [description]
- * @return {[type]}       [description]
- */
-function swapContent(newID) {
-    $('.main-content-block').addClass('hidden-main-content-block');
-    $('#' + newID).removeClass('hidden-main-content-block');
-
-    oldContentPageID = currentContentPageID;
-    currentContentPageID = newID;
-}
-/**
- * [swapGroupContent description]
- * @param  {[type]} newGroupClass [description]
- * @return {[type]}               [description]
- */
-function swapGroupContent(newGroupClass) {
-    $('.hideable-group-component').addClass('hidden-group-component');
-    $('.' + newGroupClass).removeClass('hidden-group-component');
-
-    currentContentGroupClass = newGroupClass;
-}
-
-/**
  * On load init
  * @param  {[type]} ) {               if (Cookies.get('username') ! [description]
  * @return {[type]}   [description]
@@ -62,7 +38,8 @@ $(function() {
 
 
     //init events for content change
-    contentChangerEvent();
+    menuContentChangerEvent();
+    globalContentChangerEvent();
     //init JWT token
     userJWT = Cookies.get('user-jwt-esn');
 
@@ -83,7 +60,7 @@ $(function() {
             if (user_acknowledgement === 'true') {
                 window.location.replace('/app');
             } else {
-                swapContent('acknowledgement-page-content');
+                swapContent('acknowledgement-page-content', '.main-content-block');
             }
         }
         console.log('found cookie = ' + userJWT);
@@ -168,20 +145,83 @@ function syncSocketId(socketId, deleteSocket) {
         console.log('complete');
     });
 }
-//events
-function contentChangerEvent() {
-    $('.content-changer').click(function(event) {
-        $('.content-changer').removeClass('active');
+
+/**
+ * Event registration for menu content changer buttons
+ * @return {[type]} [description]
+ */
+function menuContentChangerEvent() {
+    $('.menu-content-changer').click(function(event) {
+        $('.menu-content-changer').removeClass('active');
         $(this).addClass('active');
         event.preventDefault();
-        let newID = $(this).data('view-id');
-        let groupClass = $(this).data('view-group-class');
-        if (newID != undefined && newID != '') {
-            swapContent(newID);
-        }
-        if (groupClass != undefined && groupClass != '') {
-            swapGroupContent(groupClass);
-        }
+        executeSwapContent($(this));
     });
 }
 
+/**
+ * Event registration for content changer buttons that dont
+ * @return {[type]} [description]
+ */
+function globalContentChangerEvent() {
+    $('.content-changer').click(function(event) {
+        executeSwapContent($(this));
+    });
+}
+
+/**
+ * Swaps content following id to display of group class to display and classes to hide
+ * @param  {[type]} element [description]
+ * @return {[type]}         [description]
+ */
+function executeSwapContent(element){
+    let viewID = element.data('view-id');
+    let subViewID = element.data('sub-view-id');
+    let groupClass = element.data('view-group-class');
+    let hideViewClass = element.data('hide-view-class');
+    let hideSubViewClass = element.data('sub-view-hide-class');
+    let hideGroupClass = element.data('group-hide-class');
+
+    if (viewID != undefined && viewID != '') {
+        if(hideViewClass == undefined){
+            hideViewClass = 'main-content-block';
+        }
+        swapContent(viewID, hideViewClass);
+    }
+    if (subViewID != undefined && subViewID != '') {
+        if(hideSubViewClass == undefined){
+            hideSubViewClass = 'hideable-group-component';
+        }
+        swapContent(subViewID, hideSubViewClass);
+    }
+    if (groupClass != undefined && groupClass != '') {
+        if(hideGroupClass == undefined){
+            hideGroupClass = 'hideable-group-component';
+        }
+        swapGroupContent(groupClass, hideGroupClass);
+    }
+}
+
+/**
+ * Swaps visible content. It receives an ID to show and hides everything with the class  main-content-block
+ * @param  {[type]} viewID [description]
+ * @return {[type]}       [description]
+ */
+function swapContent(viewID, classToHide) {
+    $("." + classToHide).addClass('hidden');
+    $('#' + viewID).removeClass('hidden');
+
+    oldContentPageID = currentContentPageID;
+    currentContentPageID = viewID;
+}
+/**
+ * [swapGroupContent description]
+ * @param  {[type]} newGroupClass [description]
+ * @return {[type]}               [description]
+ */
+function swapGroupContent(newGroupClass, classToHide) {
+    $("." + classToHide).addClass('hidden');
+    $('.' + newGroupClass).removeClass('hidden');
+
+    currentContentGroupClass = newGroupClass;
+}

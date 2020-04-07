@@ -1,79 +1,95 @@
 <div class="row">
     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
-        <div class="inner-content-block-profile hidden" id="user-profile-form2">
-            <form accept-charset="utf-8">
-                <!-- Personal info content -->
-                <div class="profile-form profile-form__personal-info">
-                    <h4 class="subtitle">Medical Information</h4>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">Blood type</label>
-                            <select name="bood_type" id="user-profile-form__blood-type">
+        <div class="user-profile-forms main-content-block hidden" id="user-profile-form2">
+            <template id="userProfileFormTemplate2">
+                <h3 class="text-center block-title">User profile - username</h3>
 
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <option value="O+">O+</option>
-                                <option value="O-">O-</option>
-                                <option value="AB+">AB+</option>
-                                <option value="AB-">AB-</option>
+                <% var step = '2'; %>
+                <% include user_profile_menu %>
+                <div class="row">
+                    <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
+                        <div class="inner-content-block-profile">
+                            <form accept-charset="utf-8" id="" class="">
+                                <input type="hidden" name="step" value="1">
+                                <!-- Personal info content -->
+                                <div class="profile-form profile-form__personal-info">
+                                    <h4 class="subtitle">Medical Information</h4>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Blood type</label>
+                                            <select name="bood_type" id="user-profile-form__blood-type">
 
-                            </select>
-                        </div>
-                    </div>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">Prescribed drugs</label>
-                            <div class="radio">
-                                <div>
-                                    <input type="radio" name="" id="input" value="">
-                                    <label>Yes</label>
+                                                <option value="A+">A+</option>
+                                                <option value="A-">A-</option>
+                                                <option value="B+">B+</option>
+                                                <option value="B-">B-</option>
+                                                <option value="O+">O+</option>
+                                                <option value="O-">O-</option>
+                                                <option value="AB+">AB+</option>
+                                                <option value="AB-">AB-</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Prescribed drugs</label>
+                                            <div class="radio">
+                                                <div>
+                                                    <input type="radio" name="" id="input" value="">
+                                                    <label>Yes</label>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="" id="input" value="" checked="">
+                                                    <label>No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea name="prescribed_drugs" id="user-profile-form__prescribed_drugs" placeholder="Enter the list of prescribed drugs you are taking here..."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Do you have any allergies?</label>
+                                            <div class="radio">
+                                                <div>
+                                                    <input type="radio" name="" id="input" value="">
+                                                    <label>Yes</label>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="" id="input" value="" checked="">
+                                                    <label>No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea name="allergies" id="user-profile-form__allergies" placeholder="Enter the list of allergies that you have..."></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="profile-form__submit">
+                                        <button id="profile-form__submit-form2" class="btn btn-primary">Save</button>
+                                    </div>
                                 </div>
+                            </form>
+
+                            <div class="disclaimer">
+                                <h4 class="subtitle">Why we need these information</h4>
                                 <div>
-                                    <input type="radio" name="" id="input" value="" checked="">
-                                    <label>No</label>
+                                    <ul>
+                                        <li><strong>Birth date:</strong> Needed to establish your age and response steps based on this.</li>
+                                        <li><strong>City and address:</strong> Might be needed to contact your relatives or get your medicines from home if not available elsewhere.</li>
+                                        <li><strong>Emergency contact info:</strong> We'll try contacting your emergency contact by phone or at his / her address</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <textarea name="prescribed_drugs" id="user-profile-form__prescribed-drugs" placeholder="Enter the list of prescribed drugs you are taking here..."></textarea>
-                        </div>
-                    </div>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">Do you have any allergies?</label>
-                            <div class="radio">
-                                <div>
-                                    <input type="radio" name="" id="input" value="">
-                                    <label>Yes</label>
-                                </div>
-                                <div>
-                                    <input type="radio" name="" id="input" value="" checked="">
-                                    <label>No</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <textarea name="prescribed_drugs" id="user-profile-form__prescribed-drugs" placeholder="Enter the list of allergies that you have..."></textarea>
-                        </div>
-                    </div>
-
-                    <div class="profile-form__submit">
-                        <button id="profile-form__submit-form2" class="btn btn-primary">Save</button>
                     </div>
                 </div>
-            </form>
+            </template>
+            <div id="user-profile-form-content__container-2">
 
-            <div class="disclaimer">
-                <h4 class="subtitle">Why we need these information</h4>
-                <div>
-                    <ul>
-                        <li><strong>Birth date:</strong> Needed to establish your age and response steps based on this.</li>
-                        <li><strong>City and address:</strong> Might be needed to contact your relatives or get your medicines from home if not available elsewhere.</li>
-                        <li><strong>Emergency contact info:</strong> We'll try contacting your emergency contact by phone or at his / her address</li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>

@@ -1,81 +1,98 @@
 <div class="row">
     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
-        <div class="inner-content-block-profile hidden" id="user-profile-form1">
+        <div class="user-profile-forms main-content-block hidden" id="user-profile-form1">
+            <template id="userProfileFormTemplate1">
+                <h3 class="text-center block-title">User profile - <strong class="user-profile__username"></strong></h3>
 
-            <form accept-charset="utf-8">
-                <!-- Personal info content -->
-                <div class="profile-form profile-form__personal-info">
-                    <h4 class="subtitle">Personal Information</h4>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">Name</label>
-                            <input type="text" id="user-profile-form__name" class="form-control" placeholder="Name" >
+                <% var step = '1';%>
+                <% include user_profile_menu %>
+
+                <div class="row">
+                    <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
+                        <div class="inner-content-block-profile">
+
+                            <form accept-charset="utf-8" id="" class="">
+                                <input type="hidden" name="step" value="1">
+                                <!-- Personal info content -->
+                                <div class="profile-form profile-form__personal-info">
+                                    <h4 class="subtitle">Personal Information</h4>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Name</label>
+                                            <input type="text" id="user-profile-form__name" name="name" class="form-control" placeholder="Name" >
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Last Name</label>
+                                            <input type="text" id="user-profile-form__last_name" name="last_name" class="form-control" placeholder="Last Name" >
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Birth date</label>
+                                            <input type="text" id="user-profile-form__birth_date" name="birth_date" class="form-control" placeholder="mm / dd / yyyy" >
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">City</label>
+                                            <input type="text" id="user-profile-form__city" name="city" class="form-control" placeholder="City" >
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Address</label>
+                                            <input type="text" id="user-profile-form__address" name="address" class="form-control" placeholder="Home address + Zip code" >
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Phone #</label>
+                                            <input type="text" id="user-profile-form__phone_number" name="phone_number" class="form-control" placeholder="+1 408 911 ..." >
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Emergency contact</label>
+                                            <input type="text" id="user-profile-form__emergency_contact" name="emergency_contact" class="form-control" placeholder="Emergency contact name and last name" >
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Emergency contact phone #</label>
+                                            <input type="text" id="user-profile-form__emergency_contact_phone_number" name="emergency_contact_phone_number" class="form-control" placeholder="+1 408 911 ..." >
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Emergency contact address</label>
+                                            <input type="text" id="user-profile-form__emergency_contact_address" name="emergency_contact_address" class="form-control" placeholder="Emergency contact address" >
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__submit">
+                                        <button id="profile-form__submit-form1" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="disclaimer">
+                                <h4 class="subtitle">Why we need these information</h4>
+                                <div>
+                                    <ul>
+                                        <li><strong>Birth date:</strong> Needed to establish your age and response steps based on this.</li>
+                                        <li><strong>City and address:</strong> Might be needed to contact your relatives or get your medicines from home if not available elsewhere.</li>
+                                        <li><strong>Emergency contact info:</strong> We'll try contacting your emergency contact by phone or at his / her address</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">Last Name</label>
-                            <input type="text" id="user-profile-form__last-name" class="form-control" placeholder="Last Name" >
-                        </div>
-                    </div>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">Birth date</label>
-                            <input type="text" id="user-profile-form__last-name" class="form-control" placeholder="mm / dd / yyyy" >
-                        </div>
-                    </div>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">City</label>
-                            <input type="text" id="user-profile-form__city" class="form-control" placeholder="City" >
-                        </div>
-                    </div>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">Address</label>
-                            <input type="text" id="user-profile-form__address" class="form-control" placeholder="Home address + Zip code" >
-                        </div>
-                    </div>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">Phone #</label>
-                            <input type="text" id="user-profile-form__last-name" class="form-control" placeholder="+1 408 911 ..." >
-                        </div>
-                    </div>
-                    <br>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">Emergency contact</label>
-                            <input type="text" id="user-profile-form__emergency-cont" class="form-control" placeholder="Emergency contact name and last name" >
-                        </div>
-                    </div>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">Emergency contact phone #</label>
-                            <input type="text" id="user-profile-form__emergency-cont-phone" class="form-control" placeholder="+1 408 911 ..." >
-                        </div>
-                    </div>
-                    <div class="profile-form__user-attribute-data">
-                        <div class="form-group">
-                            <label class="required">Emergency contact address</label>
-                            <input type="text" id="user-profile-form__emergency-cont-address" class="form-control" placeholder="Emergency contact address" >
-                        </div>
-                    </div>
-                    <div class="profile-form__submit">
-                        <button id="profile-form__submit-form1" class="btn btn-primary">Save</button>
                     </div>
                 </div>
-            </form>
+            </template>
+            <div id="user-profile-form-content__container-1">
 
-            <div class="disclaimer">
-                <h4 class="subtitle">Why we need these information</h4>
-                <div>
-                    <ul>
-                        <li><strong>Birth date:</strong> Needed to establish your age and response steps based on this.</li>
-                        <li><strong>City and address:</strong> Might be needed to contact your relatives or get your medicines from home if not available elsewhere.</li>
-                        <li><strong>Emergency contact info:</strong> We'll try contacting your emergency contact by phone or at his / her address</li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
