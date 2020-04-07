@@ -599,10 +599,17 @@ form {
                         }
                     }
                 }
-                input, textarea {
+                input, textarea, select {
                     width: 63%;
                     border: 1px solid #999;
                     text-align: center;
+                }
+                select {
+                    text-align-last: center;
+                    text-indent: 5px;
+                    option {
+                        text-align: center;
+                    }
                 }
                 textarea {
                     width: 100%;

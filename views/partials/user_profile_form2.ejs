@@ -17,7 +17,7 @@
                                     <div class="profile-form__user-attribute-data">
                                         <div class="form-group">
                                             <label class="required">Blood type</label>
-                                            <select name="bood_type" id="user-profile-form__blood-type">
+                                            <select name="bood_type" id="user-profile-form__blood_type">
 
                                                 <option value="A+">A+</option>
                                                 <option value="A-">A-</option>
@@ -36,17 +36,17 @@
                                             <label class="required">Prescribed drugs</label>
                                             <div class="radio">
                                                 <div>
-                                                    <input type="radio" name="" id="input" value="">
+                                                    <input type="radio" name="has_preescribed_drugs"  value="1" class="visible-controller" data-id-to-display="user-profile-form__prescribed_drugs">
                                                     <label>Yes</label>
                                                 </div>
                                                 <div>
-                                                    <input type="radio" name="" id="input" value="" checked="">
+                                                    <input type="radio" name="has_preescribed_drugs"  value="0" checked="" class="hide-controller" data-id-to-hide="user-profile-form__prescribed_drugs">
                                                     <label>No</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="prescribed_drugs" id="user-profile-form__prescribed_drugs" placeholder="Enter the list of prescribed drugs you are taking here..."></textarea>
+                                            <textarea class="hidden" name="prescribed_drugs" id="user-profile-form__prescribed_drugs" placeholder="Enter the list of prescribed drugs you are taking here..."></textarea>
                                         </div>
                                     </div>
                                     <div class="profile-form__user-attribute-data">
@@ -54,11 +54,11 @@
                                             <label class="required">Do you have any allergies?</label>
                                             <div class="radio">
                                                 <div>
-                                                    <input type="radio" name="" id="input" value="">
+                                                    <input type="radio" name=""  value="">
                                                     <label>Yes</label>
                                                 </div>
                                                 <div>
-                                                    <input type="radio" name="" id="input" value="" checked="">
+                                                    <input type="radio" name=""  value="" checked="">
                                                     <label>No</label>
                                                 </div>
                                             </div>

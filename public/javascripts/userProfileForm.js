@@ -72,7 +72,7 @@ class UserProfileForm {
     static fillProfileFormStep2(user, template) {
 
         //set emergency_contact
-        // template.querySelector('select#user-profile-form__blood_type').value = (user.medical_information.blood_type != undefined) ? user.medical_information.blood_type : '';
+        template.querySelector('select#user-profile-form__blood_type').value = (user.medical_information.blood_type != undefined) ? user.medical_information.blood_type : '';
         template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = (user.medical_information.prescribed_drugs != undefined) ? user.medical_information.prescribed_drugs : '';
         template.querySelector('textarea#user-profile-form__allergies').innerText = (user.medical_information.prescribed_drugs != undefined) ? user.medical_information.allergies : '';
 
@@ -90,13 +90,14 @@ class UserProfileForm {
         User.getUser(currentUser._id).then(user => {
             if (user != undefined) {
                 UserProfileForm.drawProfileForm(user, step);
-                // UserProfile.registerEventsAfterDraw();
+                UserProfileForm.registerEventsAfterDraw();
             }
         }).catch(err => {});
     }
 
     static registerEventsAfterDraw(){
-        globalContentChangerEvent();
+        // globalContentChangerEvent();
+        showElementEvent();
     }
 }
 /**

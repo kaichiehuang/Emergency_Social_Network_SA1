@@ -40,6 +40,7 @@ $(function() {
     //init events for content change
     menuContentChangerEvent();
     globalContentChangerEvent();
+    showElementEvent();
     //init JWT token
     userJWT = Cookies.get('user-jwt-esn');
 
@@ -186,13 +187,13 @@ function executeSwapContent(element){
         if(hideViewClass == undefined){
             hideViewClass = 'main-content-block';
         }
-        swapContent(viewID, hideViewClass);
+        swapViewContent(viewID, hideViewClass);
     }
     if (subViewID != undefined && subViewID != '') {
         if(hideSubViewClass == undefined){
             hideSubViewClass = 'hideable-group-component';
         }
-        swapContent(subViewID, hideSubViewClass);
+        swapViewContent(subViewID, hideSubViewClass);
     }
     if (groupClass != undefined && groupClass != '') {
         if(hideGroupClass == undefined){
@@ -203,11 +204,32 @@ function executeSwapContent(element){
 }
 
 /**
+ * [showElementEvent description]
+ * @return {[type]} [description]
+ */
+function showElementEvent(){
+    $(".visible-controller").change(function (e) {
+        let idToDisplay     = $(this).data('id-to-display');
+        let classToDisplay  = $(this).data('class-to-display');
+        showElements(idToDisplay, classToDisplay);
+    });
+    $(".visible-controller").click(function (e) {
+        let idToDisplay     = $(this).data('id-to-display');
+        let classToDisplay  = $(this).data('class-to-display');
+        showElements(idToDisplay, classToDisplay);
+    });
+}
+
+/**
+ * hide and show actions
+ */
+
+/**
  * Swaps visible content. It receives an ID to show and hides everything with the class  main-content-block
  * @param  {[type]} viewID [description]
  * @return {[type]}       [description]
  */
-function swapContent(viewID, classToHide) {
+function swapViewContent(viewID, classToHide) {
     $("." + classToHide).addClass('hidden');
     $('#' + viewID).removeClass('hidden');
 
@@ -225,3 +247,22 @@ function swapGroupContent(newGroupClass, classToHide) {
 
     currentContentGroupClass = newGroupClass;
 }
+
+function showElements(idToDisplay, classToDisplay) {
+    if($("#" + idToDisplay).length > 0){
+        $("#" + idToDisplay).removeClass('hidden');
+    }
+    if($("." + classToDisplay).length > 0){
+        $("." + classToDisplay).removeClass('hidden');
+    }
+}
+
+function hideElement(idToHide, classToHide) {
+    if($("#" + idToHide).length > 0){
+        $("#" + idToHide).addClass('hidden');
+    }
+    if($("." + classToHide).length > 0){
+        $("." + classToHide).addClass('hidden');
+    }
+}
+
