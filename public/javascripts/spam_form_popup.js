@@ -1,59 +1,32 @@
 class SpamForm {
-    constructor() {
-        const confirmButton = document.getElementById('spam-report-button');
-        confirmButton.addEventListener('click', this.sendSpamReport);
-    }
 
     sendSpamReport() {
-        const status = $('.modal-instructions :checked').val();
-        const current_user_id = Cookies.get('user-id');
-        const jwt = Cookies.get('user-jwt-esn');
+        console.log("-----sending----------");
+        const spamMsgId = $('#spam_msg_id').val();
+        const spamUserId = $('#spam_user_id').val();
+        const level = $("input[name='level']:checked").val();
+        const type = $("input[name='type']:checked").val();
+        const desc = $('#description').val();
         $.ajax({
             url: apiPath + '/spam-report',
             type: 'post',
             data: {
-                'status': status,
+                'level': level,
+                'type': type,
+                'description': desc,
+                "current_user_id": Cookies.get('user-id'),
+                "reported_user_id": spamUserId,
+                "message_id": spamMsgId
             },
             headers: {
-                'Authorization': jwt
+                'Authorization': Cookies.get('user-jwt-esn')
             }
         }).done(function(response) {
-            console.log(response);
+            console.log("spam report sent successfully");
             // hide modal
-            $('#status-modal').modal('toggle');
-            Cookies.set('user-status', response.user.status);
-            // tell server to emit user-list-update event
-            $.ajax({
-                url: apiPath + '/usersList/',
-                type: 'get',
-                headers: {
-                    'Authorization': jwt
-                }
-            }).done(function(response) {
-                console.log(response);
-            }).fail(function(e) {
-                $('#update-status-alert').html(e);
-                $('#update-status-alert').show();
-            }).always(function() {
-                console.log('complete');
-            });
-            // change header icon for status
-            if (status === 'OK') {
-                $('#statusIcon').removeClass();
-                $('#statusIcon').addClass('fa fa-check');
-            } else if (status === 'HELP') {
-                $('#statusIcon').removeClass();
-                $('#statusIcon').addClass('fa fa-exclamation');
-            } else if (status === 'EMERGENCY') {
-                $('#statusIcon').removeClass();
-                $('#statusIcon').addClass('fa fa-exclamation-triangle');
-            } else if (status === 'UNDEFINED') {
-                $('#statusIcon').removeClass();
-                $('#statusIcon').addClass('fa fa-question');
-            }
+            $('#spam-modal').modal('hide');
         }).fail(function(e) {
-            $('#update-status-alert').html(e);
-            $('#update-status-alert').show();
+            console.log('err happens:' + e);
         }).always(function() {
             console.log('complete');
         });
@@ -62,22 +35,9 @@ class SpamForm {
 $(function() {
     $('#spam-report-button').on('click', function(e) {
         e.preventDefault();
-        console.log("----spam_shot");
-        e.preventDefault();
-        console.log($('#spam_user_id').val());
-        console.log($('#spam_msg_id').val());
-
-        console.log($("input[name='level']:checked").val());
-        console.log($("input[name='type']:checked").val());
-        console.log($('#description').val());
+        let spamForm = new SpamForm();
+        spamForm.sendSpamReport();
     });
-    //
-    // $("#spam-report-form").submit(function() {
-    //     console.log("----spam_shot");
-    //     console.log($('this').attr('level'));
-    //     console.log($('this').attr('type'));
-    //     console.log($('this').attr('description'));
-    // });
     $('#spam-modal').modal('hide');
     return false;
 });
