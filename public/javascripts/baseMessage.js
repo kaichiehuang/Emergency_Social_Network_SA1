@@ -9,8 +9,8 @@ class BaseMessage {
      * @param  {[type]} data [description]
      * @return {[type]}      [description]
      */
-     drawMessageItem(type, message) {
-        if(message.sender_user_id != undefined){
+     drawMessageItem(type, message, targetMsgId, targetUserId) {
+        if (message.sender_user_id != undefined) {
             message.user_id = message.sender_user_id;
         }
         if (message.user_id == null || message.user_id == undefined) {
@@ -24,9 +24,8 @@ class BaseMessage {
         if (listContainer != undefined) {
             const list_length = $("#"+type + '-chat > li').length;
             //3. iterate over users list and draw using the appropiate template based on online/offline state
-            var template = messagesTemplate.content.cloneNode(true);;
+            var template = messagesTemplate.content.cloneNode(true);
             if (template != undefined && template != null && message != undefined) {
-                let new_li = $('ul#' + type + '-chat li#' + type + '-template').clone();
                 if (list_length % 2 == 1) {
                     template.querySelector(".user-post").classList.add('user-post-odd');
                 } else {
@@ -56,8 +55,15 @@ class BaseMessage {
                 template.querySelector('.msg').innerText = message.message;
                 template.querySelector('.timestamp').innerText = new Date(message.created_at).toLocaleString();
                 template.querySelector('.username').innerText = message.user_id.username;
+                template.querySelector('.report-number').innerText = 1;
+                template.querySelector('.report').setAttribute("msg_id", message._id);
+                template.querySelector('.report').setAttribute("user_id", message.user_id._id);
 
                 listContainer.appendChild(template);
+
+                if (message._id === targetMsgId) {
+                    drawSpamForm(targetMsgId, targetUserId);
+                }
             }
         }
     }
@@ -181,7 +187,7 @@ class BaseMessage {
             }).done(function(response) {
                 resolve(response);
             }).fail(function(e) {
-                reject(e.message)
+                reject(e.message);
             }).always(function() {
                 console.log("complete");
             });
@@ -194,16 +200,16 @@ class BaseMessage {
      * @param  {[type]} page          [description]
      * @return {[type]}               [description]
      */
-     updateMessageListView(type, searchKeyword, page) {
+    updateMessageListView(type, searchKeyword, page) {
         let self = this;
-        if(searchKeyword == undefined || searchKeyword.length == 0){
+        if (searchKeyword == undefined || searchKeyword.length == 0) {
             this.deactivateSearchButtonsLoadMore(type);
         }
         //get user data and then get messages to paint and to check for unread messages
         this.getMessages(type, searchKeyword, page).then(results => {
             self.drawMessages(type, results, page);
         }).catch(err => {
-            console.log(err)
+            console.log(err);
         });
     }
 

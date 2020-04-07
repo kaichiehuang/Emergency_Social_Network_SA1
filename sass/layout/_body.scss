@@ -255,28 +255,56 @@ form {
             margin-right: 0;
             width: 100%;
         }
-        .statusIndicator {
-            width: 10px;
-            height: 10px;
-            border-radius: 10px;
-            display: inline-block;
-            vertical-align: middle;
-        }
-        .timestamp {
-            float: right;
-        }
-        .username {
-            font-size: 0.9em;
-            font-weight: bold;
-            color: $brand_color1;
-            color: #555;
-        }
         .msg {
             margin-top: 2px;
         }
     }
     .list-group-item {
         padding: 7.5px 12.5px;
+        .msg_metadata {
+            @include flexbox;
+            @include align-items(center);
+            @include justify-content(space-between);
+
+            .list-group-item__left {
+                @include flexbox;
+                @include align-items(center);
+                @include justify-content(flex-start);
+                .username {
+                    font-size: 1.0em;
+                    font-weight: bold;
+                    color: $brand_color1;
+                    color: #555;
+                }
+                .statusIndicator {
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 10px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-right: 5px;
+                }
+            }
+            .list-group-item__right {
+                @include flexbox;
+                @include align-items(center);
+                @include justify-content(flex-end);
+                .timestamp {
+                    float: right;
+                }
+                .report-number {
+                    margin-right: 5px;
+                    font-size: 0.2em;
+                    color: $brand_color1;
+                }
+                .report {
+                    margin-right: 5px;
+                    font-size: 3px;
+                    font-weight: lighter;
+                    color: $brand_color1;
+                }
+            }
+        }
     }
     &.msg_area-announcement {
         .user-post {

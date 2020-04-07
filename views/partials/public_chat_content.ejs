@@ -1,7 +1,6 @@
 <div class="row">
     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
         <div class="message-chat-content main-content-block hidden-main-content-block" id="<%= block_id %>-chat-content">
-
             <div class="msg_border">
                 <div class="messaging">
                     <div class="msg_area msg_area-<%= block_id %>" id="<%= block_id %>-msg_area">
@@ -10,10 +9,19 @@
                             <template id="<%= block_id %>-template">
                                 <li class="user-post user-post- list-group-item list-group-item-action flex-column align-items-center">
                                     <div class="msg_metadata">
-                                        <span class="status-indicator-element"> &nbsp;  </span>
-                                        <small class="username"> %username_token% </small>
-                                        <small class="timestamp"> %timestamp_token% </small>
+                                        <div class="list-group-item__left">
+                                            <span class="status-indicator-element"> &nbsp;  </span>
+                                            <small class="username"> %username_token% </small>
+                                        </div>
+                                        <div class="list-group-item__right">
+                                            <small class="report-number"> %reportnumber_token% </small>
+                                            <a class="report-link">
+                                                <span class="report"> report </span>
+                                            </a>
+                                            <small class="timestamp"> %timestamp_token% </small>
+                                        </div>
                                     </div>
+
                                     <p class="mb-1 text-wrap text-break msg">
                                         %message_token%
                                     </p>

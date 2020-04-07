@@ -5,7 +5,6 @@ class PublicChatMessage extends BaseMessage {
     }
 }
 
-
 //************************************************
 //************************************************
 let public_wall_container = document.getElementById('public-msg_area');
@@ -46,6 +45,16 @@ $(function() {
         if (newID === 'public-chat-content') {
             public_wall_container.scrollTop = public_wall_container.scrollHeight;
         }
+    });
+
+    $('.list-group').on('click', ".report-link", function(e) {
+        e.preventDefault();
+        console.log(e.target);
+        console.log(e.toElement.getAttribute('msg_id'));
+        console.log(e.toElement.getAttribute('user_id'));
+        messages.forEach(element => {
+            publicChatMessageModel.drawMessageItem(type, element);
+        });
     });
 
     /**
