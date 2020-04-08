@@ -18,7 +18,7 @@
                                     <div class="profile-form__user-attribute-data">
                                         <div class="form-group">
                                             <label class="required">Blood type</label>
-                                            <select name="bood_type" id="user-profile-form__blood_type">
+                                            <select name="blood_type" id="user-profile-form__blood_type">
 
                                                 <option value="A+">A+</option>
                                                 <option value="A-">A-</option>
@@ -37,12 +37,12 @@
                                             <label class="required">Prescribed drugs</label>
                                             <div class="radio">
                                                 <div>
-                                                    <input type="radio" name="has_preescribed_drugs" id="has_preescribed_drugs1"  value="1" class="visible-controller" data-id-to-display="user-profile-form__prescribed_drugs">
-                                                    <label for="has_preescribed_drugs1">Yes</label>
+                                                    <input type="radio" name="has_prescribed_drugs" id="has_prescribed_drugs1"  value="1" class="visible-controller" data-id-to-display="user-profile-form__prescribed_drugs">
+                                                    <label for="has_prescribed_drugs1">Yes</label>
                                                 </div>
                                                 <div>
-                                                    <input type="radio" name="has_preescribed_drugs" id="has_preescribed_drugs0"  value="0" checked="" class="hide-controller" data-id-to-hide="user-profile-form__prescribed_drugs">
-                                                    <label for="has_preescribed_drugs0">No</label>
+                                                    <input type="radio" name="has_prescribed_drugs" id="has_prescribed_drugs0"  value="0" checked="" class="hide-controller" data-id-to-hide="user-profile-form__prescribed_drugs">
+                                                    <label for="has_prescribed_drugs0">No</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -68,7 +68,12 @@
                                             <textarea class="hidden" name="allergies" id="user-profile-form__allergies" placeholder="Enter the list of allergies that you have..."></textarea>
                                         </div>
                                     </div>
-
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <input type="checkbox" id="user-profile-form__privacy_terms_medical_accepted" name="privacy_terms_medical_accepted" value="1" >
+                                            <label class="required checkbox-label" for="user-profile-form__privacy_terms_medical_accepted">I accept the terms and conditions for medical data treatment </label>
+                                        </div>
+                                    </div>
                                     <div class="profile-form__submit">
                                         <button id="profile-form__submit-form2" class="btn btn-primary">Save</button>
                                     </div>

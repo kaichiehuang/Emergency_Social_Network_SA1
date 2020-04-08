@@ -555,6 +555,8 @@ form {
             input {
                 width: 100%;
                 margin-bottom: 10px;
+                border: 1px solid #999;
+                text-align: center;
             }
         }
     }
@@ -598,11 +600,21 @@ form {
                             color: $brand-color2;
                         }
                     }
+                    &.checkbox-label {
+                        width: 90%;
+                        font-size: 0.9em;
+                        color: $brand_color1;
+                    }
                 }
-                input, textarea, select {
+                input[type=text], textarea, select {
                     width: 63%;
                     border: 1px solid #999;
                     text-align: center;
+                }
+                input[type=checkbox] {
+                    border: 1px solid #999;
+                    text-align: center;
+                    margin-right: 15px;
                 }
                 select {
                     text-align-last: center;

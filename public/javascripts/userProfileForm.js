@@ -73,7 +73,25 @@ class UserProfileForm {
         //set emergency_contact
         template.querySelector('select#user-profile-form__blood_type').value = (user.medical_information != undefined && user.medical_information.blood_type != undefined) ? user.medical_information.blood_type : '';
         template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = (user.medical_information != undefined && user.medical_information.prescribed_drugs != undefined) ? user.medical_information.prescribed_drugs : '';
-        template.querySelector('textarea#user-profile-form__allergies').innerText = (user.medical_information != undefined && user.medical_information.allergies != undefined) ? user.medical_information.allergies : '';
+
+        if((user.medical_information != undefined && user.medical_information.prescribed_drugs != undefined && user.medical_information.prescribed_drugs != '')){
+            template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = user.medical_information.prescribed_drugs;
+            template.querySelector('input#has_prescribed_drugs1').checked = "checked";
+            template.querySelector('textarea#user-profile-form__prescribed_drugs').classList.remove("hidden");
+        }else{
+            template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = '';
+            template.querySelector('input#has_prescribed_drugs0').checked = "checked";
+        }
+
+        if((user.medical_information != undefined && user.medical_information.allergies != undefined && user.medical_information.allergies != '')){
+            template.querySelector('textarea#user-profile-form__allergies').innerText = user.medical_information.allergies;
+            template.querySelector('textarea#user-profile-form__allergies').classList.remove("hidden");
+            template.querySelector('input#has_allergies1').checked = "checked";
+        }else{
+            template.querySelector('textarea#user-profile-form__allergies').innerText = '';
+            template.querySelector('input#has_allergies0').checked = "checked";
+        }
+
         return template;
     }
 
@@ -108,7 +126,7 @@ class UserProfileForm {
                     UserProfileForm.updateComponentView(user, newStep);
                 }
             }).catch(err => {
-
+                alert(err);
             });
         });
     }
@@ -124,10 +142,10 @@ class UserProfileForm {
             if(step == 1){
                 finalData = UserProfileForm.buildDataStep1(finalData, key, value);
             }
-            else if(data.step == 2){
+            else if(step == 2){
                 finalData = UserProfileForm.buildDataStep2(finalData, key, value);
             }
-            else if(data.step == 3){
+            else if(step == 3){
                 finalData = UserProfileForm.buildDataStep3(finalData, key, value);
             }
         }
@@ -177,10 +195,16 @@ class UserProfileForm {
             finalData.medical_information.blood_type = value;
         }
         else if(key == "prescribed_drugs"){
-            finalData.medical_information.prescribed_drugs = value;
+            finalData.medical_information.prescribed_drugs = "";
+            if(finalData.has_prescribed_drugs == "1"){
+                finalData.medical_information.prescribed_drugs = value;
+            }
         }
         else if(key == "allergies"){
-            finalData.medical_information.allergies = value;
+            finalData.medical_information.allergies = "";
+            if(finalData.has_allergies == "1"){
+                finalData.medical_information.allergies = value;
+            }
         }else{
             finalData[key] = value;
         }

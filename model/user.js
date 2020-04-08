@@ -147,7 +147,11 @@ class User {
             if(type == "personal"){
                 if (data.name == undefined || data.last_name == undefined || data.birth_date == undefined || data.city == undefined || data.address == undefined || data.phone_number == 0 || data.emergency_contact == undefined || data.emergency_contact.name == undefined || data.emergency_contact.phone_number == undefined || data.emergency_contact.address == 0) {
                     reject("Missing required fields. Every field in this step is mandatory.");
-                }else{
+                }
+                else if (data.privacy_terms_data_accepted == undefined || data.privacy_terms_data_accepted == '') {
+                    reject('Please accept the term and conditions for personal data treatment');
+                }
+                else{
                     if (data.name.length == 0 || data.last_name.length == 0 || data.birth_date.length == 0 || data.city.length == 0 || data.address.length == 0 || data.phone_number.length == 0 || data.emergency_contact == undefined || data.emergency_contact.name.length == 0 || data.emergency_contact.phone_number.length == 0 || data.emergency_contact.address.length == 0) {
                         reject('Missing required fields. Every field in this step is mandatory.');
                     }
@@ -156,6 +160,9 @@ class User {
             else if(type == "medical"){
                 if (data.medical_information.blood_type == 0) {
                     reject('Blood type is a mandatory field, please select a valid blood type');
+                }
+                else if (data.medical_information.privacy_terms_medical_accepted == undefined) {
+                    reject('Please accept the term and conditions for medical data treatment');
                 }
             }
 

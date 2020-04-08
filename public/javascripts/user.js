@@ -84,7 +84,11 @@ class User {
             }).done(function(response) {
                 resolve(response);
             }).fail(function(e) {
-                reject(e.message)
+                if(e.responseJSON != undefined){
+                    reject(e.responseJSON.msg)
+                }else{
+                    reject(e)
+                }
             }).always(function() {
                 console.log("complete");
             });
