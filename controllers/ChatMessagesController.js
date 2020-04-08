@@ -34,7 +34,7 @@ class ChatMessagesController {
         }).then((chatMessageCreated) => {
             // 4. if chat message was saved emit the chat message to everyone
             res.io.emit('new-chat-message', {
-                'id': chatMessageCreated._id,
+                '_id': chatMessageCreated._id,
                 'message': chatMessageCreated.message,
                 'user_id': {
                     '_id': userFound._id,

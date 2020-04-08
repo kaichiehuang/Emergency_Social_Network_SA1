@@ -5,8 +5,6 @@ class PublicChatMessage extends BaseMessage {
     }
 }
 
-//************************************************
-//************************************************
 let public_wall_container = document.getElementById('public-msg_area');
 let publicChatMessageModel = new PublicChatMessage();
 
@@ -21,19 +19,21 @@ $(function() {
         public_wall_container.scrollTop = public_wall_container.scrollHeight;
     });
 
-    // listen for spam events
+    // listen for spam number update (user/message) events
     socket.on('spam-report-number', data => {
         console.log(data);
+        $("#public-chat li").remove();
+        publicChatMessageModel.updateMessageListView('public');
     });
 
     //init public chat messages and announcements
     publicChatMessageModel.updateMessageListView('public');
 
-     /****** events declaration ********/
-     $('#public-send-btn').click(function(e) {
+    /****** events declaration ********/
+    $('#public-send-btn').click(function(e) {
         publicChatMessageModel.sendMessage('public');
     });
-     $('#public-msg-form').on('submit', function(e) {
+    $('#public-msg-form').on('submit', function(e) {
         e.preventDefault();
         publicChatMessageModel.sendMessage('public');
     });
@@ -57,7 +57,7 @@ $(function() {
     /**
      * form submit button event // triggered by submit and enter event by default
      */
-    $("#search-public-chat__button").click(function (e) {
+    $("#search-public-chat__button").click(function(e) {
         e.preventDefault();
         let searchKeyword = $("#search-public-chat__input").val();
         page = 0;

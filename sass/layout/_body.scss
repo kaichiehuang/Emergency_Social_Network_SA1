@@ -275,6 +275,7 @@ form {
                     font-weight: bold;
                     color: $brand_color1;
                     color: #555;
+                    margin-right: 5px;
                 }
                 .statusIndicator {
                     width: 10px;
@@ -284,6 +285,11 @@ form {
                     vertical-align: middle;
                     margin-right: 5px;
                 }
+                .report-user-number {
+                    margin-right: 5px;
+                    font-size: 0.2em;
+                    color: $brand_color2;
+                }
             }
             .list-group-item__right {
                 @include flexbox;
@@ -292,7 +298,7 @@ form {
                 .timestamp {
                     float: right;
                 }
-                .report-number {
+                .report-msg-number {
                     margin-right: 5px;
                     font-size: 0.2em;
                     color: $brand_color1;

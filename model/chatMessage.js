@@ -42,7 +42,7 @@ class ChatMessage {
     getChatMessages() {
         return new Promise((resolve, reject) => {
             ChatMessageModel.find({})
-                .populate('user_id', ['_id', 'username'])
+                .populate('user_id', ['_id', 'username', 'reported_spams'])
                 .then((result) => {
                     resolve(result);
                 })

@@ -55,7 +55,16 @@ class BaseMessage {
                 template.querySelector('.msg').innerText = message.message;
                 template.querySelector('.timestamp').innerText = new Date(message.created_at).toLocaleString();
                 template.querySelector('.username').innerText = message.user_id.username;
-                template.querySelector('.report-number').innerText = 1;
+                let msgNumber = 0;
+                if (message.reported_spams != undefined) {
+                    msgNumber = Object.getOwnPropertyNames(message.reported_spams).length;
+                }
+                let userNumer = 0;
+                if (message.user_id.reported_spams != undefined) {
+                    userNumer = Object.getOwnPropertyNames(message.user_id.reported_spams).length;
+                }
+                template.querySelector('.report-msg-number').innerText = msgNumber;
+                template.querySelector('.report-user-number').innerText = userNumer;
                 template.querySelector('.report').setAttribute("msg_id", message._id);
                 template.querySelector('.report').setAttribute("user_id", message.user_id._id);
 
