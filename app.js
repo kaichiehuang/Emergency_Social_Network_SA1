@@ -32,6 +32,7 @@ var app = express();
 // app.use(httpsRedirectTool([], [], 301));
 let serverType = 'http';
 if (ENVIRONMENT == "production") {
+    /* istanbul ignore next */
     serverType = "http";
 }
 
@@ -41,6 +42,7 @@ let server = null;
 if (serverType == 'http') {
     http = require('http');
 } else {
+    /* istanbul ignore next */
     https = require('https');
 }
 if (serverType == 'http') {
@@ -49,6 +51,7 @@ if (serverType == 'http') {
      */
     server = http.createServer(app);
 } else {
+    /* istanbul ignore next */
     let options = {}
     // https certificates for localhost
     if (ENVIRONMENT != "production") {
@@ -66,6 +69,7 @@ if (serverType == 'http') {
 var io = require('socket.io')(server);
 var count = 0;
 io.sockets.on('connection', function(socket) {
+    /* istanbul ignore next */
     count++;
     io.sockets.emit('count', {
         number: count
@@ -110,12 +114,14 @@ app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirej
 //   next(createError(404));
 // });
 app.get('*', (req, res, next) => {
+    /* istanbul ignore next */
     res.render('error', {
         title: 'FSE'
     });
 });
 // error handler
 app.use(function(err, req, res, next) {
+    /* istanbul ignore next */
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};

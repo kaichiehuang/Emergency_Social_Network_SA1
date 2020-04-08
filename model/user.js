@@ -64,7 +64,10 @@ class User {
                 } else {
                     reject('Invalid username / password.');
                 }
-            }).catch((err) => reject(err));
+            }).catch((err) => {
+                /* istanbul ignore next */
+                reject(err);
+            });
         });
     }
 
@@ -165,6 +168,7 @@ class User {
             }).exec().then((user) => {
                 resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
@@ -209,6 +213,7 @@ class User {
                     resolve(false);
                 }
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
@@ -233,10 +238,12 @@ class User {
                             resolve(tokens);
                         })
                         .catch((err) => {
+                            /* istanbul ignore next */
                             reject(err);
                         });
                 })
                 .catch((err) => {
+                    /* istanbul ignore next */
                     reject(err);
                 });
         });
@@ -255,6 +262,7 @@ class User {
                     resolve(false);
                 }
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
@@ -272,6 +280,7 @@ class User {
             }).exec().then((user) => {
                 resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
@@ -289,6 +298,7 @@ class User {
             }).then((users) => {
                 resolve(users);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
@@ -317,6 +327,7 @@ class User {
                 }).then((users) => {
                     resolve(users);
                 }).catch((err) => {
+                    /* istanbul ignore next */
                     reject(err);
                 });
         });
@@ -337,6 +348,7 @@ class User {
                 }).then((users) => {
                     resolve(users);
                 }).catch((err) => {
+                    /* istanbul ignore next */
                     reject(err);
                 });
         });
@@ -364,6 +376,7 @@ class User {
             }).then((user) => {
                 resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
@@ -392,6 +405,7 @@ class User {
             }).then((user) => {
                 resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
@@ -451,6 +465,7 @@ class User {
                 }).then((user) => {
                     resolve(user);
                 }).catch((err) => {
+                    /* istanbul ignore next */
                     reject(err);
                 });
         });

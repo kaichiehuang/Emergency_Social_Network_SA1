@@ -35,6 +35,7 @@ class Announcement {
                     resolve(result);
                 })
                 .catch(err => {
+                    /* istanbul ignore next */
                     console.log("Error creating announcement:" + err)
                     reject(err);
                 })
@@ -58,6 +59,7 @@ class Announcement {
                     resolve(result);
                 })
                 .catch((err) => {
+                    /* istanbul ignore next */
                     console.log("Error getting Announcements: " + err);
                     //throw err.message;
                     reject("Error getting Announcements: " + err.message);
@@ -88,6 +90,7 @@ class Announcement {
                         resolve(result);
                     })
                     .catch(function(err) {
+                        /* istanbul ignore next */
                         console.log("Error getting Announcements by keyword: " + err);
                         reject(err);
                     });

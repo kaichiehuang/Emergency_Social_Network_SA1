@@ -11,6 +11,7 @@ class TokenServer {
                 const payload = jwt.verify(token, SECRET_STRING);
                 resolve(payload);
             } catch (e) {
+                /* istanbul ignore next */
                 rejected(e);
             }
         });
@@ -26,10 +27,12 @@ class TokenServer {
                     next();
                 })
                 .catch((err) => {
+                    /* istanbul ignore next */
                     console.log('error en verify: ' + err);
                     return res.status(401).send(err.message).end();// UNAUTHORIZED
                 });
         } else {
+            /* istanbul ignore next */
             console.log('before (next) no token provided');
             return res.status(401).send('NOT TOKEN PROVIDED').end(); // UNAUTHORIZED
         }
