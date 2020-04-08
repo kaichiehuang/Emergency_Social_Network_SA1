@@ -29,6 +29,8 @@ class UserProfileForm {
             if (profileTemplate != undefined && profileTemplate != null && user != undefined) {
                 let template = profileTemplate.content.cloneNode(true);
                 template.querySelector('input#form_user_id').value = (user._id != undefined) ? user._id : '';
+                //set username
+                template.querySelector('.user-profile__username').innerText = user.username;
                 if(step == 1){
                     template = UserProfileForm.fillProfileFormStep1(user, template);
                 }
@@ -287,7 +289,7 @@ class UserProfileForm {
     }
 
     static initEvent(){
-        $('.content-changer').click(function(event) {
+        $('.user-profile-menu-btn').click(function(event) {
             let newID = $(this).data('view-id');
             if (newID.includes("user-profile-form")) {
                 UserProfileForm.updateComponentView(currentUser._id, newID[newID.length - 1]);

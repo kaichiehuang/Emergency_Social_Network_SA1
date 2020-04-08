@@ -126,6 +126,10 @@ class User {
             //validate medical information and personal information and emergency contact information
             this.validateRequiredFieldsUpdate(step, data)
             .then((result) => {
+                console.log('Firsts validations passed');
+                return this.validateLengthFieldsUpdate(step, data);
+            })
+            .then((result) => {
                 console.log('All validations passed');
                 // if no errors resolve promise with result obj
                 resolve(true);
@@ -145,12 +149,6 @@ class User {
      */
      validateRequiredFieldsUpdate(type, data) {
         return new Promise((resolve, reject) => {
-            console.log(type);
-            console.log(type);
-            console.log(type);
-            console.log(type);
-            console.log(type);
-            console.log(type);
             if(type == "personal"){
                 if (data.name == undefined || data.last_name == undefined || data.birth_date == undefined || data.city == undefined || data.address == undefined || data.phone_number == 0 || data.emergency_contact == undefined || data.emergency_contact.name == undefined || data.emergency_contact.phone_number == undefined || data.emergency_contact.address == 0) {
                     reject("Missing required fields. Every field in this step is mandatory.");
@@ -162,6 +160,34 @@ class User {
                     if (data.name.length == 0 || data.last_name.length == 0 || data.birth_date.length == 0 || data.city.length == 0 || data.address.length == 0 || data.phone_number.length == 0 || data.emergency_contact == undefined || data.emergency_contact.name.length == 0 || data.emergency_contact.phone_number.length == 0 || data.emergency_contact.address.length == 0) {
                         reject('Missing required fields. Every field in this step is mandatory.');
                     }
+                }
+            }
+            else if(type == "medical"){
+                if (data.medical_information.blood_type == 0) {
+                    reject('Blood type is a mandatory field, please select a valid blood type');
+                }
+                else if (data.medical_information.privacy_terms_medical_accepted == undefined || data.medical_information.privacy_terms_medical_accepted == '') {
+                    reject('Please accept the term and conditions for medical data treatment');
+                }
+            }
+
+            resolve(true);
+        });
+    }
+
+    /**
+     * VALIDATE USER NAMES LENGTH
+     * [validateUserName description]
+     * @return {[type]} [description]
+     */
+     validateLengthFieldsUpdate(type, data) {
+        return new Promise((resolve, reject) => {
+            if(type == "personal"){
+                if (data.city.length < 4 || data.address.length < 4) {
+                    reject("City and address must have more than 4 characters.");
+                }
+                else if (data.phone_number.length < 7 || data.emergency_contact.phone_number.length < 7) {
+                    reject("Every phone number must have more than 7 characters.");
                 }
             }
             else if(type == "medical"){
