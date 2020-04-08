@@ -11,6 +11,7 @@ class User {
         this.password = null;
         this.name = null;
         this.last_name = null;
+        this.phone_number = null;
         this.acknowledgement = false;
         this.onLine = false;
         this.status = constants.UNDEFINED_STATUS;
