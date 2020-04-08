@@ -29,6 +29,7 @@ class ChatMessagesController {
         User.findUserById(user_id).then((result) => {
             userFound = result;
             if (userFound.spam) {
+                /* istanbul ignore next */
                 spam = true;
                 reject('spam');
             }
@@ -63,10 +64,12 @@ class ChatMessagesController {
             }));
         }).catch((err) => {
             if (spam) {
+                /* istanbul ignore next */
                 return res.send({
                     'spam': true
                 });
             } else {
+                /* istanbul ignore next */
                 return res.status(422).send({
                     'error': err
                 });
@@ -95,6 +98,7 @@ class ChatMessagesController {
                     return res.status(201).send(JSON.stringify(msg));
                 })
                 .catch( (err) => {
+                    /* istanbul ignore next */
                     console.log('Error searching messages by keyword');
                     return res.status(500).send(err);
                 });
@@ -105,6 +109,7 @@ class ChatMessagesController {
                     res.contentType('application/json');
                     res.status(201).send(JSON.stringify(result));
                 }).catch((err) => {
+                    /* istanbul ignore next */
                     return res.status(422).send(JSON.stringify({
                         'error': err.message
                     }));
