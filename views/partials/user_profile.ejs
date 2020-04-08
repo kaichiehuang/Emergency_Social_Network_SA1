@@ -51,7 +51,7 @@
                 <!-- Medical info content -->
                 <div class="profile-block profile-block__personal-info">
                     <h4 class="profile-block__subtitle">Medical Information</h4>
-                    <button class="content-changer edit-profile-button btn btn-primary" data-view-id="user-profile-form2" >Edit</button>
+                    <!-- <button class="content-changer edit-profile-button btn btn-primary" data-view-id="user-profile-form2" >Edit</button> -->
                     <div class="profile-block__user-attribute-data">
                         <span>Blood Type</span>
                         <strong class="user-profile__blood_type"></strong>
@@ -70,7 +70,7 @@
                 <!-- Other info content -->
                 <div class="profile-block profile-block__personal-info">
                     <h4 class="profile-block__subtitle">If something happens ... </h4>
-                    <button class="content-changer edit-profile-button btn btn-primary" data-view-group-class="user-profile-form3" >Edit</button>
+                    <!-- <button class="content-changer edit-profile-button btn btn-primary" data-view-group-class="user-profile-form3" >Edit</button> -->
 
                     <div class="profile-block__user-attribute-data">
                         <p class="user-profile__personal-message"></p>
@@ -89,6 +89,13 @@
             </template>
             <div id="user-profile-content__container">
 
+            </div>
+
+            <div class="not-authorized hidden" id="profile-not-authorized">
+                <div>
+                    <a class="close hide-controller" data-id-to-hide="profile-not-authorized"><i class="fa fa-times"></i></a>
+                    <h4 class="subtitle">You are not authorized to view this profile!</h4>
+                </div>
             </div>
 
         </div>

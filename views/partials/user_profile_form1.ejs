@@ -75,7 +75,7 @@
                                     <div class="profile-form__user-attribute-data">
                                         <div class="form-group">
                                             <input type="checkbox" id="user-profile-form__privacy_terms_data_accepted" name="privacy_terms_data_accepted" value="1">
-                                            <label class="required checkbox-label" for="user-profile-form__privacy_terms_data_accepted">I accept the terms and conditions for personal data treatment</label>
+                                            <label class="required checkbox-label visible-controller" for="user-profile-form__privacy_terms_data_accepted" data-id-to-display="step1-terms-conditions">I accept the terms and conditions for personal data treatment</label>
                                         </div>
                                     </div>
                                     <div class="profile-form__submit">
@@ -100,6 +100,16 @@
             </template>
             <div id="user-profile-form-content__container-1">
 
+            </div>
+
+            <div class="term-conditions hidden" id="step1-terms-conditions">
+                <div>
+                    <a class="close hide-controller" data-id-to-hide="step1-terms-conditions"><i class="fa fa-times"></i></a>
+                    <h4 class="subtitle">Personal Information data treatment policy:</h4>
+                    <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Curabitur blandit tempus porttitor.
+
+                    Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod.</p>
+                </div>
             </div>
         </div>
     </div>

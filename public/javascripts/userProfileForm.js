@@ -1,6 +1,15 @@
 class UserProfileForm {
-    constructor(step) {
-        this.step = step;
+
+
+    /**
+     * changes the receiver for the private chat
+     * @param  {[type]} receiver_user_id [description]
+     * @return {[type]}                  [description]
+     */
+     static initiateUserProfileForm(profile_form_user_id) {
+        Cookies.set('profile_form_user_id', profile_form_user_id);
+        UserProfileForm.updateComponentView(profile_form_user_id, 1);
+        UserProfileForm.initEvent()
     }
 
     /**
@@ -56,9 +65,11 @@ class UserProfileForm {
         //set phone number
         template.querySelector('input#user-profile-form__phone_number').value = (user.phone_number != undefined) ? user.phone_number : '';
         //set emergency_contact
-        template.querySelector('input#user-profile-form__emergency_contact').value = (user.emergency_contact.name != undefined) ? user.emergency_contact.name : '';
-        template.querySelector('input#user-profile-form__emergency_contact_phone_number').value = (user.emergency_contact.phone_number != undefined) ? user.emergency_contact.phone_number : '';
-        template.querySelector('input#user-profile-form__emergency_contact_address').value = (user.emergency_contact.address != undefined) ? user.emergency_contact.address : '';
+        if(user.emergency_contact != undefined){
+            template.querySelector('input#user-profile-form__emergency_contact').value = (user.emergency_contact.name != undefined) ? user.emergency_contact.name : '';
+            template.querySelector('input#user-profile-form__emergency_contact_phone_number').value = (user.emergency_contact.phone_number != undefined) ? user.emergency_contact.phone_number : '';
+            template.querySelector('input#user-profile-form__emergency_contact_address').value = (user.emergency_contact.address != undefined) ? user.emergency_contact.address : '';
+        }
 
         return template;
     }
@@ -120,10 +131,11 @@ class UserProfileForm {
             let data = UserProfileForm.buildData(formId);
             User.updateUser(userId, data)
             .then(user => {
+                User.initCurrentUser();
                 if(step < 3){
                     let newStep = parseInt(step) + 1;
                     swapViewContent("user-profile-form" + newStep, "main-content-block");
-                    UserProfileForm.updateComponentView(user, newStep);
+                    UserProfileForm.updateComponentView(user._id, newStep);
                 }else{
                     swapViewContent("user-profile-content", "main-content-block");
                 }
@@ -247,9 +259,9 @@ class UserProfileForm {
      * @param  {[type]} step        [description]
      * @return {[type]}             [description]
      */
-     static updateComponentView(currentUser, step) {
+     static updateComponentView(currentUserId, step) {
         //get user data and then get messages to paint and to check for unread messages
-        User.getUser(currentUser._id).then(user => {
+        User.getUser(currentUserId).then(user => {
             if (user != undefined) {
                 UserProfileForm.drawUserProfileForm(user, step);
                 UserProfileForm.registerEventsAfterDraw(step);
@@ -257,9 +269,12 @@ class UserProfileForm {
         }).catch(err => {});
     }
 
+    /**
+     * [registerEventsAfterDraw description]
+     * @param  {[type]} step [description]
+     * @return {[type]}      [description]
+     */
     static registerEventsAfterDraw(step){
-
-
         $('.profile-form').submit(function(event) {
             event.preventDefault();
             UserProfileForm.saveUserProfile($(this).attr("id"), step);
@@ -275,7 +290,7 @@ class UserProfileForm {
         $('.content-changer').click(function(event) {
             let newID = $(this).data('view-id');
             if (newID.includes("user-profile-form")) {
-                UserProfileForm.updateComponentView(currentUser, newID[newID.length - 1]);
+                UserProfileForm.updateComponentView(currentUser._id, newID[newID.length - 1]);
             }
         });
     }
@@ -290,14 +305,5 @@ class UserProfileForm {
  let currentFormStep = 1;
 
  $(function() {
-    //initialize current user
-    currentUser = new User();
-    currentUser._id = Cookies.get('user-id');
-    UserProfileForm.initEvent();
-    $('.content-changer').click(function(event) {
-        let newID = $(this).data('view-id');
-        if (newID.includes("user-profile-form")) {
-            UserProfileForm.updateComponentView(currentUser, newID[newID.length - 1]);
-        }
-    });
+
 });

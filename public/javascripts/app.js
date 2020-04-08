@@ -65,7 +65,8 @@ $(function() {
                 swapViewContent('acknowledgement-page-content', '.main-content-block');
             }
         }
-        console.log('found cookie = ' + userJWT);
+
+        User.initCurrentUser();
 
         $('.hideadble-menu-item a').click(function(event) {
             $('.menu-less').parent().addClass('hidden');

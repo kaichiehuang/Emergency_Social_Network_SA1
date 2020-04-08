@@ -430,6 +430,7 @@ form {
         }
         .username {
             font-size: 0.9em;
+            a {}
         }
     }
 }
@@ -505,6 +506,7 @@ form {
         padding-bottom: 15px;
         margin-bottom: 30px;
         border-bottom: 1px dotted $brand_color2;
+        border-bottom: 1px dotted #ccc;
         .edit-profile-button {
             position: absolute;
             right: 0px;
@@ -570,8 +572,7 @@ form {
     }
     .profile-form {
         position: relative;
-        padding-top: 15px;
-        padding-bottom: 15px;
+        padding-top: 15px; // padding-bottom: 15px;
         margin-bottom: 30px;
         border-bottom: none !important;
         .edit-profile-button {
@@ -604,6 +605,10 @@ form {
                         width: 90%;
                         font-size: 0.9em;
                         color: $brand_color1;
+                        text-decoration: underline;
+                        &:hover {
+                            cursor: pointer;
+                        }
                     }
                 }
                 input[type=text], textarea, select {
@@ -692,6 +697,73 @@ form {
                     color: #333;
                 }
             }
+        }
+    }
+    .term-conditions {
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(#333, 0.5);
+        z-index: 9999999999999999999;
+        padding: 15px;
+        >div {
+            background: white;
+            height: 100%;
+            padding: 30px;
+            width: 100%;
+        }
+        .subtitle {
+            color: $brand_color1;
+            margin: 0;
+            margin-bottom: 22.5px;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 10px;
+            line-height: 1.4em;
+        }
+        .close {
+            position: absolute;
+            right: 27.5px;
+            top: 27.5px;
+            color: $brand_color2;
+            opacity: 1;
+            font-size: 1.75em;
+        }
+    }
+    .not-authorized {
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(#333, 0.5);
+        z-index: 9999999999999999999;
+        padding: 15px;
+        >div {
+            background: white;
+            height: 100%;
+            padding: 30px;
+            width: 100%;
+        }
+        .subtitle {
+            color: $brand_color2;
+            margin: 0;
+            margin-bottom: 22.5px;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 10px;
+            line-height: 1.4em;
+            margin-top: 20%;
+        }
+        .close {
+            position: absolute;
+            right: 27.5px;
+            top: 27.5px;
+            color: $brand_color2;
+            opacity: 1;
+            font-size: 1.75em;
         }
     }
 }

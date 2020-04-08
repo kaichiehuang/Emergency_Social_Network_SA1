@@ -17,9 +17,10 @@ class User {
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
-    static getUser(userId) {
-        if (userId != null) {
-            return new Promise((resolve, reject) => {
+     static getUser(userId) {
+
+        return new Promise((resolve, reject) => {
+            if (userId != null) {
                 let jwt = Cookies.get('user-jwt-esn');
                 $.ajax({
                     url: apiPath + '/users/' + userId,
@@ -34,15 +35,18 @@ class User {
                 }).always(function() {
                     console.log("complete");
                 });
-            });
-        }
+            }else{
+                reject();
+            }
+        });
+
     }
 
     /**
      * Returns a list of users from the API
      * @return {[type]} [description]
      */
-    static getUsers(keyword, status) {
+     static getUsers(keyword, status) {
         let data = {
             "username": keyword,
             "status": status
@@ -70,7 +74,7 @@ class User {
      * Returns a list of users from the API
      * @return {[type]} [description]
      */
-    static updateUser(userId, data) {
+     static updateUser(userId, data) {
         return new Promise((resolve, reject) => {
             let jwt = Cookies.get('user-jwt-esn');
             $.ajax({
@@ -93,5 +97,17 @@ class User {
                 console.log("complete");
             });
         });
+    }
+
+    /**
+     * [initCurrentUser description]
+     * @return {[type]} [description]
+     */
+    static initCurrentUser(){
+        //init current user
+        User.getUser(Cookies.get('user-id'))
+        .then(user => {
+            currentUser = user;
+        }).catch(err => {});
     }
 }

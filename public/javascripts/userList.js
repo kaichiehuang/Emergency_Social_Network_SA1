@@ -29,6 +29,7 @@ class UserList {
                 }
                 if (template != undefined && template != null && user != undefined) {
                     template.querySelector('.username').innerText = user.username;
+                    template.querySelector('.username').setAttribute('data-user-id', user._id);
                     template.querySelector('.chat-button').setAttribute('data-user-id', user._id);
                     //set message counter from user
                     if (currentUser.unread_messages != undefined && currentUser.unread_messages[user._id] != undefined && currentUser.unread_messages[user._id] > 0) {
@@ -50,11 +51,7 @@ class UserList {
                     listContainer.appendChild(template);
                 }
             }
-            // assign view change event for chat button for each user in the list
-            menuContentChangerEvent();
-            $('.chat-button').click(function(event) {
-                PrivateChatMessage.initiatePrivateChat($(this).data('user-id'));
-            });
+            UserList.registerEventsAfterDraw()
         }
     }
 
@@ -81,6 +78,21 @@ class UserList {
             }
 
         }).catch(err => {});
+    }
+    /**
+     * [registerEventsAfterDraw description]
+     * @return {[type]} [description]
+     */
+    static registerEventsAfterDraw(){
+        globalContentChangerEvent();
+        // assign view change event for chat button for each user in the list
+        menuContentChangerEvent();
+        $('.chat-button').click(function(event) {
+            PrivateChatMessage.initiatePrivateChat($(this).data('user-id'));
+        });
+        $('.username').click(function(event) {
+            UserProfile.initiateUserProfile($(this).data('user-id'));
+        });
     }
 }
 
