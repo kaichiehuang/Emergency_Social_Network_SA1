@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="0" time="2.566">
+  <testsuite name="Testing Resource creeation  API" errors="0" failures="0" skipped="0" timestamp="2020-04-07T06:56:46" time="2.529" tests="3">
+    <testcase classname="Testing Resource creeation  API Should create an resource" name="Testing Resource creeation  API Should create an resource" time="0.239">
+    </testcase>
+    <testcase classname="Testing searching Resources  API Should return one specific resource" name="Testing searching Resources  API Should return one specific resource" time="0.541">
+    </testcase>
+    <testcase classname="Testing searching Resources  API Should return all resource" name="Testing searching Resources  API Should return all resource" time="0.526">
+    </testcase>
+  </testsuite>
+</testsuites>
