@@ -33,6 +33,7 @@ $(function() {
     $('#public-send-btn').click(function(e) {
         publicChatMessageModel.sendMessage('public');
     });
+
     $('#public-msg-form').on('submit', function(e) {
         e.preventDefault();
         publicChatMessageModel.sendMessage('public');

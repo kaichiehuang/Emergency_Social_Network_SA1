@@ -37,34 +37,44 @@ class BaseMessage {
                 }
                 let indicatorStyle = '';
                 console.log("mesage status = ", message.status);
-                if(message.status != undefined && message.status != ""){
-                    if (message.status === 'OK') {
+                if(message.status != undefined && message.status != "") {
+                    if(message.status === 'OK') {
                         indicatorStyle = "background-color-ok";
-                    } else if (message.status === 'HELP') {
+                    } else if(message.status === 'HELP') {
                         indicatorStyle = 'background-color-help';
-                    } else if (message.status === 'EMERGENCY') {
+                    } else if(message.status === 'EMERGENCY') {
                         indicatorStyle = 'background-color-emergency';
-                    } else if (message.status === 'UNDEFINED') {
+                    } else if(message.status === 'UNDEFINED') {
                         indicatorStyle = 'background-color-undefined';
                     }
                     console.log(indicatorStyle)
                     template.querySelector('.status-indicator-element').classList.add("statusIndicator");
                     template.querySelector('.status-indicator-element').classList.add(indicatorStyle);
                 }
-
-                template.querySelector('.msg').innerText = message.message;
+                if (!message.spam) {
+                    template.querySelector(".msg").innerText = message.message;
+                } else {
+                    template.querySelector(".msg").classList.add('hidden');
+                    template.querySelector(".report-msg-number").classList.add('hidden');
+                    template.querySelector(".report-link").classList.add('hidden');
+                    template.querySelector(".spam-msg").classList.remove("hidden");
+                }
                 template.querySelector('.timestamp').innerText = new Date(message.created_at).toLocaleString();
                 template.querySelector('.username').innerText = message.user_id.username;
                 let msgNumber = 0;
                 if (message.reported_spams != undefined) {
                     msgNumber = Object.getOwnPropertyNames(message.reported_spams).length;
                 }
+                if (msgNumber != 0) {
+                    template.querySelector('.report-msg-number').innerText = msgNumber;
+                }
                 let userNumer = 0;
                 if (message.user_id.reported_spams != undefined) {
                     userNumer = Object.getOwnPropertyNames(message.user_id.reported_spams).length;
                 }
-                template.querySelector('.report-msg-number').innerText = msgNumber;
-                template.querySelector('.report-user-number').innerText = userNumer;
+                if (userNumer != 0) {
+                    template.querySelector('.report-user-number').innerText = '<' + userNumer + '>';
+                }
                 template.querySelector('.report').setAttribute("msg_id", message._id);
                 template.querySelector('.report').setAttribute("user_id", message.user_id._id);
 
@@ -101,7 +111,7 @@ class BaseMessage {
     /**
      * Sends and saves the message the user post.
      */
-     sendMessage(type) {
+    sendMessage(type) {
         let user_id = Cookies.get('user-id');
         let jwt = Cookies.get('user-jwt-esn');
         let url = apiPath + '/chat-messages';
@@ -139,8 +149,12 @@ class BaseMessage {
             }
         }).done(function(response) {
             $(message_content).val('');
+            if (type === 'public' && response.spam) {
+                $('#user-spam-modal').modal('show');
+            }
             console.log(response);
         }).fail(function(e) {
+            console.log(e);
             $('#signup-error-alert').html(e);
             $('#signup-error-alert').show();
         }).always(function() {

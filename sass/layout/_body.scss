@@ -258,6 +258,18 @@ form {
         .msg {
             margin-top: 2px;
         }
+        .spam-msg {
+            text-decoration: none;
+            font-size: 16px;
+            color: #ce0300;
+            margin-left: 2px;
+            .spam-note {
+                color: #aaaaaa;
+                margin-left: 8px;
+                font-size: 11px;
+                font-weight: bold;
+            }
+        }
     }
     .list-group-item {
         padding: 7.5px 12.5px;

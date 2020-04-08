@@ -24,9 +24,14 @@ class ChatMessagesController {
         const message = requestData['message'];
         const user_id = requestData['user_id'];
         let userFound = null;
+        let spam = false;
         // 1. Get user and validate that it exists
         User.findUserById(user_id).then((result) => {
             userFound = result;
+            if (userFound.spam) {
+                spam = true;
+                reject('spam');
+            }
             // 2. Create chat message object
             const chatMessage = new ChatMessage(message, userFound._id, userFound.status);
             // 3. save chat message
@@ -38,7 +43,8 @@ class ChatMessagesController {
                 'message': chatMessageCreated.message,
                 'user_id': {
                     '_id': userFound._id,
-                    'username': userFound.username
+                    'username': userFound.username,
+                    'reported_spams': userFound.reported_spams
                 },
                 'created_at': chatMessageCreated.created_at,
                 'status': chatMessageCreated.status
@@ -56,9 +62,15 @@ class ChatMessagesController {
                 }
             }));
         }).catch((err) => {
-            return res.status(422).send(JSON.stringify({
-                'error': err.message
-            }));
+            if (spam) {
+                return res.send({
+                    'spam': true
+                });
+            } else {
+                return res.status(422).send({
+                    'error': err
+                });
+            }
         });
     }
 
