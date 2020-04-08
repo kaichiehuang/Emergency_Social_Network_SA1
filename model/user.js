@@ -107,10 +107,6 @@ class User {
      */
     validateUpdate(data) {
         return new Promise((resolve, reject) => {
-            //no validation required
-            if (data.phone_number == undefined && data.medical_information == undefined) {
-                resolve(true);
-            }
             let step = "personal";
             if (data.step != undefined && data.step == 2) {
                 step = "medical";
@@ -160,11 +156,13 @@ class User {
             } else if (type == "other") {
 
                 if (data.personal_message != undefined) {
-                    console.log(data.personal_message, data.data.personal_message);
-                    if((data.personal_message.security_question.localeCompare('') == 0 && data.personal_message.security_question_answer.localeCompare("") != 0) || (data.personal_message.security_question.localeCompare('') != 0 && data.personal_message.security_question_answer.localeCompare("") != 0)){
+                    console.log(data.personal_message, data.personal_message);
+                    if(data.personal_message.security_question.length == 0 && data.personal_message.security_question_answer.length != 0){
                         reject('The security question and the answer to this cannot be empty if one of these is sent.');
                     }
-
+                    if(data.personal_message.security_question.length != 0 && data.personal_message.security_question_answer.length == 0){
+                        reject('The security question and the answer to this cannot be empty if one of these is sent.');
+                    }
                 }
             }
             resolve(true);
@@ -219,16 +217,16 @@ class User {
      */
     updateUser(userId, data) {
         return new Promise((resolve, reject) => {
-            this.validateUpdate(data).then(result => {
-                UserModel.findByIdAndUpdate(userId, {
+            this.validateUpdate(data)
+            .then(result => {
+                return UserModel.findByIdAndUpdate(userId, {
                     $set: data
                 }, {
                     new: true
-                }).then(usr => {
-                    resolve(usr);
-                }).catch((err) => {
-                    reject(err);
                 });
+            })
+            .then(usr => {
+                resolve(usr);
             }).catch((err) => {
                 reject(err);
             });
