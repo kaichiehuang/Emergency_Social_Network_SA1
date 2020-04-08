@@ -136,6 +136,17 @@ class User {
         User.getUser(Cookies.get('user-id'))
         .then(user => {
             currentUser = user;
-        }).catch(err => {});
+            if(currentUser.name == undefined || currentUser.name.length == 0 || true){
+                User.initUpdateInvite();
+            }
+        }).catch(err => {
+
+        });
+    }
+
+    static initUpdateInvite(){
+        window.setInterval(function(){
+            showElements("profile-update-invite");
+        }, 60000  * 2);
     }
 }

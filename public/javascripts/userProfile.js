@@ -130,4 +130,13 @@ class UserProfile {
             UserProfile.initiateUserProfile(currentUser._id);
         }
     });
+
+    $(".btn-profile-update-invite").click(function(event) {
+        let newID = $(this).data('view-id');
+        if (newID === "user-profile-content") {
+            UserProfile.initiateUserProfile(currentUser._id);
+        }
+    });
+
+
 });
