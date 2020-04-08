@@ -12,7 +12,7 @@ class UserProfile {
         let profileContainer = document.getElementById(containerId);
         profileContainer.innerText = "";
         if (profileContainer != undefined) {
-            // $("#" + containerId).html("");
+
             //3. draw using the template
             if (profileTemplate != undefined && profileTemplate != null && user != undefined) {
                 let template = profileTemplate.content.cloneNode(true);

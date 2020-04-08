@@ -124,6 +124,8 @@ class UserProfileForm {
                     let newStep = parseInt(step) + 1;
                     swapViewContent("user-profile-form" + newStep, "main-content-block");
                     UserProfileForm.updateComponentView(user, newStep);
+                }else{
+                    swapViewContent("user-profile-content", "main-content-block");
                 }
             }).catch(err => {
                 alert(err);
@@ -191,10 +193,7 @@ class UserProfileForm {
             finalData.medical_information = {};
         }
 
-        if(key == "blood_type"){
-            finalData.medical_information.blood_type = value;
-        }
-        else if(key == "prescribed_drugs"){
+        if(key == "prescribed_drugs"){
             finalData.medical_information.prescribed_drugs = "";
             if(finalData.has_prescribed_drugs == "1"){
                 finalData.medical_information.prescribed_drugs = value;
@@ -205,8 +204,12 @@ class UserProfileForm {
             if(finalData.has_allergies == "1"){
                 finalData.medical_information.allergies = value;
             }
-        }else{
-            finalData[key] = value;
+        }
+        if(key == "step"){
+            finalData.step = value;
+        }
+        else{
+            finalData.medical_information[key] = value;
         }
         return finalData;
     }

@@ -144,6 +144,12 @@ class User {
      */
      validateRequiredFieldsUpdate(type, data) {
         return new Promise((resolve, reject) => {
+            console.log(type);
+            console.log(type);
+            console.log(type);
+            console.log(type);
+            console.log(type);
+            console.log(type);
             if(type == "personal"){
                 if (data.name == undefined || data.last_name == undefined || data.birth_date == undefined || data.city == undefined || data.address == undefined || data.phone_number == 0 || data.emergency_contact == undefined || data.emergency_contact.name == undefined || data.emergency_contact.phone_number == undefined || data.emergency_contact.address == 0) {
                     reject("Missing required fields. Every field in this step is mandatory.");
@@ -161,7 +167,7 @@ class User {
                 if (data.medical_information.blood_type == 0) {
                     reject('Blood type is a mandatory field, please select a valid blood type');
                 }
-                else if (data.medical_information.privacy_terms_medical_accepted == undefined) {
+                else if (data.medical_information.privacy_terms_medical_accepted == undefined || data.medical_information.privacy_terms_medical_accepted == '') {
                     reject('Please accept the term and conditions for medical data treatment');
                 }
             }
