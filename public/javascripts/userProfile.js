@@ -68,7 +68,7 @@ class UserProfile {
     /**
      * Updates the UI
      * @param  {[type]} currentUser [description]
-     * @return {[type]}             [description]
+     * @return {[type]}             [description]user-profile__personal-message-container
      */
      static updateComponentView(currentUserId) {
         //get user data and then get messages to paint and to check for unread messages
@@ -78,7 +78,7 @@ class UserProfile {
                 UserProfile.drawProfile(user);
             }
         }).catch(err => {
-            showElements("profile-not-authorized")
+            showElements("profile-not-authorized");
         }).finally(() => {
             UserProfile.registerEventsAfterDraw();
         });
@@ -94,7 +94,27 @@ class UserProfile {
                 UserProfileForm.initiateUserProfileForm(currentUser._id);
             });
         }
+        $("#user-profile__personal-message-form").submit(function(event) {
+            event.preventDefault();
+            UserProfile.validatePersonalMessageQuestion();
+        });
 
+        showElementEvent();
+        hideElementEvent();
+
+    }
+
+    static validatePersonalMessageQuestion(){
+        let security_question_answer = $("#user-profile__personal-message-q-answer").val();
+        let userId = Cookies.get('profile_user_id');
+        User.getPersonalMessage(userId, security_question_answer)
+        .then(result =>{
+            $("#user-profile__personal-message").html(result.message);
+            showElements("user-profile__personal-message-container");
+        })
+        .catch(err => {
+            alert(err);
+        });
     }
 }
 /**

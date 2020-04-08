@@ -119,6 +119,7 @@ class UsersController {
             }).end();
         });
     }
+
     /**
      * Get the users of the DataBase (only user_name and online fields)
      * @param req
@@ -131,28 +132,51 @@ class UsersController {
         console.log("tokenUserId = " + req.tokenUserId);
 
         const userId = req.params.userId;
+        console.log(userId, req.tokenUserId);
         //1. find token user id
-        User.findUserById(req.tokenUserId).then((user) => {
-            tokenUser = user;
-            //same user no need to check if its an admin or authorized
-            if(req.tokenUserId.localeCompare(userId) == 0){
-                res.contentType('application/json');
-                return res.status(201).send(JSON.stringify(user));
-            }
-            //diff user, check if its an admin or authorized
-            else{
-                return User.findUserById(userId);
-            }
-        }).then((user) => {
-            //diff user, check if its an admin or authorized
-            if(req.tokenUserId.localeCompare(userId) != 0){
-                if(user.emergency_contact == undefined || tokenUser.phone_number != user.emergency_contact.phone_number){
-                    return res.status(403).send("You are not authorized");
-                }
-            }
+        User.findUserByIdIfAuthorized(userId, req.tokenUserId)
+        .then((user) => {
             res.contentType('application/json');
+            user.personal_message.message = '';
             return res.status(201).send(JSON.stringify(user));
         }).catch((err) => {
+            if(err.toString().localeCompare("You are not authorized") == 0){
+                return res.status(403).send(err);
+            }
+            return res.status(500).send(err);
+        });
+    }
+
+    /**
+     * Get the users of the DataBase (only user_name and online fields)
+     * @param req
+     * @param res
+     */
+    getPersonalMessageUser(req, res) {
+
+        var tokenUser = null;
+        //check if user is authorized to get other users data
+        console.log("tokenUserId = " + req.tokenUserId);
+        const userId = req.params.userId;
+
+        if(req.query.security_question_answer == undefined){
+            return res.status(403).send("Invalid answer");
+        }
+
+        const security_question_answer = req.query.security_question_answer;
+
+        //1. find token user id
+        User.findUserByIdIfAuthorized(userId, req.tokenUserId)
+        .then((user) => {
+            res.contentType('application/json');
+            if(user.personal_message.security_question_answer.localeCompare(security_question_answer) == 0){
+                return res.status(201).send({"message": user.personal_message.message});
+            }
+            return res.status(403).send("Invalid answer");
+        }).catch((err) => {
+            if(err.toString().localeCompare("You are not authorized") == 0){
+                return res.status(403).send(err);
+            }
             return res.status(500).send(err);
         });
     }

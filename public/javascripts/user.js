@@ -46,6 +46,34 @@ class User {
      * Returns a list of users from the API
      * @return {[type]} [description]
      */
+     static getPersonalMessage(userId, security_question_answer) {
+        let data = {
+            "security_question_answer": security_question_answer,
+        };
+        return new Promise((resolve, reject) => {
+            let jwt = Cookies.get('user-jwt-esn');
+            $.ajax({
+                "url": apiPath + '/users/'+ userId + "/personal-message" ,
+                "type": 'get',
+                "headers": {
+                    "Authorization": jwt
+                },
+                "data": data
+            }).done(function(response) {
+                resolve(response);
+            }).fail(function(e) {
+                reject(e.responseText)
+            }).always(function() {
+                console.log("complete");
+            });
+        });
+    }
+
+
+    /**
+     * Returns a list of users from the API
+     * @return {[type]} [description]
+     */
      static getUsers(keyword, status) {
         let data = {
             "username": keyword,

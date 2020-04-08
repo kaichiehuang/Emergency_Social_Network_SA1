@@ -68,19 +68,23 @@
 
 
                 <!-- Other info content -->
-                <div class="profile-block profile-block__personal-info">
+                <div class="profile-block profile-block__personal-info ">
                     <h4 class="profile-block__subtitle">If something happens ... </h4>
                     <!-- <button class="content-changer edit-profile-button btn btn-primary" data-view-group-class="user-profile-form3" >Edit</button> -->
 
-                    <div class="profile-block__user-attribute-data">
-                        <p class="user-profile__personal-message"></p>
+                    <div class="profile-block__user-attribute-data user-profile__personal-message-container hidden " id="user-profile__personal-message-container">
+                        <div>
+                            <a class="close hide-controller" data-id-to-hide="user-profile__personal-message-container"><i class="fa fa-times"></i></a>
+                            <h4 class="subtitle">Message from <strong class="user-profile__username"></strong></h4>
+                            <p class="user-profile__personal-message" id="user-profile__personal-message">..........</p>
+                        </div>
                     </div>
                     <div class="profile-block__user-attribute-data">
                         <p class="">Please answer the following question to display <strong class="user-profile__username"></strong> personal message ... </p>
                         <form id="user-profile__personal-message-form">
                             <div class="form-group">
                                 <label class="user-profile__personal-message-q">What is the name of my dog?</label>
-                                <input type="text" class="user-profile__personal-message-q-answer form-control" placeholder="Answer question here ..." >
+                                <input type="text" id="user-profile__personal-message-q-answer" class="user-profile__personal-message-q-answer form-control" placeholder="Answer question here ..." >
                                 <button class="btn btn-primary" type="submit" class="user-profile__personal-message-q-submit">Submit</button>
                             </div>
                         </form>
