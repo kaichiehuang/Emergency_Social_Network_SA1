@@ -71,6 +71,7 @@ class UsersController {
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(jsonResponseData));
                 }).catch((err) => {
+                    /* istanbul ignore next */
                     res.contentType('application/json');
                     console.log(err);
                     return res.status(422).send({
@@ -79,6 +80,7 @@ class UsersController {
                 });
             }
         }).catch((err) => {
+            /* istanbul ignore next */
             res.contentType('application/json');
             return res.status(422).send({
                 msg: 'no existe'
@@ -111,6 +113,7 @@ class UsersController {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(500).send(err);
         });
     }
@@ -125,6 +128,7 @@ class UsersController {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(user));
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(500).send(err);
         });
     }
@@ -144,6 +148,7 @@ class UsersController {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(user));
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(500).send(err);
         });
     }
@@ -163,6 +168,7 @@ class UsersController {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(user));
         }).catch((err) => {
+            /* istanbul ignore next */
             console.log('catch when socket id doesn\'t exist');
             return res.status(500).send(err);
         });
@@ -191,6 +197,7 @@ class UsersController {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(500).send(err);
         });
     }
@@ -214,6 +221,7 @@ class UsersController {
             }).then((users) => {
                 return res.status(201).send(JSON.stringify(users));
             }).catch((err) => {
+                /* istanbul ignore next */
                 console.log('Error searching users by username');
                 return res.status(500).send(err);
             });
@@ -222,6 +230,7 @@ class UsersController {
             User.getUsers().then((users) => {
                 return res.status(201).send(JSON.stringify(users));
             }).catch((err) => {
+                /* istanbul ignore next */
                 console.log('Error searching all users');
                 return res.status(500).send(err);
             });

@@ -22,6 +22,7 @@ class AnnouncementController {
             res.contentType('application/json');
             res.status(201).send(JSON.stringify(newAnnouncement));
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(422).send(JSON.stringify({
                 'error': err.message
             }));
@@ -45,6 +46,7 @@ class AnnouncementController {
 
         if (keywords === undefined || keywords.length == 0 || index === undefined || last === true) {
             if (last != undefined && last) {
+                /* istanbul ignore next */
                 limit = parseInt('1');
                 sort_type = -1;
             }
@@ -53,6 +55,7 @@ class AnnouncementController {
                 res.contentType('application/json');
                 res.status(201).send(JSON.stringify(announcements));
             }).catch((err) => {
+                /* istanbul ignore next */
                 return res.status(422).send(JSON.stringify({
                     'error': err.message
                 }));
@@ -63,6 +66,7 @@ class AnnouncementController {
                 res.contentType('application/json');
                 res.status(201).send(JSON.stringify(announcements));
             }).catch((err) => {
+                /* istanbul ignore next */
                 return res.status(422).send(JSON.stringify({
                     'error': err.message
                 }));

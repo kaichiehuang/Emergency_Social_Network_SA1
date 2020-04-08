@@ -41,6 +41,7 @@ class SpamReportController {
                     res.status(201).send(newReport);
                 })
                 .catch((err) => {
+                    /* istanbul ignore next */
                     console.log('-------' + err);
                     return res.status(422).send({
                         'error': err.message
@@ -68,6 +69,7 @@ class SpamReportController {
                     res.status(201).send(newReport);
                 })
                 .catch((err) => {
+                    /* istanbul ignore next */
                     return res.status(422).send({
                         'error': err.message
                     });
