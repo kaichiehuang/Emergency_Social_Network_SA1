@@ -117,11 +117,13 @@ class User {
             if(data.phone_number == undefined && data.medical_information == undefined){
                 resolve(true);
             }
+            let step = "personal";
+            if(data.step != undefined && data.step == 2){
+                step = "medical";
+            }
+
             //validate medical information and personal information and emergency contact information
-            this.validateRequiredFieldsUpdate("personal", data)
-            .then((result) => {
-                return this.validateRequiredFieldsUpdate("medical", data)
-            })
+            this.validateRequiredFieldsUpdate(step, data)
             .then((result) => {
                 console.log('All validations passed');
                 // if no errors resolve promise with result obj

@@ -17,6 +17,10 @@ const UserSchema = new Schema({
         phone_number: String,
         address: String,
         city: String,
+        birth_date: {
+            type: String,
+            default: '1900-09-28'
+        },
         sockets: {
             type: Map,
             of: Boolean

@@ -41,6 +41,7 @@ $(function() {
     menuContentChangerEvent();
     globalContentChangerEvent();
     showElementEvent();
+    hideElementEvent();
     //init JWT token
     userJWT = Cookies.get('user-jwt-esn');
 
@@ -61,7 +62,7 @@ $(function() {
             if (user_acknowledgement === 'true') {
                 window.location.replace('/app');
             } else {
-                swapContent('acknowledgement-page-content', '.main-content-block');
+                swapViewContent('acknowledgement-page-content', '.main-content-block');
             }
         }
         console.log('found cookie = ' + userJWT);
@@ -221,6 +222,24 @@ function showElementEvent(){
 }
 
 /**
+ * [showElementEvent description]
+ * @return {[type]} [description]
+ */
+function hideElementEvent(){
+    $(".hide-controller").change(function (e) {
+        let idToHide     = $(this).data('id-to-hide');
+        let classToHide  = $(this).data('class-to-hide');
+        hideElements(idToHide, classToHide);
+    });
+    $(".hide-controller").click(function (e) {
+        let idToHide     = $(this).data('id-to-hide');
+        let classToHide  = $(this).data('class-to-hide');
+        hideElements(idToHide, classToHide);
+    });
+}
+
+
+/**
  * hide and show actions
  */
 
@@ -257,7 +276,7 @@ function showElements(idToDisplay, classToDisplay) {
     }
 }
 
-function hideElement(idToHide, classToHide) {
+function hideElements(idToHide, classToHide) {
     if($("#" + idToHide).length > 0){
         $("#" + idToHide).addClass('hidden');
     }

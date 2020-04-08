@@ -23,7 +23,7 @@ class UserProfile {
                 //set last name
                 template.querySelector('.user-profile__last_name').innerText = (user.last_name != undefined) ? user.last_name : '';
                 //set birth date
-                template.querySelector('.user-profile__birth_date').innerText = (user.birth_date != undefined) ? user.birth_date : '';
+                template.querySelector('.user-profile__birth_date').innerText = (user.birth_date != undefined) ? new Date(Date.parse(user.birth_date)).toUTCString().toLocaleString() : '';
                 //set address
                 template.querySelector('.user-profile__address').innerText = (user.address != undefined) ? user.address : '';
                 //set city
@@ -55,16 +55,10 @@ class UserProfile {
 
     static registerEventsAfterDraw(){
         globalContentChangerEvent();
-        $(".content-changer").click(function(event) {
+        $('.content-changer').click(function(event) {
             let newID = $(this).data('view-id');
-            if (newID === "user-profile-form1") {
-                UserProfileForm.updateComponentView(currentUser, 1);
-            }
-            if (newID === "user-profile-form2") {
-                UserProfileForm.updateComponentView(currentUser, 2);
-            }
-            if (newID === "user-profile-form3") {
-                UserProfileForm.updateComponentView(currentUser, 3);
+            if (newID.includes("user-profile-form")) {
+                UserProfileForm.updateComponentView(currentUser, newID[newID.length - 1]);
             }
         });
     }

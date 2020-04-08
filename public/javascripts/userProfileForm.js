@@ -8,7 +8,7 @@ class UserProfileForm {
      * @param  {[type]} containerId [description]
      * @return {[type]}             [description]
      */
-    static drawProfileForm(user, step) {
+     static drawUserProfileForm(user, step) {
         let containerId = "user-profile-form-content__container-" + step ;
         //1. find templates in html
         let profileTemplate = document.querySelector('template#userProfileFormTemplate' + step);
@@ -16,10 +16,10 @@ class UserProfileForm {
         let profileFormContainer = document.getElementById(containerId);
         profileFormContainer.innerText = "";
         if (profileFormContainer != undefined) {
-            // $("#" + containerId).html("");
             //3. draw using the template
             if (profileTemplate != undefined && profileTemplate != null && user != undefined) {
                 let template = profileTemplate.content.cloneNode(true);
+                template.querySelector('input#form_user_id').value = (user._id != undefined) ? user._id : '';
                 if(step == 1){
                     template = UserProfileForm.fillProfileFormStep1(user, template);
                 }
@@ -36,12 +36,12 @@ class UserProfileForm {
     }
 
     /**
-     * [drawProfileFormStep1 description]
+     * [fillProfileFormStep1 description]
      * @param  {[type]} user     [description]
      * @param  {[type]} template [description]
      * @return {[type]}          [description]
      */
-    static fillProfileFormStep1(user, template) {
+     static fillProfileFormStep1(user, template) {
 
         // set name
         template.querySelector('input#user-profile-form__name').value = (user.name != undefined) ? user.name : '';
@@ -64,19 +64,154 @@ class UserProfileForm {
     }
 
     /**
-     * [drawProfileFormStep1 description]
+     * Fills the content in the form of step2
      * @param  {[type]} user     [description]
-     * @param  {[type]} template [description]
-     * @return {[type]}          [description]
+     * @param  {[type]} template the template loaded in the draw function
+     * @return {[type]}          the template with all the data
      */
-    static fillProfileFormStep2(user, template) {
-
+     static fillProfileFormStep2(user, template) {
         //set emergency_contact
-        template.querySelector('select#user-profile-form__blood_type').value = (user.medical_information.blood_type != undefined) ? user.medical_information.blood_type : '';
-        template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = (user.medical_information.prescribed_drugs != undefined) ? user.medical_information.prescribed_drugs : '';
-        template.querySelector('textarea#user-profile-form__allergies').innerText = (user.medical_information.prescribed_drugs != undefined) ? user.medical_information.allergies : '';
-
+        template.querySelector('select#user-profile-form__blood_type').value = (user.medical_information != undefined && user.medical_information.blood_type != undefined) ? user.medical_information.blood_type : '';
+        template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = (user.medical_information != undefined && user.medical_information.prescribed_drugs != undefined) ? user.medical_information.prescribed_drugs : '';
+        template.querySelector('textarea#user-profile-form__allergies').innerText = (user.medical_information != undefined && user.medical_information.allergies != undefined) ? user.medical_information.allergies : '';
         return template;
+    }
+
+    /**
+     * Fills the content in the form of step3
+     * @param  {[type]} user     [description]
+     * @param  {[type]} template the template loaded in the draw function
+     * @return {[type]}          the template with all the data
+     */
+     static fillProfileFormStep3(user, template) {
+        //set emergency_contact
+        template.querySelector('textarea#user-profile-form__personal_message').innerText = (user.personal_message != undefined && user.personal_message.message != undefined) ? user.personal_message.message : '';
+        template.querySelector('input#user-profile-form__security_question').value = (user.personal_message != undefined && user.personal_message.security_question != undefined) ? user.personal_message.security_question : '';
+        template.querySelector('input#user-profile-form__security_question_answer').value = (user.personal_message != undefined && user.personal_message.security_question_answer != undefined) ? user.personal_message.security_question_answer : '';
+        return template;
+    }
+
+    /**
+     * Saves the data of a submitted form
+     * @param  {[type]} formId [description]
+     * @return {[type]}        [description]
+     */
+     static saveUserProfile(formId, step) {
+        return new Promise((resolve, reject) => {
+            const userId = $("#" + formId).find("#form_user_id").val();
+            let data = UserProfileForm.buildData(formId);
+            User.updateUser(userId, data)
+            .then(user => {
+                if(step < 3){
+                    let newStep = parseInt(step) + 1;
+                    swapViewContent("user-profile-form" + newStep, "main-content-block");
+                    UserProfileForm.updateComponentView(user, newStep);
+                }
+            }).catch(err => {
+
+            });
+        });
+    }
+
+    static buildData(formId){
+        let data = $("#" + formId).serializeArray();
+        const step = $("#" + formId).find("#form_step").val();
+        let finalData = {};
+        for (var i = 0; i < data.length; i++) {
+            let object = data[i];
+            let key = object.name;
+            let value = object.value;
+            if(step == 1){
+                finalData = UserProfileForm.buildDataStep1(finalData, key, value);
+            }
+            else if(data.step == 2){
+                finalData = UserProfileForm.buildDataStep2(finalData, key, value);
+            }
+            else if(data.step == 3){
+                finalData = UserProfileForm.buildDataStep3(finalData, key, value);
+            }
+        }
+
+        return finalData;
+    }
+
+    /**
+     * [buildDataStep1 description]
+     * @param  {[type]} finalData [description]
+     * @param  {[type]} key       [description]
+     * @param  {[type]} value     [description]
+     * @return {[type]}           [description]
+     */
+     static buildDataStep1(finalData, key, value){
+        if(finalData.emergency_contact == undefined){
+            finalData.emergency_contact = {};
+        }
+
+        if(key == "emergency_contact"){
+            finalData.emergency_contact.name = value;
+        }
+        else if(key == "emergency_contact_phone_number"){
+            finalData.emergency_contact.phone_number = value;
+        }
+        else if(key == "emergency_contact_address"){
+            finalData.emergency_contact.address = value;
+        }else{
+            finalData[key] = value;
+        }
+        return finalData;
+    }
+
+    /**
+     * [buildDataStep2 description]
+     * @param  {[type]} finalData [description]
+     * @param  {[type]} key       [description]
+     * @param  {[type]} value     [description]
+     * @return {[type]}           [description]
+     */
+     static buildDataStep2(finalData, key, value){
+        if(finalData.medical_information == undefined){
+            finalData.medical_information = {};
+        }
+
+        if(key == "blood_type"){
+            finalData.medical_information.blood_type = value;
+        }
+        else if(key == "prescribed_drugs"){
+            finalData.medical_information.prescribed_drugs = value;
+        }
+        else if(key == "allergies"){
+            finalData.medical_information.allergies = value;
+        }else{
+            finalData[key] = value;
+        }
+        return finalData;
+    }
+
+    /**
+     * [buildDataStep3 description]
+     * @param  {[type]} finalData [description]
+     * @param  {[type]} key       [description]
+     * @param  {[type]} value     [description]
+     * @return {[type]}           [description]
+     */
+     static buildDataStep3(finalData, key, value){
+        if(finalData.personal_message == undefined){
+            finalData.personal_message = {};
+        }
+
+        if(key == "security_question"){
+            finalData.personal_message.security_question = value;
+        }
+        else if(key == "security_question_answer"){
+            finalData.personal_message.security_question_answer = value;
+        }
+        else if(key == "message"){
+            finalData.personal_message.message = value;
+        }else{
+            finalData[key] = value;
+        }
+
+        return finalData;
     }
 
     /**
@@ -85,20 +220,39 @@ class UserProfileForm {
      * @param  {[type]} step        [description]
      * @return {[type]}             [description]
      */
-    static updateComponentView(currentUser, step) {
+     static updateComponentView(currentUser, step) {
         //get user data and then get messages to paint and to check for unread messages
         User.getUser(currentUser._id).then(user => {
             if (user != undefined) {
-                UserProfileForm.drawProfileForm(user, step);
-                UserProfileForm.registerEventsAfterDraw();
+                UserProfileForm.drawUserProfileForm(user, step);
+                UserProfileForm.registerEventsAfterDraw(step);
             }
         }).catch(err => {});
     }
 
-    static registerEventsAfterDraw(){
-        // globalContentChangerEvent();
+    static registerEventsAfterDraw(step){
+
+
+        $('.profile-form').submit(function(event) {
+            event.preventDefault();
+            UserProfileForm.saveUserProfile($(this).attr("id"), step);
+        });
+
         showElementEvent();
+        hideElementEvent();
+        globalContentChangerEvent();
+        UserProfileForm.initEvent();
     }
+
+    static initEvent(){
+        $('.content-changer').click(function(event) {
+            let newID = $(this).data('view-id');
+            if (newID.includes("user-profile-form")) {
+                UserProfileForm.updateComponentView(currentUser, newID[newID.length - 1]);
+            }
+        });
+    }
+
 }
 /**
  * User profile behavior using jquery
@@ -106,15 +260,17 @@ class UserProfileForm {
  * @return {[type]}   [description]
  */
 
-let currentFormStep = 1;
+ let currentFormStep = 1;
 
-$(function() {
+ $(function() {
     //initialize current user
     currentUser = new User();
     currentUser._id = Cookies.get('user-id');
-
-    $('.profile-form').submit(function(event) {
-        event.preventDefault();
-        alert("submiting form");
+    UserProfileForm.initEvent();
+    $('.content-changer').click(function(event) {
+        let newID = $(this).data('view-id');
+        if (newID.includes("user-profile-form")) {
+            UserProfileForm.updateComponentView(currentUser, newID[newID.length - 1]);
+        }
     });
 });

@@ -96,15 +96,16 @@ class UsersController {
     updateUser(req, res) {
         const user_instance = new User();
         const userId = req.params.userId;
-
+        console.log(req.body);
         // 1. update user data
         user_instance.updateUser(userId, req.body)
         .then((usr) => {
-            const jsonResponseData = {};
-            jsonResponseData['user'] = {
-                userId: usr._id.toString(),
+            let jsonResponseData = {};
+            jsonResponseData = {
+                _id: usr._id.toString(),
                 username: usr.username,
                 name: usr.name,
+                last_name: usr.last_name,
                 acknowledgement: usr.acknowledgement,
                 onLine: usr.onLine,
                 status: usr.status

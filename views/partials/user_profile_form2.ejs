@@ -9,8 +9,9 @@
                 <div class="row">
                     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
                         <div class="inner-content-block-profile">
-                            <form accept-charset="utf-8" id="" class="">
-                                <input type="hidden" name="step" value="1">
+                            <form accept-charset="utf-8" id="profile-form2" class="profile-form">
+                                <input type="hidden" name="step" value="2" id="form_step">
+                                <input type="hidden" name="user_id" id="form_user_id" value="">
                                 <!-- Personal info content -->
                                 <div class="profile-form profile-form__personal-info">
                                     <h4 class="subtitle">Medical Information</h4>
@@ -36,12 +37,12 @@
                                             <label class="required">Prescribed drugs</label>
                                             <div class="radio">
                                                 <div>
-                                                    <input type="radio" name="has_preescribed_drugs"  value="1" class="visible-controller" data-id-to-display="user-profile-form__prescribed_drugs">
-                                                    <label>Yes</label>
+                                                    <input type="radio" name="has_preescribed_drugs" id="has_preescribed_drugs1"  value="1" class="visible-controller" data-id-to-display="user-profile-form__prescribed_drugs">
+                                                    <label for="has_preescribed_drugs1">Yes</label>
                                                 </div>
                                                 <div>
-                                                    <input type="radio" name="has_preescribed_drugs"  value="0" checked="" class="hide-controller" data-id-to-hide="user-profile-form__prescribed_drugs">
-                                                    <label>No</label>
+                                                    <input type="radio" name="has_preescribed_drugs" id="has_preescribed_drugs0"  value="0" checked="" class="hide-controller" data-id-to-hide="user-profile-form__prescribed_drugs">
+                                                    <label for="has_preescribed_drugs0">No</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -54,17 +55,17 @@
                                             <label class="required">Do you have any allergies?</label>
                                             <div class="radio">
                                                 <div>
-                                                    <input type="radio" name=""  value="">
-                                                    <label>Yes</label>
+                                                    <input type="radio" name="has_allergies" id="has_allergies1"  value="1" class="visible-controller" data-id-to-display="user-profile-form__allergies">
+                                                    <label for="has_allergies1" >Yes</label>
                                                 </div>
                                                 <div>
-                                                    <input type="radio" name=""  value="" checked="">
-                                                    <label>No</label>
+                                                    <input type="radio" name="has_allergies" id="has_allergies0"  value="0" checked="" class="hide-controller" data-id-to-hide="user-profile-form__allergies">
+                                                    <label for="has_allergies0">No</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <textarea name="allergies" id="user-profile-form__allergies" placeholder="Enter the list of allergies that you have..."></textarea>
+                                            <textarea class="hidden" name="allergies" id="user-profile-form__allergies" placeholder="Enter the list of allergies that you have..."></textarea>
                                         </div>
                                     </div>
 
@@ -74,11 +75,11 @@
                                 </div>
                             </form>
 
-                            <div class="disclaimer">
+                            <div clasallergiess="disclaimer">
                                 <h4 class="subtitle">Why we need these information</h4>
                                 <div>
                                     <ul>
-                                        <li><strong>Birth date:</strong> Needed to establish your age and response steps based on this.</li>
+                                        <li><allergiesstrong>Birth date:</strong> Needed to establish your age and response steps based on this.</li>
                                         <li><strong>City and address:</strong> Might be needed to contact your relatives or get your medicines from home if not available elsewhere.</li>
                                         <li><strong>Emergency contact info:</strong> We'll try contacting your emergency contact by phone or at his / her address</li>
                                     </ul>

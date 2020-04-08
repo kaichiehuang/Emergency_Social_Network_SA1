@@ -65,4 +65,29 @@ class User {
             });
         });
     }
+
+    /**
+     * Returns a list of users from the API
+     * @return {[type]} [description]
+     */
+    static updateUser(userId, data) {
+        return new Promise((resolve, reject) => {
+            let jwt = Cookies.get('user-jwt-esn');
+            $.ajax({
+                "url": apiPath + '/users/' + userId,
+                "type": 'put',
+                "headers": {
+                    "Authorization": jwt
+                },
+                "data": JSON.stringify(data),
+                'contentType': "application/json",
+            }).done(function(response) {
+                resolve(response);
+            }).fail(function(e) {
+                reject(e.message)
+            }).always(function() {
+                console.log("complete");
+            });
+        });
+    }
 }

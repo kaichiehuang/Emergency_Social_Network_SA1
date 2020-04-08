@@ -10,27 +10,28 @@
                 <div class="row">
                     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
                         <div class="inner-content-block-profile ">
-                            <form accept-charset="utf-8" id="" class="profile-form">
-                                <input type="hidden" name="step" value="3">
+                            <form accept-charset="utf-8" id="profile-form3" class="profile-form">
+                                <input type="hidden" name="step" value="3" id="form_step">
+                                <input type="hidden" name="user_id" id="form_user_id" value="">
                                 <!-- Personal info content -->
                                 <div class="profile-form profile-form__personal-info">
                                     <h4 class="subtitle">If something happens ... </h4>
                                     <div class="profile-form__user-attribute-data">
                                         <div class="form-group">
                                             <label class="full-width">Message to deliver to your emergency contact</label>
-                                            <textarea name="prescribed_drugs" id="user-profile-form__personal-message" placeholder="Enter the message that you would like to deliver to your emergency contact..."></textarea>
+                                            <textarea name="personal_message" id="user-profile-form__personal_message" placeholder="Enter the message that you would like to deliver to your emergency contact..."></textarea>
                                         </div>
                                     </div>
                                     <div class="profile-form__user-attribute-data">
                                         <div class="form-group">
                                             <label class="full-width full-width">Security question that your emergency contact must answer to have access to this message</label>
-                                            <input class="full-width" type="text" name="security_question" id="user-profile-form__security-question" placeholder="Enter the security question here ..."></input>
+                                            <input class="full-width" type="text" name="security_question" id="user-profile-form__security_question" placeholder="Enter the security question here ..."></input>
                                         </div>
                                     </div>
                                     <div class="profile-form__user-attribute-data">
                                         <div class="form-group">
                                             <label class="full-width">Answer to the security question</label>
-                                            <input class="full-width" type="text" name="answer_security_question" id="user-profile-form__answer-security-question" placeholder="Enter the answer to the security question here ..."></input>
+                                            <input class="full-width" type="text" name="security_question_answer" id="user-profile-form__security_question_answer" placeholder="Enter the answer to the security question here ..."></input>
                                         </div>
                                     </div>
 
