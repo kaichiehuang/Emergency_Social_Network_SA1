@@ -72,21 +72,16 @@ class UserProfile {
      */
      static updateComponentView(currentUserId) {
         //get user data and then get messages to paint and to check for unread messages
+        UserProfile.resetProfile();
         User.getUser(currentUserId).then(user => {
             if (user != undefined) {
-                UserProfile.resetProfile();
-                if(currentUserId != currentUser._id){
-                    if(user.emergency_contact == undefined || currentUser.phone_number != user.emergency_contact.phone_number){
-                        showElements("profile-not-authorized")
-                    }else{
-                        UserProfile.drawProfile(user);
-                    }
-                }else{
-                    UserProfile.drawProfile(user);
-                }
-                UserProfile.registerEventsAfterDraw();
+                UserProfile.drawProfile(user);
             }
-        }).catch(err => {});
+        }).catch(err => {
+            showElements("profile-not-authorized")
+        }).finally(() => {
+            UserProfile.registerEventsAfterDraw();
+        });
     }
     /**
      * Events needed after UI is rendered
