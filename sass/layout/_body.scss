@@ -315,11 +315,22 @@ form {
                     font-size: 0.2em;
                     color: $brand_color1;
                 }
-                .report {
-                    margin-right: 5px;
+                .report-link{
                     font-size: 3px;
                     font-weight: lighter;
                     color: $brand_color1;
+                    &:hover {
+                        color: #F7241D;
+                    }
+                }
+                .report-link-disable {
+                    pointer-events: none;
+                    text-decoration: none;
+                    color: #ddd;
+                }
+                .report {
+                    margin-right: 5px;
+
                 }
             }
         }
@@ -528,5 +539,77 @@ form {
         &:active {
             color: white;
         }
+    }
+}
+#spam-modal {
+    .modal-header {
+        .close {
+            opacity: 1 !important;
+            span {
+                color: $brand_color2;
+                font-size: 1.5em;
+                top: 5px;
+                position: absolute;
+                right: 10px;
+            }
+        }
+        h3 {
+            font-size: 1.6em;
+            text-align: left;
+            color: $brand_color1;
+        }
+    }
+    .modal-body {
+        @include respond-to("small") {
+            padding: 5px 15px;
+        }
+        @include respond-to("extra-small") {
+            padding: 5px 15px;
+        }
+        h3 {
+            font-size: 1.2em;
+            text-align: left;
+            color: $brand_color1;
+        }
+    }
+    .modal-dialog {
+        margin-top: 20%;
+    }
+}
+
+#user-spam-modal{
+    .modal-header {
+        .close {
+            opacity: 1 !important;
+            span {
+                color: $brand_color2;
+                font-size: 1.5em;
+                top: 5px;
+                position: absolute;
+                right: 10px;
+            }
+        }
+        h3 {
+            font-size: 1.6em;
+            text-align: left;
+            color: $brand_color1;
+        }
+    }
+    .modal-body {
+        color: red;
+        @include respond-to("small") {
+            padding: 5px 15px;
+        }
+        @include respond-to("extra-small") {
+            padding: 5px 15px;
+        }
+        h3 {
+            font-size: 1.2em;
+            text-align: left;
+            color: $brand_color1;
+        }
+    }
+    .modal-dialog {
+        margin-top: 60%;
     }
 }

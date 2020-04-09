@@ -16,7 +16,7 @@
                                         </div>
                                         <div class="list-group-item__right">
                                             <small class="report-msg-number"> </small>
-                                            <a class="report-link" data-toggle="modal" data-target="#spam-modal">
+                                            <a class="report-link" data-toggle="modal" data-target="#spam-modal" href="javascript:void(0);">
                                                 <span class="report"> report </span>
                                             </a>
                                             <small class="timestamp"> %timestamp_token% </small>
@@ -27,7 +27,7 @@
                                     </p>
                                     <div class="spam-msg hidden">
                                         <span class="fa fa-ban"/>
-                                        <span class="spam-note">This is a spam message !</span>
+                                        <span class="spam-note">This is a spam message reported by 3 users.</span>
                                     </div>
                                 </li>
                             </template>
@@ -64,7 +64,8 @@
                                     <h3 class="modal-title">Spam Warning</h3>
                                 </div>
                                 <div class="modal-body">
-                                    You're identified as a spam user, and forbidden to send message on public wall forever.
+                                    You're identified as a spam user,
+                                    and forbidden to send any message on the public wall forever.
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

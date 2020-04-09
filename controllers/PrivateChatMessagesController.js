@@ -70,6 +70,7 @@ class PrivateChatMessagesController {
         }).catch(err => {
             /* istanbul ignore next */
             console.log(err);
+            /* istanbul ignore next */
             return res.status(422).send({
                 error: err.message
             });
@@ -147,9 +148,11 @@ function searchPrivateMessage(requestData, res) {
         query, page, pageSize)
         .then(result => {
             res.send(result);
+            // istanbul ignore catch
         }).catch(err => {
             /* istanbul ignore next */
             console.log(err);
+            /* istanbul ignore next */
             return res.status(422).send({
                 error: err.message
             });

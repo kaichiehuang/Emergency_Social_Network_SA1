@@ -12,42 +12,34 @@
                 <form id='spam-report-form'>
                     <input type="hidden" id="spam_user_id" value=''/>
                     <input type="hidden" id="spam_msg_id" value=''/>
+                    <div class="form-error-message-container alert alert-danger text-center alert-dismissible fade in" role="alert" id="spam-error-alert">
+                        alert message example
+                    </div>
+
                     <h3>Spam level:</h3>
-                    <label class="radio-inline">
-                        <input type="radio" name="level" value="message" checked>Message
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="level" value="user" >User
-                    </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="level" value="message" checked>Message
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="level" value="user" >User
+                        </label>
                     <h3>Type:</h3>
-                    <label class="radio-inline">
-                        <input type="radio" name="type" value="False" checked>False
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="type" value="Harassing">Harassing
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="type" value="AD">AD
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="type" value="Others">Others
-                    </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="type" value="False">False
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="type" value="Harassing">Harassing
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="type" value="AD">AD
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="type" value="Others">Others
+                        </label>
                     <div class="form-group">
-                        <label for="desc">Description:</label>
+                        <label for="desc"><h3>Description:</h3></label>
                         <textarea class="form-control" rows="3" id="description"></textarea>
                     </div>
-
-                    <div class="form-group modal-instructions ">
-                        <div class="row status-list">
-                            <div class="col fake-list">
-                                <label class="radio-inline ">
-                                    <input type="radio" name="inlineRadioOptions" id="OK" value="OK">
-                                </label>
-                                <div><span><span class="status-list__color background-color-ok"><i class="fa fa-check"></i></span> OK</span></div>
-                            </div>
-                        </div>
-                    </div>
-
                 </form>
             </div>
             <div class="modal-footer">

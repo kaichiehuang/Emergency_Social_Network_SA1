@@ -64,9 +64,12 @@ class BaseMessage {
                 let msgNumber = 0;
                 if (message.reported_spams != undefined) {
                     msgNumber = Object.getOwnPropertyNames(message.reported_spams).length;
+                    if (message.reported_spams.hasOwnProperty(user_id)) {
+                        template.querySelector('.report-link').classList.add('report-link-disable');
+                    }
                 }
                 if (msgNumber != 0) {
-                    template.querySelector('.report-msg-number').innerText = msgNumber;
+                    template.querySelector('.report-msg-number').innerText = '(' + msgNumber + ')';
                 }
                 let userNumer = 0;
                 if (message.user_id.reported_spams != undefined) {

@@ -31,9 +31,24 @@ class SpamForm {
         });
     }
 }
+
 $(function() {
+    $('#spam-modal').on('hidden.bs.modal', function() {
+        $('#spam-report-form').get(0).reset();
+        $("#spam-error-alert").hide();
+    });
     $('#spam-report-button').on('click', function(e) {
         e.preventDefault();
+        if ($('input[name=\'type\']:checked').val() == undefined) {
+            $("#spam-error-alert").html("Please choose a spam type.");
+            $("#spam-error-alert").show();
+            return false;
+        }
+        if ($('#description').val().length == 0) {
+            $("#spam-error-alert").html("Please provide spam description.");
+            $("#spam-error-alert").show();
+            return false;
+        }
         const spamForm = new SpamForm();
         spamForm.sendSpamReport();
     });
