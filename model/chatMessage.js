@@ -97,6 +97,7 @@ class ChatMessage {
     static setReportSpam(messageId, reporterUserId) {
         return new Promise((resolve, reject) => {
             ChatMessage.findMessageById(messageId).then((message) => {
+                /* istanbul ignore next */
                 if (message.reported_spams == undefined) {
                     message.reported_spams = {};
                 }
