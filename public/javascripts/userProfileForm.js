@@ -140,6 +140,7 @@ class UserProfileForm {
                     swapViewContent("user-profile-form" + newStep, "main-content-block");
                     UserProfileForm.updateComponentView(user._id, newStep);
                 }else{
+                    UserProfile.initiateUserProfile(userId);
                     swapViewContent("user-profile-content", "main-content-block");
                 }
             }).catch(err => {

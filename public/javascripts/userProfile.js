@@ -30,7 +30,7 @@ class UserProfile {
             if (profileTemplate != undefined && profileTemplate != null && user != undefined) {
                 let template = profileTemplate.content.cloneNode(true);
                 //set username
-                template.querySelector('.user-profile__username').innerText = user.username;
+                template.querySelectorAll('.user-profile__username').forEach(element => element.innerText = user.username);
                 //set name
                 template.querySelector('.user-profile__name').innerText = (user.name != undefined) ? user.name : '';
                 //set last name
@@ -49,6 +49,11 @@ class UserProfile {
                     template.querySelector('.user-profile__emergency_contact_phone_number').innerText = (user.emergency_contact.phone_number != undefined) ? user.emergency_contact.phone_number : '';
                     template.querySelector('.user-profile__emergency_contact_address').innerText = (user.emergency_contact.address != undefined) ? user.emergency_contact.address : '';
                 }
+                //set medical information
+                if(user.personal_message != undefined){
+                    template.querySelector('.user-profile__personal-message-q').innerText = (user.personal_message.security_question != undefined) ? user.personal_message.security_question : ' -- No question available --';
+                }
+
                 //set medical information
                 if(user.medical_information != undefined){
                     template.querySelector('.user-profile__blood_type').innerText = (user.medical_information.blood_type != undefined) ? user.medical_information.blood_type : '';
