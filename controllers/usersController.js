@@ -110,6 +110,11 @@ class UsersController {
                 onLine: usr.onLine,
                 status: usr.status
             };
+            if(req.body.acknowledgement != undefined){
+                // jsonResponseData['tokens'] = tokens;
+            }
+
+
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
         }).catch((err) => {

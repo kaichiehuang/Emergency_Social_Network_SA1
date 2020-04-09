@@ -61,7 +61,7 @@ $(function () {
                     updateUsersList();
                     window.location.replace("/app")
                 } else {
-                    swapContent("acknowledgement-page-content");
+                    swapViewContent('acknowledgement-page-content', 'main-content-block');
                 }
             }
             console.log(response)
@@ -94,7 +94,7 @@ $(function () {
                 },
                 headers: { "Authorization": userJWT }
             }).done(function (response) {
-                user_acknowledgement = response.user.acknowledgement;
+                user_acknowledgement = response.acknowledgement;
                 Cookies.set('user-acknowledgement', user_acknowledgement);
                 setOnline(true);
                 updateUsersList();
@@ -102,7 +102,6 @@ $(function () {
             }).fail(function () {
                 $("#signup-error-alert").html();
                 $("#signup-error-alert").show();
-                //alert("all done")
             }).always(function () {
                 console.log("complete");
             });

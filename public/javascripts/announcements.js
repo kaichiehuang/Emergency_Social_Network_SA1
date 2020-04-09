@@ -3,10 +3,27 @@ class Announcement extends BaseMessage {
         super();
         this.type = "announcement";
     }
+    /**
+     * [initiateAnnouncementsList description]
+     * @return {[type]} [description]
+     */
+    static initiateAnnouncementsList() {
+        let announcement = new Announcement();
+        announcement.updateMessageListView('announcements');
+    }
+    /**
+     * Draws the last announcement
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+     */
     static drawLastAnnouncement(data) {
         let lastAnnouncementContainer = $("#last-announcement-container");
         lastAnnouncementContainer.html(data.message);
     }
+    /**
+     * Gets the last announcement
+     * @return {[type]} [description]
+     */
     static getLastAnnouncement() {
         let jwt = Cookies.get('user-jwt-esn');
         let url = apiPath + '/announcements';
@@ -31,58 +48,57 @@ class Announcement extends BaseMessage {
             console.log('complete');
         });
     }
+    /**
+     * Events declarations
+     * @return {[type]} [description]
+     */
+    initFormEvents() {
+        $('#announcement-send-btn').click(function(e) {
+            announcementModel.sendMessage('announcement');
+        });
+        //announcement submit form
+        $('#announcement-msg-form').on('submit', function(e) {
+            e.preventDefault();
+            announcementModel.sendMessage('announcement');
+        });
+        /**
+         * form submit button event // triggered by submit and enter event by default
+         */
+        $("#search-announcements__button").click(function(e) {
+            e.preventDefault();
+            let searchKeyword = $("#search-announcements__input").val();
+            page = 0;
+            announcementModel.updateMessageListView('announcement', searchKeyword, page);
+        });
+        //announcement search more elements
+        $("#search-announcement-chat__more-button").click(function(e) {
+            e.preventDefault();
+            let searchKeyword = $("#search-announcements__input").val();
+            page++;
+            announcementModel.updateMessageListView('announcement', searchKeyword, page);
+        });
+        //announcement button header
+        $('#announcement-button').click(function(event) {
+            event.preventDefault();
+            announcementModel.updateMessageListView('announcement');
+            announcement_wall_container.scrollTop = 0;
+        });
+    }
 }
 //************************************************
 //************************************************
 var announcement_wall_container = document.getElementById('announcement-msg_area');
 let announcementModel = new Announcement();
+let page = 0;
 $(function() {
 
-    let page = 0;
-
-    // listen for announcement chat events
-    socket.on('new-chat-message', data => {
-        announcementModel.drawMessageItem('announcement', data);
-        announcement_wall_container.scrollTop = announcement_wall_container.scrollHeight;
-    });
     // listen for public chat events
     socket.on('new-announcement', data => {
         Announcement.drawLastAnnouncement(data);
         announcementModel.updateMessageListView("announcement")
-        announcements_container.scrollTop = announcements_container.scrollHeight;
+        announcement_wall_container.scrollTop = 0;
     });
     //init announcement chat messages and announcements
     Announcement.getLastAnnouncement();
-    /****** events declaration ********/
-    $('#announcement-send-btn').click(function(e) {
-        announcementModel.sendMessage('announcement');
-    });
-    $('#announcement-msg-form').on('submit', function(e) {
-        e.preventDefault();
-        announcementModel.sendMessage('announcement');
-    });
-    //capture event to load messages
-    $('.content-changer').click(function(event) {
-        event.preventDefault();
-        let newID = $(this).data('view-id');
-        if (newID === 'announcement-chat-content') {
-            announcementModel.updateMessageListView('announcement');
-            announcement_wall_container.scrollTop = announcement_wall_container.scrollHeight;
-        }
-    });
-    /**
-     * form submit button event // triggered by submit and enter event by default
-     */
-    $("#search-announcements__button").click(function(e) {
-        e.preventDefault();
-        let searchKeyword = $("#search-announcements__input").val();
-        page = 0;
-        announcementModel.updateMessageListView('announcement', searchKeyword, page);
-    });
-    $("#search-announcement-chat__more-button").click(function(e) {
-        e.preventDefault();
-        let searchKeyword = $("#search-announcements__input").val();
-        page++;
-        announcementModel.updateMessageListView('announcement', searchKeyword, page);
-    });
+    announcementModel.initFormEvents();
 });

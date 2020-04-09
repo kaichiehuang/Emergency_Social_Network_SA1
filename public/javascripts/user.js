@@ -147,6 +147,6 @@ class User {
     static initUpdateInvite(){
         window.setInterval(function(){
             showElements("profile-update-invite");
-        }, 60000  * 2);
+        }, 60000  * 8);
     }
 }

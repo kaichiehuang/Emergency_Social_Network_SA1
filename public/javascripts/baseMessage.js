@@ -69,7 +69,7 @@ class BaseMessage {
      drawMessages(type, messages, page) {
         let i = 0;
         //only delete previous results if page is 0
-        if(page == 0){
+        if(page ==  undefined || page == 0){
             $('ul#' + type + '-chat li').remove();
         }
 

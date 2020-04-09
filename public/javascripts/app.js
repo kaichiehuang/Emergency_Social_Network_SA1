@@ -62,7 +62,7 @@ $(function() {
             if (user_acknowledgement === 'true') {
                 window.location.replace('/app');
             } else {
-                swapViewContent('acknowledgement-page-content', '.main-content-block');
+                swapViewContent('acknowledgement-page-content', 'main-content-block');
             }
         }
 

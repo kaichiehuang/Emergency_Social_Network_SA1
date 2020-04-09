@@ -107,13 +107,22 @@ class User {
      */
     validateUpdate(data) {
         return new Promise((resolve, reject) => {
-            let step = "personal";
+            let step = null;
+            if (data.step != undefined && data.step == 1) {
+                step = "personal";
+            }
             if (data.step != undefined && data.step == 2) {
                 step = "medical";
             }
             else if (data.step != undefined && data.step == 3) {
                 step = "other";
             }
+
+            //not updating personal info
+            if(step == null){
+                resolve(true);
+            }
+
             //validate medical information and personal information and emergency contact information
             this.validateRequiredFieldsUpdate(step, data).then((result) => {
                 console.log('Firsts validations passed');
