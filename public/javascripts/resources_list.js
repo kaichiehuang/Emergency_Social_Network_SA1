@@ -45,9 +45,10 @@ class ResourcesList {
         $(".modal-body #resource-picture-div").removeClass("hidden-main-content-block");
         //REMOVING PICTURES INPUTS
         $(".modal-body #resource-picture").addClass("hidden-main-content-block");
+        $(".modal-body #erasePicture").addClass("hidden-main-content-block");
         $(".modal-body #resource-submit-btn").addClass("hidden-main-content-block");
         ///ADDING PICTURE
-        $('.modal-body  #image-preview').removeClass("hidden-main-content-block");
+        $('.modal-body  #imageDiv').removeClass("hidden-main-content-block");
         ResourcesList.readURL(resource.image);
         //Adding Location
         $(".modal-body #resource-location").text(resource.location);

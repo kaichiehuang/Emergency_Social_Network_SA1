@@ -1,4 +1,3 @@
-
 class Resources {
     /**
      * Initializing view
@@ -12,13 +11,13 @@ class Resources {
             Resources.addClassElements('selected-btn',
                 $("#step-one-btn"));
             Resources.removeClassElements('selected-btn',
-                $("#step-two-btn"),$("#step-three-btn"));
+                $("#step-two-btn"), $("#step-three-btn"));
 
 
-                Resources.removeClassElements("hidden-main-content-block",
-                    $('#step-one-content'),$("#div-resource-type"));
-                Resources.addClassElements("hidden-main-content-block",
-                    $("#resource-location-div"),$("#resource-picture-div"));
+            Resources.removeClassElements("hidden-main-content-block",
+                $('#step-one-content'), $("#div-resource-type"));
+            Resources.addClassElements("hidden-main-content-block",
+                $("#resource-location-div"), $("#resource-picture-div"));
 
         });
 
@@ -27,7 +26,7 @@ class Resources {
             Resources.addClassElements('selected-btn',
                 $("#step-two-btn"));
             Resources.removeClassElements('selected-btn',
-                $("#step-one-btn"),$("#step-three-btn"));
+                $("#step-one-btn"), $("#step-three-btn"));
 
             Resources.removeClassElements("hidden-main-content-block",
                 $('#resource-location-div'));
@@ -42,7 +41,7 @@ class Resources {
             Resources.addClassElements('selected-btn',
                 $("#step-three-btn"));
             Resources.removeClassElements('selected-btn',
-                $("#step-two-btn"),$("#step-one-btn"));
+                $("#step-two-btn"), $("#step-one-btn"));
 
             Resources.removeClassElements("hidden-main-content-block",
                 $('#resource-picture-div'));
@@ -53,13 +52,12 @@ class Resources {
         });
 
 
-
         $("#supplies-btn").on('click', (e) => {
 
             Resources.addClassElements('selected-btn',
                 $("#supplies-btn"));
             Resources.removeClassElements('selected-btn',
-                $("#shelter-btn"),$("#medical-btn"));
+                $("#shelter-btn"), $("#medical-btn"));
 
             Resources.removeClassElements("hidden-main-content-block",
                 $('#supplies-content-div'));
@@ -73,7 +71,7 @@ class Resources {
             Resources.addClassElements('selected-btn',
                 $("#medical-btn"));
             Resources.removeClassElements('selected-btn',
-                $("#supplies-btn"),$("#shelter-btn"));
+                $("#supplies-btn"), $("#shelter-btn"));
 
             Resources.removeClassElements("hidden-main-content-block",
                 $('#medical-content-div'));
@@ -87,7 +85,7 @@ class Resources {
             Resources.addClassElements('selected-btn',
                 $("#shelter-btn"));
             Resources.removeClassElements('selected-btn',
-                $("#supplies-btn"),$("#medical-btn"));
+                $("#supplies-btn"), $("#medical-btn"));
 
             Resources.removeClassElements("hidden-main-content-block",
                 $('#shelter-content-div'));
@@ -96,19 +94,29 @@ class Resources {
 
         });
 
-        $("#resource-submit-btn").on('click', async (e)=>{
+        $("#resource-submit-btn").on('click', async (e) => {
             const valid = await Resources.validateRequireFields();
-            if(valid){
+            if (valid.length===0) {
                 Resources.getValues();
-            }else{
-                alert('Validate required fields');
+            } else {
+                $("#modaltext").text(valid);
+                $('#validationsModal').modal('show');
             }
+        });
+
+        $("#erasePicture").on('click', async (e) => {
+            e.preventDefault();
+            $("#resource-picture").val("")
+            $('#image-preview').attr('src', "#");
+            Resources.addClassElements('hidden-main-content-block',
+                $('#imageDiv'));
         })
 
 
         $("#resource-picture").on('change', (e) => {
             Resources.readURL();
-            $('#image-preview').removeClass('hidden-main-content-block')
+            Resources.removeClassElements('hidden-main-content-block',
+                $('#imageDiv'));
         });
 
         Resources.initializeFirstSelection()
@@ -119,20 +127,20 @@ class Resources {
     /**
      * Initialize buttons selection
      */
-    static initializeFirstSelection(){
-        $( "#step-one-btn" ).trigger( "click" );
-        $( "#supplies-btn" ).trigger( "click" );
+    static initializeFirstSelection() {
+        $("#step-one-btn").trigger("click");
+        $("#supplies-btn").trigger("click");
     }
 
 
-    static removeClassElements(nameClass,...showElement){
+    static removeClassElements(nameClass, ...showElement) {
         for (let element of showElement) {
             element.removeClass(nameClass);
         }
     }
 
 
-    static addClassElements(nameClass,...showElement){
+    static addClassElements(nameClass, ...showElement) {
         for (let element of showElement) {
             element.addClass(nameClass);
         }
@@ -146,7 +154,7 @@ class Resources {
         let input = $('#resource-picture').prop('files');
         if (input && input[0]) {
             let reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 $('#image-preview').attr('src', e.target.result);
             }
             reader.readAsDataURL(input[0]); // convert to base64 string
@@ -157,17 +165,17 @@ class Resources {
     /**
      * Getting values from the form to save the resource
      */
-    static getValues(){
+    static getValues() {
 
         let description;
         let questionOne;
         let questionTwo;
 
-        switch ($("#div-resource-type button.selected-btn").attr('name')){
+        switch ($("#div-resource-type button.selected-btn").attr('name')) {
             case 'SUPPLIES':
-                    description = $('#supplies-description-id').val();
-                    questionOne = $("#supplies-q1-div input[type='radio']:checked").val();
-                    questionTwo = $("#supplies-q2-div input[type='radio']:checked").val();
+                description = $('#supplies-description-id').val();
+                questionOne = $("#supplies-q1-div input[type='radio']:checked").val();
+                questionTwo = $("#supplies-q2-div input[type='radio']:checked").val();
 
                 break;
             case 'MEDICAL':
@@ -185,10 +193,10 @@ class Resources {
         }
 
 
-        const resourceObject ={
-            user_id:  Cookies.get('user-id'),
+        const resourceObject = {
+            user_id: Cookies.get('user-id'),
             resourceType: $("#div-resource-type button.selected-btn").attr('name'),
-            name:$('#resource-name-id').val(),
+            name: $('#resource-name-id').val(),
             location: $('#resource-location').val(),
             description: description,
             questionOne: questionOne,
@@ -200,45 +208,54 @@ class Resources {
     }
 
 
-    static validateRequireFields(){
+    static validateRequireFields() {
 
 
         const resourceType = ("#div-resource-type button.selected-btn");
-        if(resourceType.length===0 || $('#resource-location').val()=== ""){
-            return false;
-        }else {
+        if (resourceType.length === 0
+            || $('#resource-location').val() === ""
+            || $('#resource-name-id').val() === "") {
+            return 'Resource and Location are a required fields';
+        } else {
 
-            switch ($("#div-resource-type button.selected-btn").attr('name')) {
-                case 'SUPPLIES':
-                    if($('#supplies-description-id').val() === "" ||
-                        $("#supplies-q1-div input[type='radio']:checked").length === 0 ||
-                        $("#supplies-q2-div input[type='radio']:checked").length === 0){
-                        return false;
-                    }else{
-                        return true;
-                    }
-                    break;
-                case 'MEDICAL':
-                    if($('#medical-description-id').val()=== "" ||
-                        $("#medical-q1-div input[type='radio']:checked").length === 0 ){
-                        return false;
-                    }else{
-                        return true;
-                    }
-                    break;
-                case 'SHELTER':
 
-                    if($("#shelter-description-id").val()=== "" ||
-                        $("#shelter-q1-div input[type='radio']:checked").length === 0 ||
-                        $("#shelter-q2-div input[type='radio']:checked").length === 0){
-                        return false;
-                    }else{
-                        return true;
-                    }
-                    break;
-                default:
-                    return false;
-                    break;
+            if ($('#resource-picture').prop('files').length !== 0 &&
+                $('#resource-picture').prop('files')[0].size>2000000) {
+                return 'Picture Size limit 2Mb';
+            } else {
+
+                switch ($("#div-resource-type button.selected-btn").attr('name')) {
+                    case 'SUPPLIES':
+                        if ($('#supplies-description-id').val() === "" ||
+                            $("#supplies-q1-div input[type='radio']:checked").length === 0 ||
+                            $("#supplies-q2-div input[type='radio']:checked").length === 0) {
+                            return 'Description and questions answers are mandatory fields';
+                        } else {
+                            return '';
+                        }
+                        break;
+                    case 'MEDICAL':
+                        if ($('#medical-description-id').val() === "" ||
+                            $("#medical-q1-div input[type='radio']:checked").length === 0) {
+                            return 'Description and questions answers are mandatory fields';
+                        } else {
+                            return '';
+                        }
+                        break;
+                    case 'SHELTER':
+
+                        if ($("#shelter-description-id").val() === "" ||
+                            $("#shelter-q1-div input[type='radio']:checked").length === 0 ||
+                            $("#shelter-q2-div input[type='radio']:checked").length === 0) {
+                            return 'Description and questions answers are mandatory fields';
+                        } else {
+                            return '';
+                        }
+                        break;
+                    default:
+                        return 'false';
+                        break;
+                }
             }
         }
 
@@ -262,35 +279,35 @@ class Resources {
         formData.append("questionTwo", resourceObject.questionTwo);
 
 
-        if($('#resource-picture').prop('files').length !== 0) {
-           formData.append("resourceImage", $('#resource-picture').prop('files')[0]);
+        if ($('#resource-picture').prop('files').length !== 0) {
+            formData.append("resourceImage", $('#resource-picture').prop('files')[0]);
         }
 
         //formData.append("resourceImage", $('#resource-picture').prop('files')[0]);
 
-            return new Promise((resolve, reject) => {
-                let jwt = Cookies.get('user-jwt-esn');
-                $.ajax({
-                    url: apiPath + '/resources/',
-                    processData: false,
-                    contentType: false,
-                    type: 'post',
-                    headers: {
-                        "Authorization": jwt
-                    },
-                    data:formData,
-                }).done(function(response) {
-                    $('#supplies-form').trigger("reset");
-                    $('#image-preview').attr('src',"#");
-                    Resources.initializeFirstSelection()
-                    swapContent("public-chat-content");
-                    resolve(response);
-                }).fail(function(e) {
-                    reject(e.message)
-                }).always(function() {
-                    console.log("complete");
-                });
+        return new Promise((resolve, reject) => {
+            let jwt = Cookies.get('user-jwt-esn');
+            $.ajax({
+                url: apiPath + '/resources/',
+                processData: false,
+                contentType: false,
+                type: 'post',
+                headers: {
+                    "Authorization": jwt
+                },
+                data: formData,
+            }).done(function (response) {
+                $('#supplies-form').trigger("reset");
+                $('#image-preview').attr('src', "#");
+                Resources.initializeFirstSelection()
+                swapContent("public-chat-content");
+                resolve(response);
+            }).fail(function (e) {
+                reject(e.message)
+            }).always(function () {
+                console.log("complete");
             });
+        });
 
     }
 
@@ -298,7 +315,7 @@ class Resources {
 }
 
 
-$(function() {
+$(function () {
     new Resources();
 })
 

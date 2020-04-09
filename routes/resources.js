@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const TokenServerClass = require('../middleware/TokenServer');
 var multer  = require('multer')
 var storage = multer.memoryStorage()
-var upload = multer({ storage: storage })
+var upload = multer({ storage: storage ,limits: { fileSize: 2000000 }});
 // application/json parser
 const jsonParser = bodyParser.json();
 const ResourceController = require(__dirname + '/../controllers/ResourceController');
