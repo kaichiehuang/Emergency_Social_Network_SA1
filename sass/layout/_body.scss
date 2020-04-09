@@ -526,6 +526,18 @@ form {
     color: $brand_color1;
     //@include flexbox;
 
+    .msg_border{
+        height: auto;
+        @include respond-to("small") {
+            height: auto;
+            padding-bottom: 100px;
+        }
+        @include respond-to("extra-small") {
+            height: auto;
+            padding-bottom: 100px;
+        }
+    }
+
     #div-resource-type,#div-steps{
         text-align: center;
         display: inline;
@@ -540,6 +552,9 @@ form {
 
 
     #resource-picture-div{
+        #save-resource-btn{
+            text-align: right;
+        }
         #image-preview{
             width: 90%;
             object-fit:scale-down;
@@ -547,6 +562,8 @@ form {
         }
 
     }
+
+
 
     .container{
         width: 90%;

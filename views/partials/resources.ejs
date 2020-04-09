@@ -1,254 +1,263 @@
 <div class="row">
     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
-<div class="resources-content main-content-block  hidden-main-content-block" id="resources-content">
+        <div class="resources-content main-content-block  hidden-main-content-block" id="resources-content">
             <div class="msg_border">
+                <div class="messaging">
                 <p class="h3">Resource Information Sharing</p>
                 <div class="container">
                     <form id='supplies-form' class="needs-validation" novalidate>
-                    <div id='div-steps' class="row">
+                        <div id='div-steps' class="row">
 
-                        <div class="col-md-auto">
-                            <div class="form-group">
+                            <div class="col-md-auto">
+                                <div class="form-group">
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary" type="button" id="step-one-btn">
                                       1</button>
                                 </span>
-                                <span class="input-group-btn">
+                                    <span class="input-group-btn">
                                     <button class="btn btn-primary" type="button" id="step-two-btn">
                                        2</button>
                                 </span>
-                                <span class="input-group-btn">
+                                    <span class="input-group-btn">
                                     <button class="btn btn-primary" type="button" id="step-three-btn">
                                        3</button>
                                 </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-auto">
-                            <div class="form-group">
-                                <label for="resourceName">Resource Name:</label>
-                                <input type="text" class="form-control" id="resource-name-id" required>
+                        <div class="row">
+                            <div class="col-md-auto">
+                                <div class="form-group">
+                                    <label for="resourceName">Resource Name:</label>
+                                    <input type="text" class="form-control" id="resource-name-id" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id='div-resource-type' class="row">
-                        <div class="col-md-auto">
-                            <div class="form-group">
-                                <label id="resource-type-label" for="resourceName">Select a Resource Type:</label>
-                                <span class="input-group-btn">
+                        <div id='div-resource-type' class="row">
+                            <div class="col-md-auto">
+                                <div class="form-group">
+                                    <label id="resource-type-label" for="resourceName">Select a Resource Type:</label>
+                                    <span class="input-group-btn">
                                     <button class="btn btn-primary" type="button" name="SUPPLIES" id="supplies-btn">
                                         <span class="fa fa-shopping-basket" aria-hidden="true">
                                     </span></button>
                                 </span>
-                            <span class="input-group-btn">
+                                    <span class="input-group-btn">
                                     <button class="btn btn-primary" type="button" name="MEDICAL" id="medical-btn">
                                         <span class="fa fa-ambulance" aria-hidden="true">
                                     </span></button>
                                 </span>
-                            <span class="input-group-btn">
+                                    <span class="input-group-btn">
                                     <button class="btn btn-primary" type="button" name="SHELTER" id="shelter-btn">
                                         <span class="fa fa-shower" aria-hidden="true">
                                     </span></button>
                                 </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <div id="step-one-content">
-                    <!--SUPPLIES DIV-->
-                    <div id="supplies-content-div" >
-                        <!-- SUPPLIES DESCRIPTION-->
-                        <div class="row">
-                            <div class="col-md-auto">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
+                        <div id="step-one-content">
+                            <!--SUPPLIES DIV-->
+                            <div id="supplies-content-div">
+                                <!-- SUPPLIES DESCRIPTION-->
+                                <div class="row">
+                                    <div class="col-md-auto">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
                                         <span class="input-group-text">What type of supplies are
                                             users going to find here?:</span>
+                                            </div>
+                                            <textarea id="supplies-description-id" class="form-control"
+                                                      aria-label="Supplies"></textarea>
+                                        </div>
+
                                     </div>
-                                    <textarea id="supplies-description-id" class="form-control"
-                                              aria-label="Supplies"></textarea>
                                 </div>
+                                <!-- SUPPLIES QUESTION 1-->
+                                <div class="row">
+                                    <div id='supplies-q1-div' class="col-md-auto">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Are there enough supplies?</span>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                   id="supplies-q1-yes" value="true">
+                                            <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                   id="supplies-q1-no" value="false">
+                                            <label class="form-check-label" for="inlineRadio2">No</label>
+                                        </div>
 
+                                    </div>
+                                </div>
+                                <!-- SUPPLIES QUESTION 2-->
+                                <div class="row">
+                                    <div id='supplies-q2-div' class="col-md-auto">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Is an easy place to access?</span>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions2"
+                                                   id="supplies-q2-yes"
+                                                   value="true">
+                                            <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions2"
+                                                   id="supplies-q2-no"
+                                                   value="false">
+                                            <label class="form-check-label" for="inlineRadio2">No</label>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <!-- SUPPLIES QUESTION 1-->
-                        <div class="row">
-                            <div id='supplies-q1-div' class="col-md-auto">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Are there enough supplies?</span>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                           id="supplies-q1-yes"  value="true">
-                                    <label class="form-check-label" for="inlineRadio1">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                           id="supplies-q1-no"  value="false">
-                                    <label class="form-check-label" for="inlineRadio2">No</label>
-                                </div>
+                            <!--END SUPPLIES DIV-->
 
-                            </div>
-                        </div>
-                        <!-- SUPPLIES QUESTION 2-->
-                        <div class="row">
-                            <div id='supplies-q2-div' class="col-md-auto">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Is an easy place to access?</span>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="supplies-q2-yes"
-                                           value="true">
-                                    <label class="form-check-label" for="inlineRadio1">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="supplies-q2-no"
-                                           value="false">
-                                    <label class="form-check-label" for="inlineRadio2">No</label>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                <!--END SUPPLIES DIV-->
-
-                    <!--MEDICAL DIV-->
-                    <div id="medical-content-div" class="hidden-main-content-block">
-                        <!-- MEDICAL DESCRIPTION-->
-                        <div class="row">
-                            <div class="col-md-auto">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
+                            <!--MEDICAL DIV-->
+                            <div id="medical-content-div" class="hidden-main-content-block">
+                                <!-- MEDICAL DESCRIPTION-->
+                                <div class="row">
+                                    <div class="col-md-auto">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
                                         <span class="input-group-text">What type of medical assistance
                                             are users going to find here?:</span>
+                                            </div>
+                                            <textarea id="medical-description-id" class="form-control"
+                                                      aria-label="Medical Assistance"></textarea>
+                                        </div>
+
                                     </div>
-                                    <textarea id="medical-description-id" class="form-control"
-                                              aria-label="Medical Assistance"></textarea>
                                 </div>
+                                <!-- MEDICAL QUESTION 1-->
+                                <div class="row">
+                                    <div id='medical-q1-div' class="col-md-auto">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Are drugs available?</span>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                   id="medical-q1-yes" value="true">
+                                            <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                   id="medical-q1-no" value="false">
+                                            <label class="form-check-label" for="inlineRadio2">No</label>
+                                        </div>
 
-                            </div>
-                        </div>
-                        <!-- MEDICAL QUESTION 1-->
-                        <div class="row">
-                            <div id='medical-q1-div' class="col-md-auto">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Are drugs available?</span>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                           id="medical-q1-yes" value="true">
-                                    <label class="form-check-label" for="inlineRadio1">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                           id="medical-q1-no" value="false">
-                                    <label class="form-check-label" for="inlineRadio2">No</label>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <!--END MEDICAL DIV-->
-
-
-                    <!--SHELTER DIV-->
-                    <div id="shelter-content-div" class="hidden-main-content-block">
-                        <!-- SHELTER DESCRIPTION-->
-                        <div class="row">
-                            <div class="col-md-auto">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">Shelter Description:</span>
                                     </div>
-                                    <textarea id="shelter-description-id" class="form-control"
-                                              aria-label="Shelter Description"></textarea>
                                 </div>
-
                             </div>
-                        </div>
-                        <!-- SHELTER QUESTION 1-->
-                        <div class="row">
-                            <div id='shelter-q1-div' class="col-md-auto">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Are people on the shelter now?</span>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                           id="shelter-q1-yes"  value="true">
-                                    <label class="form-check-label" for="inlineRadio1">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions"
-                                           id="shelter-q1-no"  value="false">
-                                    <label class="form-check-label" for="inlineRadio2">No</label>
-                                </div>
+                            <!--END MEDICAL DIV-->
 
+
+                            <!--SHELTER DIV-->
+                            <div id="shelter-content-div" class="hidden-main-content-block">
+                                <!-- SHELTER DESCRIPTION-->
+                                <div class="row">
+                                    <div class="col-md-auto">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Shelter Description:</span>
+                                            </div>
+                                            <textarea id="shelter-description-id" class="form-control"
+                                                      aria-label="Shelter Description"></textarea>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- SHELTER QUESTION 1-->
+                                <div class="row">
+                                    <div id='shelter-q1-div' class="col-md-auto">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Are people on the shelter now?</span>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                   id="shelter-q1-yes" value="true">
+                                            <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                                   id="shelter-q1-no" value="false">
+                                            <label class="form-check-label" for="inlineRadio2">No</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!-- SHELTER QUESTION 2-->
+                                <div class="row">
+                                    <div id='shelter-q2-div' class="col-md-auto">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Is enough space for more people?</span>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions2"
+                                                   id="shelter-q2-yes"
+                                                   value="true">
+                                            <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions2"
+                                                   id="shelter-q2-no"
+                                                   value="false">
+                                            <label class="form-check-label" for="inlineRadio2">No</label>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
+                            <!--END SHELTER DIV-->
                         </div>
-                        <!-- SHELTER QUESTION 2-->
-                        <div class="row">
-                            <div id='shelter-q2-div' class="col-md-auto">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Is enough space for more people?</span>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="shelter-q2-yes"
-                                           value="true">
-                                    <label class="form-check-label" for="inlineRadio1">Yes</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="shelter-q2-no"
-                                           value="false">
-                                    <label class="form-check-label" for="inlineRadio2">No</label>
-                                </div>
 
-                            </div>
-                        </div>
-                    </div>
-                    <!--END SHELTER DIV-->
-                </div>
-
-                    <!--RESOURCE LOCATION DIV-->
-                    <div id="resource-location-div" class="hidden-main-content-block">
-                        <div class="row">
-                            <div class="col-md-auto">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
+                        <!--RESOURCE LOCATION DIV-->
+                        <div id="resource-location-div" class="hidden-main-content-block">
+                            <div class="row">
+                                <div class="col-md-auto">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
                                         <span class="input-group-text">Describe where the
                                             resource is located:</span>
+                                        </div>
+                                        <textarea id="resource-location" class="form-control"
+                                                  aria-label="Resource Location" required></textarea>
                                     </div>
-                                    <textarea id="resource-location" class="form-control"
-                                              aria-label="Resource Location" required></textarea>
-                                </div>
 
-                            </div>
-                        </div>
-                    </div>
-                    <!--END RESOURCE LOCATION DIV-->
-
-
-
-                    <!--RESOURCE IMAGE DIV-->
-                    <div id="resource-picture-div" class="hidden-main-content-block">
-                        <div class="row">
-                            <div class="col-md-auto">
-                                <div class="form-group">
-                                    <label id="picture-label" for="exampleFormControlFile1">Add Picture:</label>
-                                    <input type="file" class="form-control-file" id="resource-picture">
-                                    <div>
-                                        <img id="image-preview" src="#" alt="your image" class="hidden-main-content-block"/>
-                                    </div>
                                 </div>
                             </div>
-                            <button id='resource-submit-btn' class="btn btn-primary" type="button">Save Resource</button>
                         </div>
-                    </div>
-                    <!--END RESOURCE IMAGE DIV-->
+                        <!--END RESOURCE LOCATION DIV-->
+
+
+                        <!--RESOURCE IMAGE DIV-->
+                        <div id="resource-picture-div" class="hidden-main-content-block">
+                            <div class="row">
+                                <div class="col-md-auto">
+                                    <div class="form-group">
+                                        <label id="picture-label" for="exampleFormControlFile1">Add Picture:</label>
+                                        <input type="file" class="form-control-file" id="resource-picture">
+                                        <div>
+                                            <img id="image-preview" src="#" alt="your image"
+                                                 class="hidden-main-content-block"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="save-resource-btn">
+                                    <button id='resource-submit-btn' class="btn btn-primary" type="button">Save
+                                        Resource
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--END RESOURCE IMAGE DIV-->
 
                     </form>
                 </div>
 
-
+            </div>
             </div>
         </div>
 

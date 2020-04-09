@@ -228,7 +228,7 @@ class Resources {
                     break;
                 case 'SHELTER':
 
-                    if($("#shelter-description-i").val()=== "" ||
+                    if($("#shelter-description-id").val()=== "" ||
                         $("#shelter-q1-div input[type='radio']:checked").length === 0 ||
                         $("#shelter-q2-div input[type='radio']:checked").length === 0){
                         return false;
@@ -262,7 +262,7 @@ class Resources {
         formData.append("questionTwo", resourceObject.questionTwo);
 
 
-        if($('#resource-picture').prop('files').length === 0) {
+        if($('#resource-picture').prop('files').length !== 0) {
            formData.append("resourceImage", $('#resource-picture').prop('files')[0]);
         }
 
