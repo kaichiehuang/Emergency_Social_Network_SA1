@@ -171,18 +171,12 @@ class UsersController {
         const security_question_answer = req.query.security_question_answer;
 
         //1. find token user id
-        User.findUserByIdIfAuthorized(userId, req.tokenUserId)
-        .then((user) => {
+        User.getPersonalMessage(userId, req.tokenUserId, security_question_answer)
+        .then((message) => {
             res.contentType('application/json');
-            if(user.personal_message.security_question_answer.localeCompare(security_question_answer) == 0){
-                return res.status(201).send({"message": user.personal_message.message});
-            }
-            return res.status(403).send("Invalid answer");
+            return res.status(201).send({"message": message});
         }).catch((err) => {
-            if(err.toString().localeCompare("You are not authorized") == 0){
-                return res.status(403).send(err);
-            }
-            return res.status(500).send(err);
+            return res.status(403).send(err);
         });
     }
     /**

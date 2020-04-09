@@ -333,6 +333,7 @@ describe("Update operations on a user - profile information and validation rules
 describe("Test profile access for only authorized users", () => {
     let user1Id = null;
     let user2Id = null;
+    let user3Id = null;
 
     beforeEach(async () => {
         const user_instance = new User();
@@ -426,6 +427,27 @@ describe("Test profile access for only authorized users", () => {
         .then(listUser => {
             expect(listUser.emergency_contact.phone_number).toBe('2142244');
         }).catch(err => {});
+    })
+
+    test("ACCESS TO PERSONAL MESSAGE, matching phone AND WRONG ANSWER - must fail", async () => {
+        console.log(user1Id)
+        expect.assertions(1);
+        return await User.getPersonalMessage(user1Id,user2Id, "wrong answer")
+        .then(listUser => {
+
+        }).catch(err => {
+            console.log(user1Id, user2Id)
+            expect(err).toBe("Invalid answer");
+        });
+    })
+    test("ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work", async () => {
+        console.log(user1Id)
+        expect.assertions(1);
+        return await User.getPersonalMessage(user1Id,user2Id, "an answer")
+        .then(message => {
+            expect(message).toBe("a message");
+        }).catch(err => {
+        });
     })
 })
 describe("get all users ordered by online status and username", () => {

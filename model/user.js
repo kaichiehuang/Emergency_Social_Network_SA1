@@ -359,7 +359,7 @@ class User {
             }).then((user) => {
                 //diff user, check if its an admin or authorized
                 if (currentUserId.toString().localeCompare(id) != 0) {
-                    if (user.emergency_contact == undefined || tokenUser.phone_number == undefined || tokenUser.phone_number == '' || tokenUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
+                    if (user.emergency_contact == undefined || user.emergency_contact.phone_number == undefined || tokenUser.phone_number == undefined || tokenUser.phone_number == '' || tokenUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
                         reject("You are not authorized");
                     }
                 }
@@ -528,6 +528,28 @@ class User {
                 return user.save();
             }).then((user) => {
                 resolve(user);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    /**
+     * [getPersonalMessage description]
+     * @param  {[type]} userId           [description]
+     * @param  {[type]} requestingUserId [description]
+     * @return {[type]}                  [description]
+     */
+    static getPersonalMessage(userId, requestingUserId, security_question_answer){
+        return new Promise((resolve, reject) => {
+            //1. find token user id
+            User.findUserByIdIfAuthorized(userId, requestingUserId)
+            .then((user) => {
+                if(user.personal_message.security_question_answer.localeCompare(security_question_answer) == 0){
+                    resolve(user.personal_message.message);
+                }else{
+                    reject("Invalid answer");
+                }
             }).catch((err) => {
                 reject(err);
             });
