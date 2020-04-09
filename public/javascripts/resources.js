@@ -200,7 +200,7 @@ class Resources {
     }
 
 
-    static validateRequireFields = async ()=>{
+    static validateRequireFields(){
 
 
         const resourceType = ("#div-resource-type button.selected-btn");

@@ -51,8 +51,10 @@ class ResourcesList {
         ResourcesList.readURL(resource.image);
         //Adding Location
         $(".modal-body #resource-location").text(resource.location);
+        $(".modal-body #resource-location").attr('readonly', true);
         //Adding resource name
         $(".modal-body #resource-name-id").val(resource.name);
+        $(".modal-body #resource-name-id").attr('readonly', true);
         switch (resource.resource_type) {
             case "SUPPLIES":
                 //Hiding RESOURCES TYPE BUTTONS
@@ -66,17 +68,22 @@ class ResourcesList {
                 $(".modal-body #shelter-content-div").addClass("hidden-main-content-block");
                 //SUPPLY DESCRIPTION
                 $(".modal-body #supplies-description-id").text(resource.description);
+                $(".modal-body #supplies-description-id").attr('readonly', true);
                 //SUPPLY QUESTION ONE
                 if(resource.question_one) {
                     $(".modal-body #supplies-q1-yes").prop('checked', true);
+                    $(".modal-body #supplies-q1-yes").attr('readonly', true);
                 }else {
                     $(".modal-body #supplies-q1-no").prop('checked', true);
+                    $(".modal-body #supplies-q1-no").attr('readonly', true);
                 }
                 //SUPPLY QUESTION TWO
                 if(resource.question_two) {
                     $(".modal-body #supplies-q2-yes").prop('checked', true);
+                    $(".modal-body #supplies-q2-yes").attr('readonly', true);
                 }else {
                     $(".modal-body #supplies-q2-no").prop('checked', true);
+                    $(".modal-body #supplies-q2-no").attr('readonly', true);
                 }
 
 
@@ -92,11 +99,14 @@ class ResourcesList {
                 $(".modal-body #shelter-content-div").addClass("hidden-main-content-block");
                 //MEDICAL description
                 $(".modal-body #medical-description-id").text(resource.description);
+                $(".modal-body #medical-description-id").attr('readonly', true);
                 //MEDICAL QUESTION ONE
                 if(resource.question_one) {
                     $(".modal-body #medical-q1-yes").prop('checked', true);
+                    $(".modal-body #medical-q1-yes").attr('readonly', true);
                 }else {
                     $(".modal-body #medical-q1-no").prop('checked', true);
+                    $(".modal-body #medical-q1-no").attr('readonly', true);
                 }
 
                 break;
@@ -111,17 +121,22 @@ class ResourcesList {
                 $(".modal-body #supplies-content-div").addClass("hidden-main-content-block");
                 //SHELTER description
                 $(".modal-body #shelter-description-id").text(resource.description);
+                $(".modal-body #shelter-description-id").attr('readonly', true);
                 //SHELTER QUESTION ONE
                 if(resource.question_one) {
                     $(".modal-body #shelter-q1-yes").prop('checked', true);
+                    $(".modal-body #shelter-q1-yes").attr('readonly', true);
                 }else {
                     $(".modal-body #shelter-q1-no").prop('checked', true);
+                    $(".modal-body #shelter-q1-no").attr('readonly', true);
                 }
                 //SHELTER QUESTION TWO
                 if(resource.question_two) {
                     $(".modal-body #shelter-q2-yes").prop('checked', true);
+                    $(".modal-body #shelter-q2-yes").attr('readonly', true);
                 }else {
                     $(".modal-body #shelter-q2-no").prop('checked', true);
+                    $(".modal-body #shelter-q2-no").attr('readonly', true);
                 }
 
                 break;
@@ -134,7 +149,7 @@ class ResourcesList {
     }
 
 
-    static readURL= async (image) =>{
+    static async readURL(image){
         var base64Flag = 'data:image/png;base64,';
         var imageStr =
             await ResourcesList.arrayBufferToBase64(image.data.data)
