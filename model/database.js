@@ -18,3 +18,4 @@ class Database {
 }
 
 module.exports = Database;
+// Bo's atlas mongo db: mongodb+srv://pollyed:cmubest123%2C.%2F@kevin-jd913.mongodb.net/test?retryWrites=true&w=majority
