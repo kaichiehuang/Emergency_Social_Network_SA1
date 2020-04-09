@@ -349,7 +349,7 @@ class User {
             User.findUserById(currentUserId).then((user) => {
                 tokenUser = user;
                 //same user no need to check if its an admin or authorized
-                if (currentUserId.localeCompare(id) == 0) {
+                if (currentUserId.toString().localeCompare(id) == 0) {
                     resolve(user);
                 }
                 //diff user, check if its an admin or authorized
@@ -358,8 +358,8 @@ class User {
                 }
             }).then((user) => {
                 //diff user, check if its an admin or authorized
-                if (currentUserId.localeCompare(id) != 0) {
-                    if (user.emergency_contact == undefined || tokenUser.phone_number != user.emergency_contact.phone_number) {
+                if (currentUserId.toString().localeCompare(id) != 0) {
+                    if (user.emergency_contact == undefined || tokenUser.phone_number == undefined || tokenUser.phone_number == '' || tokenUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
                         reject("You are not authorized");
                     }
                 }

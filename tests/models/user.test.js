@@ -94,7 +94,7 @@ describe('User password validations,', () => {
         return expect(user.isPasswordMatch()).rejects.toBe('Invalid username / password.')
     })
 })
-describe("Searching for a user previously inserted", () => {
+describe("Searching and update operations on a user previously inserted", () => {
     let userId;
     beforeEach(async () => {
         let userName = "userName"
@@ -134,6 +134,298 @@ describe("Searching for a user previously inserted", () => {
         return await User.findUserById(userId).then(usr => {
             expect(String(usr._id)).toBe(userId)
         })
+    })
+})
+describe("Update operations on a user - profile information and validation rules", () => {
+    let userId;
+    beforeEach(async () => {
+        let userName = "profileUser"
+        let user = new User()
+        user.setRegistrationData(userName, "password");
+
+        let newUser = await user.registerUser();
+        userId = String(newUser._id);
+    })
+    //1.
+    test("update data validation required fields - user info step 1 - empty data", async () => {
+        let user = new User()
+        return await expect(user.updateUser(userId, {
+            //step1
+            "step": 1,
+
+            "name": "",
+            "last_name": "",
+            "phone_number": "",
+            "address": "",
+            "city": "",
+            "birth_date": "",
+            "emergency_contact":{
+                "name": "",
+                "phone_number": "",
+                "address": "",
+                "email": ""
+            },
+            "privacy_terms_data_accepted": null
+        }))
+        .rejects.toMatch('Missing required fields. Every field in this step is mandatory.');
+    })
+    test("update data validation required fields - user info step 1 - missing some data", async () => {
+        let user = new User()
+        return await expect(user.updateUser(userId, {
+            //step1
+            "step": 1,
+
+            "name": "name",
+            "last_name": "apellido",
+            "phone_number": "31321",
+            "address": "sssssss",
+            "city": "Sunnyvale",
+            "birth_date": "",
+            "emergency_contact":{
+                "name": "Juan",
+                "phone_number": "",
+                "address": ""
+            },
+            "privacy_terms_data_accepted": null
+        }))
+        .rejects.toMatch('Missing required fields. Every field in this step is mandatory.');
+    })
+    test("update data validation required fields - user info step 1 - all data, missing data treatment acceptance", async () => {
+        let user = new User()
+        return await expect(user.updateUser(userId, {
+            //step1
+            "step": 1,
+
+            "name": "name",
+            "last_name": "apellido",
+            "phone_number": "31321",
+            "address": "sssssss",
+            "city": "Sunnyvale",
+            "birth_date": "2000-01-01",
+            "emergency_contact":{
+                "name": "Juan",
+                "phone_number": "336999645",
+                "address": "432 easy street"
+            },
+            "privacy_terms_data_accepted": null
+        }))
+        .rejects.toMatch('Please accept the term and conditions for personal data treatment');
+    })
+    test("update data validation required fields - user info step 1 - all data, phone length", async () => {
+        let user = new User()
+        return await expect(user.updateUser(userId, {
+            //step1
+            "step": 1,
+
+            "name": "name",
+            "last_name": "apellido",
+            "phone_number": "31321",
+            "address": "sssssss",
+            "city": "Sunnyvale",
+            "birth_date": "2000-01-01",
+            "emergency_contact":{
+                "name": "Juan",
+                "phone_number": "336999645",
+                "address": "432 easy street"
+            },
+            "privacy_terms_data_accepted": 1
+        }))
+        .rejects.toMatch('Every phone number must have more than 7 characters.');
+    })
+    test("update data validation OK - user info step 1 - all data complete", async () => {
+        let user = new User()
+        user = await user.updateUser(userId, {
+            //step1
+            "step": 1,
+
+            "name": "name",
+            "last_name": "apellido",
+            "phone_number": "44444444",
+            "address": "sssssss",
+            "city": "Sunnyvale",
+            "birth_date": "2000-01-01",
+            "emergency_contact":{
+                "name": "Juan",
+                "phone_number": "336999645",
+                "address": "432 easy street"
+            },
+            "privacy_terms_data_accepted": 1
+        });
+
+        return expect(user.phone_number).toMatch('44444444');
+    })
+    test("update data validation required fields - user info step 2 - blood type required", async () => {
+        let user = new User()
+        return await expect(user.updateUser(userId, {
+            //step1
+            "step": 2,
+
+            "medical_information":{
+                "blood_type": "",
+                "allergies": "",
+                "prescribed_drugs": "",
+                "privacy_terms_medical_accepted": null,
+            },
+        }))
+        .rejects.toMatch('Blood type is a mandatory field, please select a valid blood type');
+    })
+    test("update data validation required fields - user info step 2 - data treatment medical info required", async () => {
+        let user = new User()
+        return await expect(user.updateUser(userId, {
+            //step1
+            "step": 2,
+
+            "medical_information":{
+                "blood_type": "AB+",
+                "allergies": "",
+                "prescribed_drugs": "",
+                "privacy_terms_medical_accepted": null,
+            },
+        }))
+        .rejects.toMatch('Please accept the term and conditions for medical data treatment');
+    })
+    test("update data validation OK - user info step 2 - all data complete", async () => {
+        let user = new User()
+        user = await user.updateUser(userId, {
+            //step1
+            "step": 2,
+
+            "medical_information":{
+                "blood_type": "AB+",
+                "allergies": "list of allergies",
+                "prescribed_drugs": "",
+                "privacy_terms_medical_accepted": 1,
+            },
+        });
+
+        return expect(user.medical_information.allergies).toMatch('list of allergies');
+    })
+    test("update data validation required fields - user info step 3 - security question and answer", async () => {
+        let user = new User()
+        return await expect(user.updateUser(userId, {
+            //step1
+            "step": 3,
+
+            "personal_message":{
+                "message": "",
+                "security_question": "a question",
+                "security_question_answer": ""
+            }
+        }))
+        .rejects.toMatch('The security question and the answer to this cannot be empty if one of these is sent.');
+    })
+    test("update data validation OK - user info step 3 - all data complete", async () => {
+        let user = new User()
+        user = await user.updateUser(userId, {
+            //step1
+            "step": 3,
+
+            "personal_message":{
+                "message": "a message",
+                "security_question": "a question",
+                "security_question_answer": "an answer"
+            }
+        });
+
+        return expect(user.personal_message.message).toMatch('a message');
+    })
+})
+describe("Test profile access for only authorized users", () => {
+    let user1Id = null;
+    let user2Id = null;
+
+    beforeEach(async () => {
+        const user_instance = new User();
+        let user1 = new User()
+        user1.setRegistrationData("username1", "zzzzzzzzz");
+        user1 = await user1.registerUser();
+        user1Id = user1._id;
+        await user_instance.updateUser(user1._id, {
+            "step": 1,
+
+            "name": "name",
+            "last_name": "apellido",
+            "phone_number": "44444444",
+            "address": "sssssss",
+            "city": "Sunnyvale",
+            "birth_date": "2000-01-01",
+            "emergency_contact":{
+                "name": "Juan",
+                //**** ONLY A USER WITH THIS PHONE NUMBER CAN ACCESS THE MESSAGE
+                "phone_number": "2142244",
+                "address": "432 easy street"
+            },
+            "privacy_terms_data_accepted": 1
+        });
+        await user_instance.updateUser(user1._id, {
+            "step": 3,
+            "personal_message":{
+                "message": "a message",
+                "security_question": "a question",
+                "security_question_answer": "an answer"
+            }
+        });
+
+        let user2 = new User()
+        user2.setRegistrationData("username2", "zzzzzzzzz");
+        user2 = await user2.registerUser();
+        user2Id = user2._id;
+        await user_instance.updateUser(user2._id, {
+            "step": 1,
+
+            "name": "name2",
+            "last_name": "apellido",
+            "phone_number": "2142244",
+            "address": "sssssss",
+            "city": "Sunnyvale",
+            "birth_date": "2000-01-01",
+            "emergency_contact":{
+                "name": "Juan22",
+                "phone_number": "222142244",
+                "address": "432 easy street"
+            },
+            "privacy_terms_data_accepted": 1
+        });
+
+        let user3 = new User()
+        user3.setRegistrationData("username3", "zzzzzzzzz");
+        user3 = await user3.registerUser();
+        user3Id = user3._id;
+        await user_instance.updateUser(user3._id, {
+            "step": 1,
+
+            "name": "name3",
+            "last_name": "apellido",
+            "phone_number": "2143332244",
+            "address": "sssssss",
+            "city": "Sunnyvale",
+            "birth_date": "2000-01-01",
+            "emergency_contact":{
+                "name": "Juan22",
+                "phone_number": "222142244",
+                "address": "432 easy street"
+            },
+            "privacy_terms_data_accepted": 1
+        });
+
+    })
+    test("NO ACCESS TO PROFILE - invalid must fail", async () => {
+        console.log(user1Id)
+        expect.assertions(1);
+        return await User.findUserByIdIfAuthorized(user1Id,user3Id)
+        .then(listUser => {
+        }).catch(err => {
+            console.log(user1Id, user3Id)
+            expect(err).toBe('You are not authorized');
+        });
+    })
+    test("ACCESS TO PROFILE, matching phone - must work", async () => {
+        console.log(user1Id)
+        expect.assertions(1);
+        return await User.findUserByIdIfAuthorized(user1Id,user2Id)
+        .then(listUser => {
+            expect(listUser.emergency_contact.phone_number).toBe('2142244');
+        }).catch(err => {});
     })
 })
 describe("get all users ordered by online status and username", () => {
