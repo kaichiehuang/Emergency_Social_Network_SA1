@@ -484,3 +484,32 @@ form {
         }
     }
 }
+
+//emegency status detail view
+
+.emergencyDetailcontainer{
+    .blueText {
+        color: #2e6da4;
+    }
+
+    .emergencyDetailHeader {
+        position: relative;
+        .editButton {
+            position: absolute;
+            top: 0px;
+            right: 7px;
+            border-radius: 8px;
+        }
+        
+    
+    
+    }
+
+    .examplePic {
+        width:100%;
+        
+    }
+
+
+
+}
