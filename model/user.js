@@ -364,11 +364,13 @@ class User {
     static insertSocket(userId, socketId) {
         return new Promise((resolve, reject) => {
             User.findUserById(userId).then((user) => {
+                /* istanbul ignore next */
                 if (user.sockets == undefined) {
                     user.sockets = {};
                 }
                 return user.save();
             }).then((user) => {
+                /* istanbul ignore next */
                 if (user.sockets.has(socketId) == false) {
                     user.sockets.set(socketId, 1);
                 }
@@ -421,11 +423,13 @@ class User {
     static changeMessageCount(senderUserId, receiverUserId, increaseCount) {
         return new Promise((resolve, reject) => {
             User.findUserById(receiverUserId).then((user) => {
+                /* istanbul ignore next */
                 if (user.unread_messages == undefined) {
                     user.unread_messages = {};
                 }
                 return user.save();
             }).then((user) => {
+                /* istanbul ignore next */
                 if (user.unread_messages.has(senderUserId) == false) {
                     user.unread_messages.set(senderUserId, 1);
                 } else {
@@ -456,6 +460,7 @@ class User {
         return new Promise((resolve, reject) => {
             User.findUserById(userId)
                 .then((user) => {
+                    /* istanbul ignore next */
                     if (user.reported_spams == undefined) {
                         user.reported_spams = {};
                     }
