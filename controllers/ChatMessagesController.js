@@ -28,8 +28,8 @@ class ChatMessagesController {
         // 1. Get user and validate that it exists
         User.findUserById(user_id).then((result) => {
             userFound = result;
+            /* istanbul ignore next */
             if (userFound.spam) {
-                /* istanbul ignore next */
                 spam = true;
                 reject('spam');
             }
@@ -63,8 +63,8 @@ class ChatMessagesController {
                 }
             }));
         }).catch((err) => {
+            /* istanbul ignore next */
             if (spam) {
-                /* istanbul ignore next */
                 return res.send({
                     'spam': true
                 });
