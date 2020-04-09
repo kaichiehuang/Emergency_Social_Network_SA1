@@ -13,7 +13,7 @@ const resourceController = new ResourceController();
 
 
 // post create a Resource
-router.post('/', TokenServerClass.validateToken,upload.single('resourceImage'), jsonParser, resourceController.registerResource);
+    router.post('/', TokenServerClass.validateToken,upload.single('resourceImage'), jsonParser, resourceController.registerResource);
 // req.file is the `avatar` file
 // req.body will hold the text fields, if there were any
 

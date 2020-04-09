@@ -1,18 +1,18 @@
-class FoodShelterList {
+class ResourcesList {
     constructor() {
         $(document).on('click','#icon',function(event){
             for (let cssClass of this.classList) {
                 if(cssClass.includes("id")){
                     const index= cssClass.indexOf("-");
                     const resourceId = cssClass.substring(index+1);
-                    FoodShelterList.getResourceById(resourceId);
+                    ResourcesList.getResourceById(resourceId);
                     break;
                 }
             }
         });
 
         $("#addResourceIcon").on('click',(e)=>{
-            swapContent("food-shelter-content");
+            swapContent("resources-content");
         })
 
 
@@ -22,11 +22,11 @@ class FoodShelterList {
             event.preventDefault();
             let newID = $(this).data('view-id');
             if (newID === "resources-list-content") {
-                FoodShelterList.updateResourceListView();
+                ResourcesList.updateResourceListView();
             }
         });
 
-        FoodShelterList.updateResourceListView();
+        ResourcesList.updateResourceListView();
 
 
     }
@@ -48,7 +48,7 @@ class FoodShelterList {
         $(".modal-body #resource-submit-btn").addClass("hidden-main-content-block");
         ///ADDING PICTURE
         $('.modal-body  #image-preview').removeClass("hidden-main-content-block");
-        FoodShelterList.readURL(resource.image);
+        ResourcesList.readURL(resource.image);
         //Adding Location
         $(".modal-body #resource-location").text(resource.location);
         //Adding resource name
@@ -129,7 +129,7 @@ class FoodShelterList {
                 break;
         }
 
-        $(".modal-body #food-shelter-content").removeClass("hidden-main-content-block");
+        $(".modal-body #resources-content").removeClass("hidden-main-content-block");
         $('#exampleModalCenter').modal('show');
     }
 
@@ -137,7 +137,7 @@ class FoodShelterList {
     static readURL= async (image) =>{
         var base64Flag = 'data:image/png;base64,';
         var imageStr =
-            await FoodShelterList.arrayBufferToBase64(image.data.data)
+            await ResourcesList.arrayBufferToBase64(image.data.data)
         $('.modal-body  #image-preview').attr('src',base64Flag + imageStr);
 
     }
@@ -160,7 +160,7 @@ class FoodShelterList {
                     "Authorization": jwt
                 }
             }).done(function(response) {
-                FoodShelterList.showResourceDetail(response)
+                ResourcesList.showResourceDetail(response)
                 resolve(response);
             }).fail(function(e) {
                 reject(e.message)
@@ -190,10 +190,10 @@ class FoodShelterList {
     }
 
     static drawResources(resources) {
-        let containerId = "resources-list-content";
+        let containerId = "resources_list-content";
         $("#resources-list-div .no-results-message").addClass("hidden");
         //1. find templates in html
-        const resourceTemplate = document.querySelector('template#food-shelter-template');
+        const resourceTemplate = document.querySelector('template#resources-template');
         //2. find container
         let listContainer = document.getElementById(containerId);
         $("#" + containerId + " li").remove();
@@ -220,9 +220,9 @@ class FoodShelterList {
     //todo pass this to a class AddressBook that has an attribute currentUser
     static updateResourceListView() {
         //get resource data
-        FoodShelterList.getResources().then(resources => {
+        ResourcesList.getResources().then(resources => {
             if(resources.length > 0){
-                FoodShelterList.drawResources(resources);
+                ResourcesList.drawResources(resources);
             }
 
         }).catch(err => {});
@@ -232,7 +232,7 @@ class FoodShelterList {
 
 $(function() {
 
-    new FoodShelterList();
+    new ResourcesList();
 
 });
 

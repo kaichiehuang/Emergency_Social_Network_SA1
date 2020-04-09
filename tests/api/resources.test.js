@@ -2,6 +2,9 @@ const TestDatabase = require("../services/testDataBase");
 const agent = require('superagent')
 const constants = require('../../constants');
 const fs = require('fs');
+const pictureTest = "./tests/resources/photo_resources_test.png"
+
+
 // Initiate Server
 let PORT = 3000;
 let HOST = 'http://localhost:' + PORT;
@@ -34,11 +37,7 @@ afterAll(async () => {
 });
 
 
-
-
-beforeAll(async () => {
-    await testDatabase.start();
-
+beforeEach(async () => {
     // get token
     await agent.post(HOST + '/api/users')
         .send(user)
@@ -46,11 +45,17 @@ beforeAll(async () => {
         .then(res =>{
             token = res.body.tokens.token;
             userId = res.body.user.userId;
+            return;
         });
 
     console.log("token: " + token);
     console.log("userId: " + userId);
 
+});
+
+
+beforeAll(async () => {
+    await testDatabase.start();
 
 });
 
@@ -60,7 +65,11 @@ describe("Testing Resource creeation  API", () =>{
     test('Should create an resource', async() =>{
         expect.assertions(1);
 
-        var imgFile =fs.readFileSync('photo.png')
+
+
+        var imgFile =fs.readFileSync(pictureTest)
+
+
         //var fileStr = imgFile.toString('base64')
         const resource = {
             user_id : userId,
@@ -71,13 +80,15 @@ describe("Testing Resource creeation  API", () =>{
             questionOne:true,
             questionTwo:true,
             questionThree:true,
-            image:imgFile,
+            //image:imgFile,
             contentType:'image/png'};
 
         await agent.post(HOST +"/api/resources")
-            .send(resource)
+            .field(resource)
+            .attach('resourceImage', pictureTest)
+            //.send(resource)
             .set('Authorization', token)
-            .set('accept', 'json')
+            //.set('accept', 'json')
             .then(res =>{
                 return expect(res.body.name).toBe('resource name');
             });
@@ -90,9 +101,6 @@ describe("Testing searching Resources  API", () =>{
     let resourceId;
     beforeEach(async ()=>{
 
-        //First resource created
-        let imgFile =fs.readFileSync('photo.png')
-        //var fileStr = imgFile.toString('base64')
         let resource = {
             user_id : userId,
             resourceType: constants.RESOURCE_MEDICAL,
@@ -102,11 +110,13 @@ describe("Testing searching Resources  API", () =>{
             questionOne:true,
             questionTwo:true,
             questionThree:true,
-            image:imgFile,
-            contentType:'image/png'};
+            //image:imgFile,
+            //contentType:'image/png'
+            };
 
         await agent.post(HOST +"/api/resources")
-            .send(resource)
+            .field(resource)
+            .attach('resourceImage', pictureTest)
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{
@@ -124,11 +134,13 @@ describe("Testing searching Resources  API", () =>{
             questionOne:true,
             questionTwo:false,
             questionThree:true,
-            image:imgFile,
-            contentType:'image/png'};
+            //image:imgFile,
+            //contentType:'image/png'
+            };
 
         await agent.post(HOST +"/api/resources")
-            .send(resource)
+            .field(resource)
+            .attach('resourceImage', pictureTest)
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{

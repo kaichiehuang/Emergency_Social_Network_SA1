@@ -1,40 +1,54 @@
 
 class Resources {
+    /**
+     * Initializing view
+     */
     constructor() {
+
+
         $("#step-one-btn").on('click', (e) => {
 
-            if($('#step-one-content').hasClass("hidden-main-content-block")){
-                $('#step-one-content').removeClass("hidden-main-content-block");
 
-                $("#resource-location-div").addClass("hidden-main-content-block");
-                $("#resource-picture-div").addClass("hidden-main-content-block");
-                $("#div-resource-type").removeClass("hidden-main-content-block");
-            }
+            Resources.addClassElements('selected-btn',
+                $("#step-one-btn"));
+            Resources.removeClassElements('selected-btn',
+                $("#step-two-btn"),$("#step-three-btn"));
+
+
+                Resources.removeClassElements("hidden-main-content-block",
+                    $('#step-one-content'),$("#div-resource-type"));
+                Resources.addClassElements("hidden-main-content-block",
+                    $("#resource-location-div"),$("#resource-picture-div"));
 
         });
 
         $("#step-two-btn").on('click', (e) => {
 
-            if($('#resource-location-div').hasClass("hidden-main-content-block")){
-                $('#resource-location-div').removeClass("hidden-main-content-block");
+            Resources.addClassElements('selected-btn',
+                $("#step-two-btn"));
+            Resources.removeClassElements('selected-btn',
+                $("#step-one-btn"),$("#step-three-btn"));
 
-                $("#step-one-content").addClass("hidden-main-content-block");
-                $("#resource-picture-div").addClass("hidden-main-content-block");
-                $("#div-resource-type").addClass("hidden-main-content-block");
-            }
+            Resources.removeClassElements("hidden-main-content-block",
+                $('#resource-location-div'));
+            Resources.addClassElements("hidden-main-content-block",
+                $("#step-one-content"), $("#resource-picture-div"), $("#div-resource-type"));
 
         });
 
 
         $("#step-three-btn").on('click', (e) => {
 
-            if($('#resource-picture-div').hasClass("hidden-main-content-block")){
-                $('#resource-picture-div').removeClass("hidden-main-content-block");
+            Resources.addClassElements('selected-btn',
+                $("#step-three-btn"));
+            Resources.removeClassElements('selected-btn',
+                $("#step-two-btn"),$("#step-one-btn"));
 
-                $("#step-one-content").addClass("hidden-main-content-block");
-                $("#resource-location-div").addClass("hidden-main-content-block");
-                $("#div-resource-type").addClass("hidden-main-content-block");
-            }
+            Resources.removeClassElements("hidden-main-content-block",
+                $('#resource-picture-div'));
+            Resources.addClassElements("hidden-main-content-block",
+                $("#step-one-content"), $("#resource-location-div"), $("#div-resource-type"));
+
 
         });
 
@@ -42,49 +56,53 @@ class Resources {
 
         $("#supplies-btn").on('click', (e) => {
 
-            $("#supplies-btn").addClass('selected-btn')
-            $("#shelter-btn").removeClass('selected-btn')
-            $("#medical-btn").removeClass('selected-btn')
-            if($('#supplies-content-div').hasClass("hidden-main-content-block")){
-                $('#supplies-content-div').removeClass("hidden-main-content-block");
+            Resources.addClassElements('selected-btn',
+                $("#supplies-btn"));
+            Resources.removeClassElements('selected-btn',
+                $("#shelter-btn"),$("#medical-btn"));
 
-                $("#medical-content-div").addClass("hidden-main-content-block");
-                $("#shelter-content-div").addClass("hidden-main-content-block");
-            }
+            Resources.removeClassElements("hidden-main-content-block",
+                $('#supplies-content-div'));
+            Resources.addClassElements("hidden-main-content-block",
+                $("#medical-content-div"), $("#shelter-content-div"));
+
 
         });
 
         $("#medical-btn").on('click', (e) => {
+            Resources.addClassElements('selected-btn',
+                $("#medical-btn"));
+            Resources.removeClassElements('selected-btn',
+                $("#supplies-btn"),$("#shelter-btn"));
 
-            $("#medical-btn").addClass('selected-btn')
-            $("#shelter-btn").removeClass('selected-btn')
-            $("#supplies-btn").removeClass('selected-btn')
+            Resources.removeClassElements("hidden-main-content-block",
+                $('#medical-content-div'));
+            Resources.addClassElements("hidden-main-content-block",
+                $("#supplies-content-div"), $("#shelter-content-div"));
 
-
-            if($('#medical-content-div').hasClass("hidden-main-content-block")){
-                $('#medical-content-div').removeClass("hidden-main-content-block");
-
-                $("#supplies-content-div").addClass("hidden-main-content-block");
-                $("#shelter-content-div").addClass("hidden-main-content-block");
-            }
         });
 
 
         $("#shelter-btn").on('click', (e) => {
+            Resources.addClassElements('selected-btn',
+                $("#shelter-btn"));
+            Resources.removeClassElements('selected-btn',
+                $("#supplies-btn"),$("#medical-btn"));
 
-            $("#shelter-btn").addClass('selected-btn')
-            $("#supplies-btn").removeClass('selected-btn')
-            $("#medical-btn").removeClass('selected-btn')
-            if($('#shelter-content-div').hasClass("hidden-main-content-block")){
-                $('#shelter-content-div').removeClass("hidden-main-content-block");
+            Resources.removeClassElements("hidden-main-content-block",
+                $('#shelter-content-div'));
+            Resources.addClassElements("hidden-main-content-block",
+                $("#medical-content-div"), $("#supplies-content-div"));
 
-                $("#medical-content-div").addClass("hidden-main-content-block");
-                $("#supplies-content-div").addClass("hidden-main-content-block");
-            }
         });
 
-        $("#resource-submit-btn").on('click',(e)=>{
-            Resources.getValues();
+        $("#resource-submit-btn").on('click', async (e)=>{
+            const valid = await Resources.validateRequireFields();
+            if(valid){
+                Resources.getValues();
+            }else{
+                alert('Validate required fields');
+            }
         })
 
 
@@ -93,27 +111,52 @@ class Resources {
             $('#image-preview').removeClass('hidden-main-content-block')
         });
 
-
+        Resources.initializeFirstSelection()
 
 
     }
 
+    /**
+     * Initialize buttons selection
+     */
+    static initializeFirstSelection(){
+        $( "#step-one-btn" ).trigger( "click" );
+        $( "#supplies-btn" ).trigger( "click" );
+    }
 
+
+    static removeClassElements(nameClass,...showElement){
+        for (let element of showElement) {
+            element.removeClass(nameClass);
+        }
+    }
+
+
+    static addClassElements(nameClass,...showElement){
+        for (let element of showElement) {
+            element.addClass(nameClass);
+        }
+    }
+
+    /**
+     * Method to read the image and show a preview
+     */
     static readURL() {
 
         let input = $('#resource-picture').prop('files');
         if (input && input[0]) {
             let reader = new FileReader();
-
             reader.onload = function(e) {
                 $('#image-preview').attr('src', e.target.result);
             }
-
             reader.readAsDataURL(input[0]); // convert to base64 string
         }
     }
 
 
+    /**
+     * Getting values from the form to save the resource
+     */
     static getValues(){
 
         let description;
@@ -156,12 +199,74 @@ class Resources {
 
     }
 
+
+    static validateRequireFields = async ()=>{
+
+
+        const resourceType = ("#div-resource-type button.selected-btn");
+        if(resourceType.length===0 || $('#resource-location').val()=== ""){
+            return false;
+        }else {
+
+            switch ($("#div-resource-type button.selected-btn").attr('name')) {
+                case 'SUPPLIES':
+                    if($('#supplies-description-id').val() === "" ||
+                        $("#supplies-q1-div input[type='radio']:checked").length === 0 ||
+                        $("#supplies-q2-div input[type='radio']:checked").length === 0){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                    break;
+                case 'MEDICAL':
+                    if($('#medical-description-id').val()=== "" ||
+                        $("#medical-q1-div input[type='radio']:checked").length === 0 ){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                    break;
+                case 'SHELTER':
+
+                    if($("#shelter-description-i").val()=== "" ||
+                        $("#shelter-q1-div input[type='radio']:checked").length === 0 ||
+                        $("#shelter-q2-div input[type='radio']:checked").length === 0){
+                        return false;
+                    }else{
+                        return true;
+                    }
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
+
+    }
+
+    /**
+     * Saving resource information
+     * @param resourceObject
+     * @returns {Promise<unknown>}
+     */
     static postResource(resourceObject) {
 
         let formData = new FormData();
 
-        formData.append("data", JSON.stringify(resourceObject));
-        formData.append("resourceImage", $('#resource-picture').prop('files')[0]);
+        formData.append("user_id", Cookies.get('user-id'));
+        formData.append("resourceType", $("#div-resource-type button.selected-btn").attr('name'));
+        formData.append("name", $('#resource-name-id').val());
+        formData.append("location", $('#resource-location').val());
+        formData.append("description", resourceObject.description);
+        formData.append("questionOne", resourceObject.questionOne);
+        formData.append("questionTwo", resourceObject.questionTwo);
+
+
+        if($('#resource-picture').prop('files').length === 0) {
+           formData.append("resourceImage", $('#resource-picture').prop('files')[0]);
+        }
+
+        //formData.append("resourceImage", $('#resource-picture').prop('files')[0]);
 
             return new Promise((resolve, reject) => {
                 let jwt = Cookies.get('user-jwt-esn');
@@ -177,7 +282,8 @@ class Resources {
                 }).done(function(response) {
                     $('#supplies-form').trigger("reset");
                     $('#image-preview').attr('src',"#");
-                    //swapContent("public-chat-content");
+                    Resources.initializeFirstSelection()
+                    swapContent("public-chat-content");
                     resolve(response);
                 }).fail(function(e) {
                     reject(e.message)

@@ -520,7 +520,7 @@ form {
 }
 
 
-.food-shelter-content {
+.resources-content {
     padding-top:70px;
     display: block;
     color: $brand_color1;
@@ -533,7 +533,7 @@ form {
             border-radius: 50%;
         }
         .selected-btn{
-            border-color: red;
+            background-color:$brand_color2;
         }
 
     }
@@ -543,6 +543,7 @@ form {
         #image-preview{
             width: 90%;
             object-fit:scale-down;
+            height: 350px;
         }
 
     }
@@ -572,12 +573,16 @@ form {
         @include flexbox;
         @include align-items(center);
         @include justify-content(flex-end);
+        #icon{
+            color: $brand_color2;
+        }
+
     }
     .modal-content .container{
-        width: 100%;
+        width: 90%;
     }
-    .modal-content .modal-body .food-shelter-content{
-
+    .modal-content .modal-body .resources-content{
+        overflow-y: scroll;
         height: auto;
         min-height: auto;
         padding-top: 1px;
@@ -586,6 +591,13 @@ form {
             min-height: auto;
 
         }
+    }
+
+    .type_area{
+        #addResourceIcon{
+            color:$brand_color1;
+        }
+        text-align: end;
     }
 
 

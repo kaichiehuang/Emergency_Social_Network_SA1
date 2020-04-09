@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
+        <div class="resources-list-content main-content-block  hidden-main-content-block" id="resources-list-content">
+            <div class="msg_border">
+                <div class="messaging">
+                 <div class="msg_area msg_area-<%= block_id %>" id="<%= block_id %>-msg_area">
+                    <p class="no-results-message text-center hidden">
+                        NO RESOURCES FOUND
+                    </p>
+                    <div class="clearfix"></div>
+                        <ul class="list-group list-instructions" id="resources_list-content">
+                            <template id="resources-template">
+                                <li class="list-group-item" >
+                                    <div class="list-group-item__left">
+                                        <span class="resource-name"></span>
+                                        <span class="description"></span>
+                                    </div>
+                                    <div class="list-group-item__right">
+                                      <span id='icon' class="fa fa-info-circle fa-2x"></span>
+                                    </div>
+                                </li>
+                            </template>
+
+                        </ul>
+                    </div>
+                    </div>
+                </div>
+                <div class="type_area">
+                    <span id='addResourceIcon' class="fa fa-plus fa-2x"></span>
+                </div>
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container">
+                                    <% include resources.ejs %>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -4,6 +4,9 @@ const constants = require('../../constants');
 const testDatabase = new TestDataBase();
 const fs = require('fs');
 
+const pictureTest = "./tests/resources/photo_resources_test.png"
+
+
 beforeAll(async () => {
     await testDatabase.start();
 });
@@ -21,7 +24,7 @@ describe('Creating a resource',() => {
 
     test('Should create a resource ', async() => {
         expect.assertions(1);
-        var imgFile =fs.readFileSync('photo.png')
+        var imgFile =fs.readFileSync(pictureTest)
         //var fileStr = imgFile.toString('base64')
         const resource = new Resource(
             '507f1f77bcf86cd799439011',
@@ -42,7 +45,7 @@ describe('Creating a resource',() => {
 
     test('Should validate require fields ', async() => {
         expect.assertions(1);
-        var imgFile =fs.readFileSync('photo.png')
+        var imgFile =fs.readFileSync(pictureTest)
         //var fileStr = imgFile.toString('base64')
         const resource = new Resource(
             '507f1f77bcf86cd799439011',
@@ -69,7 +72,7 @@ describe('Creating a resource',() => {
 describe('Getting a resource',() => {
     let resourceId;
     beforeEach(async () => {
-        var imgFile =fs.readFileSync('photo.png')
+        var imgFile =fs.readFileSync(pictureTest)
         //var fileStr = imgFile.toString('base64')
         const resource = new Resource(
             '507f1f77bcf86cd799439011',
@@ -101,7 +104,7 @@ describe('Getting a resource',() => {
     test('Should get all the resource previously inserted ', async() => {
         expect.assertions(1);
 
-        var imgFile =fs.readFileSync('photo.png')
+        var imgFile =fs.readFileSync(pictureTest)
         //var fileStr = imgFile.toString('base64')
         let resource = new Resource(
             '507f1f77bcf86cd799439011',

@@ -11,9 +11,10 @@ class ResourceController{
      */
     registerResource(req,res){
         console.log("in register resource")
+        console.log(req.body );
         console.log(req.file );
-        console.log(JSON.parse(req.body.data));
-        const requestData = JSON.parse(req.body.data);
+        //console.log(JSON.parse(req.body));
+        const requestData = req.body;
         console.log(requestData.user_id);
         //Getting the parameters from request body
         const user_id = requestData.user_id;
@@ -30,16 +31,24 @@ class ResourceController{
         console.log('questionOne:'+ questionOne);
         console.log('questionTwo:'+ questionTwo);
 
+
+        let file;
+        let fileType;
+        if(req.file === undefined){
+            file = "";
+            fileType="";
+        }else{
+            file =req.file.buffer;
+            fileType = req.file.mimetype;
+        }
+
         const resource = new Resource(user_id,resourceType,name,location,
-            description,questionOne,questionTwo,questionThree,req.file.buffer,req.file.mimetype)
+            description,questionOne,questionTwo,questionThree,file,fileType)
 
         resource.saveResource()
             .then((newResource =>{
-                console.log('ResourceController registerResource:'
-                    + newResource);
                 User.findUserById(user_id)
                     .then((userFound)=>{
-                        console.log('userfind'+userFound)
                         //Create Message on the public Chat
                         // 2. Create chat message object
                         const chatMessage = new ChatMessage('Resource Shared:' + name,
@@ -88,8 +97,6 @@ class ResourceController{
         if(resourceId !== undefined){
             Resource.findResourceById(resourceId)
                 .then(resource =>{
-                    console.log('ResourceController findResourceById:'
-                        + resource);
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(resource));
                 })
@@ -102,8 +109,6 @@ class ResourceController{
             //Get all resources
             Resource.findResources()
                 .then(resources =>{
-                    console.log('ResourceController findResources:'
-                        + resources);
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(resources));
                 })
