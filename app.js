@@ -17,6 +17,8 @@ var announcementRouter = require('./routes/announcements');
 const spamReportRouter = require('./routes/spamReport');
 
 let ENVIRONMENT = "development";
+
+/* istanbul ignore next */
 if (process.env.NODE_ENV != undefined ) {
     ENVIRONMENT = process.env.NODE_ENV;
 }
@@ -31,6 +33,8 @@ var app = express();
 // https redirect uncomment on server
 // app.use(httpsRedirectTool([], [], 301));
 let serverType = 'http';
+
+/* istanbul ignore next */
 if (ENVIRONMENT == "production") {
     /* istanbul ignore next */
     serverType = "http";
@@ -39,12 +43,16 @@ if (ENVIRONMENT == "production") {
 let http = null;
 let https = null;
 let server = null;
+
+/* istanbul ignore next */
 if (serverType == 'http') {
     http = require('http');
 } else {
     /* istanbul ignore next */
     https = require('https');
 }
+
+/* istanbul ignore next */
 if (serverType == 'http') {
     /**
      * Create HTTP server.
@@ -54,6 +62,7 @@ if (serverType == 'http') {
     /* istanbul ignore next */
     let options = {}
     // https certificates for localhost
+    /* istanbul ignore next */
     if (ENVIRONMENT != "production") {
         /**
          * Create HTTPS server.
