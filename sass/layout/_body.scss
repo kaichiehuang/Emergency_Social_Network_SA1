@@ -745,11 +745,11 @@ form {
     left: 0;
     background: rgba(#333, 0.5);
     z-index: 9999999999999999999;
-    padding: 15px;
+    padding: 45px 20px;
     >div {
         background: white;
         height: 100%;
-        padding: 30px;
+        padding: 15px 25px;
         width: 100%;
     }
     .subtitle {
@@ -762,10 +762,14 @@ form {
         line-height: 1.4em;
         margin-top: 20%;
     }
+    p {
+        margin-bottom: 30px;
+        text-align: justify;
+    }
     .close {
         position: absolute;
-        right: 27.5px;
-        top: 27.5px;
+        right: 35px;
+        top: 60px;
         color: $brand_color2;
         opacity: 1;
         font-size: 1.75em;

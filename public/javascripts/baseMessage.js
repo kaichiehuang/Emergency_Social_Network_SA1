@@ -49,7 +49,9 @@ class BaseMessage {
                     }
 
                     template.querySelector('.status-indicator-element').classList.add("statusIndicator");
-                    template.querySelector('.status-indicator-element').classList.add(indicatorStyle);
+                    if(indicatorStyle != ''){
+                        template.querySelector('.status-indicator-element').classList.add(indicatorStyle);
+                    }
                 }
 
                 template.querySelector('.msg').innerText = message.message;

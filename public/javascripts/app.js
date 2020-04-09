@@ -18,7 +18,6 @@ let user_acknowledgement = null;
 let apiPath = '/api';
 let currentUser = null;
 let selectedStatus = null;
-
 let socket = null;
 
 /**

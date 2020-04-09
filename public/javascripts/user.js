@@ -11,14 +11,12 @@ class User {
         this.emergency_contact = {};
         this.medical_information = {};
     }
-
     /**
      * [getUserData description]
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
-     static getUser(userId) {
-
+    static getUser(userId) {
         return new Promise((resolve, reject) => {
             if (userId != null) {
                 let jwt = Cookies.get('user-jwt-esn');
@@ -35,25 +33,23 @@ class User {
                 }).always(function() {
                     console.log("complete");
                 });
-            }else{
+            } else {
                 reject();
             }
         });
-
     }
-
     /**
      * Returns a list of users from the API
      * @return {[type]} [description]
      */
-     static getPersonalMessage(userId, security_question_answer) {
+    static getPersonalMessage(userId, security_question_answer) {
         let data = {
             "security_question_answer": security_question_answer,
         };
         return new Promise((resolve, reject) => {
             let jwt = Cookies.get('user-jwt-esn');
             $.ajax({
-                "url": apiPath + '/users/'+ userId + "/personal-message" ,
+                "url": apiPath + '/users/' + userId + "/personal-message",
                 "type": 'get',
                 "headers": {
                     "Authorization": jwt
@@ -68,13 +64,11 @@ class User {
             });
         });
     }
-
-
     /**
      * Returns a list of users from the API
      * @return {[type]} [description]
      */
-     static getUsers(keyword, status) {
+    static getUsers(keyword, status) {
         let data = {
             "username": keyword,
             "status": status
@@ -97,12 +91,11 @@ class User {
             });
         });
     }
-
     /**
      * Returns a list of users from the API
      * @return {[type]} [description]
      */
-     static updateUser(userId, data) {
+    static updateUser(userId, data) {
         return new Promise((resolve, reject) => {
             let jwt = Cookies.get('user-jwt-esn');
             $.ajax({
@@ -116,9 +109,9 @@ class User {
             }).done(function(response) {
                 resolve(response);
             }).fail(function(e) {
-                if(e.responseJSON != undefined){
+                if (e.responseJSON != undefined) {
                     reject(e.responseJSON.msg)
-                }else{
+                } else {
                     reject(e)
                 }
             }).always(function() {
@@ -131,12 +124,24 @@ class User {
      * [initCurrentUser description]
      * @return {[type]} [description]
      */
-    static initCurrentUser(){
-        //init current user
-        User.getUser(Cookies.get('user-id'))
+    static updateCurrentUser(){
+        User.getCurrentUser()
         .then(user => {
             currentUser = user;
-            if(currentUser.name == undefined || currentUser.name.length == 0 || true){
+        }).catch(err => {
+
+        });
+    }
+    /**
+     * [initCurrentUser description]
+     * @return {[type]} [description]
+     */
+    static initCurrentUser(){
+        User.getCurrentUser()
+        .then(user => {
+            currentUser = user;
+            if(currentUser.name == undefined || currentUser.name.length == 0 ){
+                showElements("profile-update-invite");
                 User.initUpdateInvite();
             }
         }).catch(err => {
@@ -144,9 +149,27 @@ class User {
         });
     }
 
-    static initUpdateInvite(){
-        window.setInterval(function(){
+    /**
+     * [initCurrentUser description]
+     * @return {[type]} [description]
+     */
+    static getCurrentUser() {
+        return new Promise((resolve, reject) => {
+            //init current user
+            User.getUser(Cookies.get('user-id')).then(user => {
+                resolve(user);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    }
+    /**
+     * [initUpdateInvite description]
+     * @return {[type]} [description]
+     */
+    static initUpdateInvite() {
+        window.setInterval(function() {
             showElements("profile-update-invite");
-        }, 60000  * 8);
+        }, 60000 * 5);
     }
 }

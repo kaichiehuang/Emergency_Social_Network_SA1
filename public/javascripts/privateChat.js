@@ -12,7 +12,7 @@ class PrivateChatMessage extends BaseMessage {
         Cookies.set('receiver_user_id', receiver_user_id);
         $("#private-chat > li").remove();
         let privateChatMessageModel = new PrivateChatMessage();
-        privateChatMessageModel.updateMessageListView('private');
+        privateChatMessageModel.updateMessageListView('private', "", 0);
 
     }
     /**
@@ -33,6 +33,8 @@ class PrivateChatMessage extends BaseMessage {
             event.preventDefault();
             let newID = $(this).data('view-id');
             if (newID === 'private-chat-content') {
+                page = 0;
+                privateChatMessageModel.updateMessageListView('private', "", page);
                 private_wall_container.scrollTop = private_wall_container.scrollHeight;
             }
         });
