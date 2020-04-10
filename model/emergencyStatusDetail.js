@@ -31,6 +31,16 @@ class EmergencyStatusDetail {
         });
     }
 
+    getEmergencyStatusDetail() {
+        return new Promise((resolve, reject) => {
+            
+        });
+    }
+
+    updateEmergencyStatusDetail() {
+         
+    }
+
 
 
 }

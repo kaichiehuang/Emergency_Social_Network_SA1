@@ -54,6 +54,17 @@ const EmergencyStatusDetailSchema = new Schema(
     schemaOptions
 );
 
+const EmergencyPictureAndDescription = new Schema(
+    {
+        user_id: {type: Schema.Types.ObjectId, ref: 'User'},
+        statusDescription: String,
+        shareLocation: Boolean,
+
+
+    },
+    schemaOptions
+);
+
 
 const PrivateChatMessageSchema = new Schema(
     {

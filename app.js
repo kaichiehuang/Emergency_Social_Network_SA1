@@ -14,6 +14,7 @@ var chatMessagesRouter = require('./routes/chatMessages');
 var privateChatMessagesRouter = require('./routes/privateChatMessages');
 var usersListRouter = require('./routes/usersList');
 var announcementRouter = require('./routes/announcements');
+var emergencyStatusDetailRouter = require('./routes/emergencyStatusDetail');
 
 let ENVIRONMENT = "development";
 if (process.env.NODE_ENV != undefined ) {
@@ -101,6 +102,7 @@ app.use('/api/chat-messages', chatMessagesRouter);
 app.use('/api/private-chat-messages', privateChatMessagesRouter);
 app.use('/api/usersList', usersListRouter);
 app.use('/api/announcements',announcementRouter);
+//app.use('/api/emergencyStatusDetail',emergencyStatusDetailRouter);
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
 app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirejs')));
 // catch 404 and forward to error handler

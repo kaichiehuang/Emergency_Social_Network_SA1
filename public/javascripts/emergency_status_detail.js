@@ -40,7 +40,7 @@ class EmergencyStatusDetail {
 
     static generatePreviewPage() {
         //TODO: retreive detailed data
-
+        
         //hide elements from edit mode
         $("#briefDescriptionEdit").addClass("hidden");
         $("#shareLocationToggle").addClass("hidden");
@@ -48,6 +48,11 @@ class EmergencyStatusDetail {
         //brief description
         document.getElementById("briefDescriptionPreview").innerHTML = "test";
         $("#briefDescriptionPreview").removeClass("hidden");
+
+        //share location
+
+        //picture and description
+
     }
 
     
