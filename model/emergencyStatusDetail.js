@@ -34,3 +34,5 @@ class EmergencyStatusDetail {
 
 
 }
+
+module.exports = EmergencyStatusDetail; 
