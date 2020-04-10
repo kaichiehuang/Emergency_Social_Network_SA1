@@ -102,7 +102,7 @@ app.use('/api/chat-messages', chatMessagesRouter);
 app.use('/api/private-chat-messages', privateChatMessagesRouter);
 app.use('/api/usersList', usersListRouter);
 app.use('/api/announcements',announcementRouter);
-//app.use('/api/emergencyStatusDetail',emergencyStatusDetailRouter);
+app.use('/api/emergencyStatusDetail',emergencyStatusDetailRouter);
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
 app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirejs')));
 // catch 404 and forward to error handler
