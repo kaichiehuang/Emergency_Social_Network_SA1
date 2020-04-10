@@ -22,5 +22,7 @@ router.post('/', TokenServerClass.validateToken, jsonParser, emergencyStatusDeta
 // TODO: delete method for deleting pictures and description
 
 // TODO: put method for updating picture description
+router.put('/:userId', TokenServerClass.validateToken, jsonParser, emergencyStatusDetailController.updatePictureDescription);
+
 module.exports = router;
 

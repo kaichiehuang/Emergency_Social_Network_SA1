@@ -12,6 +12,10 @@ class EmergencyStatusDetailController {
     }
 
     addPictureAndDesciption(req, res) {
+
+    }
+
+    updatePictureDescription(req, res) {
         
     }
 
