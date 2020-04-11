@@ -1,6 +1,5 @@
 const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js')
-
-const User = require('../model/user.js');
+const fs = require('fs');
 
 class EmergencyStatusDetailController {
 
@@ -64,6 +63,13 @@ class EmergencyStatusDetailController {
         const pictureId = req.params.pictureId;
         EmergencyStatusDetail.removePictureAndDescription(pictureId)
             .then((result) => {
+                const path = result.picture_path;
+                fs.unlink(path, (err) => {
+                    if (err) {
+                      console.error(err)
+                      return
+                    }
+                })
                 res.contentType('application/json');
                 return res.status(201).send(JSON.stringify(result));
             }).catch((err) => {
