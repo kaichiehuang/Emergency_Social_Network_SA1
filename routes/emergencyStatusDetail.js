@@ -4,7 +4,7 @@ const EmergencyStatusDetailController = require(__dirname + '/../controllers/Eme
 const bodyParser = require('body-parser');
 const TokenServerClass = require('../middleware/TokenServer');
 const multer = require('multer');
-const upload = multer({dest: 'pictures/'});
+const upload = multer({dest: 'public/pictures/'});
 
 // application/json parser
 const jsonParser = bodyParser.json();
@@ -19,12 +19,12 @@ router.get('/:userId', TokenServerClass.validateToken, jsonParser, emergencyStat
 router.put('/:userId', TokenServerClass.validateToken, jsonParser, emergencyStatusDetailController.updateEmergencyStatusDetail);
 
 // post method for add new pictures and description
-router.post('/:userId',TokenServerClass.validateToken, jsonParser, upload.single('picture') ,emergencyStatusDetailController.addPictureAndDesciption);
+router.post('/:userId',TokenServerClass.validateToken, jsonParser, upload.single('picture'),emergencyStatusDetailController.addPictureAndDescription);
 
 // TODO: delete method for deleting pictures and description
 
 // TODO: put method for updating picture description
-router.put('/:userId/picture', TokenServerClass.validateToken, jsonParser, emergencyStatusDetailController.updatePictureDescription);
+router.put('/picture/:pictureId', TokenServerClass.validateToken, jsonParser, emergencyStatusDetailController.updatePictureDescription);
 
 module.exports = router;
 

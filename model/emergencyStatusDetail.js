@@ -1,4 +1,6 @@
 const EmergencyStatusDetailModel = require('./model').EmergencyStatusDetailMongo;
+const PictureAndDescriptionModel = require('./model').PictureAndDescriptionMongo;
+
 
 class EmergencyStatusDetail {
     constructor(user_id) {
@@ -62,12 +64,39 @@ class EmergencyStatusDetail {
          });
     }
 
-    static addPictureAndDesciption () {
-
+    static addPictureAndDescription(userId, picturePath, pictureName, pictureDescription) {
+        return new Promise((resolve, reject) => {
+            const newPictureAndDescription = new PictureAndDescriptionModel ({
+                user_id: userId,
+                picture_description: pictureDescription,
+                picture_path: picturePath,
+                picture_name: pictureName
+            });
+            newPictureAndDescription.save()
+                .then((result) => {
+                    console.log('add picture and description successful');
+                    this.id = result.id;
+                    resolve(newPictureAndDescription);
+                })
+                .catch(function(err) {
+                    console.log('add picture and description fail');
+                    console.log(err);
+                    reject(err);
+                });
+        });
     }
 
-    static updatePictureDescription(pictureId) {
-
+    static updatePictureDescription(pictureId, pictureDiscription) {
+        return new Promise((resolve, reject) => {
+            const update = {picture_description: pictureDiscription};
+            PictureAndDescriptionModel.findByIdAndUpdate(pictureId, update, {
+                new: true
+              }).exec().then((updatedStatusDetail) => {
+                resolve(updatedStatusDetail);
+              }).catch((err)=> {
+                  reject(err);
+              });
+         });
     }
 
 
