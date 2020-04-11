@@ -58,7 +58,8 @@ const PictureAndDescriptionSchema = new Schema(
     {
         user_id: {type: Schema.Types.ObjectId, ref: 'User'},
         pictureDescription: String,
-        picturePath: String
+        picturePath: String,
+        pictureName: String
     },
     schemaOptions
 );

@@ -31,15 +31,30 @@ class EmergencyStatusDetail {
         });
     }
 
-    getEmergencyStatusDetail() {
+    static getEmergencyStatusDetail(userId) {
         return new Promise((resolve, reject) => {
-            
+            EmergencyStatusDetailModel.findOne({
+                user_id: userId
+            }).exec().then((statusDetail) => {
+                resolve(statusDetail);
+            }).catch((err) => {
+                reject(err);
+            });
         });
     }
 
-    updateEmergencyStatusDetail() {
+    static updateEmergencyStatusDetail(userId, statusDescription, shareLocation) {
          
     }
+
+    static addPictureAndDesciption () {
+
+    }
+
+    static updatePictureDescription(pictureId) {
+
+    }
+
 
 
 
