@@ -99,6 +99,17 @@ class EmergencyStatusDetail {
          });
     }
 
+    static removePictureAndDescription(pictureId) {
+        return new Promise((resolve, reject) => {
+            PictureAndDescriptionModel.findByIdAndRemove(pictureId)
+                .exec().then((result) => {
+                resolve(result);
+              }).catch((err)=> {
+                  reject(err);
+              });
+         });
+    }
+
 
 
 

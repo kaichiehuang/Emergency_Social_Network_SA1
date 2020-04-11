@@ -60,6 +60,17 @@ class EmergencyStatusDetailController {
             });
     }
 
+    removePictureAndDescription(req, res) {
+        const pictureId = req.params.pictureId;
+        EmergencyStatusDetail.removePictureAndDescription(pictureId)
+            .then((result) => {
+                res.contentType('application/json');
+                return res.status(201).send(JSON.stringify(result));
+            }).catch((err) => {
+                return res.status(500).send(err);
+            });
+    }
+
 
 }
 
