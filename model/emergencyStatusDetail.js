@@ -64,6 +64,22 @@ class EmergencyStatusDetail {
          });
     }
 
+    static getAllPictureAndDescription(userId) {
+        return new Promise((resolve, reject) => {
+            PictureAndDescriptionModel.find({user_id: userId})
+                .then((result) => {
+                    console.log('find all picture and description successful');
+                    this.id = result.id;
+                    resolve(result);
+                })
+                .catch(function(err) {
+                    console.log('find all picture and description fail');
+                    console.log(err);
+                    reject(err);
+                });
+        });
+    }
+
     static addPictureAndDescription(userId, picturePath, pictureName, pictureDescription) {
         return new Promise((resolve, reject) => {
             const newPictureAndDescription = new PictureAndDescriptionModel ({

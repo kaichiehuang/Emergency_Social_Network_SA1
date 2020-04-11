@@ -29,6 +29,18 @@ class EmergencyStatusDetailController {
             });
     }
 
+    getAllPictureAndDescription(req, res) {
+        const userId = req.params.userId;
+
+        EmergencyStatusDetail.getAllPictureAndDescription(userId)
+            .then((allPicAndDes) => {
+                res.contentType('application/json');
+                return res.status(201).send(JSON.stringify(allPicAndDes));
+            }).catch((err) => {
+                return res.status(500).send(err);
+            });
+    }
+
     addPictureAndDescription(req, res) {
         console.log(req.file);
         const userId = req.params.userId;

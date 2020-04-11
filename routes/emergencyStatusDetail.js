@@ -18,6 +18,9 @@ router.get('/:userId', TokenServerClass.validateToken, jsonParser, emergencyStat
 // put method for updating status detail 
 router.put('/:userId', TokenServerClass.validateToken, jsonParser, emergencyStatusDetailController.updateEmergencyStatusDetail);
 
+//get method for getting all pictures and description
+router.get('/picture/:userId', TokenServerClass.validateToken, jsonParser, emergencyStatusDetailController.getAllPictureAndDescription);
+
 // post method for add new pictures and description
 router.post('/:userId',TokenServerClass.validateToken, jsonParser, upload.single('picture'),emergencyStatusDetailController.addPictureAndDescription);
 
