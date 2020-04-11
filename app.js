@@ -92,6 +92,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public/pictures',express.static(path.join(__dirname, 'public/pictures')));
 app.use('/', indexRouter);
 // app.use('/sign-up', registrationRouter);
 app.use('/app', applicationRouter);
