@@ -4,8 +4,8 @@ class EmergencyStatusDetail {
     constructor(user_id) {
         this._id = null;
         this.user_id = user_id;
-        this.statusDescription = null;
-        this.shareLocation = false;
+        this.status_description = null;
+        this.share_location = false;
         
     }
 
@@ -13,8 +13,8 @@ class EmergencyStatusDetail {
         return new Promise ((resolve, reject) => {
             const newEmergencyStatusDetail = new EmergencyStatusDetailModel ({
                 user_id: this.user_id,
-                statusDescription: this.statusDescription,
-                shareLocation: this.shareLocation,
+                status_description: this.status_description,
+                share_location: this.share_location,
                 
             });
             newEmergencyStatusDetail.save()
@@ -44,7 +44,22 @@ class EmergencyStatusDetail {
     }
 
     static updateEmergencyStatusDetail(userId, statusDescription, shareLocation) {
-         
+         return new Promise((resolve, reject) => {
+            const filter = {user_id: userId};
+            const update = 
+                {
+                    status_description: statusDescription,
+                    share_location: shareLocation 
+                };
+            EmergencyStatusDetailModel.findOneAndUpdate(filter, update, {
+                new: true
+              }).exec().then((updatedStatusDetail) => {
+                resolve(updatedStatusDetail);
+              }).catch((err)=> {
+                  reject(err);
+              });
+
+         });
     }
 
     static addPictureAndDesciption () {

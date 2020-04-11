@@ -46,8 +46,8 @@ ChatMessageSchema.index({'message': 'text'});
 const EmergencyStatusDetailSchema = new Schema(
     {
         user_id: {type: Schema.Types.ObjectId, ref: 'User'},
-        statusDescription: String,
-        shareLocation: Boolean,
+        status_description: String,
+        share_location: Boolean,
 
 
     },
@@ -57,9 +57,9 @@ const EmergencyStatusDetailSchema = new Schema(
 const PictureAndDescriptionSchema = new Schema(
     {
         user_id: {type: Schema.Types.ObjectId, ref: 'User'},
-        pictureDescription: String,
-        picturePath: String,
-        pictureName: String
+        picture_description: String,
+        picture_path: String,
+        picture_name: String
     },
     schemaOptions
 );
