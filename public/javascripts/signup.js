@@ -71,7 +71,6 @@ $(function() {
             }).fail(function() {
                 $("#signup-error-alert").html("asdfghjkdfghj");
                 $("#signup-error-alert").show();
-                alert("all done")
             }).always(function() {
                 console.log("complete");
             });

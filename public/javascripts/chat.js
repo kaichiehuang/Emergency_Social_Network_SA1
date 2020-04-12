@@ -100,7 +100,7 @@ function sendMessage() {
     }).fail(function(e) {
         $("#signup-error-alert").html(e);
         $("#signup-error-alert").show();
-        alert(e);
+
     }).always(function() {
         console.log("complete");
     });
@@ -126,7 +126,7 @@ function getMessages() {
     }).fail(function(e) {
         $("#signup-error-alert").html(e);
         $("#signup-error-alert").show();
-        alert(e);
+
     }).always(function() {
         console.log("complete");
     });

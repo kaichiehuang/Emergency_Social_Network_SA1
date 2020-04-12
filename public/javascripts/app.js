@@ -39,7 +39,7 @@ $(function() {
     if (userJWT == null || userJWT == undefined || userJWT == "") {
         console.log("no token found ... user is not logged in")
         if (window.location.pathname != "/") {
-            window.location.replace("/")
+            // window.location.replace("/")
         }
     }
     //user is logged in
