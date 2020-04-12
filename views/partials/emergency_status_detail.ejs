@@ -63,12 +63,47 @@
             </div>
         </div>
 
-
-
-
-
-
+        <div class="row">
+            <div class="col-xs-4 col-xs-offset-2">
+                <button type="button" class="btn btn-secondary btn-sm add-button"> Add picture... </button>
+            </div>
+        </div>
 
 
     </div>
+
+      
+    <!-- Modal -->
+    <div class="modal fade" id="addPictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Upload a new picture</h3>
+            </div>
+            <div class="modal-body">
+                
+                <form method="post" action="" enctype="multipart/form-data" id="myform">
+                    <div >
+                        <input type="file" id="file" name="file" />
+                        <!-- <input type="button" class="button" value="Upload" id="but_upload"> -->
+                    </div>
+                    <div>
+                        <textarea class = "form-control hidden" id="picDiscription" rows="3" placeholder="Give a brief discription of the picture"></textarea>
+                    </div>
+                </form>
+        
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success upload-button hidden">Upload</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+
+
+
+

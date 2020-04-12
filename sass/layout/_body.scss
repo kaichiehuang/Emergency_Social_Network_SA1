@@ -504,18 +504,7 @@ form {
     
     }
 
-    .delete-button {
-        margin-top: 5px;
-        margin-bottom: 15px;
-        border-radius: 8px;
-    }
-
-    .edit-button {
-        margin-top: 5px;
-        margin-bottom: 15px;
-        border-radius: 8px;
-    }
-    .save-button {
+    .delete-button, .edit-button, .save-button, .add-button, .upload-button, .close-button{
         margin-top: 5px;
         margin-bottom: 15px;
         border-radius: 8px;

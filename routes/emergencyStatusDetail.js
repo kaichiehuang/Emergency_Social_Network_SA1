@@ -22,7 +22,7 @@ router.put('/:userId', TokenServerClass.validateToken, jsonParser, emergencyStat
 router.get('/picture/:userId', TokenServerClass.validateToken, jsonParser, emergencyStatusDetailController.getAllPictureAndDescription);
 
 // post method for add new pictures and description
-router.post('/:userId',TokenServerClass.validateToken, jsonParser, upload.single('picture'),emergencyStatusDetailController.addPictureAndDescription);
+router.post('/:userId',TokenServerClass.validateToken, upload.single('picture'),jsonParser,emergencyStatusDetailController.addPictureAndDescription);
 
 // TODO: delete method for deleting pictures and description
 router.delete('/picture/:pictureId', TokenServerClass.validateToken, jsonParser, emergencyStatusDetailController.removePictureAndDescription);

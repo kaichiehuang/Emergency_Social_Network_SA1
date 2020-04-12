@@ -42,6 +42,7 @@ class EmergencyStatusDetailController {
     }
 
     addPictureAndDescription(req, res) {
+        console.log("In add picture controller");
         console.log(req.file);
         const userId = req.params.userId;
         const picturePath = req.file.path;
