@@ -4,47 +4,58 @@ class EmergencyStatusDetail {
         this.user_id = null;
     }
 
-    static setEditDetailEvent() {
-        $('.editButton').click(function(event) {
+    static setEditBreifDescriptionEvent() {
+        $('.edit-button').click(function(event) {
             event.preventDefault();
             console.log("edit button clicked!");
-            EmergencyStatusDetail.generateEditPage();
+            
+            //hide paragraph and edit button
+            $("#briefDescriptionPreview").addClass("hidden");
+            $(".edit-button").addClass("hidden");
+            //show textarea and save button
+            $("#briefDescriptionEdit").removeClass("hidden");
+            $(".save-button").removeClass("hidden");
+
         });
     }
 
-    static setSaveDetailEvent() {
-        $('.saveButton').click(function(event) {
+    static setSaveBreifDescriptionEvent() {
+        $('.save-button').click(function(event) {
             event.preventDefault();
             console.log('save button clicked!');
-            //TODO
-            EmergencyStatusDetail.sendStatusDetail();
-            EmergencyStatusDetail.generatePreviewPage();
+            //hide textarea and save button
+            $("#briefDescriptionEdit").addClass("hidden");
+            $(".save-button").addClass("hidden");
+
+            //TODO update paragraph
+
+            //show paragraph and edit button
+            $("#briefDescriptionPreview").removeClass("hidden");
+            $(".edit-button").removeClass("hidden");
+            
         });
     }
 
-    static generateEditPage() {
-        //TODO: retreive detailed data
-        
-        //hide elements from preview mode
-        $("#briefDescriptionPreview").addClass("hidden");
+    static setDeletePictureEvent(pictureId) {
+        $('#'+pictureId).click(function(event) {
+            event.preventDefault();
+            console.log("delete button for pictureId: " + pictureId + "clicked!");
+            //delete picture in the backend
+            
+            //delete picture in the frontend
+            $("#"+pictureId).remove();
 
-        //brief description
-        document.getElementById("briefDescriptionEdit").innerHTML = "testtesttest";
-        $("#briefDescriptionEdit").removeClass("hidden");
-
-        //share location
-        $("#shareLocationToggle").removeClass("hidden");
-        
-
+            
+        });
     }
 
     static generatePreviewPage() {
-        //hide elements from edit mode
-        $("#briefDescriptionEdit").addClass("hidden");
-        $("#shareLocationToggle").addClass("hidden");
 
+        EmergencyStatusDetail.setEditBreifDescriptionEvent();
 
-        //TODO: retreive detailed data
+        EmergencyStatusDetail.setSaveBreifDescriptionEvent();
+
+        //retreive detailed data
         let jwt = Cookies.get('user-jwt-esn');
         let user_id = Cookies.get('user-id');
         //get brief description and share location
@@ -59,7 +70,7 @@ class EmergencyStatusDetail {
 
             //brief description
             document.getElementById("briefDescriptionPreview").innerHTML = response.status_description;
-            $("#briefDescriptionPreview").removeClass("hidden");
+            document.getElementById("briefDescriptionEdit").innerHTML = response.status_description;
 
         }).fail(function(e) {
             $("#get-emergency-detail-alert").html(e);
@@ -81,12 +92,15 @@ class EmergencyStatusDetail {
                 console.log(pictureObj);
                 let t = document.querySelector('#pictureAndDescriptionTemplate');
                 t.content.querySelector('img').src = pictureObj.picture_path;
-                t.content.querySelector('img').id = pictureObj._id;
+                t.content.querySelector('div').id = pictureObj._id;
                 t.content.querySelector('p').innerHTML = pictureObj.picture_description;
 
                 let clone = document.importNode(t.content, true);
                 let pictureContainer = document.getElementsByClassName('sharePicture');
                 pictureContainer[0].appendChild(clone);
+
+                EmergencyStatusDetail.setDeletePictureEvent(pictureObj._id);
+
             })    
         }).fail(function(e) {
             $("#get-picture-and-description-alert").html(e);
@@ -107,15 +121,6 @@ class EmergencyStatusDetail {
 
     }
 
-    
-        
-
-        
-
-
-
-    
-
 
 }
 
@@ -123,9 +128,7 @@ $(function() {
 
     EmergencyStatusDetail.generatePreviewPage();
 
-    EmergencyStatusDetail.setEditDetailEvent();
-
-    EmergencyStatusDetail.setSaveDetailEvent();
+    
 
 
 

@@ -5,7 +5,7 @@
             <div class="col-xs-24">
                 <div class="emergencyDetailHeader">
                     <h3 class="text-center blueText"> Emergency Detail</h3>
-                    <button type="button" class="btn btn-primary btn-sm align-middle editButton">Edit</button>
+                    <!-- <button type="button" class="btn btn-primary btn-sm align-middle editButton">Edit</button> -->
                 </div>
             </div>
         </div>
@@ -26,6 +26,8 @@
                     description of your situation. 
                     </textarea>
 
+                    <button type="button" class="btn btn-primary btn-sm edit-button">edit</button>
+                    <button type="button" class="btn btn-success btn-sm save-button hidden">save</button>
                 </div>
             </div>
         </div>
@@ -34,15 +36,12 @@
             <div class="col-xs-20 col-xs-offset-2">
                 <div class="shareLocation">
                     <h4 class="blueText"> Share your location: 
-                        <label class="switch hidden" id = "shareLocationToggle">
+                        <label class="switch" id = "shareLocationToggle">
                             <input type="checkbox">
                             <span class="slider round"></span>
                         </label>
                     </h4>
                     <img class="examplePic" src="tmp/map.png" alt="example map">
-                    <p>
-                        7777
-                    </p>
                 </div>
             </div>
         </div>
@@ -52,10 +51,13 @@
                 <div class="sharePicture">
                     <h4 class="blueText"> Add pictures and descriptions:</h4>
                     <template id = "pictureAndDescriptionTemplate">
-                        <img class="examplePic" src="exampleSrc" id = "exampleId">
-                        <p>
-                            1234
-                        </p>
+                        <div class = picAndDesBlock id = "exampleId">
+                            <img class="examplePic" src="exampleSrc">
+                            <p>
+                                1234
+                            </p>
+                            <button type="button" class="btn btn-danger btn-sm delete-button" id = 'exampleId'>delete</button>
+                        </div>
                     </template>
                 </div>
             </div>
