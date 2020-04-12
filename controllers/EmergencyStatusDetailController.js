@@ -17,10 +17,10 @@ class EmergencyStatusDetailController {
 
     updateEmergencyStatusDetail(req, res) {
         const userId = req.params.userId;
-        const statusDescription = req.body.statusDescription;
-        const shareLocation = req.body.shareLocation;
+        const description = req.body.description;
+        const detailType = req.body.detailType;
         
-        EmergencyStatusDetail.updateEmergencyStatusDetail(userId, statusDescription, shareLocation)
+        EmergencyStatusDetail.updateEmergencyStatusDetail(userId, description, detailType)
             .then((statusDetail) => {
                 res.contentType('application/json');
                 return res.status(201).send(JSON.stringify(statusDetail));

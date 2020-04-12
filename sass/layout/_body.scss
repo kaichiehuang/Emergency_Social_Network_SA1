@@ -504,7 +504,9 @@ form {
     
     }
 
-    .delete-button, .edit-button, .save-button, .add-button, .upload-button, .close-button{
+    .delete-button, .edit-button, .save-button, 
+    .add-button, .upload-button, .close-button, 
+    .loc-edit-button, .loc-save-button{
         margin-top: 5px;
         margin-bottom: 15px;
         border-radius: 8px;

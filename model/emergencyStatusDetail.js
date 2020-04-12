@@ -7,7 +7,7 @@ class EmergencyStatusDetail {
         this._id = null;
         this.user_id = user_id;
         this.status_description = null;
-        this.share_location = false;
+        this.share_location = null;
         
     }
 
@@ -45,14 +45,15 @@ class EmergencyStatusDetail {
         });
     }
 
-    static updateEmergencyStatusDetail(userId, statusDescription, shareLocation) {
+    static updateEmergencyStatusDetail(userId, description, type) {
          return new Promise((resolve, reject) => {
             const filter = {user_id: userId};
-            const update = 
-                {
-                    status_description: statusDescription,
-                    share_location: shareLocation 
-                };
+            let update;
+            if (type === "situation") {
+                update = {status_description: description};
+            } else {
+                update = {share_location: description};
+            }
             EmergencyStatusDetailModel.findOneAndUpdate(filter, update, {
                 new: true
               }).exec().then((updatedStatusDetail) => {

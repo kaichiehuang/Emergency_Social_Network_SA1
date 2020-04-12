@@ -20,11 +20,8 @@
                         description of your situation.
                     </p>
 
-
-                    <textarea class = "form-control hidden" id="briefDescriptionEdit" rows="3">
-                    This is an area where you put a brief
-                    description of your situation. 
-                    </textarea>
+                    <textarea class = "form-control hidden" id="briefDescriptionEdit" 
+                    rows="3" placeholder="This is an area where you put a brief description of your situation. "></textarea>
 
                     <button type="button" class="btn btn-primary btn-sm edit-button">edit</button>
                     <button type="button" class="btn btn-success btn-sm save-button hidden">save</button>
@@ -35,13 +32,20 @@
         <div class="row">
             <div class="col-xs-20 col-xs-offset-2">
                 <div class="shareLocation">
-                    <h4 class="blueText"> Share your location: 
-                        <label class="switch" id = "shareLocationToggle">
-                            <input type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-                    </h4>
-                    <img class="examplePic" src="tmp/map.png" alt="example map">
+                    <h4 class="blueText"> Share your location: </h4>
+
+                    <p class = "hidden" id="locationDescriptionPreview">
+                        This is an area where you put a brief
+                        description of your situation.
+                    </p>
+
+
+                    <textarea class = "form-control hidden" id="locationDescriptionEdit" 
+                    rows="3" placeholder="This is an area where you put a brief description of your location."></textarea>
+
+                    <button type="button" class="btn btn-primary btn-sm loc-edit-button">edit</button>
+                    <button type="button" class="btn btn-success btn-sm loc-save-button hidden">save</button>
+                    
                 </div>
             </div>
         </div>

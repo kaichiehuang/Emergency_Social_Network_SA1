@@ -4,7 +4,7 @@ class EmergencyStatusDetail {
         this.user_id = null;
     }
 
-    static setEditBreifDescriptionEvent() {
+    static setEditDescriptionEvent() {
         $('.edit-button').click(function(event) {
             event.preventDefault();
             console.log("edit button clicked!");
@@ -17,9 +17,26 @@ class EmergencyStatusDetail {
             $(".save-button").removeClass("hidden");
 
         });
+
+        $('.loc-edit-button').click(function(event) {
+            event.preventDefault();
+            console.log("location edit button clicked!");
+            
+            //hide paragraph and edit button
+            $("#locationDescriptionPreview").addClass("hidden");
+            $(".loc-edit-button").addClass("hidden");
+            //show textarea and save button
+            $("#locationDescriptionEdit").removeClass("hidden");
+            $(".loc-save-button").removeClass("hidden");
+
+        });
+
+
     }
 
-    static setSaveBreifDescriptionEvent() {
+    static setSaveDescriptionEvent() {
+        let jwt = Cookies.get('user-jwt-esn');
+        let user_id = Cookies.get('user-id');
         $('.save-button').click(function(event) {
             event.preventDefault();
             console.log('save button clicked!');
@@ -28,21 +45,73 @@ class EmergencyStatusDetail {
             $(".save-button").addClass("hidden");
 
             //TODO update paragraph
-
-            //show paragraph and edit button
-            $("#briefDescriptionPreview").removeClass("hidden");
-            $(".edit-button").removeClass("hidden");
+            $.ajax({
+                url: apiPath + '/emergencyStatusDetail/' + user_id,
+                type: 'put',
+                headers: {
+                    "Authorization": jwt
+                },
+                data: {
+                    description: $("#briefDescriptionEdit").val(),
+                    detailType: "situation"
+                }
+            }).done(function(response) {
+                console.log(response);
+                document.getElementById("briefDescriptionPreview").innerHTML = response.status_description;
+                document.getElementById("briefDescriptionEdit").innerHTML = response.status_description;
+                //show paragraph and edit button
+                $("#briefDescriptionPreview").removeClass("hidden");
+                $(".edit-button").removeClass("hidden");
+            }).fail(function(e) {
+                $("#update-brief-description-alert").html(e);
+                $("#update-brief-description-alert").show();
+            }).always(function() {
+                console.log("complete");
+            }); 
             
         });
-    }
 
+        $('.loc-save-button').click(function(event) {
+            event.preventDefault();
+            console.log('location save button clicked!');
+            //hide textarea and save button
+            $("#locationDescriptionEdit").addClass("hidden");
+            $(".loc-save-button").addClass("hidden");
+
+            //TODO update paragraph
+            $.ajax({
+                url: apiPath + '/emergencyStatusDetail/' + user_id,
+                type: 'put',
+                headers: {
+                    "Authorization": jwt
+                },
+                data: {
+                    description: $("#locationDescriptionEdit").val(),
+                    detailType: "location"
+                }
+            }).done(function(response) {
+                console.log(response);
+                document.getElementById("locationDescriptionPreview").innerHTML = response.share_location;
+                document.getElementById("locationDescriptionEdit").innerHTML = response.share_location;
+                //show paragraph and edit button
+                $("#locationDescriptionPreview").removeClass("hidden");
+                $(".loc-edit-button").removeClass("hidden");
+            }).fail(function(e) {
+                $("#update-location-description-alert").html(e);
+                $("#update-location-description-alert").show();
+            }).always(function() {
+                console.log("complete");
+            });
+
+        });
+    }
+    //done
     static setDeletePictureEvent(pictureId) {
         $('#'+pictureId).click(function(event) {
             event.preventDefault();
             let jwt = Cookies.get('user-jwt-esn');
             console.log("delete button for pictureId: " + pictureId + "clicked!");
             
-
             //delete picture in the backend
             $.ajax({
                 url: apiPath + '/emergencyStatusDetail/picture/' + pictureId,
@@ -59,15 +128,11 @@ class EmergencyStatusDetail {
                 console.log("complete");
             });
 
-
-
             //delete picture in the frontend
             $("#"+pictureId).remove();
-
-            
         });
     }
-
+    //done
     static setAddPictureEvent() {
         $(".add-button").click(function(event) {
             event.preventDefault();
@@ -81,11 +146,9 @@ class EmergencyStatusDetail {
             });
 
             EmergencyStatusDetail.setUploadEvent();
-
-
         })
     }
-
+    //done
     static setUploadEvent() {
         $(".upload-button").click(function(event) {
             event.preventDefault();
@@ -125,15 +188,11 @@ class EmergencyStatusDetail {
                 console.log("complete");
             });
 
-
-
-
         })
 
     }
 
-
-
+    //done
     static drawPictureAndDescription(pictureObj) {
         let t = document.querySelector('#pictureAndDescriptionTemplate');
         t.content.querySelector('img').src = pictureObj.picture_path;
@@ -149,16 +208,16 @@ class EmergencyStatusDetail {
 
     static generatePreviewPage() {
 
-        EmergencyStatusDetail.setEditBreifDescriptionEvent();
+        EmergencyStatusDetail.setEditDescriptionEvent();
 
-        EmergencyStatusDetail.setSaveBreifDescriptionEvent();
+        EmergencyStatusDetail.setSaveDescriptionEvent();
 
         EmergencyStatusDetail.setAddPictureEvent();
 
         //retreive detailed data
         let jwt = Cookies.get('user-jwt-esn');
         let user_id = Cookies.get('user-id');
-        //get brief description and share location
+        //get brief description and location description
         $.ajax({
             url: apiPath + '/emergencyStatusDetail/' + user_id,
             type: 'get',
@@ -171,6 +230,13 @@ class EmergencyStatusDetail {
             //brief description
             document.getElementById("briefDescriptionPreview").innerHTML = response.status_description;
             document.getElementById("briefDescriptionEdit").innerHTML = response.status_description;
+            $("#briefDescriptionPreview").removeClass("hidden");
+
+            //location description
+            document.getElementById("locationDescriptionPreview").innerHTML = response.share_location;
+            document.getElementById("locationDescriptionEdit").innerHTML = response.share_location;
+            $("#locationDescriptionPreview").removeClass("hidden");
+
 
         }).fail(function(e) {
             $("#get-emergency-detail-alert").html(e);
