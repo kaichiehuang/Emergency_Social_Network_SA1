@@ -39,8 +39,27 @@ class EmergencyStatusDetail {
     static setDeletePictureEvent(pictureId) {
         $('#'+pictureId).click(function(event) {
             event.preventDefault();
+            let jwt = Cookies.get('user-jwt-esn');
             console.log("delete button for pictureId: " + pictureId + "clicked!");
+            
+
             //delete picture in the backend
+            $.ajax({
+                url: apiPath + '/emergencyStatusDetail/picture/' + pictureId,
+                type: 'delete',
+                headers: {
+                    "Authorization": jwt
+                }
+            }).done(function(response) {
+                console.log(response);
+            }).fail(function(e) {
+                $("#delete-alert").html(e);
+                $("#delte-alert").show();
+            }).always(function() {
+                console.log("complete");
+            });
+
+
 
             //delete picture in the frontend
             $("#"+pictureId).remove();
