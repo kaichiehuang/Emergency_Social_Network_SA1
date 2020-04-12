@@ -92,6 +92,13 @@ class EmergencyStatusDetail {
                 console.log(response);
                 EmergencyStatusDetail.drawPictureAndDescription(response);
                 
+
+                $("#picDiscription").val('');
+                $("#file").val('');
+                $("#picDiscription").addClass("hidden");
+                $(".upload-button").addClass("hidden");
+                $('#addPictureModal').modal('hide');
+
             }).fail(function(e) {
                 $("#upload-alert").html(e);
                 $("#upload-alert").show();
