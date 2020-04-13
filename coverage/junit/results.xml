@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="4" failures="0" time="2.589">
-  <testsuite name="emergency status detail API test" errors="0" failures="0" skipped="0" timestamp="2020-04-13T11:14:06" time="2.527" tests="4">
-    <testcase classname="emergency status detail API test User updates emergency status brief description" name="emergency status detail API test User updates emergency status brief description" time="0.014">
+<testsuites name="jest tests" tests="4" failures="0" time="1.753">
+  <testsuite name="Emergency Status Detail" errors="0" failures="0" skipped="0" timestamp="2020-04-13T12:12:31" time="1.683" tests="4">
+    <testcase classname="Emergency Status Detail Create a new emergency status detail in the database" name="Emergency Status Detail Create a new emergency status detail in the database" time="0.043">
     </testcase>
-    <testcase classname="emergency status detail API test User updates emergency status location description" name="emergency status detail API test User updates emergency status location description" time="0.005">
+    <testcase classname="Emergency Status Detail Update emegency status detail - brief description" name="Emergency Status Detail Update emegency status detail - brief description" time="0.011">
     </testcase>
-    <testcase classname="emergency status detail API test User gets emergency status brief description" name="emergency status detail API test User gets emergency status brief description" time="0.006">
+    <testcase classname="Emergency Status Detail Update emegency status detail - location description" name="Emergency Status Detail Update emegency status detail - location description" time="0.003">
     </testcase>
-    <testcase classname="emergency status detail API test User gets emergency status location description" name="emergency status detail API test User gets emergency status location description" time="0.006">
+    <testcase classname="Emergency Status Detail get megency status detail" name="Emergency Status Detail get megency status detail" time="0.004">
     </testcase>
   </testsuite>
 </testsuites>
