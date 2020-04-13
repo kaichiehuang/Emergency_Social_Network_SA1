@@ -484,3 +484,66 @@ form {
         }
     }
 }
+
+//emegency status detail view
+
+.emergencyDetailcontainer{
+    .blueText {
+        color: #2e6da4;
+    }
+
+    .emergencyDetailHeader {
+        position: relative;
+        .editButton {
+            position: absolute;
+            top: 0px;
+            right: 7px;
+            border-radius: 8px;
+        }
+
+    
+    }
+
+    .delete-button, .edit-button, .save-button, 
+    .add-button, .upload-button, .close-button, 
+    .loc-edit-button, .loc-save-button{
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+
+    .edit-picDes-button,
+    .save-picDes-button{
+        margin-top: 5px;
+        margin-right: 10px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+
+    .examplePic {
+        max-width:100%;
+        
+    }
+}
+
+
+#userEmergencyDetail {
+    .blueText {
+        color: #2e6da4;
+    }
+
+    .pictureContainer {
+        position: relative;
+    }
+
+    .userExamplePic {
+        width:100%;
+        
+    }
+
+}
+
+// .userExamplePic {
+//     width:50px;
+    
+// }
