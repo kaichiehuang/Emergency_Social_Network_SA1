@@ -57,3 +57,56 @@ describe("Emergency Status Detail", () => {
 
 
 })
+
+
+describe("Picture and Description", () => {
+
+    let pictureId;
+
+    test("add a new picture and description in the database", async () => {
+      
+      await EmergencyStatusDetail.addPictureAndDescription("507f1f77bcf86cd799439011", "abc/cde/fgh", "name", "This is a description").then(res=> {
+        expect(String(res.user_id)).toBe("507f1f77bcf86cd799439011");
+        expect(res.picture_path).toBe("abc/cde/fgh");
+        expect(res.picture_name).toBe("name");
+        expect(res.picture_description).toBe("This is a description");
+        pictureId = res._id;
+      });
+    });
+
+    test("update picture description in the database", async () => {
+      
+        await EmergencyStatusDetail.updatePictureDescription(pictureId, "new description").then(res=> {
+            expect(String(res.user_id)).toBe("507f1f77bcf86cd799439011");
+            expect(res.picture_path).toBe("abc/cde/fgh");
+            expect(res.picture_name).toBe("name");
+            expect(res.picture_description).toBe("new description");
+        });
+    });
+
+    test("get picture and description in the database", async () => {
+      
+        await EmergencyStatusDetail.getAllPictureAndDescription("507f1f77bcf86cd799439011").then(res=> {
+            expect(String(res[0].user_id)).toBe("507f1f77bcf86cd799439011");
+            expect(res[0].picture_path).toBe("abc/cde/fgh");
+            expect(res[0].picture_name).toBe("name");
+            expect(res[0].picture_description).toBe("new description");
+        });
+    });
+
+
+    test("remove picture from the database", async () => {
+      
+        await EmergencyStatusDetail.removePictureAndDescription(pictureId).then(res=> {
+            expect(String(res.user_id)).toBe("507f1f77bcf86cd799439011");
+            expect(res.picture_path).toBe("abc/cde/fgh");
+            expect(res.picture_name).toBe("name");
+            expect(res.picture_description).toBe("new description");
+        });
+    });
+
+
+    
+
+
+})
