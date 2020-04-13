@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="8" failures="0" time="1.642">
-  <testsuite name="Emergency Status Detail" errors="0" failures="0" skipped="0" timestamp="2020-04-13T12:30:00" time="1.579" tests="8">
-    <testcase classname="Emergency Status Detail Create a new emergency status detail in the database" name="Emergency Status Detail Create a new emergency status detail in the database" time="0.036">
+<testsuites name="jest tests" tests="12" failures="0" time="2.218">
+  <testsuite name="Emergency Status Detail" errors="0" failures="0" skipped="0" timestamp="2020-04-13T13:40:41" time="1.521" tests="8">
+    <testcase classname="Emergency Status Detail Create a new emergency status detail in the database" name="Emergency Status Detail Create a new emergency status detail in the database" time="0.037">
     </testcase>
-    <testcase classname="Emergency Status Detail Update emegency status detail - brief description" name="Emergency Status Detail Update emegency status detail - brief description" time="0.009">
+    <testcase classname="Emergency Status Detail Update emegency status detail - brief description" name="Emergency Status Detail Update emegency status detail - brief description" time="0.01">
     </testcase>
-    <testcase classname="Emergency Status Detail Update emegency status detail - location description" name="Emergency Status Detail Update emegency status detail - location description" time="0.003">
+    <testcase classname="Emergency Status Detail Update emegency status detail - location description" name="Emergency Status Detail Update emegency status detail - location description" time="0.002">
     </testcase>
-    <testcase classname="Emergency Status Detail get megency status detail" name="Emergency Status Detail get megency status detail" time="0.004">
+    <testcase classname="Emergency Status Detail get megency status detail" name="Emergency Status Detail get megency status detail" time="0.005">
     </testcase>
     <testcase classname="Picture and Description add a new picture and description in the database" name="Picture and Description add a new picture and description in the database" time="0.007">
     </testcase>
-    <testcase classname="Picture and Description update picture description in the database" name="Picture and Description update picture description in the database" time="0.003">
+    <testcase classname="Picture and Description update picture description in the database" name="Picture and Description update picture description in the database" time="0.002">
     </testcase>
     <testcase classname="Picture and Description get picture and description in the database" name="Picture and Description get picture and description in the database" time="0.006">
     </testcase>
-    <testcase classname="Picture and Description remove picture from the database" name="Picture and Description remove picture from the database" time="0.002">
+    <testcase classname="Picture and Description remove picture from the database" name="Picture and Description remove picture from the database" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="emergency status detail API test" errors="0" failures="0" skipped="0" timestamp="2020-04-13T13:40:41" time="1.882" tests="4">
+    <testcase classname="emergency status detail API test User updates emergency status brief description" name="emergency status detail API test User updates emergency status brief description" time="0.012">
+    </testcase>
+    <testcase classname="emergency status detail API test User updates emergency status location description" name="emergency status detail API test User updates emergency status location description" time="0.004">
+    </testcase>
+    <testcase classname="emergency status detail API test User gets emergency status brief description" name="emergency status detail API test User gets emergency status brief description" time="0.008">
+    </testcase>
+    <testcase classname="emergency status detail API test User gets emergency status location description" name="emergency status detail API test User gets emergency status location description" time="0.006">
     </testcase>
   </testsuite>
 </testsuites>

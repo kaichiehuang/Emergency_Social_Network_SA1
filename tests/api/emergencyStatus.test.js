@@ -1,5 +1,7 @@
 const TestDatabase = require("../services/testDataBase");
 const agent = require('superagent')
+const express = require('express');
+let exp = express()
 
 // Initiate Server
 let PORT = 3000;
@@ -44,6 +46,8 @@ beforeAll(async () => {
         description: 'This is a location description',
         detailType: 'location'
     };
+
+
 
     // end of before all
 });
@@ -104,11 +108,30 @@ describe('emergency status detail API test', () => {
             });
     });
 
- 
-
-
-
 
 
 // end of describe
 });
+
+
+// describe('picture and description API test', () => {
+//     exp.use(express.static('tests'));
+
+//     let pictureId;
+//     test('User adds a picture and discription description', async () => {
+//         expect.assertions(1);
+//         await agent.post(HOST + '/api/emergencyStatusDetail/' + userId)
+//             .attach('image1', 'tests/api/testImage/test.jpg')
+//             .field("pictureDescription", "picture description")
+//             .then((res) =>{
+//                 //console.log(res);
+//                 expect(res.picture_path).toBe('tests/api/testImage/test.jpg');
+//                 expect(res.picture_description).toBe('picture description');
+//                 pictureId = res._id;
+//             });
+//     });
+
+
+// // end of describe
+// });
+    
