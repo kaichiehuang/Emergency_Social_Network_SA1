@@ -1,7 +1,6 @@
 const TestDatabase = require("../services/testDataBase");
 const agent = require('superagent')
 const express = require('express');
-let exp = express()
 
 // Initiate Server
 let PORT = 3000;
@@ -114,24 +113,66 @@ describe('emergency status detail API test', () => {
 });
 
 
-// describe('picture and description API test', () => {
-//     exp.use(express.static('tests'));
+describe('picture and description API test', () => {
 
-//     let pictureId;
-//     test('User adds a picture and discription description', async () => {
-//         expect.assertions(1);
-//         await agent.post(HOST + '/api/emergencyStatusDetail/' + userId)
-//             .attach('image1', 'tests/api/testImage/test.jpg')
-//             .field("pictureDescription", "picture description")
-//             .then((res) =>{
-//                 //console.log(res);
-//                 expect(res.picture_path).toBe('tests/api/testImage/test.jpg');
-//                 expect(res.picture_description).toBe('picture description');
-//                 pictureId = res._id;
-//             });
-//     });
+    let pictureId;
+    test('User adds a picture and discription description', async () => {
+        expect.assertions(1);
+        await agent.post(HOST + '/api/emergencyStatusDetail/' + userId)
+            .attach('picture', 'tests/api/testImage/test.jpg')
+            .field("pictureDescription", "picture description")
+            .set('Authorization', token)
+            .set('Accept', 'application/json')
+            .then((res) =>{
+                //console.log(res);
+                //expect(res.body.picture_path).toBe('tests/api/testImage/test.jpg');
+                expect(res.body.picture_description).toBe('picture description');
+                pictureId = res.body._id;
+                
+            });
+    });
+
+    test('User gets all picture and description', async () => {
+        expect.assertions(1);
+        await agent.get(HOST + '/api/emergencyStatusDetail/picture/' + userId)
+            .set('Authorization', token)
+            .set('Accept', 'application/json')
+            .then((res) =>{
+                //console.log(res);
+                expect(res.body[0].picture_description).toBe('picture description');
+            });
+    });
+
+    test('User updates description of a picture', async () => {
+        expect.assertions(1);
+        await agent.put(HOST + '/api/emergencyStatusDetail/picture/' + pictureId)
+            .set('Authorization', token)
+            .send({"pictureDescription": "new description"})
+            .set('Accept', 'application/json')
+            .then((res) =>{
+                console.log(res);
+                expect(res.body.picture_description).toBe('new description');
+            });
+    });
+
+    test('User deletes a picture and description from db', async () => {
+        expect.assertions(1);
+        await agent.delete(HOST + '/api/emergencyStatusDetail/picture/' + pictureId)
+            .set('Authorization', token)
+            .set('Accept', 'application/json')
+            .then((res) =>{
+                //console.log(res);
+                expect(res.body.picture_description).toBe('new description');
+            });
+    });
+
+    
 
 
-// // end of describe
-// });
+
+
+
+
+// end of describe
+});
     
