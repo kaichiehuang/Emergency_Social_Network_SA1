@@ -161,6 +161,7 @@ class EmergencyStatusDetail {
             fd.append('picture', files);
             fd.append('pictureDescription', $('#picDiscription').val());
 
+            $('#addPictureModal').modal('hide');
 
             $.ajax({
                 url: apiPath + '/emergencyStatusDetail/' + user_id,
@@ -181,7 +182,7 @@ class EmergencyStatusDetail {
                 $("#file").val('');
                 $("#picDiscription").addClass("hidden");
                 $(".upload-button").addClass("hidden");
-                $('#addPictureModal').modal('hide');
+                
 
             }).fail(function(e) {
                 $("#upload-alert").html(e);
