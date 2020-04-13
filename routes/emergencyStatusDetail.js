@@ -24,10 +24,10 @@ router.get('/picture/:userId', TokenServerClass.validateToken, jsonParser, emerg
 // post method for add new pictures and description
 router.post('/:userId',TokenServerClass.validateToken, upload.single('picture'),jsonParser,emergencyStatusDetailController.addPictureAndDescription);
 
-// TODO: delete method for deleting pictures and description
+//delete method for deleting pictures and description
 router.delete('/picture/:pictureId', TokenServerClass.validateToken, jsonParser, emergencyStatusDetailController.removePictureAndDescription);
 
-// TODO: put method for updating picture description
+//future use: put method for updating picture description
 router.put('/picture/:pictureId', TokenServerClass.validateToken, jsonParser, emergencyStatusDetailController.updatePictureDescription);
 
 module.exports = router;

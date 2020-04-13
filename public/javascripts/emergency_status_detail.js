@@ -3,7 +3,7 @@ class EmergencyStatusDetail {
         this._id = null;
         this.user_id = null;
     }
-
+    //done
     static setEditDescriptionEvent() {
         $('.edit-button').click(function(event) {
             event.preventDefault();
@@ -31,7 +31,7 @@ class EmergencyStatusDetail {
 
         });
     }
-
+    //done
     static setSaveDescriptionEvent() {
         let jwt = Cookies.get('user-jwt-esn');
         let user_id = Cookies.get('user-id');
@@ -134,7 +134,7 @@ class EmergencyStatusDetail {
     static setAddPictureEvent() {
         $(".add-button").click(function(event) {
             event.preventDefault();
-
+            console.log("add picture button clicked");
             $('#addPictureModal').modal('show');
 
             $('#file').change(function(){
@@ -148,7 +148,8 @@ class EmergencyStatusDetail {
     }
     //done
     static setUploadEvent() {
-        $(".upload-button").click(function(event) {
+        $(".upload-button").unbind().click(function(event) {
+            console.log("upload button pressed");
             event.preventDefault();
             let jwt = Cookies.get('user-jwt-esn');
             let user_id = Cookies.get('user-id');
@@ -170,6 +171,7 @@ class EmergencyStatusDetail {
                 processData: false,
             }).done(function(response) {
                 console.log(response);
+
                 EmergencyStatusDetail.drawPictureAndDescription(response);
                 
 
@@ -203,7 +205,7 @@ class EmergencyStatusDetail {
 
         EmergencyStatusDetail.setDeletePictureEvent(pictureObj._id);
     }
-
+    //done
     static generatePreviewPage() {
 
         EmergencyStatusDetail.setEditDescriptionEvent();
@@ -272,10 +274,5 @@ class EmergencyStatusDetail {
 $(function() {
 
     EmergencyStatusDetail.generatePreviewPage();
-
-    
-
-
-
 
 });
