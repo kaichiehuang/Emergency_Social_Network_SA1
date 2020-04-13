@@ -64,6 +64,7 @@ class User {
                 if (template != undefined && template != null && user != undefined) {
                     template.querySelector('.username').innerText = user.username;
                     template.querySelector('.chat-button').setAttribute('data-user-id', user._id);
+                    template.querySelector('.status-button').setAttribute('data-user-id', user._id);
                     //set message counter from user
                     if (currentUser.unread_messages != undefined && currentUser.unread_messages[user._id] != undefined && currentUser.unread_messages[user._id] > 0) {
                         template.querySelector('.message-counter').innerText = currentUser.unread_messages[user._id];
@@ -71,15 +72,19 @@ class User {
                     if (user.status === "OK") {
                         template.querySelector("#statusSpan").classList.add("background-color-ok");
                         template.querySelector("#iconStatus").classList.add("fa-check");
+                        template.querySelector('.status-button').setAttribute('data-status', "ok");
                     } else if (user.status === "HELP") {
                         template.querySelector("#statusSpan").classList.add("background-color-help");
                         template.querySelector("#iconStatus").classList.add("fa-exclamation");
+                        template.querySelector('.status-button').setAttribute('data-status', "help");
                     } else if (user.status === "EMERGENCY") {
                         template.querySelector("#statusSpan").classList.add("background-color-emergency");
                         template.querySelector("#iconStatus").classList.add("fa-exclamation-triangle");
+                        template.querySelector('.status-button').setAttribute('data-status', "Emergency");
                     } else if (user.status === "UNDEFINED") {
                         template.querySelector("#statusSpan").classList.add("background-color-undefined");
                         template.querySelector("#iconStatus").classList.add("fa-question");
+                        template.querySelector('.status-button').setAttribute('data-status', "undefined");
                     }
                     listContainer.appendChild(template);
                 }
@@ -89,8 +94,81 @@ class User {
             $('.chat-button').click(function(event) {
                 PrivateChatMessage.initiatePrivateChat($(this).data('user-id'));
             });
+
+            //show emergency status detail
+            $('.status-button').unbind().click(function(event) {
+                let clickedUserId = $(this).data('user-id');
+                let clickedUserStatus = $(this).data('status');
+                if (clickedUserStatus === "Emergency") {
+                    User.showEmergencyStatus(clickedUserId);
+                }
+            });
+
         }
     }
+
+    static showEmergencyStatus(userId) {
+        console.log("user id is "+userId);
+        $('#userEmergencyDetail').modal('show');
+        let jwt = Cookies.get('user-jwt-esn');
+
+        //get brief description and location
+        $.ajax({
+            url: apiPath + '/emergencyStatusDetail/' + userId,
+            type: 'get',
+            headers: {
+                "Authorization": jwt
+            }
+        }).done(function(response) {
+            console.log(response);
+            //brief description
+            document.getElementById("userBriefDescriptionPreview").innerHTML = response.status_description;
+    
+            //location description
+            document.getElementById("userLocationDescriptionPreview").innerHTML = response.share_location;
+            
+        }).fail(function(e) {
+            $("#get-emergency-detail-alert").html(e);
+            $("#get-emergency-detail-alert").show();
+        }).always(function() {
+            console.log("complete");
+        });
+
+        $(".userPicAndDesBlock").empty();
+        //get picutures and description
+        $.ajax({
+            url: apiPath + '/emergencyStatusDetail/picture/' + userId,
+            type: 'get',
+            headers: {
+                "Authorization": jwt
+            }
+        }).done(function(response) {
+
+
+            console.log(response);
+
+            response.forEach(function (pictureObj) {
+                console.log(pictureObj);
+                let t = document.querySelector('#userPictureAndDescriptionTemplate');
+                t.content.querySelector('img').src = pictureObj.picture_path;
+                t.content.querySelector('div').id = pictureObj._id;
+                t.content.querySelector('p').innerHTML = pictureObj.picture_description;
+        
+                let clone = document.importNode(t.content, true);
+                let pictureContainer = document.getElementsByClassName('userSharePicture');
+                pictureContainer[0].appendChild(clone);
+            })    
+        }).fail(function(e) {
+            $("#get-picture-and-description-alert").html(e);
+            $("#get-picture-and-description-alert").show();
+        }).always(function() {
+            console.log("complete");
+        });
+
+
+    }
+
+
 
     /**
      * draws empty list of users

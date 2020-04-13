@@ -520,9 +520,30 @@ form {
         border-radius: 8px;
     }
 
-
     .examplePic {
-        width:100%;
+        max-width:100%;
         
     }
 }
+
+
+#userEmergencyDetail {
+    .blueText {
+        color: #2e6da4;
+    }
+
+    .pictureContainer {
+        position: relative;
+    }
+
+    .userExamplePic {
+        width:100%;
+        
+    }
+
+}
+
+// .userExamplePic {
+//     width:50px;
+    
+// }

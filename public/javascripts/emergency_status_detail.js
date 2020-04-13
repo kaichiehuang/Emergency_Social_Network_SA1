@@ -127,7 +127,9 @@ class EmergencyStatusDetail {
             });
 
             //delete picture in the frontend
-            $("#"+pictureId).remove();
+            $('*[data-pic-id="'+pictureId+'"]').remove();
+
+            //$("#"+pictureId).remove();
         });
     }
     //done
@@ -196,10 +198,13 @@ class EmergencyStatusDetail {
     static drawPictureAndDescription(pictureObj) {
         let t = document.querySelector('#pictureAndDescriptionTemplate');
         t.content.querySelector('img').src = pictureObj.picture_path;
-        t.content.querySelector('div').id = pictureObj._id;
+        //document.querySelector('.picAndDesBlock').setAttribute('data-pic-id', pictureObj._id);
+        //t.content.template.querySelector('button').setAttribute('data-button-id', pictureObj._id);
+        t.content.querySelector('button').id = pictureObj._id;
         t.content.querySelector('p').innerHTML = pictureObj.picture_description;
 
         let clone = document.importNode(t.content, true);
+        clone.querySelector('.picAndDesBlock').setAttribute('data-pic-id', pictureObj._id);
         let pictureContainer = document.getElementsByClassName('sharePicture');
         pictureContainer[0].appendChild(clone);
 
