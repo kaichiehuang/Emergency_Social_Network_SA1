@@ -30,8 +30,6 @@ class EmergencyStatusDetail {
             $(".loc-save-button").removeClass("hidden");
 
         });
-
-
     }
 
     static setSaveDescriptionEvent() {
