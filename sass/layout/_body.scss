@@ -775,3 +775,126 @@ form {
         font-size: 1.75em;
     }
 }
+/***** resource sharing ********/
+
+.resources-content {
+    padding-top: 70px;
+    display: block;
+    color: $brand_color1; //@include flexbox;
+    .msg_border {
+        height: auto;
+        @include respond-to("small") {
+            height: auto;
+            padding-bottom: 100px;
+        }
+        @include respond-to("extra-small") {
+            height: auto;
+            padding-bottom: 100px;
+        }
+    }
+    #div-resource-type, #div-steps {
+        text-align: center;
+        display: inline;
+        .btn-primary {
+            border-radius: 50%;
+        }
+        .selected-btn {
+            background-color: $brand_color2;
+        }
+    }
+    #resource-picture-div {
+        #save-resource-btn {
+            text-align: right;
+        }
+        #image-preview {
+            width: 90%;
+            object-fit: scale-down;
+            height: 350px;
+        }
+    }
+    .container {
+        width: 90%;
+    }
+    .form-check-inline {
+        display: inline;
+        padding: 5px;
+    }
+    .input-group {
+        width: 100%;
+    }
+}
+.resources-list-content {
+    padding-top: 70px;
+    display: block;
+    .list-group-item__right {
+        @include flexbox;
+        @include align-items(center);
+        @include justify-content(flex-end);
+        #icon {
+            color: $brand_color2;
+        }
+    }
+    .modal-content .container {
+        width: 90%;
+    }
+    .modal-content .modal-body .resources-content {
+        overflow-y: scroll;
+        height: auto;
+        min-height: auto;
+        padding-top: 1px;
+        .msg_border {
+            min-height: auto;
+        }
+    }
+    .type_area {
+        #addResourceIcon {
+            color: $brand_color1;
+            background-color: white;
+        }
+        text-align: end;
+    }
+}
+/***** emegency status detail view ********/
+
+.emergencyDetailcontainer {
+    .blueText {
+        color: #2e6da4;
+    }
+    .emergencyDetailHeader {
+        position: relative;
+        .editButton {
+            position: absolute;
+            top: 0px;
+            right: 7px;
+            border-radius: 8px;
+        }
+    }
+    .delete-button, .edit-button, .save-button, .add-button, .upload-button, .close-button, .loc-edit-button, .loc-save-button {
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+    .edit-picDes-button, .save-picDes-button {
+        margin-top: 5px;
+        margin-right: 10px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+    .examplePic {
+        max-width: 100%;
+    }
+}
+#userEmergencyDetail {
+    .blueText {
+        color: #2e6da4;
+    }
+    .pictureContainer {
+        position: relative;
+    }
+    .userExamplePic {
+        width: 100%;
+    }
+}
+// .userExamplePic {
+//     width:50px;
+// }

@@ -98,4 +98,4 @@ class Announcement {
 }
 
 
-module.exports = Announcement
+module.exports = Announcement;

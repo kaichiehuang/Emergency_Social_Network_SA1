@@ -1,4 +1,5 @@
 const User = require('../model/user.js');
+const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js')
 // const  = model.User;
 class UsersController {
     /**
@@ -45,6 +46,10 @@ class UsersController {
                     jsonResponseData['tokens'] = tokens;
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(jsonResponseData));
+                }).then((res) => {
+                    
+                    const emergency_status_detail_instance = new EmergencyStatusDetail(userData._id);
+                    return emergency_status_detail_instance.createEmergencyStatusDetail();
                 }).catch((err) => {
                     res.contentType('application/json');
                     console.log(err);
@@ -280,3 +285,4 @@ class UsersController {
     }
 }
 module.exports = UsersController;
+ 

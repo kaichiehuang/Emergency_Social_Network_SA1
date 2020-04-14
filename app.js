@@ -14,6 +14,8 @@ var chatMessagesRouter = require('./routes/chatMessages');
 var privateChatMessagesRouter = require('./routes/privateChatMessages');
 var usersListRouter = require('./routes/usersList');
 var announcementRouter = require('./routes/announcements');
+var resourcesRouter = require('./routes/resources');
+var emergencyStatusDetailRouter = require('./routes/emergencyStatusDetail');
 
 let ENVIRONMENT = "development";
 if (process.env.NODE_ENV != undefined ) {
@@ -83,7 +85,8 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 //application/json
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '5mb' }));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 // set the view engine to ejs
@@ -91,6 +94,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public/pictures',express.static(path.join(__dirname, 'public/pictures')));
 app.use('/', indexRouter);
 // app.use('/sign-up', registrationRouter);
 app.use('/app', applicationRouter);
@@ -101,6 +105,8 @@ app.use('/api/chat-messages', chatMessagesRouter);
 app.use('/api/private-chat-messages', privateChatMessagesRouter);
 app.use('/api/usersList', usersListRouter);
 app.use('/api/announcements',announcementRouter);
+app.use('/api/resources',resourcesRouter);
+app.use('/api/emergencyStatusDetail',emergencyStatusDetailRouter);
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
 app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirejs')));
 // catch 404 and forward to error handler
@@ -108,6 +114,7 @@ app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirej
 //   next(createError(404));
 // });
 app.get('*', (req, res, next) => {
+    console.log("here!")
     res.render('error', {
         title: 'FSE'
     });

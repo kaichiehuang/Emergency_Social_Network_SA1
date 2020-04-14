@@ -9,10 +9,16 @@
                 <ul class="list-group list-instructions" id="user-list-content__list">
                     <template id="onlineUserTemplate">
                         <li class="list-group-item" >
+
                             <div class="list-group-item__left">
-                                <span id = "statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
+                                <a class="status-button" data-user-id="" data-status="">
+                                    <span id="statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
+                                </a>
                                 <a class="username content-changer" data-view-id="user-profile-content" data-user-id="" data-view-group-class="none"></a>
                             </div>
+
+
+
                             <div class="list-group-item__right">
                                 <a class="chat-button chat-button-alert content-changer" data-view-id="private-chat-content" data-user-id="" data-view-group-class="private-chat-components">
                                     <span class="message-counter"></span>
@@ -25,7 +31,9 @@
                     <template id="offlineUserTemplate">
                         <li class="list-group-item">
                             <div class="list-group-item__left">
-                                <span id = "statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
+                                <a class="status-button" data-user-id="" data-status="">
+                                    <span id="statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
+                                </a>
                                 <a class="username content-changer" data-view-id="user-profile-content" data-user-id="" data-view-group-class="none"></a>
                             </div>
                             <div class="list-group-item__right">
@@ -41,5 +49,73 @@
 
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="userEmergencyDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLongTitle" align="center">Emergency Status Detail</h4>
+        </div>
+        <div class="modal-body">
+            <div class="pictureContainer">
+            <!-- block for status discription -->
+                <div class="row">
+                    <div class="col-xs-20 col-xs-offset-2">
+                        <div class=" userBriefDescription" id="userBriefDescriptionContainer">
+                            <h4 class="blueText"> Situation:</h4>
+
+                            <p id="userBriefDescriptionPreview">
+                                This is an area where you put a brief
+                                description of your situation.
+                            </p>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- block for share location -->
+                <div class="row">
+                    <div class="col-xs-20 col-xs-offset-2">
+                        <div class="userShareLocation">
+                            <h4 class="blueText"> Location: </h4>
+
+                            <p id="userLocationDescriptionPreview">
+                                This is an area where you put a brief
+                                description of your situation.
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- block for share picture and description -->
+                <div class="row">
+                    <div class="col-xs-20 col-xs-offset-2">
+                        <div class="userSharePicture">
+                            <h4 class="blueText"> Pictures and descriptions:</h4>
+                            <template id = "userPictureAndDescriptionTemplate">
+                                <div class = userPicAndDesBlock id = "exampleId">
+                                    <img class="userExamplePic" src="exampleSrc">
+                                    <p>
+                                        1234
+                                    </p>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
 </div>
