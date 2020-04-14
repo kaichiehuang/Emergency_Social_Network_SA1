@@ -300,7 +300,7 @@ class Resources {
                 $('#supplies-form').trigger("reset");
                 $('#image-preview').attr('src', "#");
                 Resources.initializeFirstSelection()
-                swapContent("public-chat-content");
+                swapViewContent("public-chat-content");
                 resolve(response);
             }).fail(function (e) {
                 reject(e.message)

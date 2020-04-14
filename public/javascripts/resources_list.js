@@ -12,7 +12,7 @@ class ResourcesList {
         });
 
         $("#addResourceIcon").on('click',(e)=>{
-            swapContent("resources-content");
+            swapViewContent("resources-content");
         })
 
 
