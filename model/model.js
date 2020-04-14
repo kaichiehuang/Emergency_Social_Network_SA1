@@ -5,8 +5,7 @@ const schemaOptions = {
     timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}
 };
 
-const UserSchema = new Schema(
-    {
+const UserSchema = new Schema({
         username: String,
         password: String,
         name: String,
@@ -15,6 +14,13 @@ const UserSchema = new Schema(
         onLine: Boolean,
         status: String,
         status_timestamp: Date,
+        phone_number: String,
+        address: String,
+        city: String,
+        birth_date: {
+            type: String,
+            default: '1900-09-28'
+        },
         sockets: {
             type: Map,
             of: Boolean
@@ -22,7 +28,25 @@ const UserSchema = new Schema(
         unread_messages: {
             type: Map,
             of: Number
-        }
+        },
+        personal_message:{
+            message: String,
+            security_question: String,
+            security_question_answer: String
+        },
+        medical_information:{
+            blood_type: String,
+            allergies: String,
+            prescribed_drugs: String,
+            privacy_terms_medical_accepted: Boolean,
+        },
+        emergency_contact:{
+            name: String,
+            phone_number: String,
+            address: String,
+            email: String
+        },
+        privacy_terms_data_accepted: Boolean
     },
     schemaOptions
 );

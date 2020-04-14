@@ -37,7 +37,6 @@ class BaseMessage {
                     template.querySelector(".user-post").classList.add('user-post-current');
                 }
                 let indicatorStyle = '';
-                console.log("mesage status = ", message.status);
                 if(message.status != undefined && message.status != ""){
                     if (message.status === 'OK') {
                         indicatorStyle = "background-color-ok";
@@ -48,9 +47,11 @@ class BaseMessage {
                     } else if (message.status === 'UNDEFINED') {
                         indicatorStyle = 'background-color-undefined';
                     }
-                    console.log(indicatorStyle)
+
                     template.querySelector('.status-indicator-element').classList.add("statusIndicator");
-                    template.querySelector('.status-indicator-element').classList.add(indicatorStyle);
+                    if(indicatorStyle != ''){
+                        template.querySelector('.status-indicator-element').classList.add(indicatorStyle);
+                    }
                 }
 
                 template.querySelector('.msg').innerText = message.message;
@@ -70,7 +71,7 @@ class BaseMessage {
      drawMessages(type, messages, page) {
         let i = 0;
         //only delete previous results if page is 0
-        if(page == 0){
+        if(page ==  undefined || page == 0){
             $('ul#' + type + '-chat li').remove();
         }
 

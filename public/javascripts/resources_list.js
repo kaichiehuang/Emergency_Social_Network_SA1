@@ -18,7 +18,7 @@ class ResourcesList {
 
 
     //Click event, to update user list when the user switch between views
-        $(".content-changer").click(function(event) {
+        $(".menu-content-changer").click(function(event) {
             event.preventDefault();
             let newID = $(this).data('view-id');
             if (newID === "resources-list-content") {

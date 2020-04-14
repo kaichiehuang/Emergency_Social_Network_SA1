@@ -9,16 +9,16 @@
                 <ul class="list-group list-instructions" id="user-list-content__list">
                     <template id="onlineUserTemplate">
                         <li class="list-group-item" >
-                            
-                            <div class="list-group-item__left"> 
-                                <a class = "status-button" data-user-id="" data-status="">
-                                <span id = "statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
+
+                            <div class="list-group-item__left">
+                                <a class="status-button" data-user-id="" data-status="">
+                                    <span id="statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
                                 </a>
-                                <span class="username"></span> 
+                                <a class="username content-changer" data-view-id="user-profile-content" data-user-id="" data-view-group-class="none"></a>
                             </div>
-                                 
-                            
-                
+
+
+
                             <div class="list-group-item__right">
                                 <a class="chat-button chat-button-alert content-changer" data-view-id="private-chat-content" data-user-id="" data-view-group-class="private-chat-components">
                                     <span class="message-counter"></span>
@@ -31,10 +31,10 @@
                     <template id="offlineUserTemplate">
                         <li class="list-group-item">
                             <div class="list-group-item__left">
-                                <a class = "status-button" data-user-id="" data-status="">
-                                <span id = "statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
+                                <a class="status-button" data-user-id="" data-status="">
+                                    <span id="statusSpan" class="status-list__color "><i id = "iconStatus" class="fa"></i></span>
                                 </a>
-                                <span class="username"></span>
+                                <a class="username content-changer" data-view-id="user-profile-content" data-user-id="" data-view-group-class="none"></a>
                             </div>
                             <div class="list-group-item__right">
                                 <a class="chat-button content-changer" data-view-id="private-chat-content" data-user-id="" data-view-group-class="private-chat-components">
@@ -87,7 +87,7 @@
                                 This is an area where you put a brief
                                 description of your situation.
                             </p>
-                            
+
                         </div>
                     </div>
                 </div>

@@ -19,6 +19,19 @@
         <!-- Page content goes here -->
 
         <div class="container">
+            <% include partials/user_profile %>
+        </div>
+        <div class="container">
+            <% include partials/user_profile_form1 %>
+        </div>
+        <div class="container">
+            <% include partials/user_profile_form2 %>
+        </div>
+        <div class="container">
+            <% include partials/user_profile_form3 %>
+        </div>
+
+        <div class="container">
             <% var block_id= 'public'; %>
             <% var messageBlockTitle= ''; %>
             <% include partials/public_chat_content %>
@@ -50,6 +63,7 @@
             <% include partials/emergency_status_detail %>
         </div>
 
+
         <!-- END OF CONTENT -->
     </main>
 
@@ -69,7 +83,10 @@
     <script src="/javascripts/chat.js?v=5"></script>
     <script src="/javascripts/privateChat.js?v=5"></script>
     <script src="/javascripts/announcements.js?v=5"></script>
-    <script src="/javascripts/users.js?v=5"></script>
+    <script src="/javascripts/user.js?v=5"></script>
+    <script src="/javascripts/userList.js?v=5"></script>
+    <script src="/javascripts/userProfile.js?v=5"></script>
+    <script src="/javascripts/userProfileForm.js?v=5"></script>
     <script src="/javascripts/signup.js?v=5"></script>
     <script src="/javascripts/signout.js?v=5"></script>
     <script src="/javascripts/status_selection_popup.js"></script>

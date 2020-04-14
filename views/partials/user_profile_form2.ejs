@@ -1,0 +1,112 @@
+<div class="row">
+    <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
+        <div class="user-profile-forms main-content-block hidden" id="user-profile-form2">
+            <template id="userProfileFormTemplate2">
+                <h3 class="text-center block-title">User profile - <strong class="user-profile__username"></strong></h3>
+
+                <% var step = '2'; %>
+                <% include user_profile_menu %>
+                <div class="row">
+                    <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
+                        <div class="inner-content-block-profile">
+                            <form accept-charset="utf-8" id="profile-form2" class="profile-form">
+                                <input type="hidden" name="step" value="2" id="form_step">
+                                <input type="hidden" name="user_id" id="form_user_id" value="">
+                                <!-- Personal info content -->
+                                <div class="profile-form profile-form__personal-info">
+                                    <h4 class="subtitle">Medical Information</h4>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Blood type</label>
+                                            <select name="blood_type" id="user-profile-form__blood_type">
+                                                <option value="">Please select an option</option>
+                                                <option value="A+">A+</option>
+                                                <option value="A-">A-</option>
+                                                <option value="B+">B+</option>
+                                                <option value="B-">B-</option>
+                                                <option value="O+">O+</option>
+                                                <option value="O-">O-</option>
+                                                <option value="AB+">AB+</option>
+                                                <option value="AB-">AB-</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Prescribed drugs</label>
+                                            <div class="radio">
+                                                <div>
+                                                    <input type="radio" name="has_prescribed_drugs" id="has_prescribed_drugs1"  value="1" class="visible-controller" data-id-to-display="user-profile-form__prescribed_drugs">
+                                                    <label for="has_prescribed_drugs1">Yes</label>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="has_prescribed_drugs" id="has_prescribed_drugs0"  value="0" checked="" class="hide-controller" data-id-to-hide="user-profile-form__prescribed_drugs">
+                                                    <label for="has_prescribed_drugs0">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea class="hidden" name="prescribed_drugs" id="user-profile-form__prescribed_drugs" placeholder="Enter the list of prescribed drugs you are taking here..."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Do you have any allergies?</label>
+                                            <div class="radio">
+                                                <div>
+                                                    <input type="radio" name="has_allergies" id="has_allergies1"  value="1" class="visible-controller" data-id-to-display="user-profile-form__allergies">
+                                                    <label for="has_allergies1" >Yes</label>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" name="has_allergies" id="has_allergies0"  value="0" checked="" class="hide-controller" data-id-to-hide="user-profile-form__allergies">
+                                                    <label for="has_allergies0">No</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea class="hidden" name="allergies" id="user-profile-form__allergies" placeholder="Enter the list of allergies that you have..."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <input type="checkbox" id="user-profile-form__privacy_terms_medical_accepted" name="privacy_terms_medical_accepted" value="1" >
+                                            <label class="required checkbox-label visible-controller" for="user-profile-form__privacy_terms_medical_accepted" data-id-to-display="step2-terms-conditions">I accept the terms and conditions for medical data treatment </label>
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__submit">
+                                        <button id="profile-form__submit-form2" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div clasallergiess="disclaimer">
+                                <h4 class="subtitle">Why we need these information</h4>
+                                <div>
+                                    <ul>
+                                        <li><allergiesstrong>Birth date:</strong> Needed to establish your age and response steps based on this.</li>
+                                        <li><strong>City and address:</strong> Might be needed to contact your relatives or get your medicines from home if not available elsewhere.</li>
+                                        <li><strong>Emergency contact info:</strong> We'll try contacting your emergency contact by phone or at his / her address</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <div id="user-profile-form-content__container-2">
+
+            </div>
+
+            <div class="term-conditions hidden" id="step2-terms-conditions">
+                <div>
+                    <a class="close hide-controller" data-id-to-hide="step2-terms-conditions"><i class="fa fa-times"></i></a>
+                    <h4 class="subtitle">Medical Information data treatment policy:</h4>
+                    <p>Maecenas sed diam eget risus varius blandit sit amet non magna. Maecenas faucibus mollis interdum. Donec id elit non mi porta gravida at eget metus. Curabitur blandit tempus porttitor.
+
+                    Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
