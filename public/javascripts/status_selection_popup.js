@@ -79,7 +79,7 @@ class StatusSelection {
                 event.preventDefault();
                 let newID = $('#status-button').data('view-id');
                 if (newID != undefined && newID != '') {
-                    swapContent(newID);
+                    swapViewContent(newID);
                 }
 
             }
