@@ -232,8 +232,13 @@ function hideElementEvent() {
  * @return {[type]}       [description]
  */
 function swapViewContent(viewID, classToHide) {
+    if (classToHide == undefined) {
+        classToHide = 'main-content-block';
+    }
     $("." + classToHide).addClass('hidden');
     $('#' + viewID).removeClass('hidden');
+    $("." + classToHide).addClass('hidden-main-content-block');
+    $('#' + viewID).removeClass('hidden-main-content-block');
     oldContentPageID = currentContentPageID;
     currentContentPageID = viewID;
 }
