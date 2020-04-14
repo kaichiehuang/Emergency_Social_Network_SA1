@@ -43,6 +43,27 @@ const ChatMessageSchema = new Schema(
 
 ChatMessageSchema.index({'message': 'text'});
 
+const EmergencyStatusDetailSchema = new Schema(
+    {
+        user_id: {type: Schema.Types.ObjectId, ref: 'User'},
+        status_description: String,
+        share_location: String,
+
+
+    },
+    schemaOptions
+);
+
+const PictureAndDescriptionSchema = new Schema(
+    {
+        user_id: {type: Schema.Types.ObjectId, ref: 'User'},
+        picture_description: String,
+        picture_path: String,
+        picture_name: String
+    },
+    schemaOptions
+);
+
 
 const PrivateChatMessageSchema = new Schema(
     {
@@ -95,6 +116,8 @@ const ChatMessages = mongoose.model('Chat_Messages', ChatMessageSchema);
 const PrivateChatMessages = mongoose.model('Private_Chat_Messages', PrivateChatMessageSchema);
 const Announcements= mongoose.model('Announcement', AnnouncementSchema);
 const Resources= mongoose.model('Resource', ResourceSchema);
+const EmergencyStatusDetail = mongoose.model('Emergency_Status_Detail', EmergencyStatusDetailSchema);
+const PictureAndDescription = mongoose.model('Pictures_and_Description', PictureAndDescriptionSchema);
 
 module.exports = {
     UserMongo: User,
@@ -102,5 +125,7 @@ module.exports = {
     ChatMessagesMongo: ChatMessages,
     PrivateChatMessagesMongo: PrivateChatMessages,
     AnnouncementsMongo: Announcements,
-    ResourcesMongo:Resources
+    ResourcesMongo:Resources,
+    EmergencyStatusDetailMongo: EmergencyStatusDetail,
+    PictureAndDescriptionMongo: PictureAndDescription
 };

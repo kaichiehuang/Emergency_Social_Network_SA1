@@ -160,6 +160,7 @@ function syncSocketId(socketId, deleteSocket) {
 function contentChangerEvent() {
     $('.content-changer').click(function(event) {
         $('.content-changer').removeClass('active');
+        $('#status-button').removeClass('active');
         $(this).addClass('active');
         event.preventDefault();
         let newID = $(this).data('view-id');

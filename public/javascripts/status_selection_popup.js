@@ -72,6 +72,17 @@ class StatusSelection {
                 $("#statusIcon").removeClass();
                 $("#statusIcon").addClass("fa fa-question");
             }
+            //if status is emergency
+            if (status === "EMERGENCY") {
+                $('.content-changer').removeClass('active');
+                $('#status-button').addClass('active');
+                event.preventDefault();
+                let newID = $('#status-button').data('view-id');
+                if (newID != undefined && newID != '') {
+                    swapContent(newID);
+                }
+
+            }
         }).fail(function(e) {
             $("#update-status-alert").html(e);
             $("#update-status-alert").show();
