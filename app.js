@@ -114,6 +114,7 @@ app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirej
 //   next(createError(404));
 // });
 app.get('*', (req, res, next) => {
+    console.log("here!")
     res.render('error', {
         title: 'FSE'
     });
