@@ -5,7 +5,8 @@ const schemaOptions = {
     timestamps: {createdAt: 'created_at', updatedAt: 'updated_at'}
 };
 
-const UserSchema = new Schema({
+const UserSchema = new Schema(
+    {
         username: String,
         password: String,
         name: String,
@@ -46,7 +47,12 @@ const UserSchema = new Schema({
             address: String,
             email: String
         },
-        privacy_terms_data_accepted: Boolean
+        privacy_terms_data_accepted: Boolean,
+        reported_spams: {
+            type: Map,
+            of: Boolean
+        },
+        spam: Boolean
     },
     schemaOptions
 );
@@ -60,7 +66,12 @@ const ChatMessageSchema = new Schema(
     {
         user_id: {type: Schema.Types.ObjectId, ref: 'User'},
         message: String,
-        status: String
+        status: String,
+        reported_spams: {
+            type: Map,
+            of: Boolean
+        },
+        spam: Boolean
     },
     schemaOptions
 );
@@ -116,6 +127,15 @@ const AnnouncementSchema = new Schema(
 
 AnnouncementSchema.index({'message': 'text'});
 
+const SpamReportSchema = new Schema(
+    {
+        level: String,
+        type: String,
+        description: String
+    },
+    schemaOptions
+);
+
 
 const ResourceSchema = new Schema({
     user_id: {type: Schema.Types.ObjectId, ref: 'User'},
@@ -142,6 +162,7 @@ const Announcements= mongoose.model('Announcement', AnnouncementSchema);
 const Resources= mongoose.model('Resource', ResourceSchema);
 const EmergencyStatusDetail = mongoose.model('Emergency_Status_Detail', EmergencyStatusDetailSchema);
 const PictureAndDescription = mongoose.model('Pictures_and_Description', PictureAndDescriptionSchema);
+const SpamReport = mongoose.model("Spam_Report", SpamReportSchema);
 
 module.exports = {
     UserMongo: User,
@@ -151,5 +172,6 @@ module.exports = {
     AnnouncementsMongo: Announcements,
     ResourcesMongo:Resources,
     EmergencyStatusDetailMongo: EmergencyStatusDetail,
-    PictureAndDescriptionMongo: PictureAndDescription
+    PictureAndDescriptionMongo: PictureAndDescription,
+    SpamReportMongo: SpamReport
 };

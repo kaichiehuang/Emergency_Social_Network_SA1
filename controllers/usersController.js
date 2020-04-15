@@ -47,7 +47,7 @@ class UsersController {
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(jsonResponseData));
                 }).then((res) => {
-                    
+
                     const emergency_status_detail_instance = new EmergencyStatusDetail(userData._id);
                     return emergency_status_detail_instance.createEmergencyStatusDetail();
                 }).catch((err) => {
@@ -78,6 +78,7 @@ class UsersController {
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(jsonResponseData));
                 }).catch((err) => {
+                    /* istanbul ignore next */
                     res.contentType('application/json');
                     console.log(err);
                     return res.status(422).send({
@@ -86,6 +87,7 @@ class UsersController {
                 });
             }
         }).catch((err) => {
+            /* istanbul ignore next */
             res.contentType('application/json');
             return res.status(422).send({
                 msg: 'no existe'
@@ -123,13 +125,14 @@ class UsersController {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
         }).catch((err) => {
+            /* istanbul ignore next */
             res.contentType('application/json');
+            /* istanbul ignore next */
             return res.status(422).send({
                 msg: err
             }).end();
         });
     }
-
     /**
      * Get the users of the DataBase (only user_name and online fields)
      * @param req
@@ -150,9 +153,11 @@ class UsersController {
             user.personal_message.message = '';
             return res.status(201).send(JSON.stringify(user));
         }).catch((err) => {
+            /* istanbul ignore next */
             if(err.toString().localeCompare("You are not authorized") == 0){
                 return res.status(403).send(err);
             }
+            /* istanbul ignore next */
             return res.status(500).send(err);
         });
     }
@@ -200,6 +205,7 @@ class UsersController {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(user));
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(500).send(err);
         });
     }
@@ -219,6 +225,7 @@ class UsersController {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(user));
         }).catch((err) => {
+            /* istanbul ignore next */
             console.log('catch when socket id doesn\'t exist');
             return res.status(500).send(err);
         });
@@ -247,6 +254,7 @@ class UsersController {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(500).send(err);
         });
     }
@@ -270,6 +278,7 @@ class UsersController {
             }).then((users) => {
                 return res.status(201).send(JSON.stringify(users));
             }).catch((err) => {
+                /* istanbul ignore next */
                 console.log('Error searching users by username');
                 return res.status(500).send(err);
             });
@@ -278,6 +287,7 @@ class UsersController {
             User.getUsers().then((users) => {
                 return res.status(201).send(JSON.stringify(users));
             }).catch((err) => {
+                /* istanbul ignore next */
                 console.log('Error searching all users');
                 return res.status(500).send(err);
             });
@@ -285,4 +295,3 @@ class UsersController {
     }
 }
 module.exports = UsersController;
- 

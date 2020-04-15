@@ -9,8 +9,8 @@ class BaseMessage {
      * @param  {[type]} data [description]
      * @return {[type]}      [description]
      */
-     drawMessageItem(type, message) {
-        if(message.sender_user_id != undefined){
+    drawMessageItem(type, message) {
+        if (message.sender_user_id != undefined) {
             message.user_id = message.sender_user_id;
         }
         if (message.user_id == null || message.user_id == undefined) {
@@ -24,9 +24,8 @@ class BaseMessage {
         if (listContainer != undefined) {
             const list_length = $("#"+type + '-chat > li').length;
             //3. iterate over users list and draw using the appropiate template based on online/offline state
-            var template = messagesTemplate.content.cloneNode(true);;
+            var template = messagesTemplate.content.cloneNode(true);
             if (template != undefined && template != null && message != undefined) {
-                let new_li = $('ul#' + type + '-chat li#' + type + '-template').clone();
                 if (list_length % 2 == 1) {
                     template.querySelector(".user-post").classList.add('user-post-odd');
                 } else {
@@ -37,14 +36,15 @@ class BaseMessage {
                     template.querySelector(".user-post").classList.add('user-post-current');
                 }
                 let indicatorStyle = '';
-                if(message.status != undefined && message.status != ""){
-                    if (message.status === 'OK') {
+                console.log("mesage status = ", message.status);
+                if(message.status != undefined && message.status != "") {
+                    if(message.status === 'OK') {
                         indicatorStyle = "background-color-ok";
-                    } else if (message.status === 'HELP') {
+                    } else if(message.status === 'HELP') {
                         indicatorStyle = 'background-color-help';
-                    } else if (message.status === 'EMERGENCY') {
+                    } else if(message.status === 'EMERGENCY') {
                         indicatorStyle = 'background-color-emergency';
-                    } else if (message.status === 'UNDEFINED') {
+                    } else if(message.status === 'UNDEFINED') {
                         indicatorStyle = 'background-color-undefined';
                     }
 
@@ -53,10 +53,35 @@ class BaseMessage {
                         template.querySelector('.status-indicator-element').classList.add(indicatorStyle);
                     }
                 }
-
-                template.querySelector('.msg').innerText = message.message;
+                if (!message.spam) {
+                    template.querySelector(".msg").innerText = message.message;
+                } else {
+                    template.querySelector(".msg").classList.add('hidden');
+                    template.querySelector(".report-msg-number").classList.add('hidden');
+                    template.querySelector(".report-link").classList.add('hidden');
+                    template.querySelector(".spam-msg").classList.remove("hidden");
+                }
                 template.querySelector('.timestamp').innerText = new Date(message.created_at).toLocaleString();
                 template.querySelector('.username').innerText = message.user_id.username;
+                let msgNumber = 0;
+                if (message.reported_spams != undefined) {
+                    msgNumber = Object.getOwnPropertyNames(message.reported_spams).length;
+                    if (message.reported_spams.hasOwnProperty(user_id)) {
+                        template.querySelector('.report-link').classList.add('report-link-disable');
+                    }
+                }
+                if (msgNumber != 0) {
+                    template.querySelector('.report-msg-number').innerText = '(' + msgNumber + ')';
+                }
+                let userNumer = 0;
+                if (message.user_id.reported_spams != undefined) {
+                    userNumer = Object.getOwnPropertyNames(message.user_id.reported_spams).length;
+                }
+                if (userNumer != 0) {
+                    template.querySelector('.report-user-number').innerText = '<' + userNumer + '>';
+                }
+                template.querySelector('.report').setAttribute("msg_id", message._id);
+                template.querySelector('.report').setAttribute("user_id", message.user_id._id);
 
                 listContainer.appendChild(template);
             }
@@ -91,7 +116,7 @@ class BaseMessage {
     /**
      * Sends and saves the message the user post.
      */
-     sendMessage(type) {
+    sendMessage(type) {
         let user_id = Cookies.get('user-id');
         let jwt = Cookies.get('user-jwt-esn');
         let url = apiPath + '/chat-messages';
@@ -129,6 +154,9 @@ class BaseMessage {
             }
         }).done(function(response) {
             $(message_content).val('');
+            if (type === 'public' && response.spam) {
+                $('#user-spam-modal').modal('show');
+            }
             console.log(response);
         }).fail(function(e) {
             $('#signup-error-alert').html(e);
@@ -182,7 +210,7 @@ class BaseMessage {
             }).done(function(response) {
                 resolve(response);
             }).fail(function(e) {
-                reject(e.message)
+                reject(e.message);
             }).always(function() {
                 console.log("complete");
             });
@@ -195,16 +223,16 @@ class BaseMessage {
      * @param  {[type]} page          [description]
      * @return {[type]}               [description]
      */
-     updateMessageListView(type, searchKeyword, page) {
+    updateMessageListView(type, searchKeyword, page) {
         let self = this;
-        if(searchKeyword == undefined || searchKeyword.length == 0){
+        if (searchKeyword == undefined || searchKeyword.length == 0) {
             this.deactivateSearchButtonsLoadMore(type);
         }
         //get user data and then get messages to paint and to check for unread messages
         this.getMessages(type, searchKeyword, page).then(results => {
             self.drawMessages(type, results, page);
         }).catch(err => {
-            console.log(err)
+            console.log(err);
         });
     }
 

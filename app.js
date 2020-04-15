@@ -16,8 +16,11 @@ var usersListRouter = require('./routes/usersList');
 var announcementRouter = require('./routes/announcements');
 var resourcesRouter = require('./routes/resources');
 var emergencyStatusDetailRouter = require('./routes/emergencyStatusDetail');
+const spamReportRouter = require('./routes/spamReport');
 
 let ENVIRONMENT = "development";
+
+/* istanbul ignore next */
 if (process.env.NODE_ENV != undefined ) {
     ENVIRONMENT = process.env.NODE_ENV;
 }
@@ -32,6 +35,8 @@ var app = express();
 // https redirect uncomment on server
 // app.use(httpsRedirectTool([], [], 301));
 let serverType = 'http';
+
+/* istanbul ignore next */
 if (ENVIRONMENT == "production") {
     serverType = "http";
 }
@@ -39,19 +44,26 @@ if (ENVIRONMENT == "production") {
 let http = null;
 let https = null;
 let server = null;
+
+/* istanbul ignore next */
 if (serverType == 'http') {
     http = require('http');
 } else {
+    /* istanbul ignore next */
     https = require('https');
 }
+
+/* istanbul ignore next */
 if (serverType == 'http') {
     /**
      * Create HTTP server.
      */
     server = http.createServer(app);
 } else {
+    /* istanbul ignore next */
     let options = {}
     // https certificates for localhost
+    /* istanbul ignore next */
     if (ENVIRONMENT != "production") {
         /**
          * Create HTTPS server.
@@ -67,6 +79,7 @@ if (serverType == 'http') {
 var io = require('socket.io')(server);
 var count = 0;
 io.sockets.on('connection', function(socket) {
+    /* istanbul ignore next */
     count++;
     io.sockets.emit('count', {
         number: count
@@ -107,6 +120,7 @@ app.use('/api/usersList', usersListRouter);
 app.use('/api/announcements',announcementRouter);
 app.use('/api/resources',resourcesRouter);
 app.use('/api/emergencyStatusDetail',emergencyStatusDetailRouter);
+app.use('/api/spam-report', spamReportRouter);
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
 app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirejs')));
 // catch 404 and forward to error handler
@@ -114,13 +128,14 @@ app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirej
 //   next(createError(404));
 // });
 app.get('*', (req, res, next) => {
-    console.log("here!")
+    /* istanbul ignore next */
     res.render('error', {
         title: 'FSE'
     });
 });
 // error handler
 app.use(function(err, req, res, next) {
+    /* istanbul ignore next */
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};

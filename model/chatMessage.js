@@ -1,5 +1,6 @@
 const ChatMessageModel = require('./model').ChatMessagesMongo;
 const StopWords = require('../utils/StopWords');
+const constants = require('../constants');
 
 class ChatMessage {
     constructor(message, user_id, user_status) {
@@ -27,6 +28,7 @@ class ChatMessage {
                     resolve(newChatMessage);
                 })
                 .catch(function(err) {
+                    /* istanbul ignore next */
                     console.log('message creation failed');
                     console.log(err);
                     reject(err);
@@ -41,11 +43,12 @@ class ChatMessage {
     getChatMessages() {
         return new Promise((resolve, reject) => {
             ChatMessageModel.find({})
-                .populate('user_id', ['_id', 'username'])
+                .populate('user_id', ['_id', 'username', 'reported_spams'])
                 .then((result) => {
                     resolve(result);
                 })
                 .catch(function(err) {
+                    /* istanbul ignore next */
                     console.log('getChatMessages error: ' + err);
                     reject(err);
                 });
@@ -65,8 +68,47 @@ class ChatMessage {
                     .then((messages) => {
                         resolve(messages);
                     }).catch((err) => {
+                        /* istanbul ignore next */
                         reject(err);
                     });
+            });
+        });
+    }
+
+    static findMessageById(id) {
+        return new Promise((resolve, reject) => {
+            ChatMessageModel.findOne({
+                _id: id
+            }).exec().then((message) => {
+                resolve(message);
+            }).catch((err) => {
+                /* istanbul ignore next */
+                reject(err);
+            });
+        });
+    }
+
+    /**
+     * set report spam reporter for current message
+     * @param messageId
+     * @param reporterUserId
+     * @returns {Promise<unknown>}
+     */
+    static setReportSpam(messageId, reporterUserId) {
+        return new Promise((resolve, reject) => {
+            ChatMessage.findMessageById(messageId).then((message) => {
+                /* istanbul ignore next */
+                if (message.reported_spams == undefined) {
+                    message.reported_spams = {};
+                }
+                message.reported_spams.set(reporterUserId, true);
+                message.spam = (message.reported_spams.size >= constants.MESSAGE_SPAM_REPORTED_LIMIT);
+                return message.save();
+            }).then((message) => {
+                resolve(message);
+            }).catch((err) => {
+                /* istanbul ignore next */
+                reject(err);
             });
         });
     }

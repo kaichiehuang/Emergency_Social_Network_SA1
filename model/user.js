@@ -51,6 +51,7 @@ class User {
             });
         });
     }
+
     // WITH PROMISES
     /**
      * [isPasswordMatch description]
@@ -71,7 +72,10 @@ class User {
                 } else {
                     reject('Invalid username / password.');
                 }
-            }).catch((err) => reject(err));
+            }).catch((err) => {
+                /* istanbul ignore next */
+                reject(err);
+            });
         });
     }
     /**
@@ -87,6 +91,7 @@ class User {
             resolve(true);
         });
     }
+
     // VALIDATE PASSWORD  LENGTH
     /**
      * [validatePassword description]
@@ -200,6 +205,7 @@ class User {
             resolve(true);
         });
     }
+
     /**
      * Register a username in DB. it hashes the password
      * @return {[type]} [description]
@@ -217,6 +223,7 @@ class User {
         });
         return newUser.save();
     }
+
     /**
      * Updates the acknowledgement for a user
      * @param  {[type]} userId          [description]
@@ -241,6 +248,7 @@ class User {
             });
         });
     }
+
     /**
      * Finds a user by username
      * @param  {[type]} userId [description]
@@ -253,10 +261,12 @@ class User {
             }).exec().then((user) => {
                 resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
     }
+
     /**
      * hashes a user password
      * @param  {[type]} password [description]
@@ -265,6 +275,7 @@ class User {
     hashPassword(password) {
         return bcrypt.hashSync(password, 10);
     }
+
     /**
      * Validates if a username is banned
      * @return {[type]} [description]
@@ -280,6 +291,7 @@ class User {
             }
         });
     }
+
     /**
      * Checks if a username exists
      * @param  {[type]} username [description]
@@ -294,10 +306,12 @@ class User {
                     resolve(false);
                 }
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
     }
+
     /**
      * Generates a token for a user
      * @return {[type]} [description]
@@ -314,13 +328,16 @@ class User {
                     };
                     resolve(tokens);
                 }).catch((err) => {
+                    /* istanbul ignore next */
                     reject(err);
                 });
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
     }
+
     /**
      * username exists / true or false
      * @return {[type]} [description]
@@ -334,6 +351,7 @@ class User {
                     resolve(false);
                 }
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
@@ -381,10 +399,12 @@ class User {
             }).exec().then((user) => {
                 resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
     }
+
     /**
      * [getUsers description]
      * @return {[type]} [description]
@@ -397,10 +417,12 @@ class User {
             }).then((users) => {
                 resolve(users);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
     }
+
     /**
      * Find users by user name (contains)
      * @param username
@@ -424,10 +446,12 @@ class User {
             }).then((users) => {
                 resolve(users);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
     }
+
     /**
      * Find user by user status
      * @param status
@@ -443,10 +467,13 @@ class User {
             }).then((users) => {
                 resolve(users);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
     }
+
+
     /**
      * Inserts a socket to the sockets map attribute
      * @param  {[type]} userId   [description]
@@ -456,11 +483,13 @@ class User {
     static insertSocket(userId, socketId) {
         return new Promise((resolve, reject) => {
             User.findUserById(userId).then((user) => {
+                /* istanbul ignore next */
                 if (user.sockets == undefined) {
                     user.sockets = {};
                 }
                 return user.save();
             }).then((user) => {
+                /* istanbul ignore next */
                 if (user.sockets.has(socketId) == false) {
                     user.sockets.set(socketId, 1);
                 }
@@ -468,10 +497,12 @@ class User {
             }).then((user) => {
                 resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
     }
+
     /**
      * Removes a socket from the sockets map attribute
      * @param  {[type]} userId   [description]
@@ -495,10 +526,12 @@ class User {
             }).then((user) => {
                 resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 reject(err);
             });
         });
     }
+
     /**
      * [changeMessageCount description]
      * @param  {[type]} senderUserId   [description]
@@ -509,11 +542,13 @@ class User {
     static changeMessageCount(senderUserId, receiverUserId, increaseCount) {
         return new Promise((resolve, reject) => {
             User.findUserById(receiverUserId).then((user) => {
+                /* istanbul ignore next */
                 if (user.unread_messages == undefined) {
                     user.unread_messages = {};
                 }
                 return user.save();
             }).then((user) => {
+                /* istanbul ignore next */
                 if (user.unread_messages.has(senderUserId) == false) {
                     user.unread_messages.set(senderUserId, 1);
                 } else {
@@ -555,5 +590,32 @@ class User {
             });
         });
     }
+
+    /**
+     * set report spam reporter for current user
+     * @param userId
+     * @param reporterUserId
+     *
+     */
+    static setReportSpam(userId, reporterUserId) {
+        return new Promise((resolve, reject) => {
+            User.findUserById(userId)
+                .then((user) => {
+                    /* istanbul ignore next */
+                    if (user.reported_spams == undefined) {
+                        user.reported_spams = {};
+                    }
+                    user.reported_spams.set(reporterUserId, true);
+                    user.spam = (user.reported_spams.size >= constants.USER_SPAM_REPORTED_LIMIT);
+                    return user.save();
+                }).then((user) => {
+                    resolve(user);
+                }).catch((err) => {
+                    /* istanbul ignore next */
+                    reject(err);
+                });
+        });
+    }
 }
+
 module.exports = User;

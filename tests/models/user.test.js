@@ -602,7 +602,7 @@ describe("Sockets", () => {
         return expect(User.removeSocket(newUser._id, '2')).rejects.toBe("Socket does not exist");
     })
 })
-describe("Chat message count", () => {
+describe("Chat message count & spam report", () => {
     let newUser1;
     let newUser2;
     beforeEach(async () => {
@@ -613,6 +613,21 @@ describe("Chat message count", () => {
         user.setRegistrationData("usersocket2", "password");
         newUser2 = await user.registerUser();
     })
+
+    test('set user spam report', async ()=>{
+      let usrId; let usrReporterId;
+      await User.findUserByUsername(newUser1.username).then((usr) => {
+        usrId = usr._id.toString();
+      });
+      await User.findUserByUsername(newUser2.username).then((usr) => {
+        usrReporterId = usr._id.toString();
+      });
+      await User.setReportSpam(usrId, usrReporterId).then((usr) => {
+        return expect(usr.reported_spams.get(usrReporterId)).toBe(true);
+      });
+    });
+
+
     test('should increase count', async () => {
         return await expect(User.changeMessageCount(newUser1, newUser2, true)).toBeDefined()
     })

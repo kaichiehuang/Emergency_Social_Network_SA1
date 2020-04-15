@@ -26,6 +26,14 @@ class PublicChatMessage extends BaseMessage {
                 public_wall_container.scrollTop = public_wall_container.scrollHeight;
             }
         });
+
+        $('.list-group').on('click', ".report-link", function(e) {
+            e.preventDefault();
+            console.log(e.target);
+            $("#spam_user_id").val(e.toElement.getAttribute('user_id'));
+            $("#spam_msg_id").val(e.toElement.getAttribute('msg_id'));
+        });
+
         /**
          * form submit button event // triggered by submit and enter event by default
          */
@@ -35,6 +43,7 @@ class PublicChatMessage extends BaseMessage {
             page = 0;
             publicChatMessageModel.updateMessageListView('public', searchKeyword, page);
         });
+
         $("#search-public-chat__more-button").click(function(e) {
             e.preventDefault();
             let searchKeyword = $("#search-public-chat__input").val();
@@ -54,7 +63,15 @@ $(function() {
         publicChatMessageModel.drawMessageItem('public', data);
         public_wall_container.scrollTop = public_wall_container.scrollHeight;
     });
+
+    // listen for spam number update (user/message) events
+    socket.on('spam-report-number', data => {
+        console.log(data);
+        $("#public-chat li").remove();
+        publicChatMessageModel.updateMessageListView('public');
+    });
+
     //init public chat messages and announcements
     publicChatMessageModel.updateMessageListView('public');
-    PublicChatMessage.registerEventsAfterDraw()
+    PublicChatMessage.registerEventsAfterDraw();
 });
