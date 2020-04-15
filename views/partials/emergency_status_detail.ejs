@@ -1,0 +1,113 @@
+<div class="row">
+    <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
+        <div class=" emergencyDetailcontainer">
+            <div class="message-chat-content main-content-block hidden" id="status-content">
+                <!-- block for header -->
+                <div class="row">
+                    <div class="col-xs-24">
+                        <div class="emergencyDetailHeader">
+                            <h3 class="text-center blueText"> Emergency Detail</h3>
+                            <!-- <button type="button" class="btn btn-primary btn-sm align-middle editButton">Edit</button> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- block for status discription -->
+                <div class="row">
+                    <div class="col-xs-20 col-xs-offset-2">
+                        <div class=" briefDescription" id="briefDescriptionContainer">
+                            <h4 class="blueText"> Briefly describe your situation:</h4>
+
+                            <p class = "hidden" id="briefDescriptionPreview">
+                                This is an area where you put a brief
+                                description of your situation.
+                            </p>
+
+                            <textarea class = "form-control hidden" id="briefDescriptionEdit"
+                            rows="3" placeholder="This is an area where you put a brief description of your situation. "></textarea>
+
+                            <button type="button" class="btn btn-primary btn-sm edit-button">edit</button>
+                            <button type="button" class="btn btn-success btn-sm save-button hidden">save</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- block for share location -->
+                <div class="row">
+                    <div class="col-xs-20 col-xs-offset-2">
+                        <div class="shareLocation">
+                            <h4 class="blueText"> Share your location: </h4>
+
+                            <p class = "hidden" id="locationDescriptionPreview">
+                                This is an area where you put a brief
+                                description of your situation.
+                            </p>
+
+
+                            <textarea class = "form-control hidden" id="locationDescriptionEdit"
+                            rows="3" placeholder="This is an area where you put a brief description of your location."></textarea>
+
+                            <button type="button" class="btn btn-primary btn-sm loc-edit-button">edit</button>
+                            <button type="button" class="btn btn-success btn-sm loc-save-button hidden">save</button>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- block for share picture and description -->
+                <div class="row">
+                    <div class="col-xs-20 col-xs-offset-2">
+                        <div class="sharePicture">
+                            <h4 class="blueText"> Add pictures and descriptions:</h4>
+                            <template id = "pictureAndDescriptionTemplate">
+                                <div class = picAndDesBlock id = "exampleId" data-pic-id="">
+                                    <img class="examplePic" src="exampleSrc">
+                                    <p>
+                                        1234
+                                    </p>
+
+                                    <button type="button" class="btn btn-danger btn-sm delete-button" data-pic-id='' id = 'exampleId'>delete</button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-2">
+                        <button type="button" class="btn btn-secondary btn-sm add-button"> Add picture... </button>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <!-- Modal -->
+            <div class="modal fade" id="addPictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3 class="modal-title" id="exampleModalLabel">Upload a new picture</h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <form method="post" action="" enctype="multipart/form-data" id="myform">
+                                <div >
+                                    <input type="file" id="file" name="file" />
+                                    <!-- <input type="button" class="button" value="Upload" id="but_upload"> -->
+                                </div>
+                                <div>
+                                    <textarea class = "form-control hidden" id="picDiscription" rows="3" placeholder="Give a brief discription of the picture"></textarea>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary close-button" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success upload-button hidden">Upload</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

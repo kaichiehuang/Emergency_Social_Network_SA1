@@ -49,8 +49,6 @@ describe('API USERS TEST', () => {
         const userEmpty = {
             username: 'undefined',
             password:undefined,
-            name:'fake name',
-            last_name: 'fake last',
         }
 
         await agent.post(HOST + '/api/users')
@@ -123,7 +121,7 @@ describe('API USERS TEST', () => {
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{
-                expect(res.body.user.acknowledgement).toBe(true);
+                expect(res.body.acknowledgement).toBe(true);
             })
     })
 

@@ -4,6 +4,9 @@
 .main-content-block {
     display: block;
     padding-top: 135px;
+    background: white;
+    border-right: 1px solid #ddd;
+    border-left: 1px solid #ddd;
     @include respond-to('small') {
         padding-top: 130px;
     }
@@ -15,6 +18,10 @@
         color: $brand_color1;
         font-weight: bold;
         padding-bottom: 200px;
+    }
+    &.acknowledgement-page-content {
+        padding-top: 0;
+        padding-bottom: 100px;
     }
 }
 .hidden-main-content-block {
@@ -148,7 +155,7 @@ form {
 }
 //Public chat
 .msg_border {
-    border-bottom: 1px solid #c4c4c4;
+    // border-bottom: 1px solid #ddd;
     border-top: none;
     height: 70vh;
     background: white;
@@ -180,10 +187,11 @@ form {
     }
 }
 .type_area {
-    border-top: 1px solid #c4c4c4;
+    border-top: 1px dotted #ddd;
     position: relative;
     padding: 15px 15px 5px 15px;
     background: white;
+    box-shadow: 0px -1px 10px 1px #999;
     @include respond-to("small") {
         padding: 15px 15px 15px 15px;
         position: fixed;
@@ -443,6 +451,7 @@ form {
         background: white;
     }
     .list-group-item {
+        border: none;
         @include flexbox;
         @include align-items(center);
         @include justify-content(space-between);
@@ -487,6 +496,7 @@ form {
         }
         .username {
             font-size: 0.9em;
+            a {}
         }
     }
 }
@@ -541,6 +551,416 @@ form {
         }
     }
 }
+/********** user profile ************/
+
+//profile
+.user-profile-content, .user-profile-forms {
+    padding: 30px;
+    padding-top: 90px;
+    background: white;
+    @include respond-to("small") {
+        padding: 15px;
+        padding-top: 90px;
+    }
+    @include respond-to("extra-small") {
+        padding: 15px;
+        padding-top: 90px;
+    }
+    .profile-block {
+        position: relative;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+        border-bottom: 1px dotted $brand_color2;
+        border-bottom: 1px dotted #ccc;
+        .edit-profile-button {
+            position: absolute;
+            right: 0px;
+            top: 7.5px;
+        }
+        .profile-block__subtitle {
+            color: $brand_color1;
+            margin: 0;
+            margin-bottom: 22.5px;
+        }
+        .profile-block__user-attribute-data {
+            @include flexbox;
+            @include align-items(flex-start);
+            @include justify-content(flex-start);
+            @include flex-wrap(wrap);
+            margin-bottom: 12.5px;
+            >span {
+                width: 37%;
+                color: #666666;
+                margin-bottom: 2.5px;
+            }
+            >strong, p {
+                color: #333;
+            }
+            >strong {
+                width: 63%;
+            }
+        }
+        .user-attribute-data__personal-message {
+            font-style: italic;
+            color: #000;
+            font-weight: bold;
+            margin: 10px 0;
+            margin-bottom: 45px;
+        }
+        form {
+            width: 100%;
+        }
+        .form-group {
+            width: 100%;
+            @include flexbox;
+            @include align-items(flex-start);
+            @include justify-content(flex-end);
+            @include flex-wrap(wrap);
+            label {
+                width: 100%;
+            }
+            input {
+                width: 100%;
+                margin-bottom: 10px;
+                border: 1px solid #999;
+                text-align: center;
+            }
+        }
+    }
+    .disclaimer, .profile-form {
+        .subtitle {
+            color: $brand_color1;
+            margin: 0;
+            margin-bottom: 22.5px;
+            font-size: 18px;
+        }
+    }
+    .profile-form {
+        position: relative;
+        padding-top: 15px; // padding-bottom: 15px;
+        margin-bottom: 30px;
+        border-bottom: none !important;
+        .edit-profile-button {
+            position: absolute;
+            right: 0px;
+            top: 7.5px;
+        }
+        label, li, p, span, strong {
+            line-height: 1.6em;
+        }
+        .profile-form__user-attribute-data {
+            .form-group {
+                @include flexbox;
+                @include align-items(center);
+                @include justify-content(flex-start);
+                @include flex-wrap(wrap);
+                margin-bottom: 15px;
+                label {
+                    width: 37%;
+                    color: #666666;
+                    margin-bottom: 2.5px;
+                    font-size: 1em;
+                    &.required {
+                        &:after {
+                            content: " *";
+                            color: $brand-color2;
+                        }
+                    }
+                    &.checkbox-label {
+                        width: 90%;
+                        font-size: 0.9em;
+                        color: $brand_color1;
+                        text-decoration: underline;
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+                input[type=text], textarea, select {
+                    width: 63%;
+                    border: 1px solid #999;
+                    text-align: center;
+                }
+                input[type=checkbox] {
+                    border: 1px solid #999;
+                    text-align: center;
+                    margin-right: 15px;
+                }
+                select {
+                    text-align-last: center;
+                    text-indent: 5px;
+                    option {
+                        text-align: center;
+                    }
+                }
+                textarea {
+                    width: 100%;
+                    min-height: 100px;
+                    padding: 10px;
+                }
+                .radio {
+                    @include flexbox;
+                    @include align-items(center);
+                    @include justify-content(flex-start);
+                    width: 63%;
+                    >div {
+                        width: 35%;
+                        @include flexbox;
+                        @include align-items(center);
+                        @include justify-content(flex-start);
+                        label, input {
+                            width: auto;
+                            margin: 0;
+                            padding: 0;
+                            position: relative;
+                        }
+                        input {
+                            width: auto;
+                            margin-right: 10px;
+                        }
+                    }
+                }
+            }
+        }
+        .profile-form__submit {
+            text-align: right;
+            width: 100%;
+            .btn {}
+        }
+        .user-attribute-data__personal-message {
+            font-style: italic;
+            color: #000;
+            font-weight: bold;
+            margin: 10px 0;
+            margin-bottom: 45px;
+        }
+    }
+    .disclaimer {
+        ul {
+            padding-left: 15px;
+            li {
+                margin-bottom: 10px;
+            }
+        }
+    }
+    .user-profile-menu {
+        padding: 0;
+        margin: 0;
+        @include flexbox;
+        @include align-items(center);
+        @include justify-content(space-between);
+        list-style: none;
+        li {
+            padding: 5px 12.5px;
+            min-width: 33.333333%;
+            a {
+                display: block;
+                width: 100%;
+                border-radius: 5px;
+                &.active {
+                    background: #f3f3f3;
+                    color: #333;
+                }
+            }
+        }
+    }
+    .term-conditions, .user-profile__personal-message-container {
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(#333, 0.5);
+        z-index: 9999999999999999999;
+        padding: 15px;
+        >div {
+            background: white;
+            height: 100%;
+            padding: 30px;
+            width: 100%;
+        }
+        .subtitle {
+            color: $brand_color1;
+            margin: 0;
+            margin-bottom: 22.5px;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 10px;
+            line-height: 1.4em;
+        }
+        .close {
+            position: absolute;
+            right: 27.5px;
+            top: 27.5px;
+            color: $brand_color2;
+            opacity: 1;
+            font-size: 1.75em;
+        }
+    }
+}
+.not-authorized, .profile-update-invite {
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(#333, 0.5);
+    z-index: 9999999999999999999;
+    padding: 45px 20px;
+    >div {
+        background: white;
+        height: 100%;
+        padding: 15px 25px;
+        width: 100%;
+    }
+    .subtitle {
+        color: $brand_color2;
+        margin: 0;
+        margin-bottom: 22.5px;
+        font-size: 18px;
+        text-align: center;
+        margin-top: 10px;
+        line-height: 1.4em;
+        margin-top: 20%;
+    }
+    p {
+        margin-bottom: 30px;
+        text-align: justify;
+    }
+    .close {
+        position: absolute;
+        right: 35px;
+        top: 60px;
+        color: $brand_color2;
+        opacity: 1;
+        font-size: 1.75em;
+    }
+}
+/***** resource sharing ********/
+
+.resources-content {
+    padding-top: 70px;
+    display: block;
+    color: $brand_color1; //@include flexbox;
+    .msg_border {
+        height: auto;
+        @include respond-to("small") {
+            height: auto;
+            padding-bottom: 100px;
+        }
+        @include respond-to("extra-small") {
+            height: auto;
+            padding-bottom: 100px;
+        }
+    }
+    #div-resource-type, #div-steps {
+        text-align: center;
+        display: inline;
+        .btn-primary {
+            border-radius: 50%;
+        }
+        .selected-btn {
+            background-color: $brand_color2;
+        }
+    }
+    #resource-picture-div {
+        #save-resource-btn {
+            text-align: right;
+        }
+        #image-preview {
+            width: 90%;
+            object-fit: scale-down;
+            height: 350px;
+        }
+    }
+    .container {
+        width: 90%;
+    }
+    .form-check-inline {
+        display: inline;
+        padding: 5px;
+    }
+    .input-group {
+        width: 100%;
+    }
+}
+.resources-list-content {
+    padding-top: 70px;
+    display: block;
+    .list-group-item__right {
+        @include flexbox;
+        @include align-items(center);
+        @include justify-content(flex-end);
+        #icon {
+            color: $brand_color2;
+        }
+    }
+    .modal-content .container {
+        width: 90%;
+    }
+    .modal-content .modal-body .resources-content {
+        overflow-y: scroll;
+        height: auto;
+        min-height: auto;
+        padding-top: 1px;
+        .msg_border {
+            min-height: auto;
+        }
+    }
+    .type_area {
+        #addResourceIcon {
+            color: $brand_color1;
+            background-color: white;
+        }
+        text-align: end;
+    }
+}
+/***** emegency status detail view ********/
+
+.emergencyDetailcontainer {
+    background: white;
+    .blueText {
+        color: #2e6da4;
+    }
+    .emergencyDetailHeader {
+        position: relative;
+        .editButton {
+            position: absolute;
+            top: 0px;
+            right: 7px;
+            border-radius: 8px;
+        }
+    }
+    .delete-button, .edit-button, .save-button, .add-button, .upload-button, .close-button, .loc-edit-button, .loc-save-button {
+        margin-top: 5px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+    .edit-picDes-button, .save-picDes-button {
+        margin-top: 5px;
+        margin-right: 10px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+    .examplePic {
+        max-width: 100%;
+    }
+}
+#userEmergencyDetail {
+    .blueText {
+        color: #2e6da4;
+    }
+    .pictureContainer {
+        position: relative;
+    }
+    .userExamplePic {
+        width: 100%;
+    }
+}
+// .userExamplePic {
+//     width:50px;
+// }
 #spam-modal {
     .modal-header {
         .close {

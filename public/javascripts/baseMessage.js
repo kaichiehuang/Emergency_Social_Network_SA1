@@ -47,9 +47,11 @@ class BaseMessage {
                     } else if(message.status === 'UNDEFINED') {
                         indicatorStyle = 'background-color-undefined';
                     }
-                    console.log(indicatorStyle)
+
                     template.querySelector('.status-indicator-element').classList.add("statusIndicator");
-                    template.querySelector('.status-indicator-element').classList.add(indicatorStyle);
+                    if(indicatorStyle != ''){
+                        template.querySelector('.status-indicator-element').classList.add(indicatorStyle);
+                    }
                 }
                 if (!message.spam) {
                     template.querySelector(".msg").innerText = message.message;
@@ -94,7 +96,7 @@ class BaseMessage {
      drawMessages(type, messages, page) {
         let i = 0;
         //only delete previous results if page is 0
-        if(page == 0){
+        if(page ==  undefined || page == 0){
             $('ul#' + type + '-chat li').remove();
         }
 
@@ -157,7 +159,6 @@ class BaseMessage {
             }
             console.log(response);
         }).fail(function(e) {
-            console.log(e);
             $('#signup-error-alert').html(e);
             $('#signup-error-alert').show();
         }).always(function() {

@@ -14,6 +14,8 @@ var chatMessagesRouter = require('./routes/chatMessages');
 var privateChatMessagesRouter = require('./routes/privateChatMessages');
 var usersListRouter = require('./routes/usersList');
 var announcementRouter = require('./routes/announcements');
+var resourcesRouter = require('./routes/resources');
+var emergencyStatusDetailRouter = require('./routes/emergencyStatusDetail');
 const spamReportRouter = require('./routes/spamReport');
 
 let ENVIRONMENT = "development";
@@ -36,7 +38,6 @@ let serverType = 'http';
 
 /* istanbul ignore next */
 if (ENVIRONMENT == "production") {
-    /* istanbul ignore next */
     serverType = "http";
 }
 
@@ -97,7 +98,8 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 //application/json
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '5mb' }));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 // set the view engine to ejs
@@ -105,6 +107,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public/pictures',express.static(path.join(__dirname, 'public/pictures')));
 app.use('/', indexRouter);
 // app.use('/sign-up', registrationRouter);
 app.use('/app', applicationRouter);
@@ -114,7 +117,9 @@ app.use('/api/users', usersRouter);
 app.use('/api/chat-messages', chatMessagesRouter);
 app.use('/api/private-chat-messages', privateChatMessagesRouter);
 app.use('/api/usersList', usersListRouter);
-app.use('/api/announcements', announcementRouter);
+app.use('/api/announcements',announcementRouter);
+app.use('/api/resources',resourcesRouter);
+app.use('/api/emergencyStatusDetail',emergencyStatusDetailRouter);
 app.use('/api/spam-report', spamReportRouter);
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
 app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirejs')));

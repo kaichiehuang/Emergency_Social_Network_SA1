@@ -18,6 +18,7 @@ router.put('/:userId', TokenServerClass.validateToken, jsonParser, usersControll
 router.get('/', TokenServerClass.validateToken, jsonParser, usersController.getUsers);
 
 router.get('/:userId', TokenServerClass.validateToken, jsonParser, usersController.getUser);
+router.get('/:userId/personal-message', TokenServerClass.validateToken, jsonParser, usersController.getPersonalMessageUser);
 // post method for creating a user
 router.post('/', jsonParser, usersController.createUser);
 // put method for updating a user status

@@ -37,7 +37,7 @@ class AnnouncementController {
      * @param req
      * @param res
      */
-    getAnnouncement(req, res) {
+    getAnnouncements(req, res) {
         const keywords = req.query.q;
         const index = req.query.page;
         let limit = req.query.limit;

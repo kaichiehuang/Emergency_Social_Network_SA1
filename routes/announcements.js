@@ -13,7 +13,7 @@ const announcementController = new AnnouncementController();
 router.post('/', TokenServerClass.validateToken, jsonParser, announcementController.createAnnouncement);
 
 // get method to obtain announcements (all or by keyword)
-router.get('/', TokenServerClass.validateToken, jsonParser, announcementController.getAnnouncement);
+router.get('/', TokenServerClass.validateToken, jsonParser, announcementController.getAnnouncements);
 
 
 module.exports = router;

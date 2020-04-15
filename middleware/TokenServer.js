@@ -23,6 +23,7 @@ class TokenServer {
         if (token) {
             TokenServer.verifyToken(token)
                 .then((userId) => {
+                    req.tokenUserId = userId.data;
                     console.log('userId: ' + userId.data);
                     next();
                 })

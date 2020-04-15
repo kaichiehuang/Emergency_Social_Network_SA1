@@ -1,0 +1,117 @@
+
+<div class="row">
+    <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
+        <div class="user-profile-content main-content-block hidden " id="user-profile-content">
+            <template id="userProfileTemplate">
+                <h3 class="text-center block-title">User profile - <strong class="user-profile__username"></strong></h3>
+
+                <!-- Personal info content -->
+                <div class="profile-block profile-block__personal-info">
+                    <h4 class="profile-block__subtitle">Personal Information</h4>
+                    <button class="content-changer edit-profile-button btn btn-primary" data-view-id="user-profile-form1" >Edit</button>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Name</span>
+                        <strong class="user-profile__name"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Last Name</span>
+                        <strong class="user-profile__last_name"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Birth date</span>
+                        <strong class="user-profile__birth_date"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>City</span>
+                        <strong class="user-profile__city"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Address</span>
+                        <strong class="user-profile__address"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Phone #</span>
+                        <strong class="user-profile__phone_number"></strong>
+                    </div>
+                    <br>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Emergency Contact</span>
+                        <strong class="user-profile__emergency_contact"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Emergency contact phone #</span>
+                        <strong class="user-profile__emergency_contact_phone_number"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Emergency contact address</span>
+                        <strong class="user-profile__emergency_contact_address"></strong>
+                    </div>
+                </div>
+
+                <!-- Medical info content -->
+                <div class="profile-block profile-block__personal-info">
+                    <h4 class="profile-block__subtitle">Medical Information</h4>
+                    <!-- <button class="content-changer edit-profile-button btn btn-primary" data-view-id="user-profile-form2" >Edit</button> -->
+                    <div class="profile-block__user-attribute-data">
+                        <span>Blood Type</span>
+                        <strong class="user-profile__blood_type"></strong>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Prescribed drugs</span>
+                        <p class="user-profile__prescribed_drugs"></p>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <span>Allergies</span>
+                        <p class="user-profile__allergies"></p>
+                    </div>
+                </div>
+
+
+                <!-- Other info content -->
+                <div class="profile-block profile-block__personal-info ">
+                    <h4 class="profile-block__subtitle">If something happens ... </h4>
+                    <!-- <button class="content-changer edit-profile-button btn btn-primary" data-view-group-class="user-profile-form3" >Edit</button> -->
+
+                    <div class="profile-block__user-attribute-data user-profile__personal-message-container hidden " id="user-profile__personal-message-container">
+                        <div>
+                            <a class="close hide-controller" data-id-to-hide="user-profile__personal-message-container"><i class="fa fa-times"></i></a>
+                            <h4 class="subtitle">Message from <strong class="user-profile__username"></strong></h4>
+                            <p class="user-profile__personal-message" id="user-profile__personal-message">..........</p>
+                        </div>
+                    </div>
+                    <div class="profile-block__user-attribute-data">
+                        <p class="">Please answer the following question to display <strong class="user-profile__username"></strong> personal message ... </p>
+                        <form id="user-profile__personal-message-form">
+                            <div class="form-group">
+                                <label class="user-profile__personal-message-q">What is the name of my dog?</label>
+                                <input type="text" id="user-profile__personal-message-q-answer" class="user-profile__personal-message-q-answer form-control" placeholder="Answer question here ..." >
+                                <button class="btn btn-primary" type="submit" class="user-profile__personal-message-q-submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </template>
+            <div id="user-profile-content__container">
+
+            </div>
+
+            <div class="not-authorized hidden" id="profile-not-authorized">
+                <div>
+                    <a class="close hide-controller menu-content-changer" data-id-to-hide="profile-not-authorized" data-view-id="user-list-content" data-view-group-class="user-list-components"><i class="fa fa-times"></i></a>
+                    <h4 class="subtitle">You are not authorized to view this profile!</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="profile-update-invite hidden" id="profile-update-invite">
+    <div>
+        <a class="close hide-controller" data-id-to-hide="profile-update-invite"><i class="fa fa-times"></i></a>
+        <h4 class="subtitle">Your information is incomplete</h4>
+        <p>Please complete it clicking the following button. When you update your information we are able to help you faster and better, we are able to contact your relatives and emergenc contact and we can give your medical information to paramedics.</p>
+        <div class="text-center">
+            <button class="btn btn-primary btn-profile-update-invite content-changer hide-controller" data-id-to-hide="profile-update-invite" data-view-id="user-profile-content" data-view-group-class="none">Update information</button>
+        </div>
+    </div>
+</div>
