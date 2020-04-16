@@ -17,38 +17,32 @@ class UsersController {
         if (signUpData['password'] == undefined) {
             signUpData['password'] = '';
         }
-        // 2. Create user object
-        let user_instance = new User();
-        user_instance.setRegistrationData(signUpData['username'], signUpData['password']);
-        // 3. Validate if user exists
-        User.findUserByUsername(signUpData['username']).then((user) => {
+
+        // 2. Validate if user exists
+        User.findUserByUsername(signUpData['username'])
+        .then((user) => {
+            let userInstance = user;
             // 4. if user doesn't exist validate data and create it
             if (user == null) {
+                userInstance = new User();
+                userInstance.setRegistrationData(signUpData['username'], signUpData['password']);
+
                 // 3. Run validations on user object
                 let userData = null;
-                user_instance.validateCreate()
+                userInstance.validateCreate()
                 .then(function(result) {
-                    return user_instance.registerUser();
+                    return userInstance.registerUser();
                 }).then(function(response) {
-                    userData = response;
-                    user_instance._id = response._id;
-                    return user_instance.generateTokens();
+                    return userInstance.generateTokens();
                 }).then((tokens) => {
-                    const jsonResponseData = {};
-                    jsonResponseData['user'] = {
-                        userId: userData._id,
-                        username: userData.username,
-                        name: userData.name,
-                        acknowledgement: userData.acknowledgement,
-                        onLine: userData.onLine,
-                        status: userData.status
-                    };
+                    let jsonResponseData = {};
+                    jsonResponseData['user'] = userInstance;
+                    jsonResponseData['user']['userId'] = userInstance._id;
                     jsonResponseData['tokens'] = tokens;
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(jsonResponseData));
                 }).then((res) => {
-                    
-                    const emergency_status_detail_instance = new EmergencyStatusDetail(userData._id);
+                    const emergency_status_detail_instance = new EmergencyStatusDetail(userInstance._id);
                     return emergency_status_detail_instance.createEmergencyStatusDetail();
                 }).catch((err) => {
                     res.contentType('application/json');
@@ -59,21 +53,13 @@ class UsersController {
                 });
             } else {
                 // 3. Run validations on user object
-                let userData = user;
-                user_instance.isPasswordMatch().then(function(response) {
-                    userData = response;
-                    user_instance._id = response._id;
-                    return user_instance.generateTokens();
+                userInstance.isPasswordMatch(signUpData['password'])
+                .then(function(response) {
+                    return userInstance.generateTokens();
                 }).then((tokens) => {
                     const jsonResponseData = {};
-                    jsonResponseData['user'] = {
-                        userId: userData._id.toString(),
-                        username: userData.username,
-                        name: userData.name,
-                        acknowledgement: userData.acknowledgement,
-                        onLine: userData.onLine,
-                        status: userData.status
-                    };
+                    jsonResponseData['user'] = userInstance;
+                    jsonResponseData['user']['userId'] = userInstance._id.toString();
                     jsonResponseData['tokens'] = tokens;
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(jsonResponseData));
@@ -99,27 +85,18 @@ class UsersController {
      * @return {[type]}     [description]
      */
     updateUser(req, res) {
-        const user_instance = new User();
+        let userInstance = null;
         const userId = req.params.userId;
         console.log(req.body);
         // 1. update user data
-        user_instance.updateUser(userId, req.body)
-        .then((usr) => {
+        User.findById(userId).then(user => {
+            userInstance = user;
+            userInstance.updateUser(req.body)
+        })
+        .then( _ => {
             let jsonResponseData = {};
-            jsonResponseData = {
-                _id: usr._id.toString(),
-                username: usr.username,
-                name: usr.name,
-                last_name: usr.last_name,
-                acknowledgement: usr.acknowledgement,
-                onLine: usr.onLine,
-                status: usr.status
-            };
-            if(req.body.acknowledgement != undefined){
-                // jsonResponseData['tokens'] = tokens;
-            }
-
-
+            jsonResponseData = userInstance;
+            jsonResponseData['userId'] = userInstance._id;
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
         }).catch((err) => {
@@ -139,11 +116,8 @@ class UsersController {
 
         var tokenUser = null;
         //check if user is authorized to get other users data
-        console.log("tokenUserId = " + req.tokenUserId);
-
         const userId = req.params.userId;
-        console.log(userId, req.tokenUserId);
-        //1. find token user id
+        //1. find user only if it is the same user or an authorized user
         User.findUserByIdIfAuthorized(userId, req.tokenUserId)
         .then((user) => {
             res.contentType('application/json');
@@ -163,20 +137,16 @@ class UsersController {
      * @param res
      */
     getPersonalMessageUser(req, res) {
-
-        var tokenUser = null;
-        //check if user is authorized to get other users data
-        console.log("tokenUserId = " + req.tokenUserId);
-        const userId = req.params.userId;
-
         if(req.query.security_question_answer == undefined){
             return res.status(403).send("Invalid answer");
         }
-
+        const userId = req.params.userId;
         const security_question_answer = req.query.security_question_answer;
 
-        //1. find token user id
-        User.getPersonalMessage(userId, req.tokenUserId, security_question_answer)
+        //1. find user by id and check if user is authorized to get other users data
+        User.findUserByIdIfAuthorized(userId, req.tokenUserId).then(userInstance => {
+            return userInstance.getPersonalMessage(security_question_answer)
+        })
         .then((message) => {
             res.contentType('application/json');
             return res.status(201).send({"message": message});
@@ -223,33 +193,7 @@ class UsersController {
             return res.status(500).send(err);
         });
     }
-    /**
-     * Update user status
-     *  An specific Update user for status, to update status timestamp
-     * @param req
-     * @param res
-     */
-    updateUserStatus(req, res) {
-        const user_instance = new User();
-        const userId = req.params.userId;
-        const status = req.body.status;
-        // 1. update user data
-        user_instance.updateUser(userId, req.body).then((usr) => {
-            const jsonResponseData = {};
-            jsonResponseData['user'] = {
-                userId: usr._id.toString(),
-                username: usr.username,
-                name: usr.name,
-                acknowledgement: usr.acknowledgement,
-                onLine: usr.onLine,
-                status: usr.status
-            };
-            res.contentType('application/json');
-            return res.status(201).send(JSON.stringify(jsonResponseData));
-        }).catch((err) => {
-            return res.status(500).send(err);
-        });
-    }
+
     /**
      * Search users by username or status
      * @param req
@@ -285,4 +229,4 @@ class UsersController {
     }
 }
 module.exports = UsersController;
- 
+

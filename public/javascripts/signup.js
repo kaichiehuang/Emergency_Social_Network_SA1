@@ -41,7 +41,7 @@ $(function () {
             },
         }).done(function (response) {
             if (response.user != undefined && response.tokens != undefined) {
-                user_id = response.user.userId;
+                user_id = response.user._id;
                 username = response.user.username;
                 userJWT = response.tokens.token;
                 user_acknowledgement = response.user.acknowledgement;

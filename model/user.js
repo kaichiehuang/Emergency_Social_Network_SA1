@@ -3,16 +3,13 @@ const bcrypt = require('bcrypt');
 const blacklist = require('the-big-username-blacklist');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
-class User {
+class User extends UserModel {
+    /**
+     * [constructor description]
+     * @return {[type]} [description]
+     */
     constructor() {
-        this._id = null;
-        this.username = null;
-        this.password = null;
-        this.name = null;
-        this.last_name = null;
-        this.phone_number = null;
-        this.acknowledgement = false;
-        this.onLine = false;
+        super();
         this.status = constants.UNDEFINED_STATUS;
     }
     /**
@@ -31,7 +28,8 @@ class User {
     validateCreate() {
         return new Promise((resolve, reject) => {
             // validate username structure
-            this.validateUserName(this.username).then((result) => {
+            this.validateUserName(this.username)
+            .then((result) => {
                 console.log('Username structure validated');
                 // validate banned username
                 return this.validateBannedUsername();
@@ -57,21 +55,13 @@ class User {
      * @param  {[type]}  password [description]
      * @return {Boolean}          [description]
      */
-    isPasswordMatch() {
+    isPasswordMatch(inputPassword) {
         return new Promise((resolve, reject) => {
-            UserModel.find({
-                username: this.username
-            }).exec().then((userFind) => {
-                if (userFind.length !== 0) {
-                    if (bcrypt.compareSync(this.password, userFind[0].password)) {
-                        resolve(userFind[0]);
-                    } else {
-                        reject('Invalid username / password.');
-                    }
-                } else {
-                    reject('Invalid username / password.');
-                }
-            }).catch((err) => reject(err));
+            if (bcrypt.compareSync(inputPassword, this.password)) {
+                resolve(true);
+            } else {
+                reject('Invalid username / password.');
+            }
         });
     }
     /**
@@ -121,22 +111,23 @@ class User {
             //not updating personal info
             if(step == null){
                 resolve(true);
-            }
+            }else{
 
-            //validate medical information and personal information and emergency contact information
-            this.validateRequiredFieldsUpdate(step, data).then((result) => {
-                console.log('Firsts validations passed');
-                return this.validateLengthFieldsUpdate(step, data);
-            }).then((result) => {
-                console.log('All validations passed');
-                // if no errors resolve promise with result obj
-                resolve(true);
-            }).catch(err => {
-                console.log('validations not passed');
-                // if errors reject the promise
-                console.log(err);
-                reject(err);
-            });
+                //validate medical information and personal information and emergency contact information
+                this.validateRequiredFieldsUpdate(step, data).then((result) => {
+                    console.log('Firsts validations passed');
+                    return this.validateLengthFieldsUpdate(step, data);
+                }).then((result) => {
+                    console.log('All validations passed');
+                    // if no errors resolve promise with result obj
+                    resolve(true);
+                }).catch(err => {
+                    console.log('validations not passed');
+                    // if errors reject the promise
+                    console.log(err);
+                    reject(err);
+                });
+            }
         });
     }
     /**
@@ -205,17 +196,14 @@ class User {
      * @return {[type]} [description]
      */
     registerUser() {
-        const hash = this.hashPassword(this.password);
-        const newUser = new UserModel({
-            username: this.username,
-            password: hash,
-            name: this.name,
-            last_name: this.last_name,
-            acknowledgement: false,
-            onLine: false,
-            status: constants.UNDEFINED_STATUS
+        return new Promise((resolve, reject) => {
+            this.hashPassword(this.password);
+            this.save().then( _ => {
+                resolve(true);
+            }).catch(err => {
+                reject(err);
+            })
         });
-        return newUser.save();
     }
     /**
      * Updates the acknowledgement for a user
@@ -224,46 +212,28 @@ class User {
      * @param  {[type]} status          [description]
      * @return {[type]}                 [description]
      */
-    updateUser(userId, data) {
+    updateUser(data) {
         return new Promise((resolve, reject) => {
             this.validateUpdate(data)
             .then(result => {
-                return UserModel.findByIdAndUpdate(userId, {
-                    $set: data
-                }, {
-                    new: true
-                });
+                this.set(data);
+                return this.save();
             })
             .then(usr => {
-                resolve(usr);
+                resolve(true);
             }).catch((err) => {
                 reject(err);
             });
         });
     }
-    /**
-     * Finds a user by username
-     * @param  {[type]} userId [description]
-     * @return {[type]}        [description]
-     */
-    static findUserByUsername(username) {
-        return new Promise((resolve, reject) => {
-            UserModel.findOne({
-                username: username
-            }).exec().then((user) => {
-                resolve(user);
-            }).catch((err) => {
-                reject(err);
-            });
-        });
-    }
+
     /**
      * hashes a user password
      * @param  {[type]} password [description]
      * @return {[type]}          [description]
      */
     hashPassword(password) {
-        return bcrypt.hashSync(password, 10);
+        this.password = bcrypt.hashSync(password, 10);
     }
     /**
      * Validates if a username is banned
@@ -287,6 +257,7 @@ class User {
      */
     static usernameExists(username) {
         return new Promise((resolve, reject) => {
+            const userModel = new User();
             User.findUserByUsername(username).then((user) => {
                 if (user !== null && user.username != undefined && user.username == username) {
                     resolve(true);
@@ -305,9 +276,11 @@ class User {
     generateTokens() {
         return new Promise((resolve, reject) => {
             let token = '';
-            TokenServerClass.generateToken(this._id, false).then((generatedToken) => {
+            TokenServerClass.generateToken(this._id, false)
+            .then((generatedToken) => {
                 token = generatedToken;
-                TokenServerClass.generateToken(this._id, true).then((genRefToken) => {
+                TokenServerClass.generateToken(this._id, true)
+                .then((genRefToken) => {
                     const tokens = {
                         token: token,
                         ex_token: genRefToken
@@ -338,32 +311,61 @@ class User {
             });
         });
     }
+
+
     /**
      * Finds a user by username
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
+    static findUserByUsername (username) {
+        return new Promise((resolve, reject) => {
+            let userModel = new User();
+            User.findOne({
+                username: username
+            }).exec()
+            .then((user) => {
+                if(user != null){
+                    userModel.set(user);
+                    resolve(userModel);
+                }
+                resolve(null);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+
+    /**
+     * Finds a user by Id only if the user searching for it is authorized
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
     static findUserByIdIfAuthorized(id, currentUserId) {
         return new Promise((resolve, reject) => {
-            let tokenUser = null;
-            User.findUserById(currentUserId).then((user) => {
-                tokenUser = user;
+            let searchingUser = null;
+            let userModel = new User();
+            User.findUserById(currentUserId)
+            .then((user) => {
                 //same user no need to check if its an admin or authorized
                 if (currentUserId.toString().localeCompare(id) == 0) {
-                    resolve(user);
+                    userModel.set(user);
+                    resolve(userModel);
                 }
                 //diff user, check if its an admin or authorized
                 else {
+                    searchingUser = user;
                     return User.findUserById(id);
                 }
             }).then((user) => {
                 //diff user, check if its an admin or authorized
                 if (currentUserId.toString().localeCompare(id) != 0) {
-                    if (user.emergency_contact == undefined || user.emergency_contact.phone_number == undefined || tokenUser.phone_number == undefined || tokenUser.phone_number == '' || tokenUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
+                    if (user.emergency_contact == undefined || user.emergency_contact.phone_number == undefined || searchingUser.phone_number == undefined || searchingUser.phone_number == '' || searchingUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
                         reject("You are not authorized");
                     }
                 }
-                resolve(user);
+                userModel.set(user);
+                resolve(userModel);
             }).catch((err) => {
                 return reject(err);
             });
@@ -376,10 +378,17 @@ class User {
      */
     static findUserById(id) {
         return new Promise((resolve, reject) => {
-            UserModel.findOne({
+            User.findOne({
                 _id: id
             }).exec().then((user) => {
-                resolve(user);
+                let userModel = null;
+                if(user != null){
+                    userModel = new User();
+                    userModel.set(user);
+                    resolve(userModel);
+                }else{
+                    reject(null);
+                }
             }).catch((err) => {
                 reject(err);
             });
@@ -391,7 +400,7 @@ class User {
      */
     static getUsers() {
         return new Promise((resolve, reject) => {
-            UserModel.find({}).select('username onLine status').sort({
+            User.find({}).select('username onLine status').sort({
                 onLine: -1,
                 username: 'asc'
             }).then((users) => {
@@ -418,7 +427,7 @@ class User {
                 data.status = params.status;
             }
             console.log(data);
-            UserModel.find(data).select('username onLine status').sort({
+            User.find(data).select('username onLine status').sort({
                 onLine: -1,
                 username: 'asc'
             }).then((users) => {
@@ -435,7 +444,7 @@ class User {
      */
     static findUsersByStatus(status) {
         return new Promise((resolve, reject) => {
-            UserModel.find({
+            User.find({
                 status: status
             }).select('username onLine status').sort({
                 onLine: -1,
@@ -535,24 +544,17 @@ class User {
     }
 
     /**
-     * [getPersonalMessage description]
-     * @param  {[type]} userId           [description]
-     * @param  {[type]} requestingUserId [description]
-     * @return {[type]}                  [description]
+     * Get the personal message for a user if the security question matches
+     * @param  {[type]} security_question_answer [description]
+     * @return {[type]}                          [description]
      */
-    static getPersonalMessage(userId, requestingUserId, security_question_answer){
+    getPersonalMessage(security_question_answer){
         return new Promise((resolve, reject) => {
-            //1. find token user id
-            User.findUserByIdIfAuthorized(userId, requestingUserId)
-            .then((user) => {
-                if(user.personal_message.security_question_answer.localeCompare(security_question_answer) == 0){
-                    resolve(user.personal_message.message);
-                }else{
-                    reject("Invalid answer");
-                }
-            }).catch((err) => {
-                reject(err);
-            });
+            if(this.personal_message.security_question_answer.localeCompare(security_question_answer) == 0){
+                resolve(this.personal_message.message);
+            }else{
+                reject("Invalid answer");
+            }
         });
     }
 }

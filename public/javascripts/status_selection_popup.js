@@ -42,7 +42,7 @@ class StatusSelection {
             console.log(response);
             //hide modal
             $('#status-modal').modal('toggle');
-            Cookies.set('user-status', response.user.status);
+            Cookies.set('user-status', response.status);
             //tell server to emit user-list-update event
             $.ajax({
                 url: apiPath + '/usersList/',
