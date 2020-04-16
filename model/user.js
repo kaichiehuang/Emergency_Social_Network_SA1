@@ -1,17 +1,11 @@
-const UserModel = require('./model').UserMongo;
+const mongoose = require('mongoose');
+const UserSchema = require('./model').UserSchema;
 const bcrypt = require('bcrypt');
 const blacklist = require('the-big-username-blacklist');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
-class User extends UserModel {
-    /**
-     * [constructor description]
-     * @return {[type]} [description]
-     */
-    constructor() {
-        super();
-        this.status = constants.UNDEFINED_STATUS;
-    }
+class UserModel {
+
     /**
      * Sets registration data
      * @param {[type]} username [description]
@@ -103,16 +97,13 @@ class User extends UserModel {
             }
             if (data.step != undefined && data.step == 2) {
                 step = "medical";
-            }
-            else if (data.step != undefined && data.step == 3) {
+            } else if (data.step != undefined && data.step == 3) {
                 step = "other";
             }
-
             //not updating personal info
-            if(step == null){
+            if (step == null) {
                 resolve(true);
-            }else{
-
+            } else {
                 //validate medical information and personal information and emergency contact information
                 this.validateRequiredFieldsUpdate(step, data).then((result) => {
                     console.log('Firsts validations passed');
@@ -154,13 +145,12 @@ class User extends UserModel {
                     reject('Please accept the term and conditions for medical data treatment');
                 }
             } else if (type == "other") {
-
                 if (data.personal_message != undefined) {
                     console.log(data.personal_message, data.personal_message);
-                    if(data.personal_message.security_question.length == 0 && data.personal_message.security_question_answer.length != 0){
+                    if (data.personal_message.security_question.length == 0 && data.personal_message.security_question_answer.length != 0) {
                         reject('The security question and the answer to this cannot be empty if one of these is sent.');
                     }
-                    if(data.personal_message.security_question.length != 0 && data.personal_message.security_question_answer.length == 0){
+                    if (data.personal_message.security_question.length != 0 && data.personal_message.security_question_answer.length == 0) {
                         reject('The security question and the answer to this cannot be empty if one of these is sent.');
                     }
                 }
@@ -198,7 +188,7 @@ class User extends UserModel {
     registerUser() {
         return new Promise((resolve, reject) => {
             this.hashPassword(this.password);
-            this.save().then( _ => {
+            this.save().then(_ => {
                 resolve(true);
             }).catch(err => {
                 reject(err);
@@ -214,21 +204,21 @@ class User extends UserModel {
      */
     updateUser(data) {
         return new Promise((resolve, reject) => {
-            this.validateUpdate(data)
-            .then(result => {
+            this.validateUpdate(data).then(result => {
+                if (this.status.localeCompare(data['status']) != 0) {
+                    this.status_timestamp = new Date()
+                }
                 this.set(data);
                 return this.save();
-            })
-            .then(usr => {
+            }).then(usr => {
                 resolve(true);
             }).catch((err) => {
                 reject(err);
             });
         });
     }
-
     /**
-     * hashes a user password
+     * hashes a user password //
      * @param  {[type]} password [description]
      * @return {[type]}          [description]
      */
@@ -251,36 +241,15 @@ class User extends UserModel {
         });
     }
     /**
-     * Checks if a username exists
-     * @param  {[type]} username [description]
-     * @return boolean          Resolves True if it exists / resolves False if it doesn't existe, rejects if error
-     */
-    static usernameExists(username) {
-        return new Promise((resolve, reject) => {
-            const userModel = new User();
-            User.findUserByUsername(username).then((user) => {
-                if (user !== null && user.username != undefined && user.username == username) {
-                    resolve(true);
-                } else {
-                    resolve(false);
-                }
-            }).catch((err) => {
-                reject(err);
-            });
-        });
-    }
-    /**
      * Generates a token for a user
      * @return {[type]} [description]
      */
     generateTokens() {
         return new Promise((resolve, reject) => {
             let token = '';
-            TokenServerClass.generateToken(this._id, false)
-            .then((generatedToken) => {
+            TokenServerClass.generateToken(this._id, false).then((generatedToken) => {
                 token = generatedToken;
-                TokenServerClass.generateToken(this._id, true)
-                .then((genRefToken) => {
+                TokenServerClass.generateToken(this._id, true).then((genRefToken) => {
                     const tokens = {
                         token: token,
                         ex_token: genRefToken
@@ -295,168 +264,6 @@ class User extends UserModel {
         });
     }
     /**
-     * username exists / true or false
-     * @return {[type]} [description]
-     */
-    static userExist(id) {
-        return new Promise((resolve, reject) => {
-            this.findUserById(id).then((result) => {
-                if (result !== null && result.id == id) {
-                    resolve(true);
-                } else {
-                    resolve(false);
-                }
-            }).catch((err) => {
-                reject(err);
-            });
-        });
-    }
-
-
-    /**
-     * Finds a user by username
-     * @param  {[type]} userId [description]
-     * @return {[type]}        [description]
-     */
-    static findUserByUsername (username) {
-        return new Promise((resolve, reject) => {
-            let userModel = new User();
-            User.findOne({
-                username: username
-            }).exec()
-            .then((user) => {
-                if(user != null){
-                    userModel.set(user);
-                    resolve(userModel);
-                }
-                resolve(null);
-            }).catch((err) => {
-                reject(err);
-            });
-        });
-    }
-
-    /**
-     * Finds a user by Id only if the user searching for it is authorized
-     * @param  {[type]} userId [description]
-     * @return {[type]}        [description]
-     */
-    static findUserByIdIfAuthorized(id, currentUserId) {
-        return new Promise((resolve, reject) => {
-            let searchingUser = null;
-            let userModel = new User();
-            User.findUserById(currentUserId)
-            .then((user) => {
-                //same user no need to check if its an admin or authorized
-                if (currentUserId.toString().localeCompare(id) == 0) {
-                    userModel.set(user);
-                    resolve(userModel);
-                }
-                //diff user, check if its an admin or authorized
-                else {
-                    searchingUser = user;
-                    return User.findUserById(id);
-                }
-            }).then((user) => {
-                //diff user, check if its an admin or authorized
-                if (currentUserId.toString().localeCompare(id) != 0) {
-                    if (user.emergency_contact == undefined || user.emergency_contact.phone_number == undefined || searchingUser.phone_number == undefined || searchingUser.phone_number == '' || searchingUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
-                        reject("You are not authorized");
-                    }
-                }
-                userModel.set(user);
-                resolve(userModel);
-            }).catch((err) => {
-                return reject(err);
-            });
-        });
-    }
-    /**
-     * Finds a user by username
-     * @param  {[type]} userId [description]
-     * @return {[type]}        [description]
-     */
-    static findUserById(id) {
-        return new Promise((resolve, reject) => {
-            User.findOne({
-                _id: id
-            }).exec().then((user) => {
-                let userModel = null;
-                if(user != null){
-                    userModel = new User();
-                    userModel.set(user);
-                    resolve(userModel);
-                }else{
-                    reject(null);
-                }
-            }).catch((err) => {
-                reject(err);
-            });
-        });
-    }
-    /**
-     * [getUsers description]
-     * @return {[type]} [description]
-     */
-    static getUsers() {
-        return new Promise((resolve, reject) => {
-            User.find({}).select('username onLine status').sort({
-                onLine: -1,
-                username: 'asc'
-            }).then((users) => {
-                resolve(users);
-            }).catch((err) => {
-                reject(err);
-            });
-        });
-    }
-    /**
-     * Find users by user name (contains)
-     * @param username
-     * @return {Promise<unknown>}
-     */
-    static findUsersByParams(params) {
-        return new Promise((resolve, reject) => {
-            const data = {};
-            if (params.username != undefined && params.username.length > 0) {
-                data.username = {
-                    $regex: params.username
-                };
-            }
-            if (params.status != undefined && params.status.length > 0) {
-                data.status = params.status;
-            }
-            console.log(data);
-            User.find(data).select('username onLine status').sort({
-                onLine: -1,
-                username: 'asc'
-            }).then((users) => {
-                resolve(users);
-            }).catch((err) => {
-                reject(err);
-            });
-        });
-    }
-    /**
-     * Find user by user status
-     * @param status
-     * @return {Promise<unknown>}
-     */
-    static findUsersByStatus(status) {
-        return new Promise((resolve, reject) => {
-            User.find({
-                status: status
-            }).select('username onLine status').sort({
-                onLine: -1,
-                username: 'asc'
-            }).then((users) => {
-                resolve(users);
-            }).catch((err) => {
-                reject(err);
-            });
-        });
-    }
-    /**
      * Inserts a socket to the sockets map attribute
      * @param  {[type]} userId   [description]
      * @param  {[type]} socketId [description]
@@ -464,7 +271,7 @@ class User extends UserModel {
      */
     static insertSocket(userId, socketId) {
         return new Promise((resolve, reject) => {
-            User.findUserById(userId).then((user) => {
+            this.findUserById(userId).then((user) => {
                 if (user.sockets == undefined) {
                     user.sockets = {};
                 }
@@ -489,7 +296,7 @@ class User extends UserModel {
      */
     static removeSocket(userId, socketId) {
         return new Promise((resolve, reject) => {
-            User.findUserById(userId).then((user) => {
+            this.findUserById(userId).then((user) => {
                 if (user.sockets == undefined) {
                     user.sockets = {};
                 }
@@ -517,7 +324,7 @@ class User extends UserModel {
      */
     static changeMessageCount(senderUserId, receiverUserId, increaseCount) {
         return new Promise((resolve, reject) => {
-            User.findUserById(receiverUserId).then((user) => {
+            this.findUserById(receiverUserId).then((user) => {
                 if (user.unread_messages == undefined) {
                     user.unread_messages = {};
                 }
@@ -542,20 +349,197 @@ class User extends UserModel {
             });
         });
     }
-
     /**
      * Get the personal message for a user if the security question matches
      * @param  {[type]} security_question_answer [description]
      * @return {[type]}                          [description]
      */
-    getPersonalMessage(security_question_answer){
+    getPersonalMessage(security_question_answer) {
         return new Promise((resolve, reject) => {
-            if(this.personal_message.security_question_answer.localeCompare(security_question_answer) == 0){
+            if (this.personal_message.security_question_answer.localeCompare(security_question_answer) == 0) {
                 resolve(this.personal_message.message);
-            }else{
+            } else {
                 reject("Invalid answer");
             }
         });
     }
+    /**
+     * Checks if a username exists
+     * @param  {[type]} username [description]
+     * @return boolean          Resolves True if it exists / resolves False if it doesn't existe, rejects if error
+     */
+    static usernameExists(username) {
+        return new Promise((resolve, reject) => {
+            const userModel = new User();
+            this.findUserByUsername(username).then((user) => {
+                if (user !== null && user.username != undefined && user.username == username) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+    /**
+     * username exists / true or false
+     * @return {[type]} [description]
+     */
+    static userExist(id) {
+        return new Promise((resolve, reject) => {
+            this.findUserById(id).then((result) => {
+                if (result !== null && result.id == id) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+    /**
+     * Finds a user by username
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
+    static findUserByUsername(username) {
+        return new Promise((resolve, reject) => {
+            let userModel = new User();
+            this.findOne({
+                username: username
+            }).exec().then((user) => {
+                if (user != null) {
+                    userModel.set(user);
+                    resolve(userModel);
+                }
+                resolve(null);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+    /**
+     * Finds a user by Id only if the user searching for it is authorized
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
+    static findUserByIdIfAuthorized(id, currentUserId) {
+        return new Promise((resolve, reject) => {
+            let searchingUser = null;
+            let userModel = new User();
+            this.findUserById(currentUserId).then((user) => {
+                //same user no need to check if its an admin or authorized
+                if (currentUserId.toString().localeCompare(id) == 0) {
+                    userModel.set(user);
+                    resolve(userModel);
+                }
+                //diff user, check if its an admin or authorized
+                else {
+                    searchingUser = user;
+                    return this.findUserById(id);
+                }
+            }).then((user) => {
+                //diff user, check if its an admin or authorized
+                if (currentUserId.toString().localeCompare(id) != 0) {
+                    if (user.emergency_contact == undefined || user.emergency_contact.phone_number == undefined || searchingUser.phone_number == undefined || searchingUser.phone_number == '' || searchingUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
+                        reject("You are not authorized");
+                    }
+                }
+                userModel.set(user);
+                resolve(userModel);
+            }).catch((err) => {
+                return reject(err);
+            });
+        });
+    }
+    /**
+     * Finds a user by username
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
+    static findUserById(id) {
+        return new Promise((resolve, reject) => {
+            this.findOne({
+                _id: id
+            }).exec().then((user) => {
+                let userModel = null;
+                if (user != null) {
+                    userModel = new User();
+                    userModel.set(user);
+                    resolve(userModel);
+                } else {
+                    reject(null);
+                }
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+    /**
+     * [getUsers description]
+     * @return {[type]} [description]
+     */
+    static getUsers() {
+        return new Promise((resolve, reject) => {
+            this.find({}).select('username onLine status').sort({
+                onLine: -1,
+                username: 'asc'
+            }).then((users) => {
+                resolve(users);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+    /**
+     * Find users by user name (contains)
+     * @param username
+     * @return {Promise<unknown>}
+     */
+    static findUsersByParams(params) {
+        return new Promise((resolve, reject) => {
+            const data = {};
+            if (params.username != undefined && params.username.length > 0) {
+                data.username = {
+                    $regex: params.username
+                };
+            }
+            if (params.status != undefined && params.status.length > 0) {
+                data.status = params.status;
+            }
+            console.log(data);
+            this.find(data).select('username onLine status').sort({
+                onLine: -1,
+                username: 'asc'
+            }).then((users) => {
+                resolve(users);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
+    /**
+     * Find user by user status
+     * @param status
+     * @return {Promise<unknown>}
+     */
+    static findUsersByStatus(status) {
+        return new Promise((resolve, reject) => {
+            this.find({
+                status: status
+            }).select('username onLine status').sort({
+                onLine: -1,
+                username: 'asc'
+            }).then((users) => {
+                resolve(users);
+            }).catch((err) => {
+                reject(err);
+            });
+        });
+    }
 }
+UserSchema.loadClass(UserModel);
+const User = mongoose.model('User', UserSchema);
 module.exports = User;

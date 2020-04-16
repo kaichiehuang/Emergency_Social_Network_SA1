@@ -134,7 +134,7 @@ const ResourceSchema = new Schema({
     schemaOptions
 );
 
-const User = mongoose.model('User', UserSchema);
+
 const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema);
 const ChatMessages = mongoose.model('Chat_Messages', ChatMessageSchema);
 const PrivateChatMessages = mongoose.model('Private_Chat_Messages', PrivateChatMessageSchema);
@@ -144,7 +144,7 @@ const EmergencyStatusDetail = mongoose.model('Emergency_Status_Detail', Emergenc
 const PictureAndDescription = mongoose.model('Pictures_and_Description', PictureAndDescriptionSchema);
 
 module.exports = {
-    UserMongo: User,
+    UserSchema: UserSchema,
     ReservedNamesMongo: Reserved_names,
     ChatMessagesMongo: ChatMessages,
     PrivateChatMessagesMongo: PrivateChatMessages,

@@ -1,228 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="103" failures="62" time="43.549">
-  <testsuite name="API USERS TEST" errors="0" failures="10" skipped="0" timestamp="2020-04-16T00:06:31" time="19.784" tests="10">
-    <testcase classname="API USERS TEST Should insert  a new user" name="API USERS TEST Should insert  a new user" time="5.032">
-      <failure>: Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.Error: 
-    at new Spec (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Spec.js:116:22)
-    at new Spec (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/setup_jest_globals.js:78:9)
-    at specFactory (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:523:24)
-    at Env.it (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:592:24)
-    at Env.it (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:128:23)
-    at test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:117:21)
-    at Suite.Object.&lt;anonymous&gt;.describe (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:34:5)
-    at addSpecsToSuite (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:444:51)
-    at Env.describe (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:414:11)
-    at describe (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:105:18)
-    at Object.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:31:1)
-    at Runtime._execModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:1034:22)
-    at Runtime._loadModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:678:12)
-    at Runtime.requireModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:536:10)
-    at jasmine2 (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/index.js:203:11)
-    at runTestInternal (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runner/build/runTest.js:413:22)</failure>
-      <failure>Error: expect.assertions(1)
-
-Expected one assertion to be called but received zero assertion calls.
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:35:16)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
-    at &lt;anonymous&gt;
-    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
-    </testcase>
-    <testcase classname="API USERS TEST Should not insert  a new user (empty fields)" name="API USERS TEST Should not insert  a new user (empty fields)" time="5.007">
-      <failure>: Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.Error: 
-    at new Spec (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Spec.js:116:22)
-    at new Spec (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/setup_jest_globals.js:78:9)
-    at specFactory (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:523:24)
-    at Env.it (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:592:24)
-    at Env.it (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:128:23)
-    at test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:117:21)
-    at Suite.Object.&lt;anonymous&gt;.describe (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:47:5)
-    at addSpecsToSuite (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:444:51)
-    at Env.describe (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:414:11)
-    at describe (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:105:18)
-    at Object.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:31:1)
-    at Runtime._execModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:1034:22)
-    at Runtime._loadModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:678:12)
-    at Runtime.requireModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:536:10)
-    at jasmine2 (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/index.js:203:11)
-    at runTestInternal (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runner/build/runTest.js:413:22)</failure>
-      <failure>Error: expect.assertions(1)
-
-Expected one assertion to be called but received zero assertion calls.
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:48:16)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
-    at &lt;anonymous&gt;</failure>
-    </testcase>
-    <testcase classname="API USERS TEST Should get a list of users" name="API USERS TEST Should get a list of users" time="0.049">
-      <failure>Error: &quot;value&quot; required in setHeader(&quot;Authorization&quot;, value)
-    at validateHeader (_http_outgoing.js:489:11)
-    at ClientRequest.setHeader (_http_outgoing.js:498:3)
-    at Request.request (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:817:11)
-    at Request.end (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:937:8)
-    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:262:12
-    at new Promise (&lt;anonymous&gt;)
-    at Request.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:248:31)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:73:14)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)</failure>
-      <failure>Error: expect.assertions(1)
-
-Expected one assertion to be called but received zero assertion calls.
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:67:16)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
-    at &lt;anonymous&gt;</failure>
-    </testcase>
-    <testcase classname="API USERS TEST Should get a list of users filtered by keywords" name="API USERS TEST Should get a list of users filtered by keywords" time="0.003">
-      <failure>Error: &quot;value&quot; required in setHeader(&quot;Authorization&quot;, value)
-    at validateHeader (_http_outgoing.js:489:11)
-    at ClientRequest.setHeader (_http_outgoing.js:498:3)
-    at Request.request (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:817:11)
-    at Request.end (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:937:8)
-    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:262:12
-    at new Promise (&lt;anonymous&gt;)
-    at Request.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:248:31)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:87:14)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)</failure>
-      <failure>Error: expect.assertions(1)
-
-Expected one assertion to be called but received zero assertion calls.
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:80:16)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
-    at &lt;anonymous&gt;</failure>
-    </testcase>
-    <testcase classname="API USERS TEST Should get a list of users filtered by status" name="API USERS TEST Should get a list of users filtered by status" time="0.002">
-      <failure>Error: &quot;value&quot; required in setHeader(&quot;Authorization&quot;, value)
-    at validateHeader (_http_outgoing.js:489:11)
-    at ClientRequest.setHeader (_http_outgoing.js:498:3)
-    at Request.request (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:817:11)
-    at Request.end (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:937:8)
-    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:262:12
-    at new Promise (&lt;anonymous&gt;)
-    at Request.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:248:31)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:101:14)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)</failure>
-      <failure>Error: expect.assertions(1)
-
-Expected one assertion to be called but received zero assertion calls.
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:94:16)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
-    at &lt;anonymous&gt;</failure>
-    </testcase>
-    <testcase classname="API USERS TEST Should update user information (acknowledgement)" name="API USERS TEST Should update user information (acknowledgement)" time="0.003">
-      <failure>Error: &quot;value&quot; required in setHeader(&quot;Authorization&quot;, value)
-    at validateHeader (_http_outgoing.js:489:11)
-    at ClientRequest.setHeader (_http_outgoing.js:498:3)
-    at Request.request (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:817:11)
-    at Request.end (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:937:8)
-    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:262:12
-    at new Promise (&lt;anonymous&gt;)
-    at Request.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:248:31)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:123:14)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)</failure>
-      <failure>Error: expect.assertions(1)
-
-Expected one assertion to be called but received zero assertion calls.
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:109:16)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
-    at &lt;anonymous&gt;</failure>
-    </testcase>
-    <testcase classname="API USERS TEST Should update user status" name="API USERS TEST Should update user status" time="0.003">
-      <failure>Error: &quot;value&quot; required in setHeader(&quot;Authorization&quot;, value)
-    at validateHeader (_http_outgoing.js:489:11)
-    at ClientRequest.setHeader (_http_outgoing.js:498:3)
-    at Request.request (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:817:11)
-    at Request.end (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:937:8)
-    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:262:12
-    at new Promise (&lt;anonymous&gt;)
-    at Request.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:248:31)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:142:14)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)</failure>
-      <failure>Error: expect.assertions(1)
-
-Expected one assertion to be called but received zero assertion calls.
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:130:16)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
-    at &lt;anonymous&gt;</failure>
-    </testcase>
-    <testcase classname="API USERS TEST Should return an user" name="API USERS TEST Should return an user" time="0.003">
-      <failure>Error: &quot;value&quot; required in setHeader(&quot;Authorization&quot;, value)
-    at validateHeader (_http_outgoing.js:489:11)
-    at ClientRequest.setHeader (_http_outgoing.js:498:3)
-    at Request.request (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:817:11)
-    at Request.end (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:937:8)
-    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:262:12
-    at new Promise (&lt;anonymous&gt;)
-    at Request.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:248:31)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:158:14)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)</failure>
-      <failure>Error: expect.assertions(1)
-
-Expected one assertion to be called but received zero assertion calls.
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:150:16)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
-    at &lt;anonymous&gt;</failure>
-    </testcase>
-    <testcase classname="Test Users with sockets should create relationshio between user and socket" name="Test Users with sockets should create relationshio between user and socket" time="2.986">
-      <failure>Error: Internal Server Error
-    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
-    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
-    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
-    at emitNone (events.js:111:20)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:139:11)
-    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
-    </testcase>
-    <testcase classname="Test Users with sockets should delete relationship between user and socket" name="Test Users with sockets should delete relationship between user and socket" time="0.135">
-      <failure>Error: Internal Server Error
-    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
-    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
-    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
-    at emitNone (events.js:111:20)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:139:11)
-    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
-    </testcase>
-  </testsuite>
-  <testsuite name="User registration " errors="0" failures="32" skipped="0" timestamp="2020-04-16T00:06:51" time="7.076" tests="40">
-    <testcase classname="User registration  Registers a User to the database" name="User registration  Registers a User to the database" time="0.329">
+<testsuites name="jest tests" tests="103" failures="68" time="28.636">
+  <testsuite name="User registration " errors="0" failures="32" skipped="0" timestamp="2020-04-16T08:59:30" time="10.252" tests="40">
+    <testcase classname="User registration  Registers a User to the database" name="User registration  Registers a User to the database" time="0.222">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: &quot;username_test&quot;
@@ -231,24 +10,24 @@ Received: undefined
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Business Validations for user raise error validating username with less than 3 characters" name="Business Validations for user raise error validating username with less than 3 characters" time="0.013">
+    <testcase classname="Business Validations for user raise error validating username with less than 3 characters" name="Business Validations for user raise error validating username with less than 3 characters" time="0.012">
     </testcase>
-    <testcase classname="Business Validations for user raise error validating paaswords with less than 4 characters" name="Business Validations for user raise error validating paaswords with less than 4 characters" time="0.016">
+    <testcase classname="Business Validations for user raise error validating paaswords with less than 4 characters" name="Business Validations for user raise error validating paaswords with less than 4 characters" time="0.017">
     </testcase>
     <testcase classname="Business Validations for user should pass validation for banned user names" name="Business Validations for user should pass validation for banned user names" time="0.012">
     </testcase>
     <testcase classname="Business Validations for user should send an error for banned user names" name="Business Validations for user should send an error for banned user names" time="0.011">
     </testcase>
-    <testcase classname="Business Validations for user should validate user names previously registered" name="Business Validations for user should validate user names previously registered" time="0.127">
+    <testcase classname="Business Validations for user should validate user names previously registered" name="Business Validations for user should validate user names previously registered" time="0.133">
     </testcase>
-    <testcase classname="Business Validations for user should validate user names not registered" name="Business Validations for user should validate user names not registered" time="0.029">
+    <testcase classname="Business Validations for user should validate user names not registered" name="Business Validations for user should validate user names not registered" time="0.022">
     </testcase>
     <testcase classname="User password validations, should password match with the database password" name="User password validations, should password match with the database password" time="0.149">
       <failure>Error: data and hash arguments required
     at Object.compareSync (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/bcrypt/bcrypt.js:167:15)
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:60:24)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:54:24)
     at new Promise (&lt;anonymous&gt;)
-    at User.isPasswordMatch (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:59:16)
+    at model.isPasswordMatch (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:53:16)
     at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:81:42)
     at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
     at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
@@ -269,7 +48,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="User password validations, should send an error message validating password,  password not matching" name="User password validations, should send an error message validating password,  password not matching" time="0.107">
+    <testcase classname="User password validations, should send an error message validating password,  password not matching" name="User password validations, should send an error message validating password,  password not matching" time="0.103">
       <failure>Error: expect(received).rejects.toBe(expected) // Object.is equality
 
 Expected: &quot;Invalid username / password.&quot;
@@ -284,7 +63,7 @@ Received: [Error: data and hash arguments required]
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="User password validations, should send an error message validation password,  user not exist" name="User password validations, should send an error message validation password,  user not exist" time="0.165">
+    <testcase classname="User password validations, should send an error message validation password,  user not exist" name="User password validations, should send an error message validation password,  user not exist" time="0.114">
       <failure>Error: expect(received).rejects.toBe(expected) // Object.is equality
 
 Expected: &quot;Invalid username / password.&quot;
@@ -299,18 +78,16 @@ Received: [Error: data and hash arguments required]
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted searching a user by the username" name="Searching and update operations on a user previously inserted searching a user by the username" time="0.149">
+    <testcase classname="Searching and update operations on a user previously inserted searching a user by the username" name="Searching and update operations on a user previously inserted searching a user by the username" time="0.115">
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted update data of the user" name="Searching and update operations on a user previously inserted update data of the user" time="0.127">
-      <failure>Error: expect(received).toBeTruthy()
-
-Received: undefined
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:122:45)
+    <testcase classname="Searching and update operations on a user previously inserted update data of the user" name="Searching and update operations on a user previously inserted update data of the user" time="0.113">
+      <failure>TypeError: Cannot read property &apos;localeCompare&apos; of undefined
+    at validateUpdate.then.result (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:208:33)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
       <failure>Error: expect.assertions(3)
 
-Expected three assertions to be called but received one assertion call.
+Expected three assertions to be called but received zero assertion calls.
     at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:115:16)
     at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
     at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
@@ -320,16 +97,24 @@ Expected three assertions to be called but received one assertion call.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted update user status (specific status method)" name="Searching and update operations on a user previously inserted update user status (specific status method)" time="0.128">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
+    <testcase classname="Searching and update operations on a user previously inserted update user status (specific status method)" name="Searching and update operations on a user previously inserted update user status (specific status method)" time="0.102">
+      <failure>TypeError: Cannot read property &apos;localeCompare&apos; of undefined
+    at validateUpdate.then.result (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:208:33)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+      <failure>Error: expect.assertions(1)
 
-Expected: &quot;HELP&quot;
-Received: undefined
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:130:49)
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:127:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted searching a user by the id " name="Searching and update operations on a user previously inserted searching a user by the id " time="0.129">
+    <testcase classname="Searching and update operations on a user previously inserted searching a user by the id " name="Searching and update operations on a user previously inserted searching a user by the id " time="0.117">
       <failure>CastError: Cast to ObjectId failed for value &quot;undefined&quot; at path &quot;_id&quot; for model &quot;User&quot;
     at new CastError (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/error/cast.js:39:11)
     at ObjectId.Object.&lt;anonymous&gt;.ObjectId.cast (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/schema/objectid.js:269:11)
@@ -357,141 +142,109 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" time="0.133">
-      <failure>Error: expect(received).rejects.toMatch()
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" time="0.101">
+      <failure>Error: expect(received).rejects.toMatch(expected)
 
-Received promise resolved instead of rejected
-Resolved to value: true
-    at expect (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:170:15)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:152:22)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+Matcher error: received value must be a string
+
+Received has type:  object
+Received has value: [TypeError: Cannot read property &apos;localeCompare&apos; of undefined]
+    at actual.then.reason (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:285:72)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" time="0.116">
-      <failure>Error: expect(received).rejects.toMatch()
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" time="0.106">
+      <failure>Error: expect(received).rejects.toMatch(expected)
 
-Received promise resolved instead of rejected
-Resolved to value: true
-    at expect (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:170:15)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:174:22)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+Matcher error: received value must be a string
+
+Received has type:  object
+Received has value: [TypeError: Cannot read property &apos;localeCompare&apos; of undefined]
+    at actual.then.reason (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:285:72)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" time="0.138">
-      <failure>Error: expect(received).rejects.toMatch()
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" time="0.117">
+      <failure>Error: expect(received).rejects.toMatch(expected)
 
-Received promise resolved instead of rejected
-Resolved to value: true
-    at expect (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:170:15)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:195:22)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+Matcher error: received value must be a string
+
+Received has type:  object
+Received has value: [TypeError: Cannot read property &apos;localeCompare&apos; of undefined]
+    at actual.then.reason (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:285:72)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" time="0.13">
-      <failure>Error: expect(received).rejects.toMatch()
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" time="0.102">
+      <failure>Error: expect(received).rejects.toMatch(expected)
 
-Received promise resolved instead of rejected
-Resolved to value: true
-    at expect (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:170:15)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:216:22)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+Matcher error: received value must be a string
+
+Received has type:  object
+Received has value: [TypeError: Cannot read property &apos;localeCompare&apos; of undefined]
+    at actual.then.reason (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:285:72)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
     <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 1 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 1 - all data complete" time="0.118">
-      <failure>Error: expect(received).toMatch(expected)
+      <failure>TypeError: Cannot read property &apos;localeCompare&apos; of undefined
+    at validateUpdate.then.result (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:208:33)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" time="0.113">
+      <failure>Error: expect(received).rejects.toMatch(expected)
 
 Matcher error: received value must be a string
 
-Received has value: undefined
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:255:42)
+Received has type:  object
+Received has value: [TypeError: Cannot read property &apos;localeCompare&apos; of undefined]
+    at actual.then.reason (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:285:72)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" time="0.131">
-      <failure>Error: expect(received).rejects.toMatch()
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" time="0.1">
+      <failure>Error: expect(received).rejects.toMatch(expected)
 
-Received promise resolved instead of rejected
-Resolved to value: true
-    at expect (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:170:15)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:259:22)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
-    at &lt;anonymous&gt;
-    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
-    </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" time="0.108">
-      <failure>Error: expect(received).rejects.toMatch()
+Matcher error: received value must be a string
 
-Received promise resolved instead of rejected
-Resolved to value: true
-    at expect (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:170:15)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:274:22)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+Received has type:  object
+Received has value: [TypeError: Cannot read property &apos;localeCompare&apos; of undefined]
+    at actual.then.reason (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:285:72)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" time="0.118">
-      <failure>TypeError: Cannot read property &apos;allergies&apos; of undefined
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:301:48)
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" time="0.098">
+      <failure>TypeError: Cannot read property &apos;localeCompare&apos; of undefined
+    at validateUpdate.then.result (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:208:33)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" time="0.133">
-      <failure>Error: expect(received).rejects.toMatch()
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" time="0.114">
+      <failure>Error: expect(received).rejects.toMatch(expected)
 
-Received promise resolved instead of rejected
-Resolved to value: true
-    at expect (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:170:15)
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:305:22)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+Matcher error: received value must be a string
+
+Received has type:  object
+Received has value: [TypeError: Cannot read property &apos;localeCompare&apos; of undefined]
+    at actual.then.reason (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/expect/build/index.js:285:72)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" time="0.113">
-      <failure>TypeError: Cannot read property &apos;message&apos; of undefined
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:330:45)
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" time="0.106">
+      <failure>TypeError: Cannot read property &apos;localeCompare&apos; of undefined
+    at validateUpdate.then.result (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:208:33)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" name="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" time="0.134">
+    <testcase classname="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" name="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" time="0.128">
       <failure>TypeError: Cannot read property &apos;step&apos; of undefined
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:101:22)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:95:22)
     at new Promise (&lt;anonymous&gt;)
-    at User.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:99:16)
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:217:18)
+    at model.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:93:16)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:207:18)
     at new Promise (&lt;anonymous&gt;)
-    at User.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:216:16)
+    at model.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:206:16)
     at Object.beforeEach (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:344:29)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
@@ -503,14 +256,14 @@ Received: null
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" name="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" time="0.143">
+    <testcase classname="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" name="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" time="0.132">
       <failure>TypeError: Cannot read property &apos;step&apos; of undefined
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:101:22)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:95:22)
     at new Promise (&lt;anonymous&gt;)
-    at User.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:99:16)
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:217:18)
+    at model.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:93:16)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:207:18)
     at new Promise (&lt;anonymous&gt;)
-    at User.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:216:16)
+    at model.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:206:16)
     at Object.beforeEach (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:344:29)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
@@ -526,14 +279,14 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND WRONG ANSWER - must fail" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND WRONG ANSWER - must fail" time="0.123">
+    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND WRONG ANSWER - must fail" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND WRONG ANSWER - must fail" time="0.108">
       <failure>TypeError: Cannot read property &apos;step&apos; of undefined
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:101:22)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:95:22)
     at new Promise (&lt;anonymous&gt;)
-    at User.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:99:16)
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:217:18)
+    at model.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:93:16)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:207:18)
     at new Promise (&lt;anonymous&gt;)
-    at User.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:216:16)
+    at model.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:206:16)
     at Object.beforeEach (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:344:29)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
@@ -558,14 +311,14 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" time="0.119">
+    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" time="0.115">
       <failure>TypeError: Cannot read property &apos;step&apos; of undefined
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:101:22)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:95:22)
     at new Promise (&lt;anonymous&gt;)
-    at User.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:99:16)
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:217:18)
+    at model.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:93:16)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:207:18)
     at new Promise (&lt;anonymous&gt;)
-    at User.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:216:16)
+    at model.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:206:16)
     at Object.beforeEach (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:344:29)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
@@ -590,14 +343,14 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="get all users ordered by online status and username get users ordered" name="get all users ordered by online status and username get users ordered" time="0.121">
+    <testcase classname="get all users ordered by online status and username get users ordered" name="get all users ordered by online status and username get users ordered" time="0.131">
       <failure>TypeError: Cannot read property &apos;step&apos; of undefined
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:101:22)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:95:22)
     at new Promise (&lt;anonymous&gt;)
-    at User.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:99:16)
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:217:18)
+    at model.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:93:16)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:207:18)
     at new Promise (&lt;anonymous&gt;)
-    at User.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:216:16)
+    at model.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:206:16)
     at Object.beforeEach (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:458:20)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
@@ -608,38 +361,38 @@ Received: undefined
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.336">
+    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.305">
       <failure>TypeError: Cannot read property &apos;step&apos; of undefined
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:101:22)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:95:22)
     at new Promise (&lt;anonymous&gt;)
-    at User.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:99:16)
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:217:18)
+    at model.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:93:16)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:207:18)
     at new Promise (&lt;anonymous&gt;)
-    at User.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:216:16)
+    at model.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:206:16)
     at Object.beforeEach (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:492:20)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.344">
+    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.314">
       <failure>TypeError: Cannot read property &apos;step&apos; of undefined
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:101:22)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:95:22)
     at new Promise (&lt;anonymous&gt;)
-    at User.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:99:16)
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:217:18)
+    at model.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:93:16)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:207:18)
     at new Promise (&lt;anonymous&gt;)
-    at User.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:216:16)
+    at model.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:206:16)
     at Object.beforeEach (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:492:20)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="search users by status get users by status OK" name="search users by status get users by status OK" time="0.121">
+    <testcase classname="search users by status get users by status OK" name="search users by status get users by status OK" time="0.112">
       <failure>TypeError: Cannot read property &apos;step&apos; of undefined
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:101:22)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:95:22)
     at new Promise (&lt;anonymous&gt;)
-    at User.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:99:16)
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:217:18)
+    at model.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:93:16)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:207:18)
     at new Promise (&lt;anonymous&gt;)
-    at User.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:216:16)
+    at model.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:206:16)
     at Object.beforeEach (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:522:20)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
@@ -651,28 +404,28 @@ Received: 0
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="search users by status get users by status UNDEFINED" name="search users by status get users by status UNDEFINED" time="0.112">
+    <testcase classname="search users by status get users by status UNDEFINED" name="search users by status get users by status UNDEFINED" time="0.118">
       <failure>TypeError: Cannot read property &apos;step&apos; of undefined
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:101:22)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:95:22)
     at new Promise (&lt;anonymous&gt;)
-    at User.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:99:16)
-    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:217:18)
+    at model.validateUpdate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:93:16)
+    at Promise (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:207:18)
     at new Promise (&lt;anonymous&gt;)
-    at User.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:216:16)
+    at model.updateUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js:206:16)
     at Object.beforeEach (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:522:20)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: 2
-Received: 1
+Received: 0
     at User.findUsersByParams.then.listUser (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/user.test.js:550:37)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Tokens should generate token for the user" name="Tokens should generate token for the user" time="0.12">
+    <testcase classname="Tokens should generate token for the user" name="Tokens should generate token for the user" time="0.14">
     </testcase>
-    <testcase classname="Search for users by id should return  true if user exist" name="Search for users by id should return  true if user exist" time="0.169">
+    <testcase classname="Search for users by id should return  true if user exist" name="Search for users by id should return  true if user exist" time="0.102">
       <failure>Error: Failed: null
     at Env.it (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:89:24)
     at test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:117:21)
@@ -685,7 +438,7 @@ Received: 1
     at Runtime._loadModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:678:12)
     at Runtime.requireModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:536:10)</failure>
     </testcase>
-    <testcase classname="Search for users by id should return false if user not exist" name="Search for users by id should return false if user not exist" time="0.014">
+    <testcase classname="Search for users by id should return false if user not exist" name="Search for users by id should return false if user not exist" time="0.013">
       <failure>Error: Failed: null
     at Env.it (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:89:24)
     at test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:117:21)
@@ -698,7 +451,7 @@ Received: 1
     at Runtime._loadModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:678:12)
     at Runtime.requireModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:536:10)</failure>
     </testcase>
-    <testcase classname="Sockets should associate socket to the user" name="Sockets should associate socket to the user" time="0.111">
+    <testcase classname="Sockets should associate socket to the user" name="Sockets should associate socket to the user" time="0.117">
       <failure>Error: Failed: null
     at Env.it (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:89:24)
     at test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:117:21)
@@ -711,7 +464,7 @@ Received: 1
     at Runtime._loadModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:678:12)
     at Runtime.requireModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:536:10)</failure>
     </testcase>
-    <testcase classname="Sockets should remove socket associated to an user" name="Sockets should remove socket associated to an user" time="0.119">
+    <testcase classname="Sockets should remove socket associated to an user" name="Sockets should remove socket associated to an user" time="0.117">
       <failure>Error: Failed: null
     at Env.it (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:89:24)
     at test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:117:21)
@@ -724,7 +477,7 @@ Received: 1
     at Runtime._loadModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:678:12)
     at Runtime.requireModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:536:10)</failure>
     </testcase>
-    <testcase classname="Sockets should reject a promis if socket id doesnt exist" name="Sockets should reject a promis if socket id doesnt exist" time="0.111">
+    <testcase classname="Sockets should reject a promis if socket id doesnt exist" name="Sockets should reject a promis if socket id doesnt exist" time="0.121">
       <failure>Error: expect(received).rejects.toBe(expected) // Object.is equality
 
 Expected: &quot;Socket does not exist&quot;
@@ -739,7 +492,7 @@ Received: null
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Chat message count should increase count" name="Chat message count should increase count" time="0.232">
+    <testcase classname="Chat message count should increase count" name="Chat message count should increase count" time="0.197">
       <failure>CastError: Cast to ObjectId failed for value &quot;true&quot; at path &quot;_id&quot; for model &quot;User&quot;
     at new CastError (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/error/cast.js:39:11)
     at ObjectId.Object.&lt;anonymous&gt;.ObjectId.cast (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/schema/objectid.js:269:11)
@@ -757,8 +510,187 @@ Received: null
     at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="Testing Resource creeation  API" errors="0" failures="3" skipped="0" timestamp="2020-04-16T00:06:58" time="1.993" tests="3">
-    <testcase classname="Testing Resource creeation  API Should create an resource" name="Testing Resource creeation  API Should create an resource" time="0.184">
+  <testsuite name="API USERS TEST" errors="0" failures="8" skipped="0" timestamp="2020-04-16T08:59:41" time="3.2" tests="10">
+    <testcase classname="API USERS TEST Should insert  a new user" name="API USERS TEST Should insert  a new user" time="0.227">
+    </testcase>
+    <testcase classname="API USERS TEST Should not insert  a new user (empty fields)" name="API USERS TEST Should not insert  a new user (empty fields)" time="0.019">
+    </testcase>
+    <testcase classname="API USERS TEST Should get a list of users" name="API USERS TEST Should get a list of users" time="0.069">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 1
+Received: 128
+    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:74:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="API USERS TEST Should get a list of users filtered by keywords" name="API USERS TEST Should get a list of users filtered by keywords" time="0.149">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 1
+Received: 3
+    at agent.get.query.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:89:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="API USERS TEST Should get a list of users filtered by status" name="API USERS TEST Should get a list of users filtered by status" time="0.019">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 1
+Received: 23
+    at agent.get.query.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:102:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="API USERS TEST Should update user information (acknowledgement)" name="API USERS TEST Should update user information (acknowledgement)" time="0.051">
+      <failure>Error: Unprocessable Entity
+    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
+    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
+    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
+    at emitNone (events.js:111:20)
+    at IncomingMessage.emit (events.js:208:7)
+    at endReadableNT (_stream_readable.js:1064:12)
+    at _combinedTickCallback (internal/process/next_tick.js:139:11)
+    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
+      <failure>Error: expect.assertions(1)
+
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:109:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="API USERS TEST Should update user status" name="API USERS TEST Should update user status" time="0.011">
+      <failure>Error: Unprocessable Entity
+    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
+    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
+    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
+    at emitNone (events.js:111:20)
+    at IncomingMessage.emit (events.js:208:7)
+    at endReadableNT (_stream_readable.js:1064:12)
+    at _combinedTickCallback (internal/process/next_tick.js:139:11)
+    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
+      <failure>Error: expect.assertions(1)
+
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:130:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="API USERS TEST Should return an user" name="API USERS TEST Should return an user" time="0.017">
+      <failure>Error: Internal Server Error
+    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
+    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
+    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
+    at emitNone (events.js:111:20)
+    at IncomingMessage.emit (events.js:208:7)
+    at endReadableNT (_stream_readable.js:1064:12)
+    at _combinedTickCallback (internal/process/next_tick.js:139:11)
+    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
+      <failure>Error: expect.assertions(1)
+
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:150:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="Test Users with sockets should create relationshio between user and socket" name="Test Users with sockets should create relationshio between user and socket" time="0.126">
+      <failure>Error: Internal Server Error
+    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
+    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
+    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
+    at emitNone (events.js:111:20)
+    at IncomingMessage.emit (events.js:208:7)
+    at endReadableNT (_stream_readable.js:1064:12)
+    at _combinedTickCallback (internal/process/next_tick.js:139:11)
+    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
+    </testcase>
+    <testcase classname="Test Users with sockets should delete relationship between user and socket" name="Test Users with sockets should delete relationship between user and socket" time="0.126">
+      <failure>Error: Internal Server Error
+    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
+    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
+    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
+    at emitNone (events.js:111:20)
+    at IncomingMessage.emit (events.js:208:7)
+    at endReadableNT (_stream_readable.js:1064:12)
+    at _combinedTickCallback (internal/process/next_tick.js:139:11)
+    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="public chat messages API test" errors="0" failures="4" skipped="0" timestamp="2020-04-16T08:59:44" time="1.852" tests="8">
+    <testcase classname="public chat messages API test User1 create a new public message" name="public chat messages API test User1 create a new public message" time="0.05">
+      <failure>Error: Unprocessable Entity
+    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
+    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
+    at emitNone (events.js:111:20)
+    at IncomingMessage.emit (events.js:208:7)
+    at endReadableNT (_stream_readable.js:1064:12)
+    at _combinedTickCallback (internal/process/next_tick.js:139:11)
+    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
+      <failure>Error: expect.assertions(1)
+
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:80:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="public chat messages API test User1 create a new public message with error" name="public chat messages API test User1 create a new public message with error" time="0.002">
+    </testcase>
+    <testcase classname="public chat messages API test User1 create a new public message with user id error" name="public chat messages API test User1 create a new public message with user id error" time="0.002">
+    </testcase>
+    <testcase classname="public chat messages API test User1 receive public message" name="public chat messages API test User1 receive public message" time="0.072">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: &quot;This is a public message&quot;
+Received: &quot;hola mundo 21313131313&quot;
+    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:130:45)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="public chat messages API test User2 receive public message" name="public chat messages API test User2 receive public message" time="0.065">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: &quot;This is a public message&quot;
+Received: &quot;hola mundo 21313131313&quot;
+    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:142:45)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="public chat messages API test User3 receive public message" name="public chat messages API test User3 receive public message" time="0.06">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: &quot;This is a public message&quot;
+Received: &quot;hola mundo 21313131313&quot;
+    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:154:45)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="public chat messages API test User2 search with keyword" name="public chat messages API test User2 search with keyword" time="0.039">
+    </testcase>
+    <testcase classname="public chat messages API test User3 search with stop-word keyword" name="public chat messages API test User3 search with stop-word keyword" time="0.024">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing Resource creeation  API" errors="0" failures="3" skipped="0" timestamp="2020-04-16T08:59:46" time="1.764" tests="3">
+    <testcase classname="Testing Resource creeation  API Should create an resource" name="Testing Resource creeation  API Should create an resource" time="0.143">
       <failure>Error: .field(name, val) val can not be empty
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:435:11)
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:418:14)
@@ -782,7 +714,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Testing searching Resources  API Should return one specific resource" name="Testing searching Resources  API Should return one specific resource" time="0.185">
+    <testcase classname="Testing searching Resources  API Should return one specific resource" name="Testing searching Resources  API Should return one specific resource" time="0.176">
       <failure>Error: .field(name, val) val can not be empty
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:435:11)
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:418:14)
@@ -814,7 +746,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Testing searching Resources  API Should return all resource" name="Testing searching Resources  API Should return all resource" time="0.133">
+    <testcase classname="Testing searching Resources  API Should return all resource" name="Testing searching Resources  API Should return all resource" time="0.165">
       <failure>Error: .field(name, val) val can not be empty
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:435:11)
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:418:14)
@@ -835,88 +767,8 @@ Received: 8
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="public chat messages API test" errors="0" failures="4" skipped="0" timestamp="2020-04-16T00:07:00" time="2.039" tests="8">
-    <testcase classname="public chat messages API test User1 create a new public message" name="public chat messages API test User1 create a new public message" time="0.066">
-      <failure>Error: Unprocessable Entity
-    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
-    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
-    at emitNone (events.js:111:20)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:139:11)
-    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
-      <failure>Error: expect.assertions(1)
-
-Expected one assertion to be called but received zero assertion calls.
-    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:80:16)
-    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
-    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
-    at new Promise (&lt;anonymous&gt;)
-    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
-    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
-    at &lt;anonymous&gt;
-    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
-    </testcase>
-    <testcase classname="public chat messages API test User1 create a new public message with error" name="public chat messages API test User1 create a new public message with error" time="0.003">
-    </testcase>
-    <testcase classname="public chat messages API test User1 create a new public message with user id error" name="public chat messages API test User1 create a new public message with user id error" time="0.003">
-    </testcase>
-    <testcase classname="public chat messages API test User1 receive public message" name="public chat messages API test User1 receive public message" time="0.071">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: &quot;This is a public message&quot;
-Received: &quot;hola mundo 21313131313&quot;
-    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:130:45)
-    at &lt;anonymous&gt;
-    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
-    </testcase>
-    <testcase classname="public chat messages API test User2 receive public message" name="public chat messages API test User2 receive public message" time="0.047">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: &quot;This is a public message&quot;
-Received: &quot;hola mundo 21313131313&quot;
-    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:142:45)
-    at &lt;anonymous&gt;
-    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
-    </testcase>
-    <testcase classname="public chat messages API test User3 receive public message" name="public chat messages API test User3 receive public message" time="0.052">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: &quot;This is a public message&quot;
-Received: &quot;hola mundo 21313131313&quot;
-    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:154:45)
-    at &lt;anonymous&gt;
-    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
-    </testcase>
-    <testcase classname="public chat messages API test User2 search with keyword" name="public chat messages API test User2 search with keyword" time="0.052">
-    </testcase>
-    <testcase classname="public chat messages API test User3 search with stop-word keyword" name="public chat messages API test User3 search with stop-word keyword" time="0.036">
-    </testcase>
-  </testsuite>
-  <testsuite name="Create Announcement API" errors="0" failures="2" skipped="0" timestamp="2020-04-16T00:07:02" time="1.848" tests="3">
-    <testcase classname="Create Announcement API Should create an announcement" name="Create Announcement API Should create an announcement" time="0.1">
-    </testcase>
-    <testcase classname="Get Announcement API Should get all the announcement" name="Get Announcement API Should get all the announcement" time="0.19">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: 3
-Received: 109
-    at agent.get.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/announcements.test.js:106:48)
-    at &lt;anonymous&gt;
-    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
-    </testcase>
-    <testcase classname="Get Announcement API Should get announcement filtered by keyword" name="Get Announcement API Should get announcement filtered by keyword" time="0.053">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: 1
-Received: 10
-    at agent.get.query.query.query.query.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/announcements.test.js:122:48)
-    at &lt;anonymous&gt;
-    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
-    </testcase>
-  </testsuite>
-  <testsuite name="private chat messages API TEST" errors="0" failures="3" skipped="0" timestamp="2020-04-16T00:07:04" time="1.67" tests="8">
-    <testcase classname="private chat messages API TEST Should create a new private msg" name="private chat messages API TEST Should create a new private msg" time="0.075">
+  <testsuite name="private chat messages API TEST" errors="0" failures="3" skipped="0" timestamp="2020-04-16T08:59:48" time="1.404" tests="8">
+    <testcase classname="private chat messages API TEST Should create a new private msg" name="private chat messages API TEST Should create a new private msg" time="0.085">
       <failure>Error: Unprocessable Entity
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -937,7 +789,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="private chat messages API TEST Should get a list of private msg" name="private chat messages API TEST Should get a list of private msg" time="0.022">
+    <testcase classname="private chat messages API TEST Should get a list of private msg" name="private chat messages API TEST Should get a list of private msg" time="0.009">
       <failure>Error: Unprocessable Entity
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -958,7 +810,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="private chat messages API TEST Should search a list of private msg" name="private chat messages API TEST Should search a list of private msg" time="0.05">
+    <testcase classname="private chat messages API TEST Should search a list of private msg" name="private chat messages API TEST Should search a list of private msg" time="0.028">
       <failure>Error: Unprocessable Entity
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -980,19 +832,19 @@ Expected at least one assertion to be called but received none.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input msg" name="private chat messages API TEST Should not create a new private msg with an error input msg" time="0.02">
+    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input msg" name="private chat messages API TEST Should not create a new private msg with an error input msg" time="0.002">
     </testcase>
-    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input sender_user_id" name="private chat messages API TEST Should not create a new private msg with an error input sender_user_id" time="0.002">
+    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input sender_user_id" name="private chat messages API TEST Should not create a new private msg with an error input sender_user_id" time="0.003">
     </testcase>
-    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input receiver_user_id" name="private chat messages API TEST Should not create a new private msg with an error input receiver_user_id" time="0.002">
+    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input receiver_user_id" name="private chat messages API TEST Should not create a new private msg with an error input receiver_user_id" time="0.003">
     </testcase>
-    <testcase classname="private chat messages API TEST Should not get a list of private msg with an error query" name="private chat messages API TEST Should not get a list of private msg with an error query" time="0.002">
+    <testcase classname="private chat messages API TEST Should not get a list of private msg with an error query" name="private chat messages API TEST Should not get a list of private msg with an error query" time="0.003">
     </testcase>
-    <testcase classname="private chat messages API TEST Should not get a list of private msg with an error query receiver_user_id" name="private chat messages API TEST Should not get a list of private msg with an error query receiver_user_id" time="0.003">
+    <testcase classname="private chat messages API TEST Should not get a list of private msg with an error query receiver_user_id" name="private chat messages API TEST Should not get a list of private msg with an error query receiver_user_id" time="0.004">
     </testcase>
   </testsuite>
-  <testsuite name="emergency status detail API test" errors="0" failures="8" skipped="0" timestamp="2020-04-16T00:07:06" time="1.884" tests="8">
-    <testcase classname="emergency status detail API test User updates emergency status brief description" name="emergency status detail API test User updates emergency status brief description" time="0.065">
+  <testsuite name="emergency status detail API test" errors="0" failures="8" skipped="0" timestamp="2020-04-16T08:59:49" time="1.682" tests="8">
+    <testcase classname="emergency status detail API test User updates emergency status brief description" name="emergency status detail API test User updates emergency status brief description" time="0.082">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -1014,7 +866,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="emergency status detail API test User updates emergency status location description" name="emergency status detail API test User updates emergency status location description" time="0.016">
+    <testcase classname="emergency status detail API test User updates emergency status location description" name="emergency status detail API test User updates emergency status location description" time="0.013">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -1036,7 +888,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="emergency status detail API test User gets emergency status brief description" name="emergency status detail API test User gets emergency status brief description" time="0.02">
+    <testcase classname="emergency status detail API test User gets emergency status brief description" name="emergency status detail API test User gets emergency status brief description" time="0.026">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -1058,7 +910,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="emergency status detail API test User gets emergency status location description" name="emergency status detail API test User gets emergency status location description" time="0.019">
+    <testcase classname="emergency status detail API test User gets emergency status location description" name="emergency status detail API test User gets emergency status location description" time="0.01">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -1080,7 +932,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="picture and description API test User adds a picture and discription description" name="picture and description API test User adds a picture and discription description" time="0.073">
+    <testcase classname="picture and description API test User adds a picture and discription description" name="picture and description API test User adds a picture and discription description" time="0.052">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -1102,7 +954,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="picture and description API test User gets all picture and description" name="picture and description API test User gets all picture and description" time="0.022">
+    <testcase classname="picture and description API test User gets all picture and description" name="picture and description API test User gets all picture and description" time="0.01">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -1124,7 +976,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="picture and description API test User updates description of a picture" name="picture and description API test User updates description of a picture" time="0.019">
+    <testcase classname="picture and description API test User updates description of a picture" name="picture and description API test User updates description of a picture" time="0.009">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -1146,7 +998,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="picture and description API test User deletes a picture and description from db" name="picture and description API test User deletes a picture and description from db" time="0.019">
+    <testcase classname="picture and description API test User deletes a picture and description from db" name="picture and description API test User deletes a picture and description from db" time="0.008">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -1169,60 +1021,232 @@ Expected one assertion to be called but received zero assertion calls.
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="Create Messages" errors="0" failures="0" skipped="0" timestamp="2020-04-16T00:07:08" time="1.133" tests="4">
-    <testcase classname="Create Messages Create a new message in the database" name="Create Messages Create a new message in the database" time="0.07">
+  <testsuite name="Create Announcement API" errors="0" failures="2" skipped="0" timestamp="2020-04-16T08:59:51" time="1.682" tests="3">
+    <testcase classname="Create Announcement API Should create an announcement" name="Create Announcement API Should create an announcement" time="0.015">
     </testcase>
-    <testcase classname="Getting Messages getting messages from  the database" name="Getting Messages getting messages from  the database" time="0.076">
+    <testcase classname="Get Announcement API Should get all the announcement" name="Get Announcement API Should get all the announcement" time="0.102">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 3
+Received: 115
+    at agent.get.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/announcements.test.js:106:48)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Getting Messages find messages by normal keyword" name="Getting Messages find messages by normal keyword" time="0.061">
-    </testcase>
-    <testcase classname="Getting Messages find messages by stop-word" name="Getting Messages find messages by stop-word" time="0.039">
-    </testcase>
-  </testsuite>
-  <testsuite name="Can creat an announcement" errors="0" failures="0" skipped="0" timestamp="2020-04-16T00:07:09" time="1.384" tests="4">
-    <testcase classname="Can creat an announcement Should create an announcement" name="Can creat an announcement Should create an announcement" time="0.089">
-    </testcase>
-    <testcase classname="Can creat an announcement should reject announcement creation" name="Can creat an announcement should reject announcement creation" time="0.018">
-    </testcase>
-    <testcase classname="Can get announcements Getting all the announcement" name="Can get announcements Getting all the announcement" time="0.045">
-    </testcase>
-    <testcase classname="Can get announcements searching announcement by keyword" name="Can get announcements searching announcement by keyword" time="0.062">
-    </testcase>
-  </testsuite>
-  <testsuite name="Creating a resource" errors="0" failures="0" skipped="0" timestamp="2020-04-16T00:07:10" time="1.058" tests="4">
-    <testcase classname="Creating a resource Should create a resource " name="Creating a resource Should create a resource " time="0.103">
-    </testcase>
-    <testcase classname="Creating a resource Should validate require fields " name="Creating a resource Should validate require fields " time="0.009">
-    </testcase>
-    <testcase classname="Getting a resource Should get a resource previously inserted " name="Getting a resource Should get a resource previously inserted " time="0.047">
-    </testcase>
-    <testcase classname="Getting a resource Should get all the resource previously inserted " name="Getting a resource Should get all the resource previously inserted " time="0.058">
+    <testcase classname="Get Announcement API Should get announcement filtered by keyword" name="Get Announcement API Should get announcement filtered by keyword" time="0.027">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 1
+Received: 10
+    at agent.get.query.query.query.query.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/announcements.test.js:122:48)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="principal" errors="0" failures="0" skipped="0" timestamp="2020-04-16T00:07:11" time="1.441" tests="3">
-    <testcase classname="principal Creating Private Messages Create a new private chat message in the database" name="principal Creating Private Messages Create a new private chat message in the database" time="0.075">
+  <testsuite name="Emergency Status Detail" errors="0" failures="0" skipped="0" timestamp="2020-04-16T08:59:53" time="1.008" tests="8">
+    <testcase classname="Emergency Status Detail Create a new emergency status detail in the database" name="Emergency Status Detail Create a new emergency status detail in the database" time="0.096">
     </testcase>
-    <testcase classname="principal Getting Messages getting private  messages from  the database" name="principal Getting Messages getting private  messages from  the database" time="0.052">
+    <testcase classname="Emergency Status Detail Update emegency status detail - brief description" name="Emergency Status Detail Update emegency status detail - brief description" time="0.024">
     </testcase>
-    <testcase classname="principal Search Messages getting private  messages from  the database" name="principal Search Messages getting private  messages from  the database" time="0.045">
+    <testcase classname="Emergency Status Detail Update emegency status detail - location description" name="Emergency Status Detail Update emegency status detail - location description" time="0.009">
+    </testcase>
+    <testcase classname="Emergency Status Detail get megency status detail" name="Emergency Status Detail get megency status detail" time="0.011">
+    </testcase>
+    <testcase classname="Picture and Description add a new picture and description in the database" name="Picture and Description add a new picture and description in the database" time="0.013">
+    </testcase>
+    <testcase classname="Picture and Description update picture description in the database" name="Picture and Description update picture description in the database" time="0.008">
+    </testcase>
+    <testcase classname="Picture and Description get picture and description in the database" name="Picture and Description get picture and description in the database" time="0.009">
+    </testcase>
+    <testcase classname="Picture and Description remove picture from the database" name="Picture and Description remove picture from the database" time="0.006">
     </testcase>
   </testsuite>
-  <testsuite name="Emergency Status Detail" errors="0" failures="0" skipped="0" timestamp="2020-04-16T00:07:13" time="1.145" tests="8">
-    <testcase classname="Emergency Status Detail Create a new emergency status detail in the database" name="Emergency Status Detail Create a new emergency status detail in the database" time="0.049">
+  <testsuite name="Create Messages" errors="0" failures="2" skipped="0" timestamp="2020-04-16T08:59:54" time="1.32" tests="4">
+    <testcase classname="Create Messages Create a new message in the database" name="Create Messages Create a new message in the database" time="0.115">
     </testcase>
-    <testcase classname="Emergency Status Detail Update emegency status detail - brief description" name="Emergency Status Detail Update emegency status detail - brief description" time="0.025">
+    <testcase classname="Getting Messages getting messages from  the database" name="Getting Messages getting messages from  the database" time="0.307">
+      <failure>MissingSchemaError: Schema hasn&apos;t been registered for model &quot;User&quot;.
+Use mongoose.model(name, schema)
+    at new MissingSchemaError (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/error/missingSchema.js:22:11)
+    at NativeConnection.Object.&lt;anonymous&gt;.Connection.model (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/connection.js:1080:11)
+    at getModelsMapForPopulate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/populate/getModelsMapForPopulate.js:262:59)
+    at populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4296:21)
+    at _populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4266:5)
+    at cb (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4241:5)
+    at promiseOrCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/promiseOrCallback.js:9:12)
+    at Function.Object.&lt;anonymous&gt;.Model.populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4239:10)
+    at cb (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/query.js:1934:17)
+    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:726:5
+    at handleCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:128:55)
+    at cursor.close (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:835:66)
+    at handleCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:128:55)
+    at completeClose (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:929:16)
+    at Cursor.close (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:948:12)
+    at cursor._next (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:835:27)</failure>
     </testcase>
-    <testcase classname="Emergency Status Detail Update emegency status detail - location description" name="Emergency Status Detail Update emegency status detail - location description" time="0.008">
+    <testcase classname="Getting Messages find messages by normal keyword" name="Getting Messages find messages by normal keyword" time="0.057">
+      <failure>MissingSchemaError: Schema hasn&apos;t been registered for model &quot;User&quot;.
+Use mongoose.model(name, schema)
+    at new MissingSchemaError (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/error/missingSchema.js:22:11)
+    at NativeConnection.Object.&lt;anonymous&gt;.Connection.model (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/connection.js:1080:11)
+    at getModelsMapForPopulate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/populate/getModelsMapForPopulate.js:262:59)
+    at populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4296:21)
+    at _populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4266:5)
+    at cb (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4241:5)
+    at promiseOrCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/promiseOrCallback.js:9:12)
+    at Function.Object.&lt;anonymous&gt;.Model.populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4239:10)
+    at cb (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/query.js:1934:17)
+    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:726:5
+    at handleCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:128:55)
+    at cursor.close (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:835:66)
+    at handleCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:128:55)
+    at completeClose (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:929:16)
+    at Cursor.close (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:948:12)
+    at cursor._next (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:835:27)</failure>
     </testcase>
-    <testcase classname="Emergency Status Detail get megency status detail" name="Emergency Status Detail get megency status detail" time="0.024">
+    <testcase classname="Getting Messages find messages by stop-word" name="Getting Messages find messages by stop-word" time="0.036">
     </testcase>
-    <testcase classname="Picture and Description add a new picture and description in the database" name="Picture and Description add a new picture and description in the database" time="0.016">
+  </testsuite>
+  <testsuite name="Creating a resource" errors="0" failures="2" skipped="0" timestamp="2020-04-16T08:59:55" time="1.026" tests="4">
+    <testcase classname="Creating a resource Should create a resource " name="Creating a resource Should create a resource " time="0.072">
     </testcase>
-    <testcase classname="Picture and Description update picture description in the database" name="Picture and Description update picture description in the database" time="0.012">
+    <testcase classname="Creating a resource Should validate require fields " name="Creating a resource Should validate require fields " time="0.016">
     </testcase>
-    <testcase classname="Picture and Description get picture and description in the database" name="Picture and Description get picture and description in the database" time="0.012">
+    <testcase classname="Getting a resource Should get a resource previously inserted " name="Getting a resource Should get a resource previously inserted " time="0.065">
+      <failure>MissingSchemaError: Schema hasn&apos;t been registered for model &quot;User&quot;.
+Use mongoose.model(name, schema)
+    at new MissingSchemaError (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/error/missingSchema.js:22:11)
+    at NativeConnection.Object.&lt;anonymous&gt;.Connection.model (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/connection.js:1080:11)
+    at getModelsMapForPopulate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/populate/getModelsMapForPopulate.js:262:59)
+    at populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4296:21)
+    at _populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4266:5)
+    at cb (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4241:5)
+    at promiseOrCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/promiseOrCallback.js:9:12)
+    at Function.Object.&lt;anonymous&gt;.Model.populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4239:10)
+    at model.Query.Object.&lt;anonymous&gt;.Query._completeOne (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/query.js:2097:9)
+    at Immediate.Query.base.findOne.call (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/query.js:2136:10)
+    at Immediate._onImmediate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mquery/lib/utils.js:116:16)
+    at runCallback (timers.js:810:20)
+    at tryOnImmediate (timers.js:768:5)
+    at processImmediate [as _immediateCallback] (timers.js:745:5)</failure>
+      <failure>Error: expect.assertions(1)
+
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/resource.test.js:95:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Picture and Description remove picture from the database" name="Picture and Description remove picture from the database" time="0.009">
+    <testcase classname="Getting a resource Should get all the resource previously inserted " name="Getting a resource Should get all the resource previously inserted " time="0.041">
+      <failure>MissingSchemaError: Schema hasn&apos;t been registered for model &quot;User&quot;.
+Use mongoose.model(name, schema)
+    at new MissingSchemaError (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/error/missingSchema.js:22:11)
+    at NativeConnection.Object.&lt;anonymous&gt;.Connection.model (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/connection.js:1080:11)
+    at getModelsMapForPopulate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/populate/getModelsMapForPopulate.js:262:59)
+    at populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4296:21)
+    at _populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4266:5)
+    at cb (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4241:5)
+    at promiseOrCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/promiseOrCallback.js:9:12)
+    at Function.Object.&lt;anonymous&gt;.Model.populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4239:10)
+    at cb (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/query.js:1934:17)
+    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:726:5
+    at handleCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:128:55)
+    at cursor.close (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:835:66)
+    at handleCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:128:55)
+    at completeClose (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:929:16)
+    at Cursor.close (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:948:12)
+    at cursor._next (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:835:27)</failure>
+      <failure>Error: expect.assertions(1)
+
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/resource.test.js:105:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Can creat an announcement" errors="0" failures="2" skipped="0" timestamp="2020-04-16T08:59:56" time="1.375" tests="4">
+    <testcase classname="Can creat an announcement Should create an announcement" name="Can creat an announcement Should create an announcement" time="0.121">
+    </testcase>
+    <testcase classname="Can creat an announcement should reject announcement creation" name="Can creat an announcement should reject announcement creation" time="0.016">
+    </testcase>
+    <testcase classname="Can get announcements Getting all the announcement" name="Can get announcements Getting all the announcement" time="0.053">
+      <failure>Error: expect.assertions(1)
+
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/announcement.test.js:77:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="Can get announcements searching announcement by keyword" name="Can get announcements searching announcement by keyword" time="0.374">
+      <failure>Error: expect.assertions(1)
+
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/models/announcement.test.js:89:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="principal" errors="0" failures="2" skipped="0" timestamp="2020-04-16T08:59:58" time="0.971" tests="3">
+    <testcase classname="principal Creating Private Messages Create a new private chat message in the database" name="principal Creating Private Messages Create a new private chat message in the database" time="0.083">
+    </testcase>
+    <testcase classname="principal Getting Messages getting private  messages from  the database" name="principal Getting Messages getting private  messages from  the database" time="0.032">
+      <failure>MissingSchemaError: Schema hasn&apos;t been registered for model &quot;User&quot;.
+Use mongoose.model(name, schema)
+    at new MissingSchemaError (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/error/missingSchema.js:22:11)
+    at NativeConnection.Object.&lt;anonymous&gt;.Connection.model (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/connection.js:1080:11)
+    at getModelsMapForPopulate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/populate/getModelsMapForPopulate.js:262:59)
+    at populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4296:21)
+    at _populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4266:5)
+    at cb (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4241:5)
+    at promiseOrCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/promiseOrCallback.js:9:12)
+    at Function.Object.&lt;anonymous&gt;.Model.populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4239:10)
+    at cb (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/query.js:1934:17)
+    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:726:5
+    at handleCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:128:55)
+    at cursor.close (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:835:66)
+    at handleCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:128:55)
+    at completeClose (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:929:16)
+    at Cursor.close (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:948:12)
+    at cursor._next (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:835:27)</failure>
+    </testcase>
+    <testcase classname="principal Search Messages getting private  messages from  the database" name="principal Search Messages getting private  messages from  the database" time="0.036">
+      <failure>MissingSchemaError: Schema hasn&apos;t been registered for model &quot;User&quot;.
+Use mongoose.model(name, schema)
+    at new MissingSchemaError (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/error/missingSchema.js:22:11)
+    at NativeConnection.Object.&lt;anonymous&gt;.Connection.model (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/connection.js:1080:11)
+    at getModelsMapForPopulate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/populate/getModelsMapForPopulate.js:262:59)
+    at populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4296:21)
+    at _populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4266:5)
+    at cb (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4241:5)
+    at promiseOrCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/helpers/promiseOrCallback.js:9:12)
+    at Function.Object.&lt;anonymous&gt;.Model.populate (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/model.js:4239:10)
+    at cb (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongoose/lib/query.js:1934:17)
+    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:726:5
+    at handleCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:128:55)
+    at cursor.close (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:835:66)
+    at handleCallback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/utils.js:128:55)
+    at completeClose (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:929:16)
+    at Cursor.close (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:948:12)
+    at cursor._next (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/mongodb/lib/cursor.js:835:27)</failure>
     </testcase>
   </testsuite>
 </testsuites>
