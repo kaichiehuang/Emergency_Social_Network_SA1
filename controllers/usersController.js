@@ -91,7 +91,7 @@ class UsersController {
         // 1. update user data
         User.findById(userId).then(user => {
             userInstance = user;
-            userInstance.updateUser(req.body)
+            return userInstance.updateUser(req.body);
         })
         .then( _ => {
             let jsonResponseData = {};

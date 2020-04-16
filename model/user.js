@@ -4,6 +4,9 @@ const bcrypt = require('bcrypt');
 const blacklist = require('the-big-username-blacklist');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
+/**
+ * Our class for user model taht will be attached to the schema
+ */
 class UserModel {
 
     /**
@@ -15,6 +18,14 @@ class UserModel {
         this.username = username;
         this.password = password;
     }
+
+    /*******************
+
+        VALIDATIONS
+
+     ******************/
+
+
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
@@ -22,28 +33,21 @@ class UserModel {
     validateCreate() {
         return new Promise((resolve, reject) => {
             // validate username structure
-            this.validateUserName(this.username)
-            .then((result) => {
-                console.log('Username structure validated');
-                // validate banned username
-                return this.validateBannedUsername();
-            }).then((result) => {
-                console.log('Banned username validated');
-                // validate password structure
-                return this.validatePassword();
-            }).then((result) => {
-                console.log('All validations passed');
-                // if no errors resolve promise with result obj
-                resolve(true);
-            }).catch(function(err) {
-                console.log('validations not passed');
-                // if errors reject the promise
-                console.log(err);
-                reject(err);
-            });
+            if(!this.validateUserName()){
+                return reject('Invalid username, please enter a longer username (min 3 characters)');
+            }
+            // validate banned users
+            if(!this.validateBannedUsername()){
+                return reject('Invalid username, this username is reserved for the platform. Please enter a different username.');
+            }
+            // validate password structure
+            if(!this.validatePassword()){
+                return reject('Invalid password, please enter a longer username (min 4 characters)');
+            }
+            return resolve(true);
         });
     }
-    // WITH PROMISES
+
     /**
      * [isPasswordMatch description]
      * @param  {[type]}  password [description]
@@ -52,9 +56,9 @@ class UserModel {
     isPasswordMatch(inputPassword) {
         return new Promise((resolve, reject) => {
             if (bcrypt.compareSync(inputPassword, this.password)) {
-                resolve(true);
+                return resolve(true);
             } else {
-                reject('Invalid username / password.');
+                return reject('Invalid username / password.');
             }
         });
     }
@@ -64,12 +68,10 @@ class UserModel {
      * @return {[type]} [description]
      */
     validateUserName() {
-        return new Promise((resolve, reject) => {
-            if (this.username.length < 3) {
-                reject('Invalid username, please enter a longer username (min 3 characters)');
-            }
-            resolve(true);
-        });
+        if (this.username.length < 3) {
+            return false;
+        }
+        return true;
     }
     // VALIDATE PASSWORD  LENGTH
     /**
@@ -77,13 +79,10 @@ class UserModel {
      * @return {[type]} [description]
      */
     validatePassword() {
-        return new Promise((resolve, reject) => {
-            if (this.password.length < 4) {
-                reject('Invalid password, please enter a longer username (min 4 characters)');
-            } else {
-                resolve(true);
-            }
-        });
+        if (this.password.length < 4) {
+            return false;
+        }
+        return true;
     }
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
@@ -95,28 +94,28 @@ class UserModel {
             if (data.step != undefined && data.step == 1) {
                 step = "personal";
             }
-            if (data.step != undefined && data.step == 2) {
+            else if (data.step != undefined && data.step == 2) {
                 step = "medical";
             } else if (data.step != undefined && data.step == 3) {
                 step = "other";
             }
             //not updating personal info
             if (step == null) {
-                resolve(true);
+                return resolve(true);
             } else {
                 //validate medical information and personal information and emergency contact information
-                this.validateRequiredFieldsUpdate(step, data).then((result) => {
+                this.validateRequiredFieldsUpdate(step, data)
+                .then((result) => {
                     console.log('Firsts validations passed');
                     return this.validateLengthFieldsUpdate(step, data);
                 }).then((result) => {
                     console.log('All validations passed');
-                    // if no errors resolve promise with result obj
-                    resolve(true);
+                    return resolve(true);
                 }).catch(err => {
                     console.log('validations not passed');
                     // if errors reject the promise
                     console.log(err);
-                    reject(err);
+                    return reject(err);
                 });
             }
         });
@@ -130,32 +129,31 @@ class UserModel {
         return new Promise((resolve, reject) => {
             if (type == "personal") {
                 if (data.name == undefined || data.last_name == undefined || data.birth_date == undefined || data.city == undefined || data.address == undefined || data.phone_number == 0 || data.emergency_contact == undefined || data.emergency_contact.name == undefined || data.emergency_contact.phone_number == undefined || data.emergency_contact.address == 0) {
-                    reject("Missing required fields. Every field in this step is mandatory.");
+                    return reject("Missing required fields. Every field in this step is mandatory.");
                 } else if (data.privacy_terms_data_accepted == undefined || data.privacy_terms_data_accepted == '') {
-                    reject('Please accept the term and conditions for personal data treatment');
+                    return reject('Please accept the term and conditions for personal data treatment');
                 } else {
                     if (data.name.length == 0 || data.last_name.length == 0 || data.birth_date.length == 0 || data.city.length == 0 || data.address.length == 0 || data.phone_number.length == 0 || data.emergency_contact == undefined || data.emergency_contact.name.length == 0 || data.emergency_contact.phone_number.length == 0 || data.emergency_contact.address.length == 0) {
-                        reject('Missing required fields. Every field in this step is mandatory.');
+                        return reject('Missing required fields. Every field in this step is mandatory.');
                     }
                 }
             } else if (type == "medical") {
                 if (data.medical_information == undefined || data.medical_information.blood_type == 0) {
-                    reject('Blood type is a mandatory field, please select a valid blood type');
+                    return reject('Blood type is a mandatory field, please select a valid blood type');
                 } else if (data.medical_information.privacy_terms_medical_accepted == undefined || data.medical_information.privacy_terms_medical_accepted == '') {
-                    reject('Please accept the term and conditions for medical data treatment');
+                    return reject('Please accept the term and conditions for medical data treatment');
                 }
             } else if (type == "other") {
                 if (data.personal_message != undefined) {
-                    console.log(data.personal_message, data.personal_message);
                     if (data.personal_message.security_question.length == 0 && data.personal_message.security_question_answer.length != 0) {
-                        reject('The security question and the answer to this cannot be empty if one of these is sent.');
+                        return reject('The security question and the answer to this cannot be empty if one of these is sent.');
                     }
                     if (data.personal_message.security_question.length != 0 && data.personal_message.security_question_answer.length == 0) {
-                        reject('The security question and the answer to this cannot be empty if one of these is sent.');
+                        return reject('The security question and the answer to this cannot be empty if one of these is sent.');
                     }
                 }
             }
-            resolve(true);
+            return resolve(true);
         });
     }
     /**
@@ -167,20 +165,40 @@ class UserModel {
         return new Promise((resolve, reject) => {
             if (type == "personal") {
                 if (data.city.length < 4 || data.address.length < 4) {
-                    reject("City and address must have more than 4 characters.");
+                    return reject("City and address must have more than 4 characters.");
                 } else if (data.phone_number.length < 7 || data.emergency_contact.phone_number.length < 7) {
-                    reject("Every phone number must have more than 7 characters.");
+                    return reject("Every phone number must have more than 7 characters.");
                 }
             } else if (type == "medical") {
                 if (data.medical_information.blood_type == 0) {
-                    reject('Blood type is a mandatory field, please select a valid blood type');
+                    return reject('Blood type is a mandatory field, please select a valid blood type');
                 } else if (data.medical_information.privacy_terms_medical_accepted == undefined || data.medical_information.privacy_terms_medical_accepted == '') {
-                    reject('Please accept the term and conditions for medical data treatment');
+                    return reject('Please accept the term and conditions for medical data treatment');
                 }
             }
-            resolve(true);
+            return resolve(true);
         });
     }
+
+    /**
+     * Validates if a username is banned
+     * @return {[type]} [description]
+     */
+    validateBannedUsername() {
+        // 3. Validate BlackListUser\
+        const black = blacklist.validate(this.username);
+        if (!black) {
+            return false;
+        }
+        return true;
+    }
+
+    /*******************
+
+          OPERATIONS
+
+     ******************/
+
     /**
      * Register a username in DB. it hashes the password
      * @return {[type]} [description]
@@ -189,9 +207,9 @@ class UserModel {
         return new Promise((resolve, reject) => {
             this.hashPassword(this.password);
             this.save().then(_ => {
-                resolve(true);
+                return resolve(true);
             }).catch(err => {
-                reject(err);
+                return reject(err);
             })
         });
     }
@@ -204,16 +222,17 @@ class UserModel {
      */
     updateUser(data) {
         return new Promise((resolve, reject) => {
-            this.validateUpdate(data).then(result => {
-                if (this.status.localeCompare(data['status']) != 0) {
+            this.validateUpdate(data)
+            .then(result => {
+                if (data['status'] != undefined && this.status.localeCompare(data['status']) != 0) {
                     this.status_timestamp = new Date()
                 }
                 this.set(data);
                 return this.save();
             }).then(usr => {
-                resolve(true);
+                return resolve(true);
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -225,21 +244,7 @@ class UserModel {
     hashPassword(password) {
         this.password = bcrypt.hashSync(password, 10);
     }
-    /**
-     * Validates if a username is banned
-     * @return {[type]} [description]
-     */
-    validateBannedUsername() {
-        return new Promise((resolve, reject) => {
-            // 3. Validate BlackListUser\
-            const black = blacklist.validate(this.username);
-            if (!black) {
-                reject('Invalid username, this username is reserved for the platform. Please enter a different username.');
-            } else {
-                resolve(true);
-            }
-        });
-    }
+
     /**
      * Generates a token for a user
      * @return {[type]} [description]
@@ -254,12 +259,12 @@ class UserModel {
                         token: token,
                         ex_token: genRefToken
                     };
-                    resolve(tokens);
+                    return resolve(tokens);
                 }).catch((err) => {
-                    reject(err);
+                    return reject(err);
                 });
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -282,9 +287,9 @@ class UserModel {
                 }
                 return user.save();
             }).then((user) => {
-                resolve(user);
+                return resolve(user);
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -305,13 +310,13 @@ class UserModel {
                 if (user.sockets.has(socketId)) {
                     user.sockets.delete(socketId);
                 } else {
-                    reject('Socket does not exist');
+                    return reject('Socket does not exist');
                 }
                 return user.save();
             }).then((user) => {
-                resolve(user);
+                return resolve(user);
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -343,9 +348,9 @@ class UserModel {
                 }
                 return user.save();
             }).then((user) => {
-                resolve(user);
+                return resolve(user);
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -357,28 +362,36 @@ class UserModel {
     getPersonalMessage(security_question_answer) {
         return new Promise((resolve, reject) => {
             if (this.personal_message.security_question_answer.localeCompare(security_question_answer) == 0) {
-                resolve(this.personal_message.message);
+                return resolve(this.personal_message.message);
             } else {
-                reject("Invalid answer");
+                return reject("Invalid answer");
             }
         });
     }
+
+    /******************************
+
+          STATIC FIND FUNCTIONS
+
+     *****************************/
+
+
     /**
      * Checks if a username exists
      * @param  {[type]} username [description]
-     * @return boolean          Resolves True if it exists / resolves False if it doesn't existe, rejects if error
+     * @return boolean          return Resolves True if it exists / resolves False if it doesn't existe, rejects if error
      */
     static usernameExists(username) {
         return new Promise((resolve, reject) => {
             const userModel = new User();
             this.findUserByUsername(username).then((user) => {
                 if (user !== null && user.username != undefined && user.username == username) {
-                    resolve(true);
+                    return resolve(true);
                 } else {
-                    resolve(false);
+                    return resolve(false);
                 }
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -390,12 +403,12 @@ class UserModel {
         return new Promise((resolve, reject) => {
             this.findUserById(id).then((result) => {
                 if (result !== null && result.id == id) {
-                    resolve(true);
+                    return resolve(true);
                 } else {
-                    resolve(false);
+                    return resolve(false);
                 }
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -409,14 +422,10 @@ class UserModel {
             let userModel = new User();
             this.findOne({
                 username: username
-            }).exec().then((user) => {
-                if (user != null) {
-                    userModel.set(user);
-                    resolve(userModel);
-                }
-                resolve(null);
+            }).exec().then( user => {
+                return resolve(user);
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -428,12 +437,10 @@ class UserModel {
     static findUserByIdIfAuthorized(id, currentUserId) {
         return new Promise((resolve, reject) => {
             let searchingUser = null;
-            let userModel = new User();
             this.findUserById(currentUserId).then((user) => {
                 //same user no need to check if its an admin or authorized
                 if (currentUserId.toString().localeCompare(id) == 0) {
-                    userModel.set(user);
-                    resolve(userModel);
+                    return resolve(user);
                 }
                 //diff user, check if its an admin or authorized
                 else {
@@ -444,11 +451,10 @@ class UserModel {
                 //diff user, check if its an admin or authorized
                 if (currentUserId.toString().localeCompare(id) != 0) {
                     if (user.emergency_contact == undefined || user.emergency_contact.phone_number == undefined || searchingUser.phone_number == undefined || searchingUser.phone_number == '' || searchingUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
-                        reject("You are not authorized");
+                        return reject("You are not authorized");
                     }
                 }
-                userModel.set(user);
-                resolve(userModel);
+                return resolve(user);
             }).catch((err) => {
                 return reject(err);
             });
@@ -464,16 +470,13 @@ class UserModel {
             this.findOne({
                 _id: id
             }).exec().then((user) => {
-                let userModel = null;
                 if (user != null) {
-                    userModel = new User();
-                    userModel.set(user);
-                    resolve(userModel);
+                    return resolve(user);
                 } else {
-                    reject(null);
+                    return reject(null);
                 }
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -487,9 +490,9 @@ class UserModel {
                 onLine: -1,
                 username: 'asc'
             }).then((users) => {
-                resolve(users);
+                return resolve(users);
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -514,9 +517,9 @@ class UserModel {
                 onLine: -1,
                 username: 'asc'
             }).then((users) => {
-                resolve(users);
+                return resolve(users);
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -533,9 +536,9 @@ class UserModel {
                 onLine: -1,
                 username: 'asc'
             }).then((users) => {
-                resolve(users);
+                return resolve(users);
             }).catch((err) => {
-                reject(err);
+                return reject(err);
             });
         });
     }
