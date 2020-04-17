@@ -24,9 +24,15 @@ class ChatMessagesController {
         const message = requestData['message'];
         const user_id = requestData['user_id'];
         let userFound = null;
+        let spam = false;
         // 1. Get user and validate that it exists
         User.findUserById(user_id).then((result) => {
             userFound = result;
+            /* istanbul ignore next */
+            if (userFound.spam) {
+                spam = true;
+                reject('spam');
+            }
             // 2. Create chat message object
             const chatMessage = new ChatMessage(message, userFound._id, userFound.status);
             // 3. save chat message
@@ -34,11 +40,12 @@ class ChatMessagesController {
         }).then((chatMessageCreated) => {
             // 4. if chat message was saved emit the chat message to everyone
             res.io.emit('new-chat-message', {
-                'id': chatMessageCreated._id,
+                '_id': chatMessageCreated._id,
                 'message': chatMessageCreated.message,
                 'user_id': {
                     '_id': userFound._id,
-                    'username': userFound.username
+                    'username': userFound.username,
+                    'reported_spams': userFound.reported_spams
                 },
                 'created_at': chatMessageCreated.created_at,
                 'status': chatMessageCreated.status
@@ -56,9 +63,17 @@ class ChatMessagesController {
                 }
             }));
         }).catch((err) => {
-            return res.status(422).send(JSON.stringify({
-                'error': err.message
-            }));
+            /* istanbul ignore next */
+            if (spam) {
+                return res.send({
+                    'spam': true
+                });
+            } else {
+                /* istanbul ignore next */
+                return res.status(422).send({
+                    'error': err
+                });
+            }
         });
     }
 
@@ -83,6 +98,7 @@ class ChatMessagesController {
                     return res.status(201).send(JSON.stringify(msg));
                 })
                 .catch( (err) => {
+                    /* istanbul ignore next */
                     console.log('Error searching messages by keyword');
                     return res.status(500).send(err);
                 });
@@ -93,6 +109,7 @@ class ChatMessagesController {
                     res.contentType('application/json');
                     res.status(201).send(JSON.stringify(result));
                 }).catch((err) => {
+                    /* istanbul ignore next */
                     return res.status(422).send(JSON.stringify({
                         'error': err.message
                     }));

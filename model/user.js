@@ -44,6 +44,7 @@ const constants = require('../constants');
             return resolve(true);
         });
     }
+
     /**
      * [isPasswordMatch description]
      * @param  {[type]}  password [description]
@@ -51,6 +52,7 @@ const constants = require('../constants');
      */
      isPasswordMatch(inputPassword) {
         return new Promise((resolve, reject) => {
+
             if (bcrypt.compareSync(inputPassword, this.password)) {
                 return resolve(true);
             } else {
@@ -69,6 +71,7 @@ const constants = require('../constants');
         }
         return true;
     }
+
     // VALIDATE PASSWORD  LENGTH
     /**
      * [validatePassword description]
@@ -173,6 +176,7 @@ const constants = require('../constants');
             return resolve(true);
         });
     }
+
     /**
      * Validates if a username is banned
      * @return {[type]} [description]
@@ -204,6 +208,7 @@ const constants = require('../constants');
             })
         });
     }
+
     /**
      * Updates the  user
      * @param  {[type]} data            Array of data
@@ -224,6 +229,7 @@ const constants = require('../constants');
             });
         });
     }
+
     /**
      * hashes a user password //
      * @param  {[type]} password [description]
@@ -255,6 +261,7 @@ const constants = require('../constants');
             });
         });
     }
+
     /**
      * Inserts a socket to the sockets map attribute
      * @param  {[type]} userId   [description]
@@ -278,6 +285,7 @@ const constants = require('../constants');
             });
         });
     }
+
     /**
      * Removes a socket from the sockets map attribute
      * @param  {[type]} userId   [description]
@@ -302,6 +310,7 @@ const constants = require('../constants');
             });
         });
     }
+
     /**
      * Change message count for all messages sent by the senderUserId to current user
      * @param  {[type]} senderUserId   [description]
@@ -343,6 +352,7 @@ const constants = require('../constants');
             });
         });
     }
+
     /**
      * Get the personal message for a user if the security question matches
      * @param  {[type]} security_question_answer [description]
@@ -381,6 +391,7 @@ const constants = require('../constants');
             });
         });
     }
+
     /**
      * username exists / true or false
      * @return {[type]} [description]
@@ -467,6 +478,7 @@ const constants = require('../constants');
             });
         });
     }
+
     /**
      * [getUsers description]
      * @return {[type]} [description]
@@ -483,6 +495,7 @@ const constants = require('../constants');
             });
         });
     }
+
     /**
      * Find users by user name (contains)
      * @param username
@@ -510,6 +523,7 @@ const constants = require('../constants');
             });
         });
     }
+
     /**
      * Find user by user status
      * @param status
@@ -529,7 +543,34 @@ const constants = require('../constants');
             });
         });
     }
+
+    /**
+     * set report spam reporter for current user
+     * @param userId
+     * @param reporterUserId
+     *
+     */
+    static setReportSpam(userId, reporterUserId) {
+        return new Promise((resolve, reject) => {
+            User.findUserById(userId)
+                .then((user) => {
+                    /* istanbul ignore next */
+                    if (user.reported_spams == undefined) {
+                        user.reported_spams = {};
+                    }
+                    user.reported_spams.set(reporterUserId, true);
+                    user.spam = (user.reported_spams.size >= constants.USER_SPAM_REPORTED_LIMIT);
+                    return user.save();
+                }).then((user) => {
+                    resolve(user);
+                }).catch((err) => {
+                    /* istanbul ignore next */
+                    reject(err);
+                });
+        });
+    }
 }
+
 UserSchema.loadClass(UserModel);
 const User = mongoose.model('User', UserSchema);
 module.exports = User;

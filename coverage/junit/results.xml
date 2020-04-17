@@ -1,29 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="102" failures="28" time="19.49">
-  <testsuite name="Create Announcement API" errors="0" failures="2" skipped="0" timestamp="2020-04-17T09:17:23" time="12.203" tests="3">
-    <testcase classname="Create Announcement API Should create an announcement" name="Create Announcement API Should create an announcement" time="0.424">
+<testsuites name="jest tests" tests="109" failures="32" time="30.121">
+  <testsuite name="create spam report API TEST" errors="0" failures="2" skipped="0" timestamp="2020-04-17T09:41:29" time="16.697" tests="2">
+    <testcase classname="create spam report API TEST user spam" name="create spam report API TEST user spam" time="0.458">
+      <failure>Error: Unprocessable Entity
+    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
+    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
+    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
+    at emitNone (events.js:111:20)
+    at IncomingMessage.emit (events.js:208:7)
+    at endReadableNT (_stream_readable.js:1064:12)
+    at _combinedTickCallback (internal/process/next_tick.js:139:11)
+    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
     </testcase>
-    <testcase classname="Get Announcement API Should get all the announcement" name="Get Announcement API Should get all the announcement" time="0.951">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: 3
-Received: 127
-    at agent.get.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/announcements.test.js:106:48)
-    at &lt;anonymous&gt;
-    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
-    </testcase>
-    <testcase classname="Get Announcement API Should get announcement filtered by keyword" name="Get Announcement API Should get announcement filtered by keyword" time="0.366">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: 1
-Received: 10
-    at agent.get.query.query.query.query.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/announcements.test.js:122:48)
-    at &lt;anonymous&gt;
-    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    <testcase classname="create spam report API TEST msg spam" name="create spam report API TEST msg spam" time="0.252">
+      <failure>Error: Unprocessable Entity
+    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
+    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
+    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
+    at emitNone (events.js:111:20)
+    at IncomingMessage.emit (events.js:208:7)
+    at endReadableNT (_stream_readable.js:1064:12)
+    at _combinedTickCallback (internal/process/next_tick.js:139:11)
+    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="private chat messages API TEST" errors="0" failures="3" skipped="0" timestamp="2020-04-17T09:17:23" time="12.217" tests="8">
-    <testcase classname="private chat messages API TEST Should create a new private msg" name="private chat messages API TEST Should create a new private msg" time="0.474">
+  <testsuite name="private chat messages API TEST" errors="0" failures="3" skipped="0" timestamp="2020-04-17T09:41:29" time="16.753" tests="8">
+    <testcase classname="private chat messages API TEST Should create a new private msg" name="private chat messages API TEST Should create a new private msg" time="0.336">
       <failure>Error: Unprocessable Entity
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -44,7 +46,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="private chat messages API TEST Should get a list of private msg" name="private chat messages API TEST Should get a list of private msg" time="0.823">
+    <testcase classname="private chat messages API TEST Should get a list of private msg" name="private chat messages API TEST Should get a list of private msg" time="0.184">
       <failure>Error: Unprocessable Entity
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -65,7 +67,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="private chat messages API TEST Should search a list of private msg" name="private chat messages API TEST Should search a list of private msg" time="0.336">
+    <testcase classname="private chat messages API TEST Should search a list of private msg" name="private chat messages API TEST Should search a list of private msg" time="0.205">
       <failure>Error: Unprocessable Entity
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -87,19 +89,41 @@ Expected at least one assertion to be called but received none.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input msg" name="private chat messages API TEST Should not create a new private msg with an error input msg" time="0.001">
+    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input msg" name="private chat messages API TEST Should not create a new private msg with an error input msg" time="0.002">
     </testcase>
-    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input sender_user_id" name="private chat messages API TEST Should not create a new private msg with an error input sender_user_id" time="0.002">
+    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input sender_user_id" name="private chat messages API TEST Should not create a new private msg with an error input sender_user_id" time="0.001">
     </testcase>
-    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input receiver_user_id" name="private chat messages API TEST Should not create a new private msg with an error input receiver_user_id" time="0.001">
+    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input receiver_user_id" name="private chat messages API TEST Should not create a new private msg with an error input receiver_user_id" time="0.002">
     </testcase>
     <testcase classname="private chat messages API TEST Should not get a list of private msg with an error query" name="private chat messages API TEST Should not get a list of private msg with an error query" time="0.001">
     </testcase>
-    <testcase classname="private chat messages API TEST Should not get a list of private msg with an error query receiver_user_id" name="private chat messages API TEST Should not get a list of private msg with an error query receiver_user_id" time="0.002">
+    <testcase classname="private chat messages API TEST Should not get a list of private msg with an error query receiver_user_id" name="private chat messages API TEST Should not get a list of private msg with an error query receiver_user_id" time="0.001">
     </testcase>
   </testsuite>
-  <testsuite name="Testing Resource creeation  API" errors="0" failures="3" skipped="0" timestamp="2020-04-17T09:17:23" time="12.279" tests="3">
-    <testcase classname="Testing Resource creeation  API Should create an resource" name="Testing Resource creeation  API Should create an resource" time="0.621">
+  <testsuite name="Create Announcement API" errors="0" failures="2" skipped="0" timestamp="2020-04-17T09:41:29" time="17.358" tests="3">
+    <testcase classname="Create Announcement API Should create an announcement" name="Create Announcement API Should create an announcement" time="0.244">
+    </testcase>
+    <testcase classname="Get Announcement API Should get all the announcement" name="Get Announcement API Should get all the announcement" time="0.281">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 3
+Received: 0
+    at agent.get.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/announcements.test.js:106:48)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+    <testcase classname="Get Announcement API Should get announcement filtered by keyword" name="Get Announcement API Should get announcement filtered by keyword" time="0.546">
+      <failure>Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 1
+Received: 0
+    at agent.get.query.query.query.query.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/announcements.test.js:122:48)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing Resource creeation  API" errors="0" failures="3" skipped="0" timestamp="2020-04-17T09:41:29" time="17.783" tests="3">
+    <testcase classname="Testing Resource creeation  API Should create an resource" name="Testing Resource creeation  API Should create an resource" time="1.389">
       <failure>Error: .field(name, val) val can not be empty
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:435:11)
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:418:14)
@@ -123,7 +147,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Testing searching Resources  API Should return one specific resource" name="Testing searching Resources  API Should return one specific resource" time="1.006">
+    <testcase classname="Testing searching Resources  API Should return one specific resource" name="Testing searching Resources  API Should return one specific resource" time="1.028">
       <failure>Error: .field(name, val) val can not be empty
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:435:11)
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:418:14)
@@ -155,7 +179,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Testing searching Resources  API Should return all resource" name="Testing searching Resources  API Should return all resource" time="1.278">
+    <testcase classname="Testing searching Resources  API Should return all resource" name="Testing searching Resources  API Should return all resource" time="0.972">
       <failure>Error: .field(name, val) val can not be empty
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:435:11)
     at Request.field (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:418:14)
@@ -170,14 +194,14 @@ Expected one assertion to be called but received zero assertion calls.
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: 2
-Received: 8
+Received: 0
     at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/resources.test.js:176:41)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="emergency status detail API test" errors="0" failures="8" skipped="0" timestamp="2020-04-17T09:17:23" time="12.819" tests="8">
-    <testcase classname="emergency status detail API test User updates emergency status brief description" name="emergency status detail API test User updates emergency status brief description" time="0.565">
+  <testsuite name="emergency status detail API test" errors="0" failures="8" skipped="0" timestamp="2020-04-17T09:41:29" time="17.742" tests="8">
+    <testcase classname="emergency status detail API test User updates emergency status brief description" name="emergency status detail API test User updates emergency status brief description" time="0.196">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -199,7 +223,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="emergency status detail API test User updates emergency status location description" name="emergency status detail API test User updates emergency status location description" time="0.425">
+    <testcase classname="emergency status detail API test User updates emergency status location description" name="emergency status detail API test User updates emergency status location description" time="0.359">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -221,7 +245,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="emergency status detail API test User gets emergency status brief description" name="emergency status detail API test User gets emergency status brief description" time="0.657">
+    <testcase classname="emergency status detail API test User gets emergency status brief description" name="emergency status detail API test User gets emergency status brief description" time="0.273">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -243,7 +267,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="emergency status detail API test User gets emergency status location description" name="emergency status detail API test User gets emergency status location description" time="0.175">
+    <testcase classname="emergency status detail API test User gets emergency status location description" name="emergency status detail API test User gets emergency status location description" time="0.211">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -265,7 +289,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="picture and description API test User adds a picture and discription description" name="picture and description API test User adds a picture and discription description" time="0.3">
+    <testcase classname="picture and description API test User adds a picture and discription description" name="picture and description API test User adds a picture and discription description" time="0.327">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -287,7 +311,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="picture and description API test User gets all picture and description" name="picture and description API test User gets all picture and description" time="0.059">
+    <testcase classname="picture and description API test User gets all picture and description" name="picture and description API test User gets all picture and description" time="0.507">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -309,7 +333,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="picture and description API test User updates description of a picture" name="picture and description API test User updates description of a picture" time="0.14">
+    <testcase classname="picture and description API test User updates description of a picture" name="picture and description API test User updates description of a picture" time="0.128">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -331,7 +355,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="picture and description API test User deletes a picture and description from db" name="picture and description API test User deletes a picture and description from db" time="0.022">
+    <testcase classname="picture and description API test User deletes a picture and description from db" name="picture and description API test User deletes a picture and description from db" time="0.102">
       <failure>Error: Internal Server Error
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -354,8 +378,74 @@ Expected one assertion to be called but received zero assertion calls.
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="public chat messages API test" errors="0" failures="4" skipped="0" timestamp="2020-04-17T09:17:23" time="13.125" tests="8">
-    <testcase classname="public chat messages API test User1 create a new public message" name="public chat messages API test User1 create a new public message" time="0.698">
+  <testsuite name="principal" errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:41:46" time="2.014" tests="2">
+    <testcase classname="principal Creating msg Spam Reports Create a new spam report in the database" name="principal Creating msg Spam Reports Create a new spam report in the database" time="0.07">
+    </testcase>
+    <testcase classname="principal Creating user Spam Reports Create a new user report in the database" name="principal Creating user Spam Reports Create a new user report in the database" time="0.03">
+    </testcase>
+  </testsuite>
+  <testsuite name="principal" errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:41:47" time="2.326" tests="3">
+    <testcase classname="principal Creating Private Messages Create a new private chat message in the database" name="principal Creating Private Messages Create a new private chat message in the database" time="0.176">
+    </testcase>
+    <testcase classname="principal Getting Messages getting private  messages from  the database" name="principal Getting Messages getting private  messages from  the database" time="0.168">
+    </testcase>
+    <testcase classname="principal Search Messages getting private  messages from  the database" name="principal Search Messages getting private  messages from  the database" time="0.135">
+    </testcase>
+  </testsuite>
+  <testsuite name="Creating a resource" errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:41:48" time="2.222" tests="4">
+    <testcase classname="Creating a resource Should create a resource " name="Creating a resource Should create a resource " time="0.086">
+    </testcase>
+    <testcase classname="Creating a resource Should validate require fields " name="Creating a resource Should validate require fields " time="0.016">
+    </testcase>
+    <testcase classname="Getting a resource Should get a resource previously inserted " name="Getting a resource Should get a resource previously inserted " time="0.092">
+    </testcase>
+    <testcase classname="Getting a resource Should get all the resource previously inserted " name="Getting a resource Should get all the resource previously inserted " time="0.056">
+    </testcase>
+  </testsuite>
+  <testsuite name="Emergency Status Detail" errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:41:48" time="2.208" tests="8">
+    <testcase classname="Emergency Status Detail Create a new emergency status detail in the database" name="Emergency Status Detail Create a new emergency status detail in the database" time="0.063">
+    </testcase>
+    <testcase classname="Emergency Status Detail Update emegency status detail - brief description" name="Emergency Status Detail Update emegency status detail - brief description" time="0.047">
+    </testcase>
+    <testcase classname="Emergency Status Detail Update emegency status detail - location description" name="Emergency Status Detail Update emegency status detail - location description" time="0.009">
+    </testcase>
+    <testcase classname="Emergency Status Detail get megency status detail" name="Emergency Status Detail get megency status detail" time="0.019">
+    </testcase>
+    <testcase classname="Picture and Description add a new picture and description in the database" name="Picture and Description add a new picture and description in the database" time="0.016">
+    </testcase>
+    <testcase classname="Picture and Description update picture description in the database" name="Picture and Description update picture description in the database" time="0.009">
+    </testcase>
+    <testcase classname="Picture and Description get picture and description in the database" name="Picture and Description get picture and description in the database" time="0.021">
+    </testcase>
+    <testcase classname="Picture and Description remove picture from the database" name="Picture and Description remove picture from the database" time="0.009">
+    </testcase>
+  </testsuite>
+  <testsuite name="Create Messages" errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:41:48" time="2.341" tests="6">
+    <testcase classname="Create Messages Create a new message in the database" name="Create Messages Create a new message in the database" time="0.138">
+    </testcase>
+    <testcase classname="Getting Messages getting messages from  the database" name="Getting Messages getting messages from  the database" time="0.075">
+    </testcase>
+    <testcase classname="Getting Messages find messages by normal keyword" name="Getting Messages find messages by normal keyword" time="0.047">
+    </testcase>
+    <testcase classname="Getting Messages find messages by stop-word" name="Getting Messages find messages by stop-word" time="0.038">
+    </testcase>
+    <testcase classname="Getting Messages find messages by id" name="Getting Messages find messages by id" time="0.024">
+    </testcase>
+    <testcase classname="Getting Messages set msg spam" name="Getting Messages set msg spam" time="0.032">
+    </testcase>
+  </testsuite>
+  <testsuite name="Can creat an announcement" errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:41:49" time="1.798" tests="4">
+    <testcase classname="Can creat an announcement Should create an announcement" name="Can creat an announcement Should create an announcement" time="0.038">
+    </testcase>
+    <testcase classname="Can creat an announcement should reject announcement creation" name="Can creat an announcement should reject announcement creation" time="0.014">
+    </testcase>
+    <testcase classname="Can get announcements Getting all the announcement" name="Can get announcements Getting all the announcement" time="0.028">
+    </testcase>
+    <testcase classname="Can get announcements searching announcement by keyword" name="Can get announcements searching announcement by keyword" time="0.039">
+    </testcase>
+  </testsuite>
+  <testsuite name="public chat messages API test" errors="0" failures="6" skipped="0" timestamp="2020-04-17T09:41:29" time="22.714" tests="8">
+    <testcase classname="public chat messages API test User1 create a new public message" name="public chat messages API test User1 create a new public message" time="0.178">
       <failure>Error: Unprocessable Entity
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -376,57 +466,110 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="public chat messages API test User1 create a new public message with error" name="public chat messages API test User1 create a new public message with error" time="0.002">
+    <testcase classname="public chat messages API test User1 create a new public message with error" name="public chat messages API test User1 create a new public message with error" time="0.001">
     </testcase>
-    <testcase classname="public chat messages API test User1 create a new public message with user id error" name="public chat messages API test User1 create a new public message with user id error" time="0.002">
+    <testcase classname="public chat messages API test User1 create a new public message with user id error" name="public chat messages API test User1 create a new public message with user id error" time="0.001">
     </testcase>
-    <testcase classname="public chat messages API test User1 receive public message" name="public chat messages API test User1 receive public message" time="0.459">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
-
-Expected: &quot;This is a public message&quot;
-Received: &quot;hola mundo 21313131313&quot;
-    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:130:45)
+    <testcase classname="public chat messages API test User1 receive public message" name="public chat messages API test User1 receive public message" time="0.198">
+      <failure>TypeError: Cannot read property &apos;message&apos; of undefined
+    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:130:36)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="public chat messages API test User2 receive public message" name="public chat messages API test User2 receive public message" time="0.339">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
+    <testcase classname="public chat messages API test User2 receive public message" name="public chat messages API test User2 receive public message" time="0.613">
+      <failure>TypeError: Cannot read property &apos;message&apos; of undefined
+    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:142:36)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+      <failure>Error: expect.assertions(1)
 
-Expected: &quot;This is a public message&quot;
-Received: &quot;hola mundo 21313131313&quot;
-    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:142:45)
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:135:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="public chat messages API test User3 receive public message" name="public chat messages API test User3 receive public message" time="0.128">
-      <failure>Error: expect(received).toBe(expected) // Object.is equality
+    <testcase classname="public chat messages API test User3 receive public message" name="public chat messages API test User3 receive public message" time="0.133">
+      <failure>TypeError: Cannot read property &apos;message&apos; of undefined
+    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:154:36)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+      <failure>Error: expect.assertions(1)
 
-Expected: &quot;This is a public message&quot;
-Received: &quot;hola mundo 21313131313&quot;
-    at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:154:45)
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:147:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="public chat messages API test User2 search with keyword" name="public chat messages API test User2 search with keyword" time="0.217">
+    <testcase classname="public chat messages API test User2 search with keyword" name="public chat messages API test User2 search with keyword" time="5.008">
+      <failure>: Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.Error: 
+    at new Spec (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Spec.js:116:22)
+    at new Spec (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/setup_jest_globals.js:78:9)
+    at specFactory (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:523:24)
+    at Env.it (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:592:24)
+    at Env.it (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:128:23)
+    at test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:117:21)
+    at Suite.Object.&lt;anonymous&gt;.describe (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:158:5)
+    at addSpecsToSuite (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:444:51)
+    at Env.describe (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/Env.js:414:11)
+    at describe (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmine/jasmineLight.js:105:18)
+    at Object.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:78:1)
+    at Runtime._execModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:1034:22)
+    at Runtime._loadModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:678:12)
+    at Runtime.requireModule (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runtime/build/index.js:536:10)
+    at jasmine2 (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/index.js:203:11)
+    at runTestInternal (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-runner/build/runTest.js:413:22)</failure>
+      <failure>Error: expect.assertions(1)
+
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:159:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="public chat messages API test User3 search with stop-word keyword" name="public chat messages API test User3 search with stop-word keyword" time="0.038">
+    <testcase classname="public chat messages API test User3 search with stop-word keyword" name="public chat messages API test User3 search with stop-word keyword" time="0.006">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1191:14)</failure>
+      <failure>Error: expect.assertions(1)
+
+Expected one assertion to be called but received zero assertion calls.
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/publicChatMessages.test.js:173:16)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)
+    at new Promise (&lt;anonymous&gt;)
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:26:19)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+    at &lt;anonymous&gt;</failure>
     </testcase>
   </testsuite>
-  <testsuite name="API USERS TEST" errors="0" failures="8" skipped="0" timestamp="2020-04-17T09:17:23" time="13.456" tests="10">
-    <testcase classname="API USERS TEST Should insert  a new user" name="API USERS TEST Should insert  a new user" time="0.859">
+  <testsuite name="API USERS TEST" errors="0" failures="8" skipped="0" timestamp="2020-04-17T09:41:29" time="22.805" tests="10">
+    <testcase classname="API USERS TEST Should insert  a new user" name="API USERS TEST Should insert  a new user" time="1.208">
     </testcase>
-    <testcase classname="API USERS TEST Should not insert  a new user (empty fields)" name="API USERS TEST Should not insert  a new user (empty fields)" time="0.493">
+    <testcase classname="API USERS TEST Should not insert  a new user (empty fields)" name="API USERS TEST Should not insert  a new user (empty fields)" time="0.576">
     </testcase>
-    <testcase classname="API USERS TEST Should get a list of users" name="API USERS TEST Should get a list of users" time="0.509">
+    <testcase classname="API USERS TEST Should get a list of users" name="API USERS TEST Should get a list of users" time="0.3">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: 1
-Received: 130
+Received: 4
     at agent.get.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:74:41)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="API USERS TEST Should get a list of users filtered by keywords" name="API USERS TEST Should get a list of users filtered by keywords" time="0.709">
+    <testcase classname="API USERS TEST Should get a list of users filtered by keywords" name="API USERS TEST Should get a list of users filtered by keywords" time="0.281">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: 1
@@ -435,16 +578,16 @@ Received: 3
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="API USERS TEST Should get a list of users filtered by status" name="API USERS TEST Should get a list of users filtered by status" time="0.36">
+    <testcase classname="API USERS TEST Should get a list of users filtered by status" name="API USERS TEST Should get a list of users filtered by status" time="0.225">
       <failure>Error: expect(received).toBe(expected) // Object.is equality
 
 Expected: 1
-Received: 23
+Received: 0
     at agent.get.query.accept.send.set.set.then.res (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:102:41)
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="API USERS TEST Should update user information (acknowledgement)" name="API USERS TEST Should update user information (acknowledgement)" time="0.123">
+    <testcase classname="API USERS TEST Should update user information (acknowledgement)" name="API USERS TEST Should update user information (acknowledgement)" time="0.655">
       <failure>Error: Unprocessable Entity
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -466,7 +609,7 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="API USERS TEST Should update user status" name="API USERS TEST Should update user status" time="0.135">
+    <testcase classname="API USERS TEST Should update user status" name="API USERS TEST Should update user status" time="0.069">
       <failure>Error: Unprocessable Entity
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
     at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
@@ -488,11 +631,10 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="API USERS TEST Should return an user" name="API USERS TEST Should return an user" time="0.047">
-      <failure>Error: Internal Server Error
+    <testcase classname="API USERS TEST Should return an user" name="API USERS TEST Should return an user" time="0.147">
+      <failure>Error: Forbidden
     at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
-    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
-    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
+    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
     at emitNone (events.js:111:20)
     at IncomingMessage.emit (events.js:208:7)
     at endReadableNT (_stream_readable.js:1064:12)
@@ -510,163 +652,120 @@ Expected one assertion to be called but received zero assertion calls.
     at &lt;anonymous&gt;
     at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
     </testcase>
-    <testcase classname="Test Users with sockets should create relationshio between user and socket" name="Test Users with sockets should create relationshio between user and socket" time="0.306">
-      <failure>Error: Internal Server Error
-    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
-    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
-    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
-    at emitNone (events.js:111:20)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:139:11)
-    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
+    <testcase classname="Test Users with sockets should create relationshio between user and socket" name="Test Users with sockets should create relationshio between user and socket" time="5.054">
+      <failure>Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.Error: Timeout - Async callback was not invoked within the 5000ms timeout specified by jest.setTimeout.
+    at mapper (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:25:45)
+    at promise.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:73:41)
+    at &lt;anonymous&gt;
+    at process._tickCallback (internal/process/next_tick.js:189:7)</failure>
+      <failure>Error: &quot;value&quot; required in setHeader(&quot;Authorization&quot;, value)
+    at validateHeader (_http_outgoing.js:489:11)
+    at ClientRequest.setHeader (_http_outgoing.js:498:3)
+    at Request.request (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:817:11)
+    at Request.end (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:937:8)
+    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:262:12
+    at new Promise (&lt;anonymous&gt;)
+    at Request.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:248:31)
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:197:10)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)</failure>
     </testcase>
-    <testcase classname="Test Users with sockets should delete relationship between user and socket" name="Test Users with sockets should delete relationship between user and socket" time="0.238">
-      <failure>Error: Internal Server Error
-    at Request.callback (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:867:15)
-    at fn (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:1117:18)
-    at IncomingMessage.&lt;anonymous&gt; (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/parsers/json.js:19:7)
-    at emitNone (events.js:111:20)
-    at IncomingMessage.emit (events.js:208:7)
-    at endReadableNT (_stream_readable.js:1064:12)
-    at _combinedTickCallback (internal/process/next_tick.js:139:11)
-    at process._tickCallback (internal/process/next_tick.js:181:9)</failure>
-    </testcase>
-  </testsuite>
-  <testsuite name="principal" errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:17:35" time="2.159" tests="3">
-    <testcase classname="principal Creating Private Messages Create a new private chat message in the database" name="principal Creating Private Messages Create a new private chat message in the database" time="0.215">
-    </testcase>
-    <testcase classname="principal Getting Messages getting private  messages from  the database" name="principal Getting Messages getting private  messages from  the database" time="0.151">
-    </testcase>
-    <testcase classname="principal Search Messages getting private  messages from  the database" name="principal Search Messages getting private  messages from  the database" time="0.139">
-    </testcase>
-  </testsuite>
-  <testsuite name="Create Messages" errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:17:35" time="2.164" tests="4">
-    <testcase classname="Create Messages Create a new message in the database" name="Create Messages Create a new message in the database" time="0.171">
-    </testcase>
-    <testcase classname="Getting Messages getting messages from  the database" name="Getting Messages getting messages from  the database" time="0.155">
-    </testcase>
-    <testcase classname="Getting Messages find messages by normal keyword" name="Getting Messages find messages by normal keyword" time="0.113">
-    </testcase>
-    <testcase classname="Getting Messages find messages by stop-word" name="Getting Messages find messages by stop-word" time="0.064">
+    <testcase classname="Test Users with sockets should delete relationship between user and socket" name="Test Users with sockets should delete relationship between user and socket" time="0.015">
+      <failure>Error: connect ECONNREFUSED 127.0.0.1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1191:14)</failure>
+      <failure>Error: &quot;value&quot; required in setHeader(&quot;Authorization&quot;, value)
+    at validateHeader (_http_outgoing.js:489:11)
+    at ClientRequest.setHeader (_http_outgoing.js:498:3)
+    at Request.request (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:817:11)
+    at Request.end (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/node/index.js:937:8)
+    at /Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:262:12
+    at new Promise (&lt;anonymous&gt;)
+    at Request.then (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/superagent/src/request-base.js:248:31)
+    at Object.test (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/tests/api/users.test.js:211:14)
+    at Object.asyncJestTest (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:100:37)
+    at resolve (/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/node_modules/jest-jasmine2/build/queueRunner.js:43:12)</failure>
     </testcase>
   </testsuite>
-  <testsuite name="Creating a resource" errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:17:35" time="2.168" tests="4">
-    <testcase classname="Creating a resource Should create a resource " name="Creating a resource Should create a resource " time="0.148">
+  <testsuite name="User registration " errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:41:46" time="10.725" tests="40">
+    <testcase classname="User registration  Registers a User to the database" name="User registration  Registers a User to the database" time="0.31">
     </testcase>
-    <testcase classname="Creating a resource Should validate require fields " name="Creating a resource Should validate require fields " time="0.022">
+    <testcase classname="Business Validations for user raise error validating username with less than 3 characters" name="Business Validations for user raise error validating username with less than 3 characters" time="0.022">
     </testcase>
-    <testcase classname="Getting a resource Should get a resource previously inserted " name="Getting a resource Should get a resource previously inserted " time="0.084">
+    <testcase classname="Business Validations for user raise error validating paaswords with less than 4 characters" name="Business Validations for user raise error validating paaswords with less than 4 characters" time="0.015">
     </testcase>
-    <testcase classname="Getting a resource Should get all the resource previously inserted " name="Getting a resource Should get all the resource previously inserted " time="0.132">
+    <testcase classname="Business Validations for user should pass validation for banned user names" name="Business Validations for user should pass validation for banned user names" time="0.009">
     </testcase>
-  </testsuite>
-  <testsuite name="Emergency Status Detail" errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:17:36" time="2.028" tests="8">
-    <testcase classname="Emergency Status Detail Create a new emergency status detail in the database" name="Emergency Status Detail Create a new emergency status detail in the database" time="0.081">
+    <testcase classname="Business Validations for user should send an error for banned user names" name="Business Validations for user should send an error for banned user names" time="0.014">
     </testcase>
-    <testcase classname="Emergency Status Detail Update emegency status detail - brief description" name="Emergency Status Detail Update emegency status detail - brief description" time="0.03">
+    <testcase classname="Business Validations for user should validate user names previously registered" name="Business Validations for user should validate user names previously registered" time="0.276">
     </testcase>
-    <testcase classname="Emergency Status Detail Update emegency status detail - location description" name="Emergency Status Detail Update emegency status detail - location description" time="0.006">
+    <testcase classname="Business Validations for user should validate user names not registered" name="Business Validations for user should validate user names not registered" time="0.021">
     </testcase>
-    <testcase classname="Emergency Status Detail get megency status detail" name="Emergency Status Detail get megency status detail" time="0.013">
+    <testcase classname="User password validations, should password match with the database password" name="User password validations, should password match with the database password" time="0.375">
     </testcase>
-    <testcase classname="Picture and Description add a new picture and description in the database" name="Picture and Description add a new picture and description in the database" time="0.013">
+    <testcase classname="User password validations, should send an error message validating password,  password not matching" name="User password validations, should send an error message validating password,  password not matching" time="0.423">
     </testcase>
-    <testcase classname="Picture and Description update picture description in the database" name="Picture and Description update picture description in the database" time="0.006">
+    <testcase classname="Searching and update operations on a user previously inserted searching a user by the username" name="Searching and update operations on a user previously inserted searching a user by the username" time="0.175">
     </testcase>
-    <testcase classname="Picture and Description get picture and description in the database" name="Picture and Description get picture and description in the database" time="0.01">
+    <testcase classname="Searching and update operations on a user previously inserted update data of the user" name="Searching and update operations on a user previously inserted update data of the user" time="0.162">
     </testcase>
-    <testcase classname="Picture and Description remove picture from the database" name="Picture and Description remove picture from the database" time="0.006">
+    <testcase classname="Searching and update operations on a user previously inserted update user status (specific status method)" name="Searching and update operations on a user previously inserted update user status (specific status method)" time="0.146">
     </testcase>
-  </testsuite>
-  <testsuite name="Can creat an announcement" errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:17:36" time="2.015" tests="4">
-    <testcase classname="Can creat an announcement Should create an announcement" name="Can creat an announcement Should create an announcement" time="0.071">
+    <testcase classname="Searching and update operations on a user previously inserted searching a user by the id " name="Searching and update operations on a user previously inserted searching a user by the id " time="0.137">
     </testcase>
-    <testcase classname="Can creat an announcement should reject announcement creation" name="Can creat an announcement should reject announcement creation" time="0.013">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" time="0.115">
     </testcase>
-    <testcase classname="Can get announcements Getting all the announcement" name="Can get announcements Getting all the announcement" time="0.048">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" time="0.125">
     </testcase>
-    <testcase classname="Can get announcements searching announcement by keyword" name="Can get announcements searching announcement by keyword" time="0.045">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" time="0.12">
     </testcase>
-  </testsuite>
-  <testsuite name="User registration " errors="0" failures="0" skipped="0" timestamp="2020-04-17T09:17:23" time="18.185" tests="39">
-    <testcase classname="User registration  Registers a User to the database" name="User registration  Registers a User to the database" time="0.328">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" time="0.183">
     </testcase>
-    <testcase classname="Business Validations for user raise error validating username with less than 3 characters" name="Business Validations for user raise error validating username with less than 3 characters" time="0.019">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 1 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 1 - all data complete" time="0.123">
     </testcase>
-    <testcase classname="Business Validations for user raise error validating paaswords with less than 4 characters" name="Business Validations for user raise error validating paaswords with less than 4 characters" time="0.012">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" time="0.154">
     </testcase>
-    <testcase classname="Business Validations for user should pass validation for banned user names" name="Business Validations for user should pass validation for banned user names" time="0.021">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" time="0.181">
     </testcase>
-    <testcase classname="Business Validations for user should send an error for banned user names" name="Business Validations for user should send an error for banned user names" time="0.01">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" time="0.18">
     </testcase>
-    <testcase classname="Business Validations for user should validate user names previously registered" name="Business Validations for user should validate user names previously registered" time="0.29">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" time="0.123">
     </testcase>
-    <testcase classname="Business Validations for user should validate user names not registered" name="Business Validations for user should validate user names not registered" time="0.02">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" time="0.145">
     </testcase>
-    <testcase classname="User password validations, should password match with the database password" name="User password validations, should password match with the database password" time="0.857">
+    <testcase classname="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" name="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" time="0.429">
     </testcase>
-    <testcase classname="User password validations, should send an error message validating password,  password not matching" name="User password validations, should send an error message validating password,  password not matching" time="0.302">
+    <testcase classname="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" name="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" time="0.416">
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted searching a user by the username" name="Searching and update operations on a user previously inserted searching a user by the username" time="0.161">
+    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, WRONG ANSWER - must fail" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, WRONG ANSWER - must fail" time="0.483">
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted update data of the user" name="Searching and update operations on a user previously inserted update data of the user" time="0.255">
+    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" time="0.376">
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted update user status (specific status method)" name="Searching and update operations on a user previously inserted update user status (specific status method)" time="0.209">
+    <testcase classname="get all users ordered by online status and username get users ordered" name="get all users ordered by online status and username get users ordered" time="0.355">
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted searching a user by the id " name="Searching and update operations on a user previously inserted searching a user by the id " time="0.16">
+    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.315">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" time="0.263">
+    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.332">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" time="0.192">
+    <testcase classname="search users by status get users by status OK" name="search users by status get users by status OK" time="0.33">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" time="0.196">
+    <testcase classname="search users by status get users by status UNDEFINED" name="search users by status get users by status UNDEFINED" time="0.323">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" time="0.191">
+    <testcase classname="Tokens should generate token for the user" name="Tokens should generate token for the user" time="0.104">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 1 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 1 - all data complete" time="0.196">
+    <testcase classname="Search for users by id should return  true if user exist" name="Search for users by id should return  true if user exist" time="0.119">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" time="0.226">
+    <testcase classname="Search for users by id should return false if user not exist" name="Search for users by id should return false if user not exist" time="0.01">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" time="0.199">
+    <testcase classname="Sockets should associate socket to the user" name="Sockets should associate socket to the user" time="0.101">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" time="0.257">
+    <testcase classname="Sockets should remove socket associated to an user" name="Sockets should remove socket associated to an user" time="0.116">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" time="0.313">
+    <testcase classname="Sockets should reject a promise if socket id doesnt exist" name="Sockets should reject a promise if socket id doesnt exist" time="0.112">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" time="0.208">
+    <testcase classname="Chat message count &amp; spam report should increase count" name="Chat message count &amp; spam report should increase count" time="0.237">
     </testcase>
-    <testcase classname="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" name="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" time="0.805">
-    </testcase>
-    <testcase classname="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" name="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" time="1.013">
-    </testcase>
-    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, WRONG ANSWER - must fail" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, WRONG ANSWER - must fail" time="0.635">
-    </testcase>
-    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" time="0.407">
-    </testcase>
-    <testcase classname="get all users ordered by online status and username get users ordered" name="get all users ordered by online status and username get users ordered" time="0.339">
-    </testcase>
-    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.343">
-    </testcase>
-    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.343">
-    </testcase>
-    <testcase classname="search users by status get users by status OK" name="search users by status get users by status OK" time="0.353">
-    </testcase>
-    <testcase classname="search users by status get users by status UNDEFINED" name="search users by status get users by status UNDEFINED" time="0.391">
-    </testcase>
-    <testcase classname="Tokens should generate token for the user" name="Tokens should generate token for the user" time="0.14">
-    </testcase>
-    <testcase classname="Search for users by id should return  true if user exist" name="Search for users by id should return  true if user exist" time="0.129">
-    </testcase>
-    <testcase classname="Search for users by id should return false if user not exist" name="Search for users by id should return false if user not exist" time="0.012">
-    </testcase>
-    <testcase classname="Sockets should associate socket to the user" name="Sockets should associate socket to the user" time="0.131">
-    </testcase>
-    <testcase classname="Sockets should remove socket associated to an user" name="Sockets should remove socket associated to an user" time="0.137">
-    </testcase>
-    <testcase classname="Sockets should reject a promise if socket id doesnt exist" name="Sockets should reject a promise if socket id doesnt exist" time="0.123">
-    </testcase>
-    <testcase classname="Chat message count should increase count" name="Chat message count should increase count" time="0.244">
+    <testcase classname="Chat message count &amp; spam report should increase count" name="Chat message count &amp; spam report should increase count" time="0.264">
     </testcase>
   </testsuite>
 </testsuites>

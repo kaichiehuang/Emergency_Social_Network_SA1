@@ -64,7 +64,9 @@ class PrivateChatMessagesController {
                 }
             });
         }).catch(err => {
+            /* istanbul ignore next */
             console.log(err);
+            /* istanbul ignore next */
             return res.status(422).send({
                 error: err.message
             });
@@ -109,6 +111,7 @@ class PrivateChatMessagesController {
     static emitToSockets(privateChatMessageCreated, sockets, response, senderUser, receiverUser, status) {
         //1. iterate the list of sockects and emit the data
         if (sockets != undefined && sockets.size > 0) {
+            /* istanbul ignore next */
             for (let socketId of sockets.keys()) {
                 response.io.to(socketId).emit('new-private-chat-message', {
                     "id": privateChatMessageCreated._id,
@@ -158,6 +161,7 @@ function getAllPrivateMessage(requestData, res) {
         receiverUser.changeMessageCount(requestData['receiver_user_id'], true);
         res.send(result);
     }).catch(err => {
+        /* istanbul ignore next */
         return res.status(422).send(JSON.stringify({
             error: err.message
         }));

@@ -672,7 +672,7 @@ describe("Sockets", () => {
         return expect(newUser.removeSocket('2')).rejects.toBe("Socket does not exist");
     })
 })
-describe("Chat message count", () => {
+describe("Chat message count & spam report", () => {
     let newUser1;
     let newUser2;
     beforeEach(async () => {

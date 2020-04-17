@@ -12,6 +12,7 @@ class PrivateChatMessage {
     createNewMessage() {
         return new Promise((resolve, reject) => {
             if(this.sender_user_id == this.receiver_user_id){
+                /* istanbul ignore next */
                 reject("Cannot chat with himself");
             }
             const newChatMessage = new PrivateChatMessageModel({
@@ -25,6 +26,7 @@ class PrivateChatMessage {
                 this._id = result.id;
                 resolve(newChatMessage);
             }).catch(function(err) {
+                /* istanbul ignore next */
                 console.log('private message creation failed');
                 console.log(err);
                 reject(err);
@@ -59,6 +61,7 @@ class PrivateChatMessage {
                 .then((results) => {
                     resolve(results);
                 }).catch(function(err) {
+                    /* istanbul ignore next */
                     console.log('getChatMessages private error: ' + err);
                     reject(err);
                 });
@@ -91,6 +94,7 @@ class PrivateChatMessage {
                         resolve(result);
                     })
                     .catch(function(err) {
+                        /* istanbul ignore next */
                         console.log('Error getting Private message by query: ' + err);
                         reject(err);
                     });
