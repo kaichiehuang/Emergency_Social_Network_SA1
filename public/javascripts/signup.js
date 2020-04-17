@@ -39,7 +39,7 @@ $(function () {
                 $(".user-name-placeholder").html(username)
                 if (user_acknowledgement) {
                     setOnline(true);
-                    UserList.updateAllUserLists();
+                    GlobalEventDispatcher.updateAllUserLists();
                     window.location.replace("/app")
                 } else {
                     swapViewContent('acknowledgement-page-content', 'main-content-block');
@@ -78,7 +78,7 @@ $(function () {
                 user_acknowledgement = response.acknowledgement;
                 Cookies.set('user-acknowledgement', user_acknowledgement);
                 setOnline(true);
-                UserList.updateAllUserLists();
+                GlobalEventDispatcher.updateAllUserLists();
                 window.location.replace("/app")
             }).fail(function () {
                 $("#signup-error-alert").html();

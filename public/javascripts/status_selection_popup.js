@@ -28,7 +28,7 @@ class StatusSelection {
             $('#status-modal').modal('toggle');
             Cookies.set('user-status', response.status);
             //tell server to emit user-list-update event
-            UserList.updateAllUserLists();
+            GlobalEventDispatcher.updateAllUserLists();
 
             //change header icon for status
             if (status === "OK") {
