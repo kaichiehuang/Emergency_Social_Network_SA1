@@ -1,5 +1,6 @@
 const TestDatabase = require("../services/testDataBase")
 const ChatMessage = require("../../model/chatMessage")
+const User = require("../../model/user");
 
 const testDatabase = new TestDatabase();
 

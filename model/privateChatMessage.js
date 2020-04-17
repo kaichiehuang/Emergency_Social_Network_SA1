@@ -97,7 +97,5 @@ class PrivateChatMessage {
             });
         });
     }
-
-    emitMessageToUsersInvolver(senderUser, receiverUser) {}
 }
 module.exports = PrivateChatMessage;

@@ -1,24 +1,5 @@
 $(function () {
 
-
-    function updateUsersList(){
-        let jwt = Cookies.get('user-jwt-esn');
-        $.ajax({
-            url: apiPath + '/usersList/',
-            type: 'get',
-            headers: {
-                "Authorization": jwt
-            }
-        }).done(function (response) {
-            console.log(response);
-        }).fail(function (e) {
-            $("#update-status-alert").html(e);
-            $("#update-status-alert").show();
-        }).always(function () {
-            console.log("complete");
-        });
-    }
-
     /**
      * [postMessage description]
      * @param  {[type]} e [description]
@@ -58,7 +39,7 @@ $(function () {
                 $(".user-name-placeholder").html(username)
                 if (user_acknowledgement) {
                     setOnline(true);
-                    updateUsersList();
+                    UserList.updateAllUserLists();
                     window.location.replace("/app")
                 } else {
                     swapViewContent('acknowledgement-page-content', 'main-content-block');
@@ -97,7 +78,7 @@ $(function () {
                 user_acknowledgement = response.acknowledgement;
                 Cookies.set('user-acknowledgement', user_acknowledgement);
                 setOnline(true);
-                updateUsersList();
+                UserList.updateAllUserLists();
                 window.location.replace("/app")
             }).fail(function () {
                 $("#signup-error-alert").html();

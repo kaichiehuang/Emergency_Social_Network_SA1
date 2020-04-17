@@ -6,23 +6,7 @@ class StatusSelection {
         const confirmButton = document.getElementById("statusConfirmButton");
         confirmButton.addEventListener("click", this.statusConfirm);
     }
-    updateAllUserLists() {
-        let jwt = Cookies.get('user-jwt-esn');
-        $.ajax({
-            url: apiPath + '/usersList/',
-            type: 'get',
-            headers: {
-                "Authorization": jwt
-            }
-        }).done(function(response) {
-            console.log(response);
-        }).fail(function(e) {
-            $("#update-status-alert").html(e);
-            $("#update-status-alert").show();
-        }).always(function() {
-            console.log("complete");
-        });
-    }
+
     statusConfirm() {
         let status = $('.modal-instructions :checked').val();
         let user_id = Cookies.get('user-id');
@@ -44,20 +28,8 @@ class StatusSelection {
             $('#status-modal').modal('toggle');
             Cookies.set('user-status', response.status);
             //tell server to emit user-list-update event
-            $.ajax({
-                url: apiPath + '/usersList/',
-                type: 'get',
-                headers: {
-                    "Authorization": jwt
-                }
-            }).done(function(response) {
-                console.log(response);
-            }).fail(function(e) {
-                $("#update-status-alert").html(e);
-                $("#update-status-alert").show();
-            }).always(function() {
-                console.log("complete");
-            });
+            UserList.updateAllUserLists();
+
             //change header icon for status
             if (status === "OK") {
                 $("#statusIcon").removeClass();

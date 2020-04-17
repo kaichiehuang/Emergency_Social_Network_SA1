@@ -1,7 +1,6 @@
 const PrivateChatMessage = require('../model/privateChatMessage.js');
 const User = require('../model/user.js');
 const constants = require('../constants');
-
 class PrivateChatMessagesController {
     /**
      * [createMessage description]
@@ -50,11 +49,8 @@ class PrivateChatMessagesController {
             //7. if private chat message was saved emit the chat message to both users using their current list of sockets
             PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, senderUser.sockets, res, senderUser, receiverUser, senderUser.status);
             PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, receiverUser.sockets, res, senderUser, receiverUser, senderUser.status);
-
-
             //8. update message count for receiver
-            User.changeMessageCount(sender_user_id, receiver_user_id, true);
-
+            receiverUser.changeMessageCount(sender_user_id);
             //9. return a response
             return res.status(201).send({
                 result: 'private chat message created',
@@ -81,7 +77,6 @@ class PrivateChatMessagesController {
      */
     getChatMessages(req, res) {
         let requestData = req.query;
-
         //0. validate right data from request body
         if (requestData['sender_user_id'] == undefined) {
             return res.status(422).send(JSON.stringify({
@@ -93,7 +88,6 @@ class PrivateChatMessagesController {
                 msg: 'invalid receiver_user_id'
             }));
         }
-
         if (requestData['q'] != undefined && requestData['q'].length != 0) {
             // this is a search request, when q exists
             searchPrivateMessage(requestData, res);
@@ -102,7 +96,6 @@ class PrivateChatMessagesController {
             getAllPrivateMessage(requestData, res);
         }
     }
-
     /**
      * [emitToSockets description]
      * @param  {[type]} privateChatMessageCreated [description]
@@ -131,6 +124,7 @@ class PrivateChatMessagesController {
                     "created_at": privateChatMessageCreated.created_at,
                     "status": status
                 });
+                response.io.to(socketId).emit('user-list-update');
             }
         }
     }
@@ -141,23 +135,27 @@ function searchPrivateMessage(requestData, res) {
     let page = isNaN(requestData['page']) ? 0 : requestData['page'];
     let pageSize = constants.PAGINATION_NUMBER;
     let privateChatMessage = new PrivateChatMessage();
-    privateChatMessage.searchChatMessages(requestData['sender_user_id'], requestData['receiver_user_id'],
-        query, page, pageSize)
-        .then(result => {
-            res.send(result);
-        }).catch(err => {
-            console.log(err);
-            return res.status(422).send({
-                error: err.message
-            });
+    privateChatMessage.searchChatMessages(requestData['sender_user_id'], requestData['receiver_user_id'], query, page, pageSize).then(result => {
+        res.send(result);
+    }).catch(err => {
+        console.log(err);
+        return res.status(422).send({
+            error: err.message
         });
+    });
 }
 
 function getAllPrivateMessage(requestData, res) {
     let privateChatMessage = new PrivateChatMessage();
-    privateChatMessage.getChatMessages(requestData['sender_user_id'], requestData['receiver_user_id']).then(result => {
+    let receiverUser = null;
+    console.log(requestData)
+    User.findUserById(requestData['sender_user_id']).then(result => {
+        receiverUser = result;
+        return privateChatMessage.getChatMessages(requestData['sender_user_id'], requestData['receiver_user_id']);
+    }).then(result => {
         //reset counter for user and messages received from user with id receiver_user_id
-        User.changeMessageCount(requestData['receiver_user_id'], requestData['sender_user_id']);
+        console.log(requestData['receiver_user_id']);
+        receiverUser.changeMessageCount(requestData['receiver_user_id'], true);
         res.send(result);
     }).catch(err => {
         return res.status(422).send(JSON.stringify({
@@ -165,6 +163,4 @@ function getAllPrivateMessage(requestData, res) {
         }));
     });
 }
-
-
 module.exports = PrivateChatMessagesController;

@@ -1,5 +1,6 @@
 const TestDataBase = require('../services/testDataBase');
 const Resource =require('../../model/resource');
+const User = require("../../model/user");
 const constants = require('../../constants');
 const testDatabase = new TestDataBase();
 const fs = require('fs');

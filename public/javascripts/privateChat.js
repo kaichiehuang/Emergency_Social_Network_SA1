@@ -13,7 +13,6 @@ class PrivateChatMessage extends BaseMessage {
         $("#private-chat > li").remove();
         let privateChatMessageModel = new PrivateChatMessage();
         privateChatMessageModel.updateMessageListView('private', "", 0);
-
     }
     /**
      * [registerEventsAfterDraw description]

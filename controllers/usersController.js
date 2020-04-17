@@ -165,7 +165,7 @@ class UsersController {
         const userId = req.params.userId;
         // 1. Validate if user exists
         User.findUserById(userId).then((user) => {
-            return User.insertSocket(userId, socketId);
+            return user.insertSocket(socketId);
         }).then((user) => {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(user));
@@ -184,7 +184,7 @@ class UsersController {
         const userId = req.params.userId;
         // 1. Validate if user exists
         User.findUserById(userId).then((user) => {
-            return User.removeSocket(userId, socketId);
+            return user.removeSocket(socketId);
         }).then((user) => {
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(user));

@@ -1,5 +1,6 @@
 const TestDatabase = require("../services/testDataBase");
 const Announcement = require("../../model/announcement");
+const User = require("../../model/user");
 
 const testDatabase = new TestDatabase();
 
@@ -18,7 +19,7 @@ afterEach(async () => {
 
 
 describe("Can creat an announcement", ()=> {
-    test("Should create an announcement", async () => {
+    test("Should create an announcement", () => {
         expect.assertions(1);
         let announcement = new Announcement(
             "this is an announcement",
@@ -26,16 +27,16 @@ describe("Can creat an announcement", ()=> {
             'OK',
         );
 
-        await announcement.saveAnnouncement()
-            .then(newAnnouncement => {
-                expect(newAnnouncement.announcement).toBe(announcement.announcement)
-            }).catch(err => {
-                console.log("Error creating announcement:" + err)
-            })
+        return announcement.saveAnnouncement()
+        .then(newAnnouncement => {
+            expect(newAnnouncement.announcement).toBe(announcement.announcement)
+        }).catch(err => {
+            console.log("Error creating announcement:" + err)
+        })
     })
 
 
-    test('should reject announcement creation',async () =>{
+    test('should reject announcement creation', () =>{
         expect.assertions(1);
         let announcement = new Announcement(
             "",
@@ -96,9 +97,6 @@ describe("Can get announcements", () => {
             .catch(err =>{
                 console.log("Error Getting search announcement:" + err)
             })
-
-
-
     })
 
 
