@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 class User {
     constructor() {
     }
@@ -13,15 +14,14 @@ class User {
                 APIHandler.getInstance()
                     .sendRequest('/users/' + userId, 'get',
                         null, true, null)
-                    .then(response => {
+                    .then((response) => {
                         resolve(response);
                     })
-                    .catch(error => {
-                        reject(error.message)
-                    })
-
-
+                    .catch((error) => {
+                        reject(error.message);
+                    });
             } else {
+                // eslint-disable-next-line prefer-promise-reject-errors
                 reject();
             }
         });
@@ -32,19 +32,18 @@ class User {
      * @return {[type]} [description]
      */
     static async getPersonalMessage(userId, security_question_answer) {
-        let data = {
-            "security_question_answer": security_question_answer,
+        const data = {
+            'security_question_answer': security_question_answer,
         };
         return await new Promise((resolve, reject) => {
-
             APIHandler.getInstance()
-                .sendRequest('/users/' + userId + "/personal-message", 'get',
+                .sendRequest('/users/' + userId + '/personal-message', 'get',
                     data, true, null)
-                .then(response => {
+                .then((response) => {
                     resolve(response);
                 })
-                .catch(error => {
-                    reject(error.responseText)
+                .catch((error) => {
+                    reject(error.responseText);
                 });
         });
     }
@@ -54,19 +53,19 @@ class User {
      * @return {[type]} [description]
      */
     static async getUsers(keyword, status) {
-        let data = {
-            "username": keyword,
-            "status": status
+        const data = {
+            'username': keyword,
+            'status': status
         };
         return await new Promise((resolve, reject) => {
             APIHandler.getInstance()
                 .sendRequest('/users', 'get', data,
                     true, null)
-                .then(response => {
+                .then((response) => {
                     resolve(response);
                 })
-                .catch(error => {
-                    reject(error.message)
+                .catch((error) => {
+                    reject(error.message);
                 });
         });
     }
@@ -79,18 +78,17 @@ class User {
         return await new Promise((resolve, reject) => {
             APIHandler.getInstance()
                 .sendRequest('/users/' + userId, 'put',
-                    JSON.stringify(data), true, "application/json")
-                .then(response => {
+                    JSON.stringify(data), true, 'application/json')
+                .then((response) => {
                     resolve(response);
                 })
-                .catch(error => {
+                .catch((error) => {
                     if (error.responseJSON != undefined) {
-                        reject(error.responseJSON.msg)
+                        reject(error.responseJSON.msg);
                     } else {
-                        reject(error)
+                        reject(error);
                     }
                 });
-
         });
     }
 
@@ -100,11 +98,11 @@ class User {
      */
     static updateCurrentUser() {
         User.getCurrentUser()
-            .then(user => {
+            .then((user) => {
                 currentUser = user;
-            }).catch(err => {
+            }).catch((err) => {
 
-        });
+            });
     }
 
     /**
@@ -113,15 +111,16 @@ class User {
      */
     static initCurrentUser() {
         User.getCurrentUser()
-            .then(user => {
-                let currentUser = user;
-                if (currentUser.name === undefined || currentUser.name.length === 0) {
-                    showElements("profile-update-invite");
+            .then((user) => {
+                const currentUser = user;
+                if (currentUser.name === undefined ||
+                    currentUser.name.length === 0) {
+                    showElements('profile-update-invite');
                     User.initUpdateInvite();
                 }
-            }).catch(err => {
+            }).catch((err) => {
 
-        });
+            });
     }
 
     /**
@@ -130,13 +129,13 @@ class User {
      */
     static async getCurrentUser() {
         return await new Promise((resolve, reject) => {
-            //init current user
+            // init current user
             User.getUser(Cookies.get('user-id'))
-                .then(user => {
+                .then((user) => {
                     resolve(user);
-                }).catch(err => {
-                reject(err);
-            });
+                }).catch((err) => {
+                    reject(err);
+                });
         });
     }
 
@@ -145,8 +144,8 @@ class User {
      * @return {[type]} [description]
      */
     static initUpdateInvite() {
-        window.setInterval(function () {
-            showElements("profile-update-invite");
+        window.setInterval(function() {
+            showElements('profile-update-invite');
         }, 60000 * 5);
     }
 }

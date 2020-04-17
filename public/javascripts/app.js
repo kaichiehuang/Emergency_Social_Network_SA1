@@ -13,7 +13,7 @@ let userJWT = null;
 let user_id = null;
 let user_name = null;
 let user_acknowledgement = null;
-let apiPath = '/api';
+const apiPath = '/api';
 let currentUser = null;
 let selectedStatus = null;
 let socket = null;
@@ -22,31 +22,31 @@ let socket = null;
  * @param  {[type]} ) {               if (Cookies.get('username') ! [description]
  * @return {[type]}   [description]
  */
-$(function () {
+$(function() {
     if (Cookies.get('username') !== undefined) {
         $('.user-name-reference').html(Cookies.get('username'));
     }
     socket = io('/');
-    //initialize current user
+    // initialize current user
     currentUser = new User();
     currentUser._id = Cookies.get('user-id');
-    //init events for content change
+    // init events for content change
     menuContentChangerEvent();
     globalContentChangerEvent();
     showElementEvent();
     hideElementEvent();
-    //init JWT token
+    // init JWT token
     userJWT = Cookies.get('user-jwt-esn');
-    //user is not logged in
+    // user is not logged in
     if (userJWT == null || userJWT == undefined || userJWT == '') {
         console.log('no token found ... user is not logged in');
-        if (window.location.pathname != '/') {
+        if (window.location.pathname !== '/') {
             window.location.replace('/');
         }
     }
-    //user is logged in
+    // user is logged in
     else {
-        //TODO test if cookie is expired
+        // TODO test if cookie is expired
         user_id = Cookies.get('user-id');
         user_name = Cookies.get('username');
         user_acknowledgement = Cookies.get('user-acknowledgement');
@@ -58,18 +58,18 @@ $(function () {
             }
         }
         User.initCurrentUser();
-        $('.hideadble-menu-item a').click(function (event) {
+        $('.hideadble-menu-item a').click(function(event) {
             $('.menu-less').parent().addClass('hidden');
             $('.menu-more').parent().removeClass('hidden');
             $('.hideadble-menu-item').removeClass('active-hideadble-menu-item').addClass('hidden');
             $(this).parent().addClass('active-hideadble-menu-item').removeClass('hidden');
         });
-        $('.menu-more').click(function (event) {
+        $('.menu-more').click(function(event) {
             $('.menu-more').parent().addClass('hidden');
             $('.menu-less').parent().removeClass('hidden');
             $('.hideadble-menu-item:not(.active-hideadble-menu-item)').removeClass('hidden');
         });
-        $('.menu-less').click(function (event) {
+        $('.menu-less').click(function(event) {
             $('.menu-less').parent().addClass('hidden');
             $('.menu-more').parent().removeClass('hidden');
             $('.hideadble-menu-item:not(.active-hideadble-menu-item)').addClass('hidden');
@@ -82,10 +82,10 @@ $(function () {
  * @param status
  */
 function setOnline(online_status, socketId) {
-    let user_id = Cookies.get('user-id');
-    let jwt = Cookies.get('user-jwt-esn');
-    let acknowledgement = Cookies.get('user-acknowledgement');
-    let status = Cookies.get('user-status');
+    const user_id = Cookies.get('user-id');
+    const jwt = Cookies.get('user-jwt-esn');
+    const acknowledgement = Cookies.get('user-acknowledgement');
+    const status = Cookies.get('user-status');
     $.ajax({
         url: apiPath + '/users/' + user_id,
         type: 'put',
@@ -97,13 +97,13 @@ function setOnline(online_status, socketId) {
         headers: {
             Authorization: jwt
         }
-    }).done(function (response) {
+    }).done(function(response) {
         Cookies.set('online-status', online_status);
         console.log(response);
-    }).fail(function (e) {
+    }).fail(function(e) {
         $('#signup-error-alert').html(e);
         $('#signup-error-alert').show();
-    }).always(function () {
+    }).always(function() {
         console.log('complete');
     });
 }
@@ -113,17 +113,17 @@ function setOnline(online_status, socketId) {
  * @param status
  */
 function syncSocketId(socketId, deleteSocket) {
-    let user_id = Cookies.get('user-id');
-    let jwt = Cookies.get('user-jwt-esn');
-    let url = apiPath + '/users/' + user_id + "/socket";
-    let method = "post";
+    const user_id = Cookies.get('user-id');
+    const jwt = Cookies.get('user-jwt-esn');
+    let url = apiPath + '/users/' + user_id + '/socket';
+    let method = 'post';
     let data = {
-        "socketId": socketId
-    }
-    //delete scenario
+        'socketId': socketId
+    };
+    // delete scenario
     if (deleteSocket) {
-        url = apiPath + '/users/' + user_id + "/socket/" + socketId;
-        method = "delete";
+        url = apiPath + '/users/' + user_id + '/socket/' + socketId;
+        method = 'delete';
         data = {};
     }
     $.ajax({
@@ -133,11 +133,11 @@ function syncSocketId(socketId, deleteSocket) {
         headers: {
             Authorization: jwt
         }
-    }).done(function (response) {
-    }).fail(function (e) {
+    }).done(function(response) {
+    }).fail(function(e) {
         $('#signup-error-alert').html(e);
         $('#signup-error-alert').show();
-    }).always(function () {
+    }).always(function() {
         console.log('complete');
     });
 }
@@ -147,7 +147,7 @@ function syncSocketId(socketId, deleteSocket) {
  * @return {[type]} [description]
  */
 function menuContentChangerEvent() {
-    $('.menu-content-changer').click(function (event) {
+    $('.menu-content-changer').click(function(event) {
         $('.menu-content-changer').removeClass('active');
         $('#status-button').removeClass('active');
         $(this).addClass('active');
@@ -161,7 +161,7 @@ function menuContentChangerEvent() {
  * @return {[type]} [description]
  */
 function globalContentChangerEvent() {
-    $('.content-changer').click(function (event) {
+    $('.content-changer').click(function(event) {
         executeSwapContent($(this));
     });
 }
@@ -172,9 +172,9 @@ function globalContentChangerEvent() {
  * @return {[type]}         [description]
  */
 function executeSwapContent(element) {
-    let viewID = element.data('view-id');
-    let subViewID = element.data('sub-view-id');
-    let groupClass = element.data('view-group-class');
+    const viewID = element.data('view-id');
+    const subViewID = element.data('sub-view-id');
+    const groupClass = element.data('view-group-class');
     let hideViewClass = element.data('hide-view-class');
     let hideSubViewClass = element.data('sub-view-hide-class');
     let hideGroupClass = element.data('group-hide-class');
@@ -203,14 +203,14 @@ function executeSwapContent(element) {
  * @return {[type]} [description]
  */
 function showElementEvent() {
-    $(".visible-controller").change(function (e) {
-        let idToDisplay = $(this).data('id-to-display');
-        let classToDisplay = $(this).data('class-to-display');
+    $('.visible-controller').change(function(e) {
+        const idToDisplay = $(this).data('id-to-display');
+        const classToDisplay = $(this).data('class-to-display');
         showElements(idToDisplay, classToDisplay);
     });
-    $(".visible-controller").click(function (e) {
-        let idToDisplay = $(this).data('id-to-display');
-        let classToDisplay = $(this).data('class-to-display');
+    $('.visible-controller').click(function(e) {
+        const idToDisplay = $(this).data('id-to-display');
+        const classToDisplay = $(this).data('class-to-display');
         showElements(idToDisplay, classToDisplay);
     });
 }
@@ -220,14 +220,14 @@ function showElementEvent() {
  * @return {[type]} [description]
  */
 function hideElementEvent() {
-    $(".hide-controller").change(function (e) {
-        let idToHide = $(this).data('id-to-hide');
-        let classToHide = $(this).data('class-to-hide');
+    $('.hide-controller').change(function(e) {
+        const idToHide = $(this).data('id-to-hide');
+        const classToHide = $(this).data('class-to-hide');
         hideElements(idToHide, classToHide);
     });
-    $(".hide-controller").click(function (e) {
-        let idToHide = $(this).data('id-to-hide');
-        let classToHide = $(this).data('class-to-hide');
+    $('.hide-controller').click(function(e) {
+        const idToHide = $(this).data('id-to-hide');
+        const classToHide = $(this).data('class-to-hide');
         hideElements(idToHide, classToHide);
     });
 }
@@ -244,9 +244,9 @@ function swapViewContent(viewID, classToHide) {
     if (classToHide == undefined) {
         classToHide = 'main-content-block';
     }
-    $("." + classToHide).addClass('hidden');
+    $('.' + classToHide).addClass('hidden');
     $('#' + viewID).removeClass('hidden');
-    $("." + classToHide).addClass('hidden-main-content-block');
+    $('.' + classToHide).addClass('hidden-main-content-block');
     $('#' + viewID).removeClass('hidden-main-content-block');
     oldContentPageID = currentContentPageID;
     currentContentPageID = viewID;
@@ -258,25 +258,25 @@ function swapViewContent(viewID, classToHide) {
  * @return {[type]}               [description]
  */
 function swapGroupContent(newGroupClass, classToHide) {
-    $("." + classToHide).addClass('hidden');
+    $('.' + classToHide).addClass('hidden');
     $('.' + newGroupClass).removeClass('hidden');
     currentContentGroupClass = newGroupClass;
 }
 
 function showElements(idToDisplay, classToDisplay) {
-    if ($("#" + idToDisplay).length > 0) {
-        $("#" + idToDisplay).removeClass('hidden');
+    if ($('#' + idToDisplay).length > 0) {
+        $('#' + idToDisplay).removeClass('hidden');
     }
-    if ($("." + classToDisplay).length > 0) {
-        $("." + classToDisplay).removeClass('hidden');
+    if ($('.' + classToDisplay).length > 0) {
+        $('.' + classToDisplay).removeClass('hidden');
     }
 }
 
 function hideElements(idToHide, classToHide) {
-    if ($("#" + idToHide).length > 0) {
-        $("#" + idToHide).addClass('hidden');
+    if ($('#' + idToHide).length > 0) {
+        $('#' + idToHide).addClass('hidden');
     }
-    if ($("." + classToHide).length > 0) {
-        $("." + classToHide).addClass('hidden');
+    if ($('.' + classToHide).length > 0) {
+        $('.' + classToHide).addClass('hidden');
     }
 }

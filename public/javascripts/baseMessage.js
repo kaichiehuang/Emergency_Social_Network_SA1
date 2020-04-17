@@ -1,13 +1,15 @@
+// eslint-disable-next-line no-unused-vars
 class BaseMessage {
     constructor() {
         this._id = null;
-        this.message = "";
+        this.message = '';
         this.user_id = null;
     }
+
     /**
-     * [drawMessageItem description]
-     * @param  {[type]} data [description]
-     * @return {[type]}      [description]
+     *
+     * @param type
+     * @param message
      */
     drawMessageItem(type, message) {
         if (message.sender_user_id != undefined) {
@@ -16,108 +18,131 @@ class BaseMessage {
         if (message.user_id == null || message.user_id == undefined) {
             return;
         }
-        //1. find template
-        const messagesTemplate = document.querySelector('template#' + type + '-template');
-        //2. find container
-        let listContainer = document.getElementById(type + '-chat');
+        // 1. find template
+        const messagesTemplate = document
+            .querySelector('template#' + type + '-template');
+        // 2. find container
+        const listContainer = document.getElementById(type + '-chat');
 
         if (listContainer != undefined) {
-            const list_length = $("#"+type + '-chat > li').length;
-            //3. iterate over users list and draw using the appropiate template based on online/offline state
-            var template = messagesTemplate.content.cloneNode(true);
-            if (template != undefined && template != null && message != undefined) {
+            const list_length = $('#'+type + '-chat > li').length;
+            // 3. iterate over users list and draw using the
+            // appropiate template based on online/offline state
+            const template = messagesTemplate.content.cloneNode(true);
+            if (template != undefined && template !=
+                null && message != undefined) {
                 if (list_length % 2 == 1) {
-                    template.querySelector(".user-post").classList.add('user-post-odd');
+                    template.querySelector('.user-post')
+                        .classList.add('user-post-odd');
                 } else {
-                    template.querySelector(".user-post").classList.add('user-post-even');
+                    template.querySelector('.user-post')
+                        .classList.add('user-post-even');
                 }
-                let user_id = Cookies.get('user-id');
+                const user_id = Cookies.get('user-id');
                 if (user_id === message.user_id._id) {
-                    template.querySelector(".user-post").classList.add('user-post-current');
+                    template.querySelector('.user-post')
+                        .classList.add('user-post-current');
                 }
                 let indicatorStyle = '';
-                console.log("mesage status = ", message.status);
-                if(message.status != undefined && message.status != "") {
-                    if(message.status === 'OK') {
-                        indicatorStyle = "background-color-ok";
-                    } else if(message.status === 'HELP') {
+                console.log('mesage status = ', message.status);
+                if (message.status != undefined && message.status != '') {
+                    if (message.status === 'OK') {
+                        indicatorStyle = 'background-color-ok';
+                    } else if (message.status === 'HELP') {
                         indicatorStyle = 'background-color-help';
-                    } else if(message.status === 'EMERGENCY') {
+                    } else if (message.status === 'EMERGENCY') {
                         indicatorStyle = 'background-color-emergency';
-                    } else if(message.status === 'UNDEFINED') {
+                    } else if (message.status === 'UNDEFINED') {
                         indicatorStyle = 'background-color-undefined';
                     }
 
-                    template.querySelector('.status-indicator-element').classList.add("statusIndicator");
-                    if(indicatorStyle != ''){
-                        template.querySelector('.status-indicator-element').classList.add(indicatorStyle);
+                    template.querySelector('.status-indicator-element')
+                        .classList.add('statusIndicator');
+                    if (indicatorStyle != '') {
+                        template.querySelector('.status-indicator-element')
+                            .classList.add(indicatorStyle);
                     }
                 }
                 if (!message.spam) {
-                    template.querySelector(".msg").innerText = message.message;
+                    template.querySelector('.msg').innerText = message.message;
                 } else {
-                    template.querySelector(".msg").classList.add('hidden');
-                    template.querySelector(".report-msg-number").classList.add('hidden');
-                    template.querySelector(".report-link").classList.add('hidden');
-                    template.querySelector(".spam-msg").classList.remove("hidden");
+                    template.querySelector('.msg').classList.add('hidden');
+                    template.querySelector('.report-msg-number')
+                        .classList.add('hidden');
+                    template.querySelector('.report-link')
+                        .classList.add('hidden');
+                    template.querySelector('.spam-msg')
+                        .classList.remove('hidden');
                 }
-                template.querySelector('.timestamp').innerText = new Date(message.created_at).toLocaleString();
-                template.querySelector('.username').innerText = message.user_id.username;
+                template.querySelector('.timestamp').innerText =
+                    new Date(message.created_at).toLocaleString();
+                template.querySelector('.username').innerText =
+                    message.user_id.username;
                 let msgNumber = 0;
                 if (message.reported_spams != undefined) {
-                    msgNumber = Object.getOwnPropertyNames(message.reported_spams).length;
+                    msgNumber = Object
+                        .getOwnPropertyNames(message.reported_spams).length;
                     if (message.reported_spams.hasOwnProperty(user_id)) {
-                        template.querySelector('.report-link').classList.add('report-link-disable');
+                        template.querySelector('.report-link')
+                            .classList.add('report-link-disable');
                     }
                 }
                 if (msgNumber != 0) {
-                    template.querySelector('.report-msg-number').innerText = '(' + msgNumber + ')';
+                    template.querySelector('.report-msg-number')
+                        .innerText = '(' + msgNumber + ')';
                 }
                 let userNumer = 0;
                 if (message.user_id.reported_spams != undefined) {
-                    userNumer = Object.getOwnPropertyNames(message.user_id.reported_spams).length;
+                    userNumer = Object
+                        .getOwnPropertyNames(message.user_id.reported_spams)
+                        .length;
                 }
                 if (userNumer != 0) {
-                    template.querySelector('.report-user-number').innerText = '<' + userNumer + '>';
+                    template.querySelector('.report-user-number')
+                        .innerText = '<' + userNumer + '>';
                 }
-                template.querySelector('.report').setAttribute("msg_id", message._id);
-                template.querySelector('.report').setAttribute("user_id", message.user_id._id);
+                template.querySelector('.report')
+                    .setAttribute('msg_id', message._id);
+                template.querySelector('.report')
+                    .setAttribute('user_id', message.user_id._id);
 
                 listContainer.appendChild(template);
             }
         }
     }
+
     /**
-     * [drawMessage description]
-     * @param  {[type]} type     [description]
-     * @param  {[type]} messages [description]
-     * @return {[type]}          [description]
+     *
+     * @param type
+     * @param messages
+     * @param page
      */
-     drawMessages(type, messages, page) {
-        let i = 0;
-        //only delete previous results if page is 0
-        if(page ==  undefined || page == 0){
+    drawMessages(type, messages, page) {
+        // only delete previous results if page is 0
+        if (page == undefined || page == 0) {
             $('ul#' + type + '-chat li').remove();
         }
 
-        messages.forEach(element => {
+        messages.forEach((element) => {
             this.drawMessageItem(type, element);
-            i++;
         });
 
-        $("#"+type+"-msg_area .no-results-message").addClass("hidden");
-        if(messages.length == 0){
-            if(page == 0){
-                $("#"+type+"-msg_area .no-results-message").removeClass("hidden");
+        $('#'+type+'-msg_area .no-results-message').addClass('hidden');
+        if (messages.length == 0) {
+            if (page == 0) {
+                $('#'+type+'-msg_area .no-results-message')
+                    .removeClass('hidden');
             }
             this.deactivateSearchButtonsLoadMore(type);
         }
     }
+
     /**
      * Sends and saves the message the user post.
+     * @param type
      */
     sendMessage(type) {
-        let user_id = Cookies.get('user-id');
+        const user_id = Cookies.get('user-id');
 
         let url = '/chat-messages';
         let message_content = '#public-send-message-content';
@@ -125,26 +150,26 @@ class BaseMessage {
             message: $(message_content).val(),
             user_id: user_id
         };
-        //for private messages
+        // for private messages
         if (type === 'private') {
-            url =  '/private-chat-messages';
+            url = '/private-chat-messages';
             message_content = '#private-send-message-content';
             data = {
                 message: $(message_content).val(),
                 sender_user_id: user_id,
                 receiver_user_id: Cookies.get('receiver_user_id')
-            }
+            };
         }
-        //for announcements
+        // for announcements
         if (type === 'announcement') {
-            url =  '/announcements';
+            url = '/announcements';
             message_content = '#announcement-send-message-content';
             data = {
                 message: $(message_content).val(),
                 user_id: user_id,
-            }
+            };
         }
-        //ajax calls
+        // ajax calls
         APIHandler.getInstance()
             .sendRequest(url, 'post', data, true, null)
             .then((response) => {
@@ -153,42 +178,45 @@ class BaseMessage {
                     $('#user-spam-modal').modal('show');
                 }
             })
-            .catch(error => {
-                let errorAlert = $('#signup-error-alert');
+            .catch((error) => {
+                const errorAlert = $('#signup-error-alert');
                 errorAlert.html(error);
                 errorAlert.show();
             });
     }
+
     /**
      * Get all the messages previously posted
-     * (messages saved on the db)
+     * @param type
+     * @param keywords
+     * @param page
+     * @returns {Promise<unknown>}
      */
-     getMessages(type, keywords, page) {
-        let jwt = Cookies.get('user-jwt-esn');
+    getMessages(type, keywords, page) {
         let url = '/chat-messages';
         let data = {
             'page': page,
             'q': keywords
         };
 
-        if(keywords != undefined && keywords.length > 0){
+        if (keywords != undefined && keywords.length > 0) {
             this.activateSearchButtonsLoadMore(type);
         }
 
         return new Promise((resolve, reject) => {
-            //data for private chat
+            // data for private chat
             if (type === 'private') {
                 url = '/private-chat-messages';
                 data = {
                     'page': page,
                     'q': keywords,
-                    "sender_user_id": Cookies.get('user-id'),
-                    "receiver_user_id": Cookies.get('receiver_user_id')
+                    'sender_user_id': Cookies.get('user-id'),
+                    'receiver_user_id': Cookies.get('receiver_user_id')
                 };
             }
-            //data for announcements
+            // data for announcements
             if (type === 'announcement') {
-                url =  '/announcements';
+                url = '/announcements';
                 data = {
                     'page': page,
                     'q': keywords
@@ -196,11 +224,11 @@ class BaseMessage {
             }
 
             APIHandler.getInstance()
-                .sendRequest(url,'get',data,true,null)
+                .sendRequest(url, 'get', data, true, null)
                 .then((response)=>{
                     resolve(response);
                 })
-                .catch(error =>{
+                .catch((error) =>{
                     reject(error.message);
                 });
         });
@@ -209,18 +237,18 @@ class BaseMessage {
      * [updateMessageListView description]
      * @param  {string} type          [description]
      * @param  {[type]} searchKeyword [description]
-     * @param  {[type]} page          [description]
-     * @return {[type]}               [description]
+     * @param  {number} page          [description]
      */
     updateMessageListView(type, searchKeyword, page) {
         let self = this;
         if (searchKeyword == undefined || searchKeyword.length == 0) {
             this.deactivateSearchButtonsLoadMore(type);
         }
-        //get user data and then get messages to paint and to check for unread messages
-        this.getMessages(type, searchKeyword, page).then(results => {
+        // get user data and then get messages to
+        // paint and to check for unread messages
+        this.getMessages(type, searchKeyword, page).then((results) => {
             self.drawMessages(type, results, page);
-        }).catch(err => {
+        }).catch((err) => {
             console.log(err);
         });
     }
@@ -228,11 +256,10 @@ class BaseMessage {
     /**
      * [activateSearchButtonsLoadMore description]
      * @param  {[type]} type [description]
-     * @return {[type]}      [description]
      */
-    activateSearchButtonsLoadMore(type){
+    activateSearchButtonsLoadMore(type) {
         this.deactivateSearchButtonsLoadMore(type);
-        $("#search-"+type+"-chat__more").removeClass("hidden");
+        $('#search-'+type+'-chat__more').removeClass('hidden');
     }
 
     /**
@@ -240,7 +267,7 @@ class BaseMessage {
      * @param  {[type]} type [description]
      * @return {[type]}      [description]
      */
-    deactivateSearchButtonsLoadMore(type){
-        $(".more-results-button-container").addClass("hidden");
+    deactivateSearchButtonsLoadMore(type) {
+        $('.more-results-button-container').addClass('hidden');
     }
 }

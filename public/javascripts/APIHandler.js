@@ -27,10 +27,10 @@ class APIHandler {
 
         return new Promise((resolve, reject) => {
             $.ajax(options)
-                .done(function (response) {
+                .done(function(response) {
                     resolve(response);
                 })
-                .fail(function (e) {
+                .fail(function(e) {
                     console.log('Request Error' + e);
                     reject(e);
                 })
