@@ -15,8 +15,6 @@ class ResourcesList {
             swapViewContent("resources-content");
         })
 
-
-
     //Click event, to update user list when the user switch between views
         $(".menu-content-changer").click(function(event) {
             event.preventDefault();
@@ -146,6 +144,7 @@ class ResourcesList {
         }
 
         $(".modal-body #resources-content").removeClass("hidden-main-content-block");
+        $(".modal-body #resources-content").removeClass("hidden");
         $('#exampleModalCenter').modal('show');
     }
 
@@ -153,7 +152,7 @@ class ResourcesList {
     static async readURL(image){
         var base64Flag = 'data:image/png;base64,';
         var imageStr =
-            await ResourcesList.arrayBufferToBase64(image.data.data)
+            await ResourcesList.arrayBufferToBase64(image.data.data);
         $('.modal-body  #image-preview').attr('src',base64Flag + imageStr);
 
     }
@@ -168,40 +167,31 @@ class ResourcesList {
 
     static getResourceById(resourceId){
         return new Promise((resolve, reject) => {
-            let jwt = Cookies.get('user-jwt-esn');
-            $.ajax({
-                url: apiPath + '/resources/' +resourceId ,
-                type: 'get',
-                headers: {
-                    "Authorization": jwt
-                }
-            }).done(function(response) {
-                ResourcesList.showResourceDetail(response)
-                resolve(response);
-            }).fail(function(e) {
-                reject(e.message)
-            }).always(function() {
-                console.log("complete");
-            });
+
+            APIHandler.getInstance()
+                .sendRequest('/resources/' +resourceId ,
+                    'get',null,true,null)
+                .then((response)=>{
+                    ResourcesList.showResourceDetail(response);
+                    resolve(response);
+                })
+                .catch(error =>{
+                    reject(error.message);
+                });
         });
     }
 
     static getResources() {
         return new Promise((resolve, reject) => {
-            let jwt = Cookies.get('user-jwt-esn');
-            $.ajax({
-                url: apiPath + '/resources/',
-                type: 'get',
-                headers: {
-                    "Authorization": jwt
-                }
-            }).done(function(response) {
-                resolve(response);
-            }).fail(function(e) {
-                reject(e.message)
-            }).always(function() {
-                console.log("complete");
-            });
+            APIHandler.getInstance()
+                .sendRequest('/resources/' ,
+                    'get',null,true,null)
+                .then((response)=>{
+                    resolve(response);
+                })
+                .catch(error =>{
+                    reject(error.message);
+                });
         });
     }
 

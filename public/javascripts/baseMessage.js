@@ -118,8 +118,8 @@ class BaseMessage {
      */
     sendMessage(type) {
         let user_id = Cookies.get('user-id');
-        let jwt = Cookies.get('user-jwt-esn');
-        let url = apiPath + '/chat-messages';
+
+        let url = '/chat-messages';
         let message_content = '#public-send-message-content';
         let data = {
             message: $(message_content).val(),
@@ -127,7 +127,7 @@ class BaseMessage {
         };
         //for private messages
         if (type === 'private') {
-            url = apiPath + '/private-chat-messages';
+            url =  '/private-chat-messages';
             message_content = '#private-send-message-content';
             data = {
                 message: $(message_content).val(),
@@ -137,7 +137,7 @@ class BaseMessage {
         }
         //for announcements
         if (type === 'announcement') {
-            url = apiPath + '/announcements';
+            url =  '/announcements';
             message_content = '#announcement-send-message-content';
             data = {
                 message: $(message_content).val(),
@@ -145,33 +145,27 @@ class BaseMessage {
             }
         }
         //ajax calls
-        $.ajax({
-            url: url,
-            type: 'post',
-            data: data,
-            headers: {
-                Authorization: jwt
-            }
-        }).done(function(response) {
-            $(message_content).val('');
-            if (type === 'public' && response.spam) {
-                $('#user-spam-modal').modal('show');
-            }
-            console.log(response);
-        }).fail(function(e) {
-            $('#signup-error-alert').html(e);
-            $('#signup-error-alert').show();
-        }).always(function() {
-            console.log('complete');
-        });
+        APIHandler.getInstance()
+            .sendRequest(url,'post',data,true,null)
+            .then((response)=>{
+                $(message_content).val('');
+                if (type === 'public' && response.spam) {
+                    $('#user-spam-modal').modal('show');
+                }
+            })
+            .catch(error =>{
+                let errorAlert = $('#signup-error-alert');
+                errorAlert.html(error);
+                errorAlert.show();
+            });
     }
     /**
-     * Get all the messages prevoisly posted
+     * Get all the messages previously posted
      * (messages saved on the db)
      */
      getMessages(type, keywords, page) {
         let jwt = Cookies.get('user-jwt-esn');
-        let url = apiPath + '/chat-messages';
+        let url = '/chat-messages';
         let data = {
             'page': page,
             'q': keywords
@@ -184,7 +178,7 @@ class BaseMessage {
         return new Promise((resolve, reject) => {
             //data for private chat
             if (type === 'private') {
-                url = apiPath + '/private-chat-messages';
+                url = '/private-chat-messages';
                 data = {
                     'page': page,
                     'q': keywords,
@@ -194,31 +188,26 @@ class BaseMessage {
             }
             //data for announcements
             if (type === 'announcement') {
-                url = apiPath + '/announcements';
+                url =  '/announcements';
                 data = {
                     'page': page,
                     'q': keywords
                 };
             }
-            $.ajax({
-                url: url,
-                type: 'get',
-                headers: {
-                    Authorization: jwt
-                },
-                data: data
-            }).done(function(response) {
-                resolve(response);
-            }).fail(function(e) {
-                reject(e.message);
-            }).always(function() {
-                console.log("complete");
-            });
+
+            APIHandler.getInstance()
+                .sendRequest(url,'get',data,true,null)
+                .then((response)=>{
+                    resolve(response);
+                })
+                .catch(error =>{
+                    reject(error.message);
+                });
         });
     }
     /**
      * [updateMessageListView description]
-     * @param  {[type]} type          [description]
+     * @param  {string} type          [description]
      * @param  {[type]} searchKeyword [description]
      * @param  {[type]} page          [description]
      * @return {[type]}               [description]

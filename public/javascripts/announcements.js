@@ -25,27 +25,17 @@ class Announcement extends BaseMessage {
      * @return {[type]} [description]
      */
     static getLastAnnouncement() {
-        let jwt = Cookies.get('user-jwt-esn');
-        let url = apiPath + '/announcements';
+        let url = '/announcements';
         let data = {
             last: true,
             limit: 1
         };
-        $.ajax({
-            url: url,
-            type: 'get',
-            headers: {
-                Authorization: jwt
-            },
-            data: data
-        }).done(function(response) {
-            //console.log(response);
-            let i = 0;
+        APIHandler.getInstance()
+        .sendRequest(url,'get',data,true,null)
+        .then((response)=>{
             if (response.length > 0) {
                 Announcement.drawLastAnnouncement(response[0]);
             }
-        }).fail(function(e) {}).always(function() {
-            console.log('complete');
         });
     }
     /**

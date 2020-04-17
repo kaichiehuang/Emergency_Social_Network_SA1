@@ -2,21 +2,16 @@ $(function () {
 
 
     function updateUsersList(){
-        let jwt = Cookies.get('user-jwt-esn');
-        $.ajax({
-            url: apiPath + '/usersList/',
-            type: 'get',
-            headers: {
-                "Authorization": jwt
-            }
-        }).done(function (response) {
-            console.log(response);
-        }).fail(function (e) {
-            $("#update-status-alert").html(e);
-            $("#update-status-alert").show();
-        }).always(function () {
-            console.log("complete");
-        });
+        APIHandler.getInstance()
+            .sendRequest('/usersList/','get',
+                null,true,null)
+            .then(response =>{
+                console.log(response);
+            })
+            .catch(error =>{
+                $("#update-status-alert").html(error);
+                $("#update-status-alert").show();
+            })
     }
 
     /**
@@ -29,49 +24,49 @@ $(function () {
         let last_name = $("#last_name").val();
         let username = $("#username").val();
         let password = $("#password").val();
-        //validations
-        $.ajax({
-            url: apiPath + '/users/',
-            type: 'post',
-            data: {
-                'name': name,
-                'last_name': last_name,
-                'username': username,
-                'password': password
-            },
-        }).done(function (response) {
-            if (response.user != undefined && response.tokens != undefined) {
-                user_id = response.user.userId;
-                username = response.user.username;
-                userJWT = response.tokens.token;
-                user_acknowledgement = response.user.acknowledgement;
-                user_status = response.user.status;
-                //set token in cookies since it is more secure
-                Cookies.set('user-jwt-esn', userJWT);
-                Cookies.set('user-jwt-refresh-esn', response.tokens.ex_token);
-                Cookies.set('user-id', user_id);
-                Cookies.set('username', username);
-                Cookies.set('user-acknowledgement', user_acknowledgement);
-                Cookies.set('user-status', user_status);
-                Cookies.set('online-status', response.user.onLine);
 
-                $(".user-name-placeholder").html(username)
-                if (user_acknowledgement) {
-                    setOnline(true);
-                    updateUsersList();
-                    window.location.replace("/app")
-                } else {
-                    swapViewContent('acknowledgement-page-content', 'main-content-block');
+
+        let data =  {
+            'name': name,
+            'last_name': last_name,
+            'username': username,
+            'password': password
+        };
+
+        APIHandler.getInstance()
+            .sendRequest( '/users/','post',data,false,null).
+            then(response => {
+                if (response.user != undefined && response.tokens != undefined) {
+                    user_id = response.user.userId;
+                    username = response.user.username;
+                    userJWT = response.tokens.token;
+                    user_acknowledgement = response.user.acknowledgement;
+                    user_status = response.user.status;
+                    //set token in cookies since it is more secure
+                    Cookies.set('user-jwt-esn', userJWT);
+                    Cookies.set('user-jwt-refresh-esn', response.tokens.ex_token);
+                    Cookies.set('user-id', user_id);
+                    Cookies.set('username', username);
+                    Cookies.set('user-acknowledgement', user_acknowledgement);
+                    Cookies.set('user-status', user_status);
+                    Cookies.set('online-status', response.user.onLine);
+
+                    $(".user-name-placeholder").html(username)
+                    if (user_acknowledgement) {
+                        setOnline(true);
+                        updateUsersList();
+                        window.location.replace("/app")
+                    } else {
+                        swapViewContent('acknowledgement-page-content', 'main-content-block');
+                    }
                 }
-            }
-            console.log(response)
-            $("#signup-error-alert").hide();
-        }).fail(function (response) {
-            $("#signup-error-alert").html(response.responseJSON.msg);
-            $("#signup-error-alert").show();
-        }).always(function () {
-            console.log("complete");
-        });;
+                console.log(response);
+                $("#signup-error-alert").hide();
+            })
+            .catch(error =>{
+                $("#signup-error-alert").html(error.responseJSON.msg);
+                $("#signup-error-alert").show();
+             });
     }
     /**
      * [submitAcknowledgment description]

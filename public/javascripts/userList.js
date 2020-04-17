@@ -64,50 +64,41 @@ class UserList {
         $('#userEmergencyDetail').modal('show');
         let jwt = Cookies.get('user-jwt-esn');
         //get brief description and location
-        $.ajax({
-            url: apiPath + '/emergencyStatusDetail/' + userId,
-            type: 'get',
-            headers: {
-                "Authorization": jwt
-            }
-        }).done(function(response) {
-            console.log(response);
-            //brief description
-            document.getElementById("userBriefDescriptionPreview").innerHTML = response.status_description;
-            //location description
-            document.getElementById("userLocationDescriptionPreview").innerHTML = response.share_location;
-        }).fail(function(e) {
-            $("#get-emergency-detail-alert").html(e);
-            $("#get-emergency-detail-alert").show();
-        }).always(function() {
-            console.log("complete");
-        });
+        APIHandler.getInstance()
+            .sendRequest( '/emergencyStatusDetail/' + userId,
+                'get',null,true,null)
+            .then((response)=>{
+                //brief description
+                document.getElementById("userBriefDescriptionPreview").innerHTML = response.status_description;
+                //location description
+                document.getElementById("userLocationDescriptionPreview").innerHTML = response.share_location;
+            })
+            .catch(error =>{
+                $("#get-emergency-detail-alert").html(error);
+                $("#get-emergency-detail-alert").show();
+            });
+
         $(".userPicAndDesBlock").empty();
         //get picutures and description
-        $.ajax({
-            url: apiPath + '/emergencyStatusDetail/picture/' + userId,
-            type: 'get',
-            headers: {
-                "Authorization": jwt
-            }
-        }).done(function(response) {
-            console.log(response);
-            response.forEach(function(pictureObj) {
-                console.log(pictureObj);
-                let t = document.querySelector('#userPictureAndDescriptionTemplate');
-                t.content.querySelector('img').src = pictureObj.picture_path;
-                t.content.querySelector('div').id = pictureObj._id;
-                t.content.querySelector('p').innerHTML = pictureObj.picture_description;
-                let clone = document.importNode(t.content, true);
-                let pictureContainer = document.getElementsByClassName('userSharePicture');
-                pictureContainer[0].appendChild(clone);
+        APIHandler.getInstance()
+            .sendRequest( '/emergencyStatusDetail/picture/' + userId,
+                'get',null,true,null)
+            .then((response)=>{
+                response.forEach(function(pictureObj) {
+                    console.log(pictureObj);
+                    let t = document.querySelector('#userPictureAndDescriptionTemplate');
+                    t.content.querySelector('img').src = pictureObj.picture_path;
+                    t.content.querySelector('div').id = pictureObj._id;
+                    t.content.querySelector('p').innerHTML = pictureObj.picture_description;
+                    let clone = document.importNode(t.content, true);
+                    let pictureContainer = document.getElementsByClassName('userSharePicture');
+                    pictureContainer[0].appendChild(clone);
+                })
             })
-        }).fail(function(e) {
-            $("#get-picture-and-description-alert").html(e);
-            $("#get-picture-and-description-alert").show();
-        }).always(function() {
-            console.log("complete");
-        });
+            .catch(error =>{
+                $("#get-picture-and-description-alert").html(error);
+                $("#get-picture-and-description-alert").show();
+            });
     }
     /**
      * draws empty list of users
@@ -150,7 +141,7 @@ class UserList {
             let clickedUserId = $(this).data('user-id');
             let clickedUserStatus = $(this).data('status');
             if (clickedUserStatus === "Emergency") {
-                User.showEmergencyStatus(clickedUserId);
+                UserList.showEmergencyStatus(clickedUserId);
             }
         });
     }

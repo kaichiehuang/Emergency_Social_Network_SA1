@@ -134,7 +134,6 @@ class UserProfileForm {
             User.updateUser(userId, data)
             .then(user => {
                 User.updateCurrentUser();
-
                 if(step < 3){
                     let newStep = parseInt(step) + 1;
                     swapViewContent("user-profile-form" + newStep, "main-content-block");

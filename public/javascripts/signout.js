@@ -1,8 +1,5 @@
 $(function() {
     function signout() {
-
-        let jwt = Cookies.get('user-jwt-esn');
-
         Cookies.remove('user-jwt-esn', { path: '' });
         Cookies.remove('user-jwt-refresh-esn', { path: '' });
         Cookies.remove('user-id', { path: '' });
@@ -11,20 +8,16 @@ $(function() {
         Cookies.remove('user-status',  { path: '' });
 
 
-        $.ajax({
-            url: apiPath + '/usersList/',
-            type: 'get',
-            headers: {
-                "Authorization": jwt
-            }
-        }).done(function (response) {
-            console.log(response);
-        }).fail(function (e) {
-            $("#update-status-alert").html(e);
-            $("#update-status-alert").show();
-        }).always(function () {
-            console.log("complete");
-        });
+        APIHandler.getInstance()
+            .sendRequest( '/usersList/' ,
+                'get',null,true,null)
+            .then((response)=>{
+                console.log(response);
+            })
+            .catch(error =>{
+                $("#update-status-alert").html(error);
+                $("#update-status-alert").show();
+            });
 
         window.location.replace("/");
     }

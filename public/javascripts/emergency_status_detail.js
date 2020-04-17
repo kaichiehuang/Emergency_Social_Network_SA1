@@ -43,63 +43,54 @@ class EmergencyStatusDetail {
             $(".save-button").addClass("hidden");
 
             //TODO update paragraph
-            $.ajax({
-                url: apiPath + '/emergencyStatusDetail/' + user_id,
-                type: 'put',
-                headers: {
-                    "Authorization": jwt
-                },
-                data: {
-                    description: $("#briefDescriptionEdit").val(),
-                    detailType: "situation"
-                }
-            }).done(function(response) {
-                console.log(response);
-                document.getElementById("briefDescriptionPreview").innerHTML = response.status_description;
-                document.getElementById("briefDescriptionEdit").innerHTML = response.status_description;
-                //show paragraph and edit button
-                $("#briefDescriptionPreview").removeClass("hidden");
-                $(".edit-button").removeClass("hidden");
-            }).fail(function(e) {
-                $("#update-brief-description-alert").html(e);
-                $("#update-brief-description-alert").show();
-            }).always(function() {
-                console.log("complete");
-            }); 
-            
+            const data =  {
+                description: $("#briefDescriptionEdit").val(),
+                detailType: "situation"
+            };
+
+            APIHandler.getInstance()
+                .sendRequest('/emergencyStatusDetail/' + user_id,
+                    'put',data,true,null)
+                .then((response)=>{
+                    console.log(response);
+                    document.getElementById("briefDescriptionPreview").innerHTML = response.status_description;
+                    document.getElementById("briefDescriptionEdit").innerHTML = response.status_description;
+                    //show paragraph and edit button
+                    $("#briefDescriptionPreview").removeClass("hidden");
+                    $(".edit-button").removeClass("hidden");
+                })
+                .catch(error =>{
+                    $("#update-brief-description-alert").html(error);
+                    $("#update-brief-description-alert").show();
+                });
         });
 
         $('.loc-save-button').click(function(event) {
             event.preventDefault();
-            console.log('location save button clicked!');
             //hide textarea and save button
             $("#locationDescriptionEdit").addClass("hidden");
             $(".loc-save-button").addClass("hidden");
 
-            //TODO update paragraph
-            $.ajax({
-                url: apiPath + '/emergencyStatusDetail/' + user_id,
-                type: 'put',
-                headers: {
-                    "Authorization": jwt
-                },
-                data: {
-                    description: $("#locationDescriptionEdit").val(),
-                    detailType: "location"
-                }
-            }).done(function(response) {
-                console.log(response);
-                document.getElementById("locationDescriptionPreview").innerHTML = response.share_location;
-                document.getElementById("locationDescriptionEdit").innerHTML = response.share_location;
-                //show paragraph and edit button
-                $("#locationDescriptionPreview").removeClass("hidden");
-                $(".loc-edit-button").removeClass("hidden");
-            }).fail(function(e) {
-                $("#update-location-description-alert").html(e);
-                $("#update-location-description-alert").show();
-            }).always(function() {
-                console.log("complete");
-            });
+            const data = {
+                description: $("#locationDescriptionEdit").val(),
+                detailType: "location"
+            };
+
+            APIHandler.getInstance()
+                .sendRequest('/emergencyStatusDetail/' + user_id,
+                    'put',data,true,null)
+                .then((response)=>{
+                    document.getElementById("locationDescriptionPreview").innerHTML = response.share_location;
+                    document.getElementById("locationDescriptionEdit").innerHTML = response.share_location;
+                    //show paragraph and edit button
+                    $("#locationDescriptionPreview").removeClass("hidden");
+                    $(".loc-edit-button").removeClass("hidden");
+                })
+                .catch(error =>{
+                    $("#update-location-description-alert").html(error);
+                    $("#update-location-description-alert").show();
+                });
+
 
         });
     }
@@ -107,24 +98,17 @@ class EmergencyStatusDetail {
     static setDeletePictureEvent(pictureId) {
         $('#'+pictureId).click(function(event) {
             event.preventDefault();
-            let jwt = Cookies.get('user-jwt-esn');
-            console.log("delete button for pictureId: " + pictureId + "clicked!");
-            
-            //delete picture in the backend
-            $.ajax({
-                url: apiPath + '/emergencyStatusDetail/picture/' + pictureId,
-                type: 'delete',
-                headers: {
-                    "Authorization": jwt
-                }
-            }).done(function(response) {
-                console.log(response);
-            }).fail(function(e) {
-                $("#delete-alert").html(e);
-                $("#delte-alert").show();
-            }).always(function() {
-                console.log("complete");
-            });
+
+            APIHandler.getInstance()
+                .sendRequest( '/emergencyStatusDetail/picture/' + pictureId,
+                    'delete',null,true,null)
+                .then((response)=>{
+                    console.log(response);
+                })
+                .catch(error =>{
+                    $("#delete-alert").html(error);
+                    $("#delte-alert").show();
+                });
 
             //delete picture in the frontend
             $('*[data-pic-id="'+pictureId+'"]').remove();
@@ -174,10 +158,7 @@ class EmergencyStatusDetail {
                 processData: false,
             }).done(function(response) {
                 console.log(response);
-
                 EmergencyStatusDetail.drawPictureAndDescription(response);
-                
-
                 $("#picDiscription").val('');
                 $("#file").val('');
                 $("#picDiscription").addClass("hidden");
@@ -224,54 +205,45 @@ class EmergencyStatusDetail {
         let jwt = Cookies.get('user-jwt-esn');
         let user_id = Cookies.get('user-id');
         //get brief description and location description
-        $.ajax({
-            url: apiPath + '/emergencyStatusDetail/' + user_id,
-            type: 'get',
-            headers: {
-                "Authorization": jwt
-            }
-        }).done(function(response) {
-            console.log(response);
 
-            //brief description
-            document.getElementById("briefDescriptionPreview").innerHTML = response.status_description;
-            document.getElementById("briefDescriptionEdit").innerHTML = response.status_description;
-            $("#briefDescriptionPreview").removeClass("hidden");
+        APIHandler.getInstance()
+            .sendRequest('/emergencyStatusDetail/' + user_id,
+                'get',null,true,null)
+            .then((response)=>{
+                if (response != null) {
 
-            //location description
-            document.getElementById("locationDescriptionPreview").innerHTML = response.share_location;
-            document.getElementById("locationDescriptionEdit").innerHTML = response.share_location;
-            $("#locationDescriptionPreview").removeClass("hidden");
+                    //brief description
+                    document.getElementById("briefDescriptionPreview").innerHTML = response.status_description;
+                    document.getElementById("briefDescriptionEdit").innerHTML = response.status_description;
+                    $("#briefDescriptionPreview").removeClass("hidden");
 
+                    //location description
+                    document.getElementById("locationDescriptionPreview").innerHTML = response.share_location;
+                    document.getElementById("locationDescriptionEdit").innerHTML = response.share_location;
+                    $("#locationDescriptionPreview").removeClass("hidden");
 
-        }).fail(function(e) {
-            $("#get-emergency-detail-alert").html(e);
-            $("#get-emergency-detail-alert").show();
-        }).always(function() {
-            console.log("complete");
-        });
+                }
+            })
+            .catch(error =>{
+                $("#get-emergency-detail-alert").html(e);
+                $("#get-emergency-detail-alert").show();
+            });
+
         //get picture and description
-        $.ajax({
-            url: apiPath + '/emergencyStatusDetail/picture/' + user_id,
-            type: 'get',
-            headers: {
-                "Authorization": jwt
-            }
-        }).done(function(response) {
-            console.log(response);
 
-            response.forEach(function (pictureObj) {
-                console.log(pictureObj);
-                EmergencyStatusDetail.drawPictureAndDescription(pictureObj)
-            })    
-        }).fail(function(e) {
-            $("#get-picture-and-description-alert").html(e);
-            $("#get-picture-and-description-alert").show();
-        }).always(function() {
-            console.log("complete");
-        });
-        
-
+        APIHandler.getInstance()
+            .sendRequest('/emergencyStatusDetail/picture/' + user_id,
+                'get',null,true,null)
+            .then((response)=>{
+                response.forEach(function (pictureObj) {
+                    console.log(pictureObj);
+                    EmergencyStatusDetail.drawPictureAndDescription(pictureObj)
+                })
+            })
+            .catch(error =>{
+                $("#get-picture-and-description-alert").html(error);
+                $("#get-picture-and-description-alert").show();
+            });
     }
 
 
