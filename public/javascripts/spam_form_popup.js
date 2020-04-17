@@ -6,7 +6,7 @@ class SpamForm {
         const level = $('input[name=\'level\']:checked').val();
         const type = $('input[name=\'type\']:checked').val();
         const desc = $('#description').val();
-        const data =  {
+        const data = {
             'level': level,
             'type': type,
             'description': desc,
@@ -16,24 +16,24 @@ class SpamForm {
         };
 
         APIHandler.getInstance()
-            .sendRequest( '/spam-report' ,
-                'post',data,true,null)
-            .then((response)=>{
+            .sendRequest('/spam-report',
+                'post', data, true, null)
+            .then((response) => {
                 $('#spam-modal').modal('hide');
             })
-            .catch(error =>{
+            .catch(error => {
                 console.log('err happens:' + error);
             });
 
     }
 }
 
-$(function() {
-    $('#spam-modal').on('hidden.bs.modal', function() {
+$(function () {
+    $('#spam-modal').on('hidden.bs.modal', function () {
         $('#spam-report-form').get(0).reset();
         $("#spam-error-alert").hide();
     });
-    $('#spam-report-button').on('click', function(e) {
+    $('#spam-report-button').on('click', function (e) {
         e.preventDefault();
         if ($('input[name=\'type\']:checked').val() == undefined) {
             $("#spam-error-alert").html("Please choose a spam type.");

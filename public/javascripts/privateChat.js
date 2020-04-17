@@ -3,6 +3,7 @@ class PrivateChatMessage extends BaseMessage {
         super();
         this.type = "private";
     }
+
     /**
      * changes the receiver for the private chat
      * @param  {[type]} receiver_user_id [description]
@@ -15,21 +16,22 @@ class PrivateChatMessage extends BaseMessage {
         privateChatMessageModel.updateMessageListView('private', "", 0);
 
     }
+
     /**
      * [registerEventsAfterDraw description]
      * @return {[type]} [description]
      */
     static registerEventsAfterDraw() {
         /****** events declaration ********/
-        $('#private-send-btn').click(function(e) {
+        $('#private-send-btn').click(function (e) {
             privateChatMessageModel.sendMessage('private');
         });
-        $('#private-msg-form').on('submit', function(e) {
+        $('#private-msg-form').on('submit', function (e) {
             e.preventDefault();
             privateChatMessageModel.sendMessage('private');
         });
         //capture event to load messages
-        $('.content-changer').click(function(event) {
+        $('.content-changer').click(function (event) {
             event.preventDefault();
             let newID = $(this).data('view-id');
             if (newID === 'private-chat-content') {
@@ -41,13 +43,13 @@ class PrivateChatMessage extends BaseMessage {
         /**
          * form submit button event // triggered by submit and enter event by default
          */
-        $("#search-private-chat__button").click(function(e) {
+        $("#search-private-chat__button").click(function (e) {
             e.preventDefault();
             let searchKeyword = $("#search-private-chat__input").val();
             page = 0;
             privateChatMessageModel.updateMessageListView('private', searchKeyword, page);
         });
-        $("#search-private-chat__more-button").click(function(e) {
+        $("#search-private-chat__more-button").click(function (e) {
             e.preventDefault();
             let searchKeyword = $("#search-private-chat__input").val();
             page++;
@@ -55,11 +57,12 @@ class PrivateChatMessage extends BaseMessage {
         });
     }
 }
+
 //************************************************
 //************************************************
 var private_wall_container = document.getElementById('private-msg_area');
 let privateChatMessageModel = new PrivateChatMessage();
-$(function() {
+$(function () {
     let page = 0;
     //sync sockets
     socket.on('connect', data => {

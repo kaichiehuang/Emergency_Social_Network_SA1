@@ -22,7 +22,7 @@ let socket = null;
  * @param  {[type]} ) {               if (Cookies.get('username') ! [description]
  * @return {[type]}   [description]
  */
-$(function() {
+$(function () {
     if (Cookies.get('username') !== undefined) {
         $('.user-name-reference').html(Cookies.get('username'));
     }
@@ -58,24 +58,25 @@ $(function() {
             }
         }
         User.initCurrentUser();
-        $('.hideadble-menu-item a').click(function(event) {
+        $('.hideadble-menu-item a').click(function (event) {
             $('.menu-less').parent().addClass('hidden');
             $('.menu-more').parent().removeClass('hidden');
             $('.hideadble-menu-item').removeClass('active-hideadble-menu-item').addClass('hidden');
             $(this).parent().addClass('active-hideadble-menu-item').removeClass('hidden');
         });
-        $('.menu-more').click(function(event) {
+        $('.menu-more').click(function (event) {
             $('.menu-more').parent().addClass('hidden');
             $('.menu-less').parent().removeClass('hidden');
             $('.hideadble-menu-item:not(.active-hideadble-menu-item)').removeClass('hidden');
         });
-        $('.menu-less').click(function(event) {
+        $('.menu-less').click(function (event) {
             $('.menu-less').parent().addClass('hidden');
             $('.menu-more').parent().removeClass('hidden');
             $('.hideadble-menu-item:not(.active-hideadble-menu-item)').addClass('hidden');
         });
     }
 });
+
 /**
  * Updates de status online of the user
  * @param status
@@ -96,16 +97,17 @@ function setOnline(online_status, socketId) {
         headers: {
             Authorization: jwt
         }
-    }).done(function(response) {
+    }).done(function (response) {
         Cookies.set('online-status', online_status);
         console.log(response);
-    }).fail(function(e) {
+    }).fail(function (e) {
         $('#signup-error-alert').html(e);
         $('#signup-error-alert').show();
-    }).always(function() {
+    }).always(function () {
         console.log('complete');
     });
 }
+
 /**
  * Syncs socket ids to the users data in the backend. It can delete old socket connections and it can create new ones.
  * @param status
@@ -131,19 +133,21 @@ function syncSocketId(socketId, deleteSocket) {
         headers: {
             Authorization: jwt
         }
-    }).done(function(response) {}).fail(function(e) {
+    }).done(function (response) {
+    }).fail(function (e) {
         $('#signup-error-alert').html(e);
         $('#signup-error-alert').show();
-    }).always(function() {
+    }).always(function () {
         console.log('complete');
     });
 }
+
 /**
  * Event registration for menu content changer buttons
  * @return {[type]} [description]
  */
 function menuContentChangerEvent() {
-    $('.menu-content-changer').click(function(event) {
+    $('.menu-content-changer').click(function (event) {
         $('.menu-content-changer').removeClass('active');
         $('#status-button').removeClass('active');
         $(this).addClass('active');
@@ -151,15 +155,17 @@ function menuContentChangerEvent() {
         executeSwapContent($(this));
     });
 }
+
 /**
  * Event registration for content changer buttons that dont
  * @return {[type]} [description]
  */
 function globalContentChangerEvent() {
-    $('.content-changer').click(function(event) {
+    $('.content-changer').click(function (event) {
         executeSwapContent($(this));
     });
 }
+
 /**
  * Swaps content following id to display of group class to display and classes to hide
  * @param  {[type]} element [description]
@@ -191,38 +197,41 @@ function executeSwapContent(element) {
         swapGroupContent(groupClass, hideGroupClass);
     }
 }
+
 /**
  * [showElementEvent description]
  * @return {[type]} [description]
  */
 function showElementEvent() {
-    $(".visible-controller").change(function(e) {
+    $(".visible-controller").change(function (e) {
         let idToDisplay = $(this).data('id-to-display');
         let classToDisplay = $(this).data('class-to-display');
         showElements(idToDisplay, classToDisplay);
     });
-    $(".visible-controller").click(function(e) {
+    $(".visible-controller").click(function (e) {
         let idToDisplay = $(this).data('id-to-display');
         let classToDisplay = $(this).data('class-to-display');
         showElements(idToDisplay, classToDisplay);
     });
 }
+
 /**
  * [showElementEvent description]
  * @return {[type]} [description]
  */
 function hideElementEvent() {
-    $(".hide-controller").change(function(e) {
+    $(".hide-controller").change(function (e) {
         let idToHide = $(this).data('id-to-hide');
         let classToHide = $(this).data('class-to-hide');
         hideElements(idToHide, classToHide);
     });
-    $(".hide-controller").click(function(e) {
+    $(".hide-controller").click(function (e) {
         let idToHide = $(this).data('id-to-hide');
         let classToHide = $(this).data('class-to-hide');
         hideElements(idToHide, classToHide);
     });
 }
+
 /**
  * hide and show actions
  */
@@ -242,6 +251,7 @@ function swapViewContent(viewID, classToHide) {
     oldContentPageID = currentContentPageID;
     currentContentPageID = viewID;
 }
+
 /**
  * [swapGroupContent description]
  * @param  {[type]} newGroupClass [description]

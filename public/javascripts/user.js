@@ -1,5 +1,7 @@
 class User {
-    constructor() {}
+    constructor() {
+    }
+
     /**
      * [getUserData description]
      * @param  {[type]} userId [description]
@@ -10,7 +12,7 @@ class User {
             if (userId != null) {
                 APIHandler.getInstance()
                     .sendRequest('/users/' + userId, 'get',
-                        null, true,null)
+                        null, true, null)
                     .then(response => {
                         resolve(response);
                     })
@@ -24,6 +26,7 @@ class User {
             }
         });
     }
+
     /**
      * Returns a list of users from the API
      * @return {[type]} [description]
@@ -36,7 +39,7 @@ class User {
 
             APIHandler.getInstance()
                 .sendRequest('/users/' + userId + "/personal-message", 'get',
-                    data, true,null)
+                    data, true, null)
                 .then(response => {
                     resolve(response);
                 })
@@ -45,6 +48,7 @@ class User {
                 });
         });
     }
+
     /**
      * Returns a list of users from the API
      * @return {[type]} [description]
@@ -57,7 +61,7 @@ class User {
         return await new Promise((resolve, reject) => {
             APIHandler.getInstance()
                 .sendRequest('/users', 'get', data,
-                    true,null)
+                    true, null)
                 .then(response => {
                     resolve(response);
                 })
@@ -66,6 +70,7 @@ class User {
                 });
         });
     }
+
     /**
      * Update user information
      * @return {[type]} [description]
@@ -93,27 +98,28 @@ class User {
      * [initCurrentUser description]
      * @return {[type]} [description]
      */
-    static updateCurrentUser(){
+    static updateCurrentUser() {
         User.getCurrentUser()
-        .then(user => {
-            currentUser = user;
-        }).catch(err => {
+            .then(user => {
+                currentUser = user;
+            }).catch(err => {
 
         });
     }
+
     /**
      * [initCurrentUser description]
      * @return {[type]} [description]
      */
-    static initCurrentUser(){
+    static initCurrentUser() {
         User.getCurrentUser()
-        .then(user => {
-            let currentUser = user;
-            if(currentUser.name === undefined || currentUser.name.length === 0 ){
-                showElements("profile-update-invite");
-                User.initUpdateInvite();
-            }
-        }).catch(err => {
+            .then(user => {
+                let currentUser = user;
+                if (currentUser.name === undefined || currentUser.name.length === 0) {
+                    showElements("profile-update-invite");
+                    User.initUpdateInvite();
+                }
+            }).catch(err => {
 
         });
     }
@@ -133,12 +139,13 @@ class User {
             });
         });
     }
+
     /**
      * [initUpdateInvite description]
      * @return {[type]} [description]
      */
     static initUpdateInvite() {
-        window.setInterval(function() {
+        window.setInterval(function () {
             showElements("profile-update-invite");
         }, 60000 * 5);
     }

@@ -1,14 +1,14 @@
 $(function () {
 
 
-    function updateUsersList(){
+    function updateUsersList() {
         APIHandler.getInstance()
-            .sendRequest('/usersList/','get',
-                null,true,null)
-            .then(response =>{
+            .sendRequest('/usersList/', 'get',
+                null, true, null)
+            .then(response => {
                 console.log(response);
             })
-            .catch(error =>{
+            .catch(error => {
                 $("#update-status-alert").html(error);
                 $("#update-status-alert").show();
             })
@@ -26,7 +26,7 @@ $(function () {
         let password = $("#password").val();
 
 
-        let data =  {
+        let data = {
             'name': name,
             'last_name': last_name,
             'username': username,
@@ -34,40 +34,40 @@ $(function () {
         };
 
         APIHandler.getInstance()
-            .sendRequest( '/users/','post',data,false,null).
-            then(response => {
-                if (response.user != undefined && response.tokens != undefined) {
-                    user_id = response.user.userId;
-                    username = response.user.username;
-                    userJWT = response.tokens.token;
-                    user_acknowledgement = response.user.acknowledgement;
-                    user_status = response.user.status;
-                    //set token in cookies since it is more secure
-                    Cookies.set('user-jwt-esn', userJWT);
-                    Cookies.set('user-jwt-refresh-esn', response.tokens.ex_token);
-                    Cookies.set('user-id', user_id);
-                    Cookies.set('username', username);
-                    Cookies.set('user-acknowledgement', user_acknowledgement);
-                    Cookies.set('user-status', user_status);
-                    Cookies.set('online-status', response.user.onLine);
+            .sendRequest('/users/', 'post', data, false, null).then(response => {
+            if (response.user != undefined && response.tokens != undefined) {
+                user_id = response.user.userId;
+                username = response.user.username;
+                userJWT = response.tokens.token;
+                user_acknowledgement = response.user.acknowledgement;
+                user_status = response.user.status;
+                //set token in cookies since it is more secure
+                Cookies.set('user-jwt-esn', userJWT);
+                Cookies.set('user-jwt-refresh-esn', response.tokens.ex_token);
+                Cookies.set('user-id', user_id);
+                Cookies.set('username', username);
+                Cookies.set('user-acknowledgement', user_acknowledgement);
+                Cookies.set('user-status', user_status);
+                Cookies.set('online-status', response.user.onLine);
 
-                    $(".user-name-placeholder").html(username)
-                    if (user_acknowledgement) {
-                        setOnline(true);
-                        updateUsersList();
-                        window.location.replace("/app")
-                    } else {
-                        swapViewContent('acknowledgement-page-content', 'main-content-block');
-                    }
+                $(".user-name-placeholder").html(username)
+                if (user_acknowledgement) {
+                    setOnline(true);
+                    updateUsersList();
+                    window.location.replace("/app")
+                } else {
+                    swapViewContent('acknowledgement-page-content', 'main-content-block');
                 }
-                console.log(response);
-                $("#signup-error-alert").hide();
-            })
-            .catch(error =>{
+            }
+            console.log(response);
+            $("#signup-error-alert").hide();
+        })
+            .catch(error => {
                 $("#signup-error-alert").html(error.responseJSON.msg);
                 $("#signup-error-alert").show();
-             });
+            });
     }
+
     /**
      * [submitAcknowledgment description]
      * @return {[type]} [description]
@@ -84,10 +84,10 @@ $(function () {
                 type: 'put',
                 data: {
                     'acknowledgement': true,
-                    'status':"UNDEFINED",
-                    'onLine':true
+                    'status': "UNDEFINED",
+                    'onLine': true
                 },
-                headers: { "Authorization": userJWT }
+                headers: {"Authorization": userJWT}
             }).done(function (response) {
                 user_acknowledgement = response.acknowledgement;
                 Cookies.set('user-acknowledgement', user_acknowledgement);
@@ -102,8 +102,6 @@ $(function () {
             });
         }
     }
-
-
 
 
     /****** events declaration ********/

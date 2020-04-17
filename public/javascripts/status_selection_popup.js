@@ -9,12 +9,12 @@ class StatusSelection {
 
     updateAllUserLists() {
         APIHandler.getInstance()
-            .sendRequest( '/usersList/' ,
-                'get',null,true,null)
-            .then((response)=>{
+            .sendRequest('/usersList/',
+                'get', null, true, null)
+            .then((response) => {
                 console.log(response);
             })
-            .catch(error =>{
+            .catch(error => {
                 $("#update-status-alert").html(error);
                 $("#update-status-alert").show();
             });
@@ -26,23 +26,23 @@ class StatusSelection {
         let jwt = Cookies.get('user-jwt-esn');
         let acknowledgement = Cookies.get('user-acknowledgement');
         let online_status = Cookies.get('online-status');
-        const data ={'status': status,};
+        const data = {'status': status,};
 
         APIHandler.getInstance()
-            .sendRequest( '/users/' + user_id + '/status',
-                'put',data,true,null)
-            .then((response)=>{
+            .sendRequest('/users/' + user_id + '/status',
+                'put', data, true, null)
+            .then((response) => {
 
                 $('#status-modal').modal('toggle');
                 Cookies.set('user-status', response.user.status);
 
                 APIHandler.getInstance()
-                    .sendRequest(  '/usersList/',
-                        'get',null,true,null)
-                    .then((response)=>{
+                    .sendRequest('/usersList/',
+                        'get', null, true, null)
+                    .then((response) => {
                         console.log(response);
                     })
-                    .catch(error =>{
+                    .catch(error => {
                         $("#update-status-alert").html(error);
                         $("#update-status-alert").show();
                     });
@@ -72,7 +72,7 @@ class StatusSelection {
 
                 }
             })
-            .catch(error =>{
+            .catch(error => {
                 $("#update-status-alert").html(error);
                 $("#update-status-alert").show();
             });
@@ -88,6 +88,7 @@ class StatusSelection {
         }
     }
 }
-$(function() {
+
+$(function () {
     new StatusSelection();
 })

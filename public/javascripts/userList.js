@@ -59,21 +59,22 @@ class UserList {
             UserList.registerEventsAfterDraw()
         }
     }
+
     static showEmergencyStatus(userId) {
         console.log("user id is " + userId);
         $('#userEmergencyDetail').modal('show');
         let jwt = Cookies.get('user-jwt-esn');
         //get brief description and location
         APIHandler.getInstance()
-            .sendRequest( '/emergencyStatusDetail/' + userId,
-                'get',null,true,null)
-            .then((response)=>{
+            .sendRequest('/emergencyStatusDetail/' + userId,
+                'get', null, true, null)
+            .then((response) => {
                 //brief description
                 document.getElementById("userBriefDescriptionPreview").innerHTML = response.status_description;
                 //location description
                 document.getElementById("userLocationDescriptionPreview").innerHTML = response.share_location;
             })
-            .catch(error =>{
+            .catch(error => {
                 $("#get-emergency-detail-alert").html(error);
                 $("#get-emergency-detail-alert").show();
             });
@@ -81,10 +82,10 @@ class UserList {
         $(".userPicAndDesBlock").empty();
         //get picutures and description
         APIHandler.getInstance()
-            .sendRequest( '/emergencyStatusDetail/picture/' + userId,
-                'get',null,true,null)
-            .then((response)=>{
-                response.forEach(function(pictureObj) {
+            .sendRequest('/emergencyStatusDetail/picture/' + userId,
+                'get', null, true, null)
+            .then((response) => {
+                response.forEach(function (pictureObj) {
                     console.log(pictureObj);
                     let t = document.querySelector('#userPictureAndDescriptionTemplate');
                     t.content.querySelector('img').src = pictureObj.picture_path;
@@ -95,11 +96,12 @@ class UserList {
                     pictureContainer[0].appendChild(clone);
                 })
             })
-            .catch(error =>{
+            .catch(error => {
                 $("#get-picture-and-description-alert").html(error);
                 $("#get-picture-and-description-alert").show();
             });
     }
+
     /**
      * draws empty list of users
      * @return {[type]} [description]
@@ -108,6 +110,7 @@ class UserList {
         $("#user-list-content__list li").remove();
         $("#user-list-content .no-results-message").removeClass("hidden");
     }
+
     //todo pass this to a class AddressBook that has an attribute currentUser
     static updateComponentView(currentUser, searchKeyword, searchStatus) {
         //get user data and then get messages to paint and to check for unread messages
@@ -120,8 +123,10 @@ class UserList {
             } else {
                 UserList.drawNoUsers();
             }
-        }).catch(err => {});
+        }).catch(err => {
+        });
     }
+
     /**
      * [registerEventsAfterDraw description]
      * @return {[type]} [description]
@@ -130,14 +135,14 @@ class UserList {
         globalContentChangerEvent();
         // assign view change event for chat button for each user in the list
         menuContentChangerEvent();
-        $('.chat-button').click(function(event) {
+        $('.chat-button').click(function (event) {
             PrivateChatMessage.initiatePrivateChat($(this).data('user-id'));
         });
-        $('.username').click(function(event) {
+        $('.username').click(function (event) {
             UserProfile.initiateUserProfile($(this).data('user-id'));
         });
         //show emergency status detail
-        $('.status-button').unbind().click(function(event) {
+        $('.status-button').unbind().click(function (event) {
             let clickedUserId = $(this).data('user-id');
             let clickedUserStatus = $(this).data('status');
             if (clickedUserStatus === "Emergency") {
@@ -146,12 +151,13 @@ class UserList {
         });
     }
 }
+
 /**
  * User List behavior using jquery
  * @param  {[type]} ) {}          [description]
  * @return {[type]}   [description]
  */
-$(function() {
+$(function () {
     //Initial call to get the user list after login
     UserList.updateComponentView(currentUser, "", "");
     //Socket IO implementation to update user list on every change of users data.
@@ -159,7 +165,7 @@ $(function() {
         UserList.updateComponentView(currentUser, $("#search-users-list__input").val(), "")
     });
     //Click event, to update user list when the user switch between views
-    $(".menu-content-changer").click(function(event) {
+    $(".menu-content-changer").click(function (event) {
         event.preventDefault();
         let newID = $(this).data('view-id');
         if (newID === "user-list-content") {
@@ -169,7 +175,7 @@ $(function() {
     /**
      * form submit button event // triggered by submit and enter event by default
      */
-    $("#search-users-list__button, #users-search-form .status-list__color").click(function(e) {
+    $("#search-users-list__button, #users-search-form .status-list__color").click(function (e) {
         e.preventDefault();
         let searchKeyword = $("#search-users-list__input").val();
         let newSelectedStatus = $(this).data('status');

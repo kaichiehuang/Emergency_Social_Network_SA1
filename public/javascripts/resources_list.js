@@ -1,22 +1,22 @@
 class ResourcesList {
     constructor() {
-        $(document).on('click','#icon',function(event){
+        $(document).on('click', '#icon', function (event) {
             for (let cssClass of this.classList) {
-                if(cssClass.includes("id")){
-                    const index= cssClass.indexOf("-");
-                    const resourceId = cssClass.substring(index+1);
+                if (cssClass.includes("id")) {
+                    const index = cssClass.indexOf("-");
+                    const resourceId = cssClass.substring(index + 1);
                     ResourcesList.getResourceById(resourceId);
                     break;
                 }
             }
         });
 
-        $("#addResourceIcon").on('click',(e)=>{
+        $("#addResourceIcon").on('click', (e) => {
             swapViewContent("resources-content");
         })
 
-    //Click event, to update user list when the user switch between views
-        $(".menu-content-changer").click(function(event) {
+        //Click event, to update user list when the user switch between views
+        $(".menu-content-changer").click(function (event) {
             event.preventDefault();
             let newID = $(this).data('view-id');
             if (newID === "resources-list-content") {
@@ -29,7 +29,7 @@ class ResourcesList {
 
     }
 
-    static showResourceDetail(resource){
+    static showResourceDetail(resource) {
 
         //Changing labels
         $(".modal-body #resource-type-label").text("Resource Type:");
@@ -69,18 +69,18 @@ class ResourcesList {
                 $(".modal-body #supplies-description-id").text(resource.description);
                 $(".modal-body #supplies-description-id").attr('readonly', true);
                 //SUPPLY QUESTION ONE
-                if(resource.question_one) {
+                if (resource.question_one) {
                     $(".modal-body #supplies-q1-yes").prop('checked', true);
                     $(".modal-body #supplies-q1-yes").attr('readonly', true);
-                }else {
+                } else {
                     $(".modal-body #supplies-q1-no").prop('checked', true);
                     $(".modal-body #supplies-q1-no").attr('readonly', true);
                 }
                 //SUPPLY QUESTION TWO
-                if(resource.question_two) {
+                if (resource.question_two) {
                     $(".modal-body #supplies-q2-yes").prop('checked', true);
                     $(".modal-body #supplies-q2-yes").attr('readonly', true);
-                }else {
+                } else {
                     $(".modal-body #supplies-q2-no").prop('checked', true);
                     $(".modal-body #supplies-q2-no").attr('readonly', true);
                 }
@@ -100,10 +100,10 @@ class ResourcesList {
                 $(".modal-body #medical-description-id").text(resource.description);
                 $(".modal-body #medical-description-id").attr('readonly', true);
                 //MEDICAL QUESTION ONE
-                if(resource.question_one) {
+                if (resource.question_one) {
                     $(".modal-body #medical-q1-yes").prop('checked', true);
                     $(".modal-body #medical-q1-yes").attr('readonly', true);
-                }else {
+                } else {
                     $(".modal-body #medical-q1-no").prop('checked', true);
                     $(".modal-body #medical-q1-no").attr('readonly', true);
                 }
@@ -122,18 +122,18 @@ class ResourcesList {
                 $(".modal-body #shelter-description-id").text(resource.description);
                 $(".modal-body #shelter-description-id").attr('readonly', true);
                 //SHELTER QUESTION ONE
-                if(resource.question_one) {
+                if (resource.question_one) {
                     $(".modal-body #shelter-q1-yes").prop('checked', true);
                     $(".modal-body #shelter-q1-yes").attr('readonly', true);
-                }else {
+                } else {
                     $(".modal-body #shelter-q1-no").prop('checked', true);
                     $(".modal-body #shelter-q1-no").attr('readonly', true);
                 }
                 //SHELTER QUESTION TWO
-                if(resource.question_two) {
+                if (resource.question_two) {
                     $(".modal-body #shelter-q2-yes").prop('checked', true);
                     $(".modal-body #shelter-q2-yes").attr('readonly', true);
-                }else {
+                } else {
                     $(".modal-body #shelter-q2-no").prop('checked', true);
                     $(".modal-body #shelter-q2-no").attr('readonly', true);
                 }
@@ -149,11 +149,11 @@ class ResourcesList {
     }
 
 
-    static async readURL(image){
+    static async readURL(image) {
         var base64Flag = 'data:image/png;base64,';
         var imageStr =
             await ResourcesList.arrayBufferToBase64(image.data.data);
-        $('.modal-body  #image-preview').attr('src',base64Flag + imageStr);
+        $('.modal-body  #image-preview').attr('src', base64Flag + imageStr);
 
     }
 
@@ -165,17 +165,17 @@ class ResourcesList {
     };
 
 
-    static getResourceById(resourceId){
+    static getResourceById(resourceId) {
         return new Promise((resolve, reject) => {
 
             APIHandler.getInstance()
-                .sendRequest('/resources/' +resourceId ,
-                    'get',null,true,null)
-                .then((response)=>{
+                .sendRequest('/resources/' + resourceId,
+                    'get', null, true, null)
+                .then((response) => {
                     ResourcesList.showResourceDetail(response);
                     resolve(response);
                 })
-                .catch(error =>{
+                .catch(error => {
                     reject(error.message);
                 });
         });
@@ -184,12 +184,12 @@ class ResourcesList {
     static getResources() {
         return new Promise((resolve, reject) => {
             APIHandler.getInstance()
-                .sendRequest('/resources/' ,
-                    'get',null,true,null)
-                .then((response)=>{
+                .sendRequest('/resources/',
+                    'get', null, true, null)
+                .then((response) => {
                     resolve(response);
                 })
-                .catch(error =>{
+                .catch(error => {
                     reject(error.message);
                 });
         });
@@ -211,10 +211,10 @@ class ResourcesList {
                 if (resourceTemplate != undefined) {
                     template = resourceTemplate.content.cloneNode(true);
                 }
-                if (template != undefined && template != null ) {
+                if (template != undefined && template != null) {
                     template.querySelector('.resource-name').innerText = resource.name;
                     //template.querySelector('.description').innerText = resource.description;
-                    template.querySelector('.fa-info-circle').classList.add("id-" +resource._id);
+                    template.querySelector('.fa-info-circle').classList.add("id-" + resource._id);
                     //set message counter from user
                     listContainer.appendChild(template);
                 }
@@ -227,16 +227,17 @@ class ResourcesList {
     static updateResourceListView() {
         //get resource data
         ResourcesList.getResources().then(resources => {
-            if(resources.length > 0){
+            if (resources.length > 0) {
                 ResourcesList.drawResources(resources);
             }
 
-        }).catch(err => {});
+        }).catch(err => {
+        });
     }
 }
 
 
-$(function() {
+$(function () {
 
     new ResourcesList();
 

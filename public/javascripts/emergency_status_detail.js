@@ -3,12 +3,13 @@ class EmergencyStatusDetail {
         this._id = null;
         this.user_id = null;
     }
+
     //done
     static setEditDescriptionEvent() {
-        $('.edit-button').click(function(event) {
+        $('.edit-button').click(function (event) {
             event.preventDefault();
             console.log("edit button clicked!");
-            
+
             //hide paragraph and edit button
             $("#briefDescriptionPreview").addClass("hidden");
             $(".edit-button").addClass("hidden");
@@ -18,10 +19,10 @@ class EmergencyStatusDetail {
 
         });
 
-        $('.loc-edit-button').click(function(event) {
+        $('.loc-edit-button').click(function (event) {
             event.preventDefault();
             console.log("location edit button clicked!");
-            
+
             //hide paragraph and edit button
             $("#locationDescriptionPreview").addClass("hidden");
             $(".loc-edit-button").addClass("hidden");
@@ -31,11 +32,12 @@ class EmergencyStatusDetail {
 
         });
     }
+
     //done
     static setSaveDescriptionEvent() {
         let jwt = Cookies.get('user-jwt-esn');
         let user_id = Cookies.get('user-id');
-        $('.save-button').click(function(event) {
+        $('.save-button').click(function (event) {
             event.preventDefault();
             console.log('save button clicked!');
             //hide textarea and save button
@@ -43,15 +45,15 @@ class EmergencyStatusDetail {
             $(".save-button").addClass("hidden");
 
             //TODO update paragraph
-            const data =  {
+            const data = {
                 description: $("#briefDescriptionEdit").val(),
                 detailType: "situation"
             };
 
             APIHandler.getInstance()
                 .sendRequest('/emergencyStatusDetail/' + user_id,
-                    'put',data,true,null)
-                .then((response)=>{
+                    'put', data, true, null)
+                .then((response) => {
                     console.log(response);
                     document.getElementById("briefDescriptionPreview").innerHTML = response.status_description;
                     document.getElementById("briefDescriptionEdit").innerHTML = response.status_description;
@@ -59,13 +61,13 @@ class EmergencyStatusDetail {
                     $("#briefDescriptionPreview").removeClass("hidden");
                     $(".edit-button").removeClass("hidden");
                 })
-                .catch(error =>{
+                .catch(error => {
                     $("#update-brief-description-alert").html(error);
                     $("#update-brief-description-alert").show();
                 });
         });
 
-        $('.loc-save-button').click(function(event) {
+        $('.loc-save-button').click(function (event) {
             event.preventDefault();
             //hide textarea and save button
             $("#locationDescriptionEdit").addClass("hidden");
@@ -78,15 +80,15 @@ class EmergencyStatusDetail {
 
             APIHandler.getInstance()
                 .sendRequest('/emergencyStatusDetail/' + user_id,
-                    'put',data,true,null)
-                .then((response)=>{
+                    'put', data, true, null)
+                .then((response) => {
                     document.getElementById("locationDescriptionPreview").innerHTML = response.share_location;
                     document.getElementById("locationDescriptionEdit").innerHTML = response.share_location;
                     //show paragraph and edit button
                     $("#locationDescriptionPreview").removeClass("hidden");
                     $(".loc-edit-button").removeClass("hidden");
                 })
-                .catch(error =>{
+                .catch(error => {
                     $("#update-location-description-alert").html(error);
                     $("#update-location-description-alert").show();
                 });
@@ -94,36 +96,38 @@ class EmergencyStatusDetail {
 
         });
     }
+
     //done
     static setDeletePictureEvent(pictureId) {
-        $('#'+pictureId).click(function(event) {
+        $('#' + pictureId).click(function (event) {
             event.preventDefault();
 
             APIHandler.getInstance()
-                .sendRequest( '/emergencyStatusDetail/picture/' + pictureId,
-                    'delete',null,true,null)
-                .then((response)=>{
+                .sendRequest('/emergencyStatusDetail/picture/' + pictureId,
+                    'delete', null, true, null)
+                .then((response) => {
                     console.log(response);
                 })
-                .catch(error =>{
+                .catch(error => {
                     $("#delete-alert").html(error);
                     $("#delte-alert").show();
                 });
 
             //delete picture in the frontend
-            $('*[data-pic-id="'+pictureId+'"]').remove();
+            $('*[data-pic-id="' + pictureId + '"]').remove();
 
             //$("#"+pictureId).remove();
         });
     }
+
     //done
     static setAddPictureEvent() {
-        $(".add-button").click(function(event) {
+        $(".add-button").click(function (event) {
             event.preventDefault();
             console.log("add picture button clicked");
             $('#addPictureModal').modal('show');
 
-            $('#file').change(function(){
+            $('#file').change(function () {
                 console.log("yoyo");
                 $("#picDiscription").removeClass("hidden");
                 $(".upload-button").removeClass("hidden");
@@ -132,9 +136,10 @@ class EmergencyStatusDetail {
             EmergencyStatusDetail.setUploadEvent();
         })
     }
+
     //done
     static setUploadEvent() {
-        $(".upload-button").unbind().click(function(event) {
+        $(".upload-button").unbind().click(function (event) {
             console.log("upload button pressed");
             event.preventDefault();
             let jwt = Cookies.get('user-jwt-esn');
@@ -156,19 +161,19 @@ class EmergencyStatusDetail {
                 data: fd,
                 contentType: false,
                 processData: false,
-            }).done(function(response) {
+            }).done(function (response) {
                 console.log(response);
                 EmergencyStatusDetail.drawPictureAndDescription(response);
                 $("#picDiscription").val('');
                 $("#file").val('');
                 $("#picDiscription").addClass("hidden");
                 $(".upload-button").addClass("hidden");
-                
 
-            }).fail(function(e) {
+
+            }).fail(function (e) {
                 $("#upload-alert").html(e);
                 $("#upload-alert").show();
-            }).always(function() {
+            }).always(function () {
                 console.log("complete");
             });
 
@@ -192,6 +197,7 @@ class EmergencyStatusDetail {
 
         EmergencyStatusDetail.setDeletePictureEvent(pictureObj._id);
     }
+
     //done
     static generatePreviewPage() {
 
@@ -208,8 +214,8 @@ class EmergencyStatusDetail {
 
         APIHandler.getInstance()
             .sendRequest('/emergencyStatusDetail/' + user_id,
-                'get',null,true,null)
-            .then((response)=>{
+                'get', null, true, null)
+            .then((response) => {
                 if (response != null) {
 
                     //brief description
@@ -224,7 +230,7 @@ class EmergencyStatusDetail {
 
                 }
             })
-            .catch(error =>{
+            .catch(error => {
                 $("#get-emergency-detail-alert").html(e);
                 $("#get-emergency-detail-alert").show();
             });
@@ -233,14 +239,14 @@ class EmergencyStatusDetail {
 
         APIHandler.getInstance()
             .sendRequest('/emergencyStatusDetail/picture/' + user_id,
-                'get',null,true,null)
-            .then((response)=>{
+                'get', null, true, null)
+            .then((response) => {
                 response.forEach(function (pictureObj) {
                     console.log(pictureObj);
                     EmergencyStatusDetail.drawPictureAndDescription(pictureObj)
                 })
             })
-            .catch(error =>{
+            .catch(error => {
                 $("#get-picture-and-description-alert").html(error);
                 $("#get-picture-and-description-alert").show();
             });
@@ -249,7 +255,7 @@ class EmergencyStatusDetail {
 
 }
 
-$(function() {
+$(function () {
 
     EmergencyStatusDetail.generatePreviewPage();
 

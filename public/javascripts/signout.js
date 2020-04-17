@@ -9,12 +9,12 @@ $(function() {
 
 
         APIHandler.getInstance()
-            .sendRequest( '/usersList/' ,
-                'get',null,true,null)
-            .then((response)=>{
+            .sendRequest('/usersList/',
+                'get', null, true, null)
+            .then((response) => {
                 console.log(response);
             })
-            .catch(error =>{
+            .catch(error => {
                 $("#update-status-alert").html(error);
                 $("#update-status-alert").show();
             });

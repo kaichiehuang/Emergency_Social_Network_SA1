@@ -146,14 +146,14 @@ class BaseMessage {
         }
         //ajax calls
         APIHandler.getInstance()
-            .sendRequest(url,'post',data,true,null)
-            .then((response)=>{
+            .sendRequest(url, 'post', data, true, null)
+            .then((response) => {
                 $(message_content).val('');
                 if (type === 'public' && response.spam) {
                     $('#user-spam-modal').modal('show');
                 }
             })
-            .catch(error =>{
+            .catch(error => {
                 let errorAlert = $('#signup-error-alert');
                 errorAlert.html(error);
                 errorAlert.show();
