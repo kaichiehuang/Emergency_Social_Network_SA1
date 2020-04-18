@@ -3,7 +3,7 @@ const agent = require('superagent')
 const express = require('express');
 
 // Initiate Server
-let PORT = 3000;
+let PORT = 3001;
 let HOST = 'http://localhost:' + PORT;
 
 let app = require('../../app').app;

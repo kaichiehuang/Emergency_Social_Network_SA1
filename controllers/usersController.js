@@ -18,6 +18,8 @@ class UsersController {
             signUpData['password'] = '';
         }
 
+        let jsonResponseData = {};
+
         // 2. Validate if user exists
         User.findUserByUsername(signUpData['username'])
         .then((user) => {
@@ -35,10 +37,9 @@ class UsersController {
                 }).then(function(response) {
                     return userInstance.generateTokens();
                 }).then((tokens) => {
-                    let jsonResponseData = {};
-                    jsonResponseData['user'] = userInstance;
-                    jsonResponseData['user']['userId'] = userInstance._id;
-                    jsonResponseData['tokens'] = tokens;
+                    jsonResponseData.user = Object.assign({}, userInstance._doc);
+                    jsonResponseData.user.userId = userInstance._id.toString();
+                    jsonResponseData.tokens = tokens;
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(jsonResponseData));
                 }).then((res) => {
@@ -57,10 +58,9 @@ class UsersController {
                 .then(function(response) {
                     return userInstance.generateTokens();
                 }).then((tokens) => {
-                    const jsonResponseData = {};
-                    jsonResponseData['user'] = userInstance;
-                    jsonResponseData['user']['userId'] = userInstance._id.toString();
-                    jsonResponseData['tokens'] = tokens;
+                    jsonResponseData.user = Object.assign({}, userInstance._doc);
+                    jsonResponseData.user.userId = userInstance._id.toString();
+                    jsonResponseData.tokens = tokens;
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(jsonResponseData));
                 }).catch((err) => {
@@ -89,7 +89,6 @@ class UsersController {
     updateUser(req, res) {
         let userInstance = null;
         const userId = req.params.userId;
-        console.log(req.body);
         // 1. update user data
         User.findById(userId).then(user => {
             userInstance = user;

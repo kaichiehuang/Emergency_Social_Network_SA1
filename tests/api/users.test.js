@@ -2,7 +2,7 @@ const TestDatabase = require('../services/testDataBase')
 const agent = require('superagent')
 
 // Initiate Server
-let PORT = 3000;
+let PORT = 3001;
 let HOST = 'http://localhost:' + PORT;
 
 let app = require('../../app').app;
@@ -172,7 +172,7 @@ describe('Test Users with sockets', () =>{
             .send(user)
             .set('accept', 'json')
             .then(res =>{
-                userId = res.body.user.userId;
+                userId = res.body.user._id;
                 token = res.body.tokens.token;
                 expect(res.body.user.username).toBe('APIUserTest');
             })
@@ -183,7 +183,7 @@ describe('Test Users with sockets', () =>{
 
     });
 
-    test('should create relationshio between user and socket',async() => {
+    test('should create relationship between user and socket',async() => {
 
         let socket= { socketId : "1"};
         await agent.post(HOST + '/api/users/'+userId+'/socket')
@@ -193,7 +193,7 @@ describe('Test Users with sockets', () =>{
         .set('Authorization', token)
         .set('accept', 'json')
         .then(res =>{
-            expect(res.body.sockets).toBeDefined();
+            expect(res.body.sockets['1']).toBe(true);
         })
     })
 
