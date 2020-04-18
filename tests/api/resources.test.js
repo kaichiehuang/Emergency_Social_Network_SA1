@@ -172,7 +172,6 @@ describe("Testing searching Resources  API", () =>{
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{
-                console.log(res.body);
                 expect(res.body.length).toBe(2);
             });
     })

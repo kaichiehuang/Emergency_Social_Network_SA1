@@ -55,7 +55,6 @@ describe('API USERS TEST', () => {
             .send(userEmpty)
             .set('accept', 'json')
             .then(res =>{
-               console.log(res)
             })
             .catch(error =>{
                 expect(error.status).toBe(422);
@@ -85,7 +84,6 @@ describe('API USERS TEST', () => {
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{
-                console.log(res.body);
                 expect(res.body.length).toBe(1);
             })
     })
@@ -195,7 +193,6 @@ describe('Test Users with sockets', () =>{
         .set('Authorization', token)
         .set('accept', 'json')
         .then(res =>{
-            console.log(res.body);
             expect(res.body.sockets).toBeDefined();
         })
     })
@@ -209,7 +206,6 @@ describe('Test Users with sockets', () =>{
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{
-                console.log(res.body);
             })
 
         await agent.delete(HOST + '/api/users/'+userId+'/socket/' + socket.socketId)
@@ -218,7 +214,6 @@ describe('Test Users with sockets', () =>{
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{
-                console.log(res.body);
                 expect(res.body.sockets.length).toBeUndefined();
             })
     })

@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.38% </span>
+                <span class="strong">6.82% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/47</span>
+                <span class='fraction'>3/44</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">6.38% </span>
+                <span class="strong">6.82% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/47</span>
+                <span class='fraction'>3/44</span>
             </div>
         
             
@@ -149,16 +149,12 @@
 <a name='L90'></a><a href='#L90'>90</a>
 <a name='L91'></a><a href='#L91'>91</a>
 <a name='L92'></a><a href='#L92'>92</a>
-<a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a>
-<a name='L96'></a><a href='#L96'>96</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<a name='L93'></a><a href='#L93'>93</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -196,8 +192,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -247,13 +241,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span></td><td class="text"><pre class="prettyprint lang-js">const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js')
+<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js')
 const fs = require('fs');
 &nbsp;
 class EmergencyStatusDetailController {
 &nbsp;
 <span class="fstat-no" title="function not covered" >    ge</span>tEmergencyStatusDetail(req, res) {
-<span class="cstat-no" title="statement not covered" >        console.log("I am here!");</span>
         const userId = <span class="cstat-no" title="statement not covered" >req.params.userId;</span>
 <span class="cstat-no" title="statement not covered" >        EmergencyStatusDetail.getEmergencyStatusDetail(userId)</span>
             .then(<span class="fstat-no" title="function not covered" >(s</span>tatusDetail) =&gt; {
@@ -268,7 +261,7 @@ class EmergencyStatusDetailController {
         const userId = <span class="cstat-no" title="statement not covered" >req.params.userId;</span>
         const description = <span class="cstat-no" title="statement not covered" >req.body.description;</span>
         const detailType = <span class="cstat-no" title="statement not covered" >req.body.detailType;</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        EmergencyStatusDetail.updateEmergencyStatusDetail(userId, description, detailType)</span>
             .then(<span class="fstat-no" title="function not covered" >(s</span>tatusDetail) =&gt; {
 <span class="cstat-no" title="statement not covered" >                res.contentType('application/json');</span>
@@ -291,8 +284,6 @@ class EmergencyStatusDetailController {
     }
 &nbsp;
 <span class="fstat-no" title="function not covered" >    ad</span>dPictureAndDescription(req, res) {
-<span class="cstat-no" title="statement not covered" >        console.log("In add picture controller");</span>
-<span class="cstat-no" title="statement not covered" >        console.log(req.file);</span>
         const userId = <span class="cstat-no" title="statement not covered" >req.params.userId;</span>
         const picturePath = <span class="cstat-no" title="statement not covered" >req.file.path;</span>
         const pictureName = <span class="cstat-no" title="statement not covered" >req.file.filename;</span>
@@ -311,7 +302,7 @@ class EmergencyStatusDetailController {
 <span class="fstat-no" title="function not covered" >    up</span>datePictureDescription(req, res) {
         const pictureId = <span class="cstat-no" title="statement not covered" >req.params.pictureId;</span>
         const pictureDescription = <span class="cstat-no" title="statement not covered" >req.body.pictureDescription;</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        EmergencyStatusDetail.updatePictureDescription(pictureId, pictureDescription)</span>
             .then(<span class="fstat-no" title="function not covered" >(u</span>pdatedPicAndDes) =&gt; {
 <span class="cstat-no" title="statement not covered" >                res.contentType('application/json');</span>
@@ -349,7 +340,7 @@ module.exports = EmergencyStatusDetailController;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Apr 16 2020 19:40:13 GMT-0700 (PDT)
+                at Fri Apr 17 2020 18:16:50 GMT-0700 (PDT)
             </div>
         </div>
         <script src="../../prettify.js"></script>
