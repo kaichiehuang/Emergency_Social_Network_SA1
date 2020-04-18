@@ -1,12 +1,15 @@
 // eslint-disable-next-line no-unused-vars
+/**
+ * Class in charge of drawing a use's profile form, 3 steps
+ */
 class UserProfileForm {
     /**
      * changes the receiver for the private chat
-     * @param profile_form_user_id
+     * @param profileFormUserId
      */
-    static initiateUserProfileForm(profile_form_user_id) {
-        Cookies.set('profile_form_user_id', profile_form_user_id);
-        UserProfileForm.updateComponentView(profile_form_user_id, 1);
+    static initiateUserProfileForm(profileFormUserId) {
+        Cookies.set('profile_form_user_id', profileFormUserId);
+        UserProfileForm.updateComponentView(profileFormUserId, 1);
         UserProfileForm.initEvent();
     }
 
