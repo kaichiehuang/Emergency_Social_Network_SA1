@@ -12,9 +12,9 @@ class APIHandler {
      * @return {[type]}             [description]
      */
     sendRequest(url, operation, data, token, contentType) {
-        let jwt = Cookies.get('user-jwt-esn');
+        const jwt = Cookies.get('user-jwt-esn');
 
-        let contentTyoeOption = contentType ?
+        let contentTypeOption = contentType ?
             contentType : "application/x-www-form-urlencoded; charset=UTF-8";
 
         let headers = token ? {
@@ -28,7 +28,7 @@ class APIHandler {
             type: operation,
             data: dataSend,
             headers: headers,
-            contentType: contentTyoeOption
+            contentType: contentTypeOption
         };
 
         return new Promise((resolve, reject) => {
