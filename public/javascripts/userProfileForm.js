@@ -1,4 +1,7 @@
 // eslint-disable-next-line no-unused-vars
+/**
+ * Class in charge of drawing a use's profile form, 3 steps
+ */
 class UserProfileForm {
     /**
      * changes the receiver for the private chat
