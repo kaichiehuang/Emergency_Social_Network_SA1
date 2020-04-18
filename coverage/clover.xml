@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1587179599591" clover="3.2.0">
-  <project timestamp="1587179599592" name="All files">
-    <metrics statements="942" coveredstatements="840" conditionals="243" coveredconditionals="204" methods="303" coveredmethods="224" elements="1488" coveredelements="1268" complexity="0" loc="942" ncloc="942" packages="6" files="32" classes="32"/>
+<coverage generated="1587180681853" clover="3.2.0">
+  <project timestamp="1587180681854" name="All files">
+    <metrics statements="941" coveredstatements="839" conditionals="243" coveredconditionals="204" methods="303" coveredmethods="223" elements="1487" coveredelements="1266" complexity="0" loc="941" ncloc="941" packages="6" files="31" classes="31"/>
     <package name="team_SA1_ESN">
-      <metrics statements="61" coveredstatements="57" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="2"/>
+      <metrics statements="61" coveredstatements="57" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="1"/>
       <file name="app.js" path="/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/app.js">
-        <metrics statements="60" coveredstatements="56" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="2"/>
+        <metrics statements="60" coveredstatements="56" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="1"/>
         <line num="1" count="7" type="stmt"/>
         <line num="2" count="7" type="stmt"/>
         <line num="3" count="7" type="stmt"/>
@@ -36,8 +36,8 @@
         <line num="81" count="7" type="stmt"/>
         <line num="84" count="0" type="stmt"/>
         <line num="91" count="7" type="stmt"/>
-        <line num="92" count="65" type="stmt"/>
-        <line num="93" count="65" type="stmt"/>
+        <line num="92" count="63" type="stmt"/>
+        <line num="93" count="63" type="stmt"/>
         <line num="97" count="7" type="stmt"/>
         <line num="102" count="7" type="stmt"/>
         <line num="104" count="7" type="stmt"/>
@@ -73,7 +73,7 @@
       </file>
     </package>
     <package name="team_SA1_ESN.controllers">
-      <metrics statements="319" coveredstatements="285" conditionals="62" coveredconditionals="52" methods="102" coveredmethods="70"/>
+      <metrics statements="318" coveredstatements="284" conditionals="62" coveredconditionals="52" methods="102" coveredmethods="70"/>
       <file name="AnnouncementController.js" path="/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/controllers/AnnouncementController.js">
         <metrics statements="25" coveredstatements="24" conditionals="10" coveredconditionals="8" methods="8" coveredmethods="5"/>
         <line num="1" count="7" type="stmt"/>
@@ -327,7 +327,7 @@
         <line num="8" count="7" type="stmt"/>
       </file>
       <file name="usersController.js" path="/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/controllers/usersController.js">
-        <metrics statements="88" coveredstatements="72" conditionals="14" coveredconditionals="11" methods="35" coveredmethods="23"/>
+        <metrics statements="87" coveredstatements="71" conditionals="14" coveredconditionals="11" methods="35" coveredmethods="23"/>
         <line num="1" count="7" type="stmt"/>
         <line num="2" count="7" type="stmt"/>
         <line num="12" count="16" type="stmt"/>
@@ -367,55 +367,54 @@
         <line num="78" count="0" type="stmt"/>
         <line num="90" count="2" type="stmt"/>
         <line num="91" count="2" type="stmt"/>
-        <line num="92" count="2" type="stmt"/>
+        <line num="93" count="2" type="stmt"/>
         <line num="94" count="2" type="stmt"/>
         <line num="95" count="2" type="stmt"/>
-        <line num="96" count="2" type="stmt"/>
+        <line num="98" count="2" type="stmt"/>
         <line num="99" count="2" type="stmt"/>
         <line num="100" count="2" type="stmt"/>
         <line num="101" count="2" type="stmt"/>
         <line num="102" count="2" type="stmt"/>
-        <line num="103" count="2" type="stmt"/>
-        <line num="120" count="1" type="stmt"/>
-        <line num="122" count="1" type="stmt"/>
-        <line num="124" count="1" type="stmt"/>
+        <line num="119" count="1" type="stmt"/>
+        <line num="121" count="1" type="stmt"/>
+        <line num="123" count="1" type="stmt"/>
+        <line num="125" count="1" type="stmt"/>
         <line num="126" count="1" type="stmt"/>
         <line num="127" count="1" type="stmt"/>
-        <line num="128" count="1" type="stmt"/>
-        <line num="145" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="146" count="0" type="stmt"/>
+        <line num="144" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="145" count="0" type="stmt"/>
+        <line num="147" count="0" type="stmt"/>
         <line num="148" count="0" type="stmt"/>
-        <line num="149" count="0" type="stmt"/>
+        <line num="151" count="0" type="stmt"/>
         <line num="152" count="0" type="stmt"/>
-        <line num="153" count="0" type="stmt"/>
+        <line num="155" count="0" type="stmt"/>
         <line num="156" count="0" type="stmt"/>
-        <line num="157" count="0" type="stmt"/>
-        <line num="159" count="0" type="stmt"/>
+        <line num="158" count="0" type="stmt"/>
+        <line num="168" count="2" type="stmt"/>
         <line num="169" count="2" type="stmt"/>
-        <line num="170" count="2" type="stmt"/>
+        <line num="171" count="2" type="stmt"/>
         <line num="172" count="2" type="stmt"/>
-        <line num="173" count="2" type="stmt"/>
+        <line num="174" count="2" type="stmt"/>
         <line num="175" count="2" type="stmt"/>
-        <line num="176" count="2" type="stmt"/>
+        <line num="188" count="1" type="stmt"/>
         <line num="189" count="1" type="stmt"/>
-        <line num="190" count="1" type="stmt"/>
+        <line num="191" count="1" type="stmt"/>
         <line num="192" count="1" type="stmt"/>
-        <line num="193" count="1" type="stmt"/>
+        <line num="194" count="1" type="stmt"/>
         <line num="195" count="1" type="stmt"/>
-        <line num="196" count="1" type="stmt"/>
-        <line num="200" count="0" type="stmt"/>
+        <line num="199" count="0" type="stmt"/>
+        <line num="210" count="3" type="stmt"/>
         <line num="211" count="3" type="stmt"/>
         <line num="212" count="3" type="stmt"/>
         <line num="213" count="3" type="stmt"/>
-        <line num="214" count="3" type="stmt"/>
-        <line num="216" count="3" type="cond" truecount="6" falsecount="0"/>
-        <line num="218" count="2" type="stmt"/>
-        <line num="222" count="2" type="stmt"/>
-        <line num="226" count="0" type="stmt"/>
+        <line num="215" count="3" type="cond" truecount="6" falsecount="0"/>
+        <line num="217" count="2" type="stmt"/>
+        <line num="221" count="2" type="stmt"/>
+        <line num="225" count="0" type="stmt"/>
+        <line num="229" count="1" type="stmt"/>
         <line num="230" count="1" type="stmt"/>
-        <line num="231" count="1" type="stmt"/>
-        <line num="235" count="0" type="stmt"/>
-        <line num="240" count="7" type="stmt"/>
+        <line num="234" count="0" type="stmt"/>
+        <line num="239" count="7" type="stmt"/>
       </file>
     </package>
     <package name="team_SA1_ESN.middleware">
@@ -488,36 +487,36 @@
         <line num="1" count="8" type="stmt"/>
         <line num="2" count="8" type="stmt"/>
         <line num="3" count="8" type="stmt"/>
-        <line num="7" count="19" type="stmt"/>
-        <line num="8" count="19" type="stmt"/>
-        <line num="9" count="19" type="stmt"/>
-        <line num="10" count="19" type="cond" truecount="2" falsecount="0"/>
-        <line num="18" count="13" type="stmt"/>
-        <line num="19" count="13" type="stmt"/>
-        <line num="24" count="13" type="stmt"/>
-        <line num="26" count="13" type="stmt"/>
+        <line num="16" count="19" type="stmt"/>
+        <line num="17" count="19" type="stmt"/>
+        <line num="18" count="19" type="stmt"/>
+        <line num="19" count="19" type="cond" truecount="2" falsecount="0"/>
         <line num="27" count="13" type="stmt"/>
         <line num="28" count="13" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="34" count="0" type="stmt"/>
-        <line num="44" count="4" type="stmt"/>
-        <line num="45" count="4" type="stmt"/>
-        <line num="48" count="4" type="stmt"/>
-        <line num="53" count="0" type="stmt"/>
-        <line num="63" count="4" type="stmt"/>
-        <line num="64" count="4" type="stmt"/>
-        <line num="65" count="4" type="stmt"/>
-        <line num="69" count="4" type="stmt"/>
-        <line num="79" count="3" type="stmt"/>
-        <line num="80" count="3" type="stmt"/>
-        <line num="83" count="3" type="stmt"/>
-        <line num="98" count="2" type="stmt"/>
-        <line num="99" count="2" type="stmt"/>
-        <line num="104" count="2" type="stmt"/>
-        <line num="105" count="2" type="stmt"/>
-        <line num="106" count="2" type="stmt"/>
-        <line num="108" count="2" type="stmt"/>
-        <line num="117" count="8" type="stmt"/>
+        <line num="33" count="13" type="stmt"/>
+        <line num="35" count="13" type="stmt"/>
+        <line num="36" count="13" type="stmt"/>
+        <line num="37" count="13" type="stmt"/>
+        <line num="42" count="0" type="stmt"/>
+        <line num="43" count="0" type="stmt"/>
+        <line num="53" count="4" type="stmt"/>
+        <line num="54" count="4" type="stmt"/>
+        <line num="57" count="4" type="stmt"/>
+        <line num="62" count="0" type="stmt"/>
+        <line num="72" count="4" type="stmt"/>
+        <line num="73" count="4" type="stmt"/>
+        <line num="74" count="4" type="stmt"/>
+        <line num="78" count="4" type="stmt"/>
+        <line num="93" count="3" type="stmt"/>
+        <line num="94" count="3" type="stmt"/>
+        <line num="97" count="3" type="stmt"/>
+        <line num="112" count="2" type="stmt"/>
+        <line num="113" count="2" type="stmt"/>
+        <line num="118" count="2" type="stmt"/>
+        <line num="119" count="2" type="stmt"/>
+        <line num="120" count="2" type="stmt"/>
+        <line num="122" count="2" type="stmt"/>
+        <line num="131" count="8" type="stmt"/>
       </file>
       <file name="emergencyStatusDetail.js" path="/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/emergencyStatusDetail.js">
         <metrics statements="54" coveredstatements="41" conditionals="2" coveredconditionals="2" methods="29" coveredmethods="22"/>
@@ -681,9 +680,6 @@
         <line num="23" count="4" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
         <line num="34" count="8" type="stmt"/>
-      </file>
-      <file name="untitled.js" path="/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/untitled.js">
-        <metrics statements="0" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       </file>
       <file name="user.js" path="/Users/jplozgom/Documents/jp/labWeb/cmu/semestre1/FSE/team_SA1_ESN/model/user.js">
         <metrics statements="212" coveredstatements="181" conditionals="159" coveredconditionals="136" methods="87" coveredmethods="69"/>
