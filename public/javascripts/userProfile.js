@@ -1,6 +1,5 @@
 class UserProfile {
     static instance;
-
     /**
      * Singleton instance element
      * @return {[type]} [description]
