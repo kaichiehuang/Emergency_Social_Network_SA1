@@ -1,12 +1,12 @@
 class UserProfile {
-    static instance = null;
+    static instance;
 
     /**
      * Singleton instance element
      * @return {[type]} [description]
      */
     static getInstance() {
-        if (this.instance == null) {
+        if (this.instance == undefined) {
             this.instance = new UserProfile();
         }
         return this.instance;
