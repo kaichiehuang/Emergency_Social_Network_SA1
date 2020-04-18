@@ -1,81 +1,63 @@
-const UserModel = require('./model').UserMongo;
+const mongoose = require('mongoose');
+const UserSchema = require('./model').UserSchema;
 const bcrypt = require('bcrypt');
 const blacklist = require('the-big-username-blacklist');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
-class User {
-    constructor() {
-        this._id = null;
-        this.username = null;
-        this.password = null;
-        this.name = null;
-        this.last_name = null;
-        this.phone_number = null;
-        this.acknowledgement = false;
-        this.onLine = false;
-        this.status = constants.UNDEFINED_STATUS;
-    }
+/**
+ * Our class for user model taht will be attached to the schema
+ */
+ class UserModel {
     /**
      * Sets registration data
      * @param {[type]} username [description]
      * @param {[type]} password [description]
      */
-    setRegistrationData(username, password) {
+     setRegistrationData(username, password) {
         this.username = username;
         this.password = password;
+        this.status = "UNDEFINED";
     }
+    /*******************
+
+        VALIDATIONS
+
+        ******************/
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
      */
-    validateCreate() {
+     validateCreate() {
         return new Promise((resolve, reject) => {
             // validate username structure
-            this.validateUserName(this.username).then((result) => {
-                console.log('Username structure validated');
-                // validate banned username
-                return this.validateBannedUsername();
-            }).then((result) => {
-                console.log('Banned username validated');
-                // validate password structure
-                return this.validatePassword();
-            }).then((result) => {
-                console.log('All validations passed');
-                // if no errors resolve promise with result obj
-                resolve(true);
-            }).catch(function(err) {
-                console.log('validations not passed');
-                // if errors reject the promise
-                console.log(err);
-                reject(err);
-            });
+            if (!this.validateUserName()) {
+                return reject('Invalid username, please enter a longer username (min 3 characters)');
+            }
+            // validate banned users
+            if (!this.validateBannedUsername()) {
+                return reject('Invalid username, this username is reserved for the platform. Please enter a different username.');
+            }
+            // validate password structure
+            if (!this.validatePassword()) {
+                return reject('Invalid password, please enter a longer username (min 4 characters)');
+            }
+            return resolve(true);
         });
     }
 
-    // WITH PROMISES
     /**
      * [isPasswordMatch description]
      * @param  {[type]}  password [description]
      * @return {Boolean}          [description]
      */
-    isPasswordMatch() {
+     isPasswordMatch(inputPassword) {
         return new Promise((resolve, reject) => {
-            UserModel.find({
-                username: this.username
-            }).exec().then((userFind) => {
-                if (userFind.length !== 0) {
-                    if (bcrypt.compareSync(this.password, userFind[0].password)) {
-                        resolve(userFind[0]);
-                    } else {
-                        reject('Invalid username / password.');
-                    }
-                } else {
-                    reject('Invalid username / password.');
-                }
-            }).catch((err) => {
-                /* istanbul ignore next */
-                reject(err);
-            });
+
+            if (bcrypt.compareSync(inputPassword, this.password)) {
+                return resolve(true);
+            } else {
+                return reject('Invalid username / password.');
+            }
         });
     }
     /**
@@ -83,13 +65,11 @@ class User {
      * [validateUserName description]
      * @return {[type]} [description]
      */
-    validateUserName() {
-        return new Promise((resolve, reject) => {
-            if (this.username.length < 3) {
-                reject('Invalid username, please enter a longer username (min 3 characters)');
-            }
-            resolve(true);
-        });
+     validateUserName() {
+        if (this.username.length < 3) {
+            return false;
+        }
+        return true;
     }
 
     // VALIDATE PASSWORD  LENGTH
@@ -97,50 +77,44 @@ class User {
      * [validatePassword description]
      * @return {[type]} [description]
      */
-    validatePassword() {
-        return new Promise((resolve, reject) => {
-            if (this.password.length < 4) {
-                reject('Invalid password, please enter a longer username (min 4 characters)');
-            } else {
-                resolve(true);
-            }
-        });
+     validatePassword() {
+        if (this.password.length < 4) {
+            return false;
+        }
+        return true;
     }
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
      */
-    validateUpdate(data) {
+     validateUpdate(data) {
         return new Promise((resolve, reject) => {
             let step = null;
             if (data.step != undefined && data.step == 1) {
-                step = 'personal';
-            }
-            if (data.step != undefined && data.step == 2) {
-                step = 'medical';
+                step = "personal";
+            } else if (data.step != undefined && data.step == 2) {
+                step = "medical";
             } else if (data.step != undefined && data.step == 3) {
-                step = 'other';
+                step = "other";
             }
-
-            // not updating personal info
+            //not updating personal info
             if (step == null) {
-                resolve(true);
+                return resolve(true);
+            } else {
+                //validate medical information and personal information and emergency contact information
+                this.validateRequiredFieldsUpdate(step, data).then((result) => {
+                    console.log('Firsts validations passed');
+                    return this.validateLengthFieldsUpdate(step, data);
+                }).then((result) => {
+                    console.log('All validations passed');
+                    return resolve(true);
+                }).catch(err => {
+                    console.log('validations not passed');
+                    // if errors reject the promise
+                    console.log(err);
+                    return reject(err);
+                });
             }
-
-            // validate medical information and personal information and emergency contact information
-            this.validateRequiredFieldsUpdate(step, data).then((result) => {
-                console.log('Firsts validations passed');
-                return this.validateLengthFieldsUpdate(step, data);
-            }).then((result) => {
-                console.log('All validations passed');
-                // if no errors resolve promise with result obj
-                resolve(true);
-            }).catch((err) => {
-                console.log('validations not passed');
-                // if errors reject the promise
-                console.log(err);
-                reject(err);
-            });
         });
     }
     /**
@@ -148,36 +122,35 @@ class User {
      * [validateUserName description]
      * @return {[type]} [description]
      */
-    validateRequiredFieldsUpdate(type, data) {
+     validateRequiredFieldsUpdate(type, data) {
         return new Promise((resolve, reject) => {
             if (type == 'personal') {
                 if (data.name == undefined || data.last_name == undefined || data.birth_date == undefined || data.city == undefined || data.address == undefined || data.phone_number == 0 || data.emergency_contact == undefined || data.emergency_contact.name == undefined || data.emergency_contact.phone_number == undefined || data.emergency_contact.address == 0) {
-                    reject('Missing required fields. Every field in this step is mandatory.');
+                    return reject("Missing required fields. Every field in this step is mandatory.");
                 } else if (data.privacy_terms_data_accepted == undefined || data.privacy_terms_data_accepted == '') {
-                    reject('Please accept the term and conditions for personal data treatment');
+                    return reject('Please accept the term and conditions for personal data treatment');
                 } else {
                     if (data.name.length == 0 || data.last_name.length == 0 || data.birth_date.length == 0 || data.city.length == 0 || data.address.length == 0 || data.phone_number.length == 0 || data.emergency_contact == undefined || data.emergency_contact.name.length == 0 || data.emergency_contact.phone_number.length == 0 || data.emergency_contact.address.length == 0) {
-                        reject('Missing required fields. Every field in this step is mandatory.');
+                        return reject('Missing required fields. Every field in this step is mandatory.');
                     }
                 }
             } else if (type == 'medical') {
                 if (data.medical_information == undefined || data.medical_information.blood_type == 0) {
-                    reject('Blood type is a mandatory field, please select a valid blood type');
+                    return reject('Blood type is a mandatory field, please select a valid blood type');
                 } else if (data.medical_information.privacy_terms_medical_accepted == undefined || data.medical_information.privacy_terms_medical_accepted == '') {
-                    reject('Please accept the term and conditions for medical data treatment');
+                    return reject('Please accept the term and conditions for medical data treatment');
                 }
-            } else if (type == 'other') {
+            } else if (type == "other") {
                 if (data.personal_message != undefined) {
-                    console.log(data.personal_message, data.personal_message);
                     if (data.personal_message.security_question.length == 0 && data.personal_message.security_question_answer.length != 0) {
-                        reject('The security question and the answer to this cannot be empty if one of these is sent.');
+                        return reject('The security question and the answer to this cannot be empty if one of these is sent.');
                     }
                     if (data.personal_message.security_question.length != 0 && data.personal_message.security_question_answer.length == 0) {
-                        reject('The security question and the answer to this cannot be empty if one of these is sent.');
+                        return reject('The security question and the answer to this cannot be empty if one of these is sent.');
                     }
                 }
             }
-            resolve(true);
+            return resolve(true);
         });
     }
     /**
@@ -185,136 +158,91 @@ class User {
      * [validateUserName description]
      * @return {[type]} [description]
      */
-    validateLengthFieldsUpdate(type, data) {
+     validateLengthFieldsUpdate(type, data) {
         return new Promise((resolve, reject) => {
             if (type == 'personal') {
                 if (data.city.length < 4 || data.address.length < 4) {
-                    reject('City and address must have more than 4 characters.');
+                    return reject("City and address must have more than 4 characters.");
                 } else if (data.phone_number.length < 7 || data.emergency_contact.phone_number.length < 7) {
-                    reject('Every phone number must have more than 7 characters.');
+                    return reject("Every phone number must have more than 7 characters.");
                 }
             } else if (type == 'medical') {
                 if (data.medical_information.blood_type == 0) {
-                    reject('Blood type is a mandatory field, please select a valid blood type');
+                    return reject('Blood type is a mandatory field, please select a valid blood type');
                 } else if (data.medical_information.privacy_terms_medical_accepted == undefined || data.medical_information.privacy_terms_medical_accepted == '') {
-                    reject('Please accept the term and conditions for medical data treatment');
+                    return reject('Please accept the term and conditions for medical data treatment');
                 }
             }
-            resolve(true);
+            return resolve(true);
         });
-    }
-
-    /**
-     * Register a username in DB. it hashes the password
-     * @return {[type]} [description]
-     */
-    registerUser() {
-        const hash = this.hashPassword(this.password);
-        const newUser = new UserModel({
-            username: this.username,
-            password: hash,
-            name: this.name,
-            last_name: this.last_name,
-            acknowledgement: false,
-            onLine: false,
-            status: constants.UNDEFINED_STATUS
-        });
-        return newUser.save();
-    }
-
-    /**
-     * Updates the acknowledgement for a user
-     * @param  {[type]} userId          [description]
-     * @param  {[type]} acknowledgement [description]
-     * @param  {[type]} status          [description]
-     * @return {[type]}                 [description]
-     */
-    updateUser(userId, data) {
-        return new Promise((resolve, reject) => {
-            this.validateUpdate(data)
-                .then((result) => {
-                    return UserModel.findByIdAndUpdate(userId, {
-                        $set: data
-                    }, {
-                        new: true
-                    });
-                })
-                .then((usr) => {
-                    resolve(usr);
-                }).catch((err) => {
-                    reject(err);
-                });
-        });
-    }
-
-    /**
-     * Finds a user by username
-     * @param  {[type]} userId [description]
-     * @return {[type]}        [description]
-     */
-    static findUserByUsername(username) {
-        return new Promise((resolve, reject) => {
-            UserModel.findOne({
-                username: username
-            }).exec().then((user) => {
-                resolve(user);
-            }).catch((err) => {
-                /* istanbul ignore next */
-                reject(err);
-            });
-        });
-    }
-
-    /**
-     * hashes a user password
-     * @param  {[type]} password [description]
-     * @return {[type]}          [description]
-     */
-    hashPassword(password) {
-        return bcrypt.hashSync(password, 10);
     }
 
     /**
      * Validates if a username is banned
      * @return {[type]} [description]
      */
-    validateBannedUsername() {
+     validateBannedUsername() {
+        // 3. Validate BlackListUser\
+        const black = blacklist.validate(this.username);
+        if (!black) {
+            return false;
+        }
+        return true;
+    }
+    /*******************
+
+          OPERATIONS
+
+          ******************/
+    /**
+     * Register a username in DB. it hashes the password
+     * @return {[type]} [description]
+     */
+     registerUser() {
         return new Promise((resolve, reject) => {
-            // 3. Validate BlackListUser\
-            const black = blacklist.validate(this.username);
-            if (!black) {
-                reject('Invalid username, this username is reserved for the platform. Please enter a different username.');
-            } else {
-                resolve(true);
-            }
+            this.hashPassword(this.password);
+            this.save().then(_ => {
+                return resolve(true);
+            }).catch(err => {
+                return reject(err);
+            })
         });
     }
 
     /**
-     * Checks if a username exists
-     * @param  {[type]} username [description]
-     * @return boolean          Resolves True if it exists / resolves False if it doesn't existe, rejects if error
+     * Updates the  user
+     * @param  {[type]} data            Array of data
+     * @return {[type]}                 [description]
      */
-    static usernameExists(username) {
+     updateUser(data) {
         return new Promise((resolve, reject) => {
-            User.findUserByUsername(username).then((user) => {
-                if (user !== null && user.username != undefined && user.username == username) {
-                    resolve(true);
-                } else {
-                    resolve(false);
+            this.validateUpdate(data).then(result => {
+                if (data['status'] != undefined) {
+                    this.status_timestamp = new Date()
                 }
+                this.set(data);
+                return this.save();
+            }).then(usr => {
+                return resolve(true);
             }).catch((err) => {
-                /* istanbul ignore next */
-                reject(err);
+                return reject(err);
             });
         });
     }
 
     /**
+     * hashes a user password //
+     * @param  {[type]} password [description]
+     * @return {[type]}          [description]
+     */
+     hashPassword(password) {
+        this.password = bcrypt.hashSync(password, 10);
+    }
+    /**
      * Generates a token for a user
      * @return {[type]} [description]
      */
-    generateTokens() {
+     generateTokens() {
         return new Promise((resolve, reject) => {
             let token = '';
             TokenServerClass.generateToken(this._id, false).then((generatedToken) => {
@@ -324,14 +252,142 @@ class User {
                         token: token,
                         ex_token: genRefToken
                     };
-                    resolve(tokens);
+                    return resolve(tokens);
                 }).catch((err) => {
-                    /* istanbul ignore next */
-                    reject(err);
+                    return reject(err);
                 });
             }).catch((err) => {
-                /* istanbul ignore next */
-                reject(err);
+                return reject(err);
+            });
+        });
+    }
+
+    /**
+     * Inserts a socket to the sockets map attribute
+     * @param  {[type]} userId   [description]
+     * @param  {[type]} socketId [description]
+     * @return {[type]}          [description]
+     */
+     insertSocket(socketId) {
+        return new Promise((resolve, reject) => {
+            if (this.sockets == undefined) {
+                this.sockets = {};
+            }
+            this.save().then((result) => {
+                if (this.sockets.has(socketId) == false) {
+                    this.sockets.set(socketId, 1);
+                }
+                return this.save();
+            }).then((result) => {
+                return resolve(result);
+            }).catch((err) => {
+                return reject(err);
+            });
+        });
+    }
+
+    /**
+     * Removes a socket from the sockets map attribute
+     * @param  {[type]} userId   [description]
+     * @param  {[type]} socketId [description]
+     * @return {[type]}          [description]
+     */
+     removeSocket(socketId) {
+        return new Promise((resolve, reject) => {
+            if (this.sockets == undefined) {
+                return reject('Socket does not exist');
+            }
+            if (this.sockets.has(socketId)) {
+                this.sockets.delete(socketId);
+            } else {
+                return reject('Socket does not exist');
+            }
+            return this.save()
+            .then((result) => {
+                return resolve(result);
+            }).catch((err) => {
+                return reject(err);
+            });
+        });
+    }
+
+    /**
+     * Change message count for all messages sent by the senderUserId to current user
+     * @param  {[type]} senderUserId   [description]
+     * @param  {[type]} increaseCount  [description]
+     * @return  Returns the count after increasing
+     */
+     changeMessageCount(senderUserId, reset) {
+        senderUserId = String(senderUserId);
+        return new Promise((resolve, reject) => {
+            if (this.unread_messages == undefined) {
+                this.unread_messages = {};
+            }
+            this.save()
+            .then((res) => {
+                if (reset !== true && this.unread_messages.has(senderUserId) == false) {
+                    this.unread_messages.set(senderUserId, 1);
+                } else {
+                    let count = this.unread_messages.get(senderUserId);
+                    if(reset === true){
+                        this.unread_messages.delete(senderUserId);
+                    }
+                    else if(reset !== true){
+                        if(isNaN(count) || count <= 0){
+                            count = 1;
+                        }else{
+                            count++;
+                        }
+                        this.unread_messages.set(senderUserId, count);
+                    }
+                }
+                return this.save();
+            }).then((res) => {
+                if(reset === true){
+                    return resolve(0);
+                }
+                return resolve(this.unread_messages.get(senderUserId));
+            }).catch((err) => {
+                return reject(err);
+            });
+        });
+    }
+
+    /**
+     * Get the personal message for a user if the security question matches
+     * @param  {[type]} security_question_answer [description]
+     * @return {[type]}                          [description]
+     */
+     getPersonalMessage(security_question_answer) {
+        return new Promise((resolve, reject) => {
+            if (this.personal_message != undefined && this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(security_question_answer) == 0) {
+                return resolve(this.personal_message.message);
+            } else {
+                return reject("Invalid answer");
+            }
+        });
+    }
+    /******************************
+
+          STATIC FIND FUNCTIONS
+
+          *****************************/
+    /**
+     * Checks if a username exists
+     * @param  {[type]} username [description]
+     * @return boolean          return Resolves True if it exists / resolves False if it doesn't existe, rejects if error
+     */
+     static usernameExists(username) {
+        return new Promise((resolve, reject) => {
+            const userModel = new User();
+            this.findUserByUsername(username).then((user) => {
+                if (user !== null && user.username != undefined && user.username == username) {
+                    return resolve(true);
+                } else {
+                    return resolve(false);
+                }
+            }).catch((err) => {
+                return reject(err);
             });
         });
     }
@@ -340,46 +396,15 @@ class User {
      * username exists / true or false
      * @return {[type]} [description]
      */
-    static userExist(id) {
+     static userExist(id) {
         return new Promise((resolve, reject) => {
-            this.findUserById(id).then((result) => {
-                if (result !== null && result.id == id) {
-                    resolve(true);
+            User.findUserById(id).then((user) => {
+                console.log(user);
+                if (user !== null) {
+                    return resolve(true);
                 } else {
-                    resolve(false);
+                    return resolve(false);
                 }
-            }).catch((err) => {
-                /* istanbul ignore next */
-                reject(err);
-            });
-        });
-    }
-    /**
-     * Finds a user by username
-     * @param  {[type]} userId [description]
-     * @return {[type]}        [description]
-     */
-    static findUserByIdIfAuthorized(id, currentUserId) {
-        return new Promise((resolve, reject) => {
-            let tokenUser = null;
-            User.findUserById(currentUserId).then((user) => {
-                tokenUser = user;
-                // same user no need to check if its an admin or authorized
-                if (currentUserId.toString().localeCompare(id) == 0) {
-                    resolve(user);
-                }
-                // diff user, check if its an admin or authorized
-                else {
-                    return User.findUserById(id);
-                }
-            }).then((user) => {
-                // diff user, check if its an admin or authorized
-                if (currentUserId.toString().localeCompare(id) != 0) {
-                    if (user.emergency_contact == undefined || user.emergency_contact.phone_number == undefined || tokenUser.phone_number == undefined || tokenUser.phone_number == '' || tokenUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
-                        reject('You are not authorized');
-                    }
-                }
-                resolve(user);
             }).catch((err) => {
                 return reject(err);
             });
@@ -390,15 +415,66 @@ class User {
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
-    static findUserById(id) {
+     static findUserByUsername(username) {
         return new Promise((resolve, reject) => {
-            UserModel.findOne({
+            let userModel = new User();
+            this.findOne({
+                username: username
+            }).exec().then(user => {
+                return resolve(user);
+            }).catch((err) => {
+                return reject(err);
+            });
+        });
+    }
+    /**
+     * Finds a user by Id only if the user searching for it is authorized
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
+     static findUserByIdIfAuthorized(id, currentUserId) {
+        return new Promise((resolve, reject) => {
+            let searchingUser = null;
+            User.findUserById(currentUserId).then((user) => {
+                if (user == null) {
+                    return reject("You are not authorized");
+                }
+                //same user no need to check if its an admin or authorized
+                if (currentUserId.toString().localeCompare(id) == 0) {
+                    return resolve(user);
+                }
+                //diff user, check if its an admin or authorized
+                searchingUser = user;
+                return User.findUserById(id);
+            }).then((user) => {
+                if (user == null) {
+                    return reject("You are not authorized");
+                }
+                //diff user, check if its an admin or authorized
+                if (currentUserId.toString().localeCompare(id) != 0) {
+                    if (user.emergency_contact == undefined || user.emergency_contact.phone_number == undefined || searchingUser.phone_number == undefined || searchingUser.phone_number == '' || searchingUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
+                        return reject("You are not authorized");
+                    }
+                }
+                return resolve(user);
+            }).catch((err) => {
+                return reject(err);
+            });
+        });
+    }
+    /**
+     * Finds a user by username
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
+     static findUserById(id) {
+        return new Promise((resolve, reject) => {
+            this.findOne({
                 _id: id
             }).exec().then((user) => {
-                resolve(user);
+                return resolve(user);
             }).catch((err) => {
-                /* istanbul ignore next */
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -407,16 +483,15 @@ class User {
      * [getUsers description]
      * @return {[type]} [description]
      */
-    static getUsers() {
+     static getUsers() {
         return new Promise((resolve, reject) => {
-            UserModel.find({}).select('username onLine status').sort({
+            this.find({}).select('username onLine status').sort({
                 onLine: -1,
                 username: 'asc'
             }).then((users) => {
-                resolve(users);
+                return resolve(users);
             }).catch((err) => {
-                /* istanbul ignore next */
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -426,7 +501,7 @@ class User {
      * @param username
      * @return {Promise<unknown>}
      */
-    static findUsersByParams(params) {
+     static findUsersByParams(params) {
         return new Promise((resolve, reject) => {
             const data = {};
             if (params.username != undefined && params.username.length > 0) {
@@ -438,14 +513,13 @@ class User {
                 data.status = params.status;
             }
             console.log(data);
-            UserModel.find(data).select('username onLine status').sort({
+            this.find(data).select('username onLine status').sort({
                 onLine: -1,
                 username: 'asc'
             }).then((users) => {
-                resolve(users);
+                return resolve(users);
             }).catch((err) => {
-                /* istanbul ignore next */
-                reject(err);
+                return reject(err);
             });
         });
     }
@@ -455,137 +529,18 @@ class User {
      * @param status
      * @return {Promise<unknown>}
      */
-    static findUsersByStatus(status) {
+     static findUsersByStatus(status) {
         return new Promise((resolve, reject) => {
-            UserModel.find({
+            this.find({
                 status: status
             }).select('username onLine status').sort({
                 onLine: -1,
                 username: 'asc'
             }).then((users) => {
-                resolve(users);
+                return resolve(users);
             }).catch((err) => {
-                /* istanbul ignore next */
-                reject(err);
+                return reject(err);
             });
-        });
-    }
-
-
-    /**
-     * Inserts a socket to the sockets map attribute
-     * @param  {[type]} userId   [description]
-     * @param  {[type]} socketId [description]
-     * @return {[type]}          [description]
-     */
-    static insertSocket(userId, socketId) {
-        return new Promise((resolve, reject) => {
-            User.findUserById(userId).then((user) => {
-                /* istanbul ignore next */
-                if (user.sockets == undefined) {
-                    user.sockets = {};
-                }
-                return user.save();
-            }).then((user) => {
-                /* istanbul ignore next */
-                if (user.sockets.has(socketId) == false) {
-                    user.sockets.set(socketId, 1);
-                }
-                return user.save();
-            }).then((user) => {
-                resolve(user);
-            }).catch((err) => {
-                /* istanbul ignore next */
-                reject(err);
-            });
-        });
-    }
-
-    /**
-     * Removes a socket from the sockets map attribute
-     * @param  {[type]} userId   [description]
-     * @param  {[type]} socketId [description]
-     * @return {[type]}          [description]
-     */
-    static removeSocket(userId, socketId) {
-        return new Promise((resolve, reject) => {
-            User.findUserById(userId).then((user) => {
-                if (user.sockets == undefined) {
-                    user.sockets = {};
-                }
-                return user.save();
-            }).then((user) => {
-                if (user.sockets.has(socketId)) {
-                    user.sockets.delete(socketId);
-                } else {
-                    reject('Socket does not exist');
-                }
-                return user.save();
-            }).then((user) => {
-                resolve(user);
-            }).catch((err) => {
-                /* istanbul ignore next */
-                reject(err);
-            });
-        });
-    }
-
-    /**
-     * [changeMessageCount description]
-     * @param  {[type]} senderUserId   [description]
-     * @param  {[type]} receiverUserId [description]
-     * @param  {[type]} increaseCount  [description]
-     * @return {[type]}                [description]
-     */
-    static changeMessageCount(senderUserId, receiverUserId, increaseCount) {
-        return new Promise((resolve, reject) => {
-            User.findUserById(receiverUserId).then((user) => {
-                /* istanbul ignore next */
-                if (user.unread_messages == undefined) {
-                    user.unread_messages = {};
-                }
-                return user.save();
-            }).then((user) => {
-                /* istanbul ignore next */
-                if (user.unread_messages.has(senderUserId) == false) {
-                    user.unread_messages.set(senderUserId, 1);
-                } else {
-                    let count = user.unread_messages.get(senderUserId);
-                    if (increaseCount) {
-                        count++;
-                    } else {
-                        count = 0;
-                    }
-                    user.unread_messages.set(senderUserId, count);
-                }
-                return user.save();
-            }).then((user) => {
-                resolve(user);
-            }).catch((err) => {
-                reject(err);
-            });
-        });
-    }
-
-    /**
-     * [getPersonalMessage description]
-     * @param  {[type]} userId           [description]
-     * @param  {[type]} requestingUserId [description]
-     * @return {[type]}                  [description]
-     */
-    static getPersonalMessage(userId, requestingUserId, security_question_answer) {
-        return new Promise((resolve, reject) => {
-            // 1. find token user id
-            User.findUserByIdIfAuthorized(userId, requestingUserId)
-                .then((user) => {
-                    if (user.personal_message.security_question_answer.localeCompare(security_question_answer) == 0) {
-                        resolve(user.personal_message.message);
-                    } else {
-                        reject('Invalid answer');
-                    }
-                }).catch((err) => {
-                    reject(err);
-                });
         });
     }
 
@@ -616,4 +571,6 @@ class User {
     }
 }
 
+UserSchema.loadClass(UserModel);
+const User = mongoose.model('User', UserSchema);
 module.exports = User;

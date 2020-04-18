@@ -1,123 +1,249 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-<testsuites name="jest tests" tests="40" failures="0" time="10.206">
-  <testsuite name="User registration " errors="0" failures="0" skipped="0" timestamp="2020-04-09T02:40:00" time="10.045" tests="40">
-    <testcase classname="User registration  Registers a User to the database" name="User registration  Registers a User to the database" time="0.174">
+<testsuites name="jest tests" tests="109" failures="0" time="36.63">
+  <testsuite name="User registration " errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:12:43" time="11.229" tests="40">
+    <testcase classname="User registration  Registers a User to the database" name="User registration  Registers a User to the database" time="0.212">
     </testcase>
-    <testcase classname="Business Validations for user raise error validating username with less than 3 characters" name="Business Validations for user raise error validating username with less than 3 characters" time="0.007">
+    <testcase classname="Business Validations for user raise error validating username with less than 3 characters" name="Business Validations for user raise error validating username with less than 3 characters" time="0.014">
     </testcase>
-    <testcase classname="Business Validations for user raise error validating paaswords with less than 4 characters" name="Business Validations for user raise error validating paaswords with less than 4 characters" time="0.003">
+    <testcase classname="Business Validations for user raise error validating paaswords with less than 4 characters" name="Business Validations for user raise error validating paaswords with less than 4 characters" time="0.028">
     </testcase>
-    <testcase classname="Business Validations for user should pass validation for banned user names" name="Business Validations for user should pass validation for banned user names" time="0.006">
+    <testcase classname="Business Validations for user should pass validation for banned user names" name="Business Validations for user should pass validation for banned user names" time="0.085">
     </testcase>
-    <testcase classname="Business Validations for user should send an error for banned user names" name="Business Validations for user should send an error for banned user names" time="0.004">
+    <testcase classname="Business Validations for user should send an error for banned user names" name="Business Validations for user should send an error for banned user names" time="0.013">
     </testcase>
-    <testcase classname="Business Validations for user should validate user names previously registered" name="Business Validations for user should validate user names previously registered" time="0.13">
+    <testcase classname="Business Validations for user should validate user names previously registered" name="Business Validations for user should validate user names previously registered" time="0.128">
     </testcase>
-    <testcase classname="Business Validations for user should validate user names not registered" name="Business Validations for user should validate user names not registered" time="0.012">
+    <testcase classname="Business Validations for user should validate user names not registered" name="Business Validations for user should validate user names not registered" time="0.013">
     </testcase>
-    <testcase classname="User password validations, should password match with the database password" name="User password validations, should password match with the database password" time="0.238">
+    <testcase classname="User password validations, should password match with the database password" name="User password validations, should password match with the database password" time="0.199">
     </testcase>
-    <testcase classname="User password validations, should send an error message validating password,  password not matching" name="User password validations, should send an error message validating password,  password not matching" time="0.201">
+    <testcase classname="User password validations, should send an error message validating password,  password not matching" name="User password validations, should send an error message validating password,  password not matching" time="0.203">
     </testcase>
-    <testcase classname="User password validations, should send an error message validation password,  user not exist" name="User password validations, should send an error message validation password,  user not exist" time="0.162">
+    <testcase classname="Searching and update operations on a user previously inserted searching a user by the username" name="Searching and update operations on a user previously inserted searching a user by the username" time="0.12">
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted searching a user by the username" name="Searching and update operations on a user previously inserted searching a user by the username" time="0.127">
+    <testcase classname="Searching and update operations on a user previously inserted update data of the user" name="Searching and update operations on a user previously inserted update data of the user" time="0.117">
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted update data of the user" name="Searching and update operations on a user previously inserted update data of the user" time="0.287">
+    <testcase classname="Searching and update operations on a user previously inserted update user status (specific status method)" name="Searching and update operations on a user previously inserted update user status (specific status method)" time="0.133">
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted update user status (specific status method)" name="Searching and update operations on a user previously inserted update user status (specific status method)" time="0.109">
+    <testcase classname="Searching and update operations on a user previously inserted searching a user by the id " name="Searching and update operations on a user previously inserted searching a user by the id " time="0.12">
     </testcase>
-    <testcase classname="Searching and update operations on a user previously inserted searching a user by the id " name="Searching and update operations on a user previously inserted searching a user by the id " time="0.157">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" time="0.115">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - empty data" time="0.114">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" time="0.106">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - missing some data" time="0.145">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" time="0.114">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, missing data treatment acceptance" time="0.108">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" time="0.12">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 1 - all data, phone length" time="0.117">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 1 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 1 - all data complete" time="0.126">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 1 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 1 - all data complete" time="0.123">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" time="0.114">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - blood type required" time="0.117">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" time="0.136">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 2 - data treatment medical info required" time="0.109">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" time="0.125">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 2 - all data complete" time="0.137">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" time="0.111">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" name="Update operations on a user - profile information and validation rules update data validation required fields - user info step 3 - security question and answer" time="0.13">
+    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" time="0.122">
     </testcase>
-    <testcase classname="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" name="Update operations on a user - profile information and validation rules update data validation OK - user info step 3 - all data complete" time="0.13">
+    <testcase classname="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" name="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" time="0.403">
     </testcase>
-    <testcase classname="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" name="Test profile access for only authorized users NO ACCESS TO PROFILE - invalid must fail" time="0.427">
+    <testcase classname="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" name="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" time="0.411">
     </testcase>
-    <testcase classname="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" name="Test profile access for only authorized users ACCESS TO PROFILE, matching phone - must work" time="0.363">
+    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, WRONG ANSWER - must fail" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, WRONG ANSWER - must fail" time="0.4">
     </testcase>
-    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND WRONG ANSWER - must fail" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND WRONG ANSWER - must fail" time="0.374">
+    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" time="0.385">
     </testcase>
-    <testcase classname="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" name="Test profile access for only authorized users ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work" time="0.414">
+    <testcase classname="get all users ordered by online status and username get users ordered" name="get all users ordered by online status and username get users ordered" time="0.348">
     </testcase>
-    <testcase classname="get all users ordered by online status and username get users ordered" name="get all users ordered by online status and username get users ordered" time="0.316">
+    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.356">
     </testcase>
-    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.323">
+    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.322">
     </testcase>
-    <testcase classname="search users by username get users by username search" name="search users by username get users by username search" time="0.298">
+    <testcase classname="search users by status get users by status OK" name="search users by status get users by status OK" time="0.328">
     </testcase>
-    <testcase classname="search users by status get users by status OK" name="search users by status get users by status OK" time="0.306">
+    <testcase classname="search users by status get users by status UNDEFINED" name="search users by status get users by status UNDEFINED" time="0.325">
     </testcase>
-    <testcase classname="search users by status get users by status UNDEFINED" name="search users by status get users by status UNDEFINED" time="0.3">
+    <testcase classname="Tokens should generate token for the user" name="Tokens should generate token for the user" time="0.181">
     </testcase>
-    <testcase classname="Tokens should generate token for the user" name="Tokens should generate token for the user" time="0.117">
+    <testcase classname="Search for users by id should return  true if user exist" name="Search for users by id should return  true if user exist" time="0.129">
     </testcase>
-    <testcase classname="Search for users by id should return  true if user exist" name="Search for users by id should return  true if user exist" time="0.098">
+    <testcase classname="Search for users by id should return false if user not exist" name="Search for users by id should return false if user not exist" time="0.016">
     </testcase>
-    <testcase classname="Search for users by id should return false if user not exist" name="Search for users by id should return false if user not exist" time="0.003">
+    <testcase classname="Sockets should associate socket to the user" name="Sockets should associate socket to the user" time="0.201">
     </testcase>
-    <testcase classname="Sockets should associate socket to the user" name="Sockets should associate socket to the user" time="0.119">
+    <testcase classname="Sockets should remove socket associated to an user" name="Sockets should remove socket associated to an user" time="0.136">
     </testcase>
-    <testcase classname="Sockets should remove socket associated to an user" name="Sockets should remove socket associated to an user" time="0.118">
+    <testcase classname="Sockets should reject a promise if socket id doesnt exist" name="Sockets should reject a promise if socket id doesnt exist" time="0.102">
     </testcase>
-    <testcase classname="Sockets should reject a promis if socket id doesnt exist" name="Sockets should reject a promis if socket id doesnt exist" time="0.112">
+    <testcase classname="Chat message count &amp; spam report should increase count" name="Chat message count &amp; spam report should increase count" time="0.233">
     </testcase>
-    <testcase classname="Chat message count should increase count" name="Chat message count should increase count" time="0.186">
-=======
-<testsuites name="jest tests" tests="16" failures="0" time="2.612">
-  <testsuite name="Emergency Status Detail" errors="0" failures="0" skipped="0" timestamp="2020-04-13T19:40:04" time="1.392" tests="8">
-    <testcase classname="Emergency Status Detail Create a new emergency status detail in the database" name="Emergency Status Detail Create a new emergency status detail in the database" time="0.035">
-    </testcase>
-    <testcase classname="Emergency Status Detail Update emegency status detail - brief description" name="Emergency Status Detail Update emegency status detail - brief description" time="0.009">
-    </testcase>
-    <testcase classname="Emergency Status Detail Update emegency status detail - location description" name="Emergency Status Detail Update emegency status detail - location description" time="0.001">
-    </testcase>
-    <testcase classname="Emergency Status Detail get megency status detail" name="Emergency Status Detail get megency status detail" time="0.005">
-    </testcase>
-    <testcase classname="Picture and Description add a new picture and description in the database" name="Picture and Description add a new picture and description in the database" time="0.007">
-    </testcase>
-    <testcase classname="Picture and Description update picture description in the database" name="Picture and Description update picture description in the database" time="0.002">
-    </testcase>
-    <testcase classname="Picture and Description get picture and description in the database" name="Picture and Description get picture and description in the database" time="0.005">
-    </testcase>
-    <testcase classname="Picture and Description remove picture from the database" name="Picture and Description remove picture from the database" time="0.003">
+    <testcase classname="Chat message count &amp; spam report should increase count" name="Chat message count &amp; spam report should increase count" time="0.229">
     </testcase>
   </testsuite>
-  <testsuite name="emergency status detail API test" errors="0" failures="0" skipped="0" timestamp="2020-04-13T19:40:04" time="2.229" tests="8">
-    <testcase classname="emergency status detail API test User updates emergency status brief description" name="emergency status detail API test User updates emergency status brief description" time="0.012">
+  <testsuite name="API USERS TEST" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:12:54" time="3.904" tests="10">
+    <testcase classname="API USERS TEST Should insert  a new user" name="API USERS TEST Should insert  a new user" time="0.389">
     </testcase>
-    <testcase classname="emergency status detail API test User updates emergency status location description" name="emergency status detail API test User updates emergency status location description" time="0.006">
+    <testcase classname="API USERS TEST Should not insert  a new user (empty fields)" name="API USERS TEST Should not insert  a new user (empty fields)" time="0.04">
     </testcase>
-    <testcase classname="emergency status detail API test User gets emergency status brief description" name="emergency status detail API test User gets emergency status brief description" time="0.01">
+    <testcase classname="API USERS TEST Should get a list of users" name="API USERS TEST Should get a list of users" time="0.034">
     </testcase>
-    <testcase classname="emergency status detail API test User gets emergency status location description" name="emergency status detail API test User gets emergency status location description" time="0.005">
+    <testcase classname="API USERS TEST Should get a list of users filtered by keywords" name="API USERS TEST Should get a list of users filtered by keywords" time="0.025">
     </testcase>
-    <testcase classname="picture and description API test User adds a picture and discription description" name="picture and description API test User adds a picture and discription description" time="0.022">
+    <testcase classname="API USERS TEST Should get a list of users filtered by status" name="API USERS TEST Should get a list of users filtered by status" time="0.153">
     </testcase>
-    <testcase classname="picture and description API test User gets all picture and description" name="picture and description API test User gets all picture and description" time="0.017">
+    <testcase classname="API USERS TEST Should update user information (acknowledgement)" name="API USERS TEST Should update user information (acknowledgement)" time="0.05">
     </testcase>
-    <testcase classname="picture and description API test User updates description of a picture" name="picture and description API test User updates description of a picture" time="0.011">
+    <testcase classname="API USERS TEST Should update user status" name="API USERS TEST Should update user status" time="0.034">
     </testcase>
-    <testcase classname="picture and description API test User deletes a picture and description from db" name="picture and description API test User deletes a picture and description from db" time="0.006">
->>>>>>> dc1d915de61aa32e8ad9f5f5456bf245c0874277
+    <testcase classname="API USERS TEST Should return an user" name="API USERS TEST Should return an user" time="0.023">
+    </testcase>
+    <testcase classname="Test Users with sockets should create relationship between user and socket" name="Test Users with sockets should create relationship between user and socket" time="0.168">
+    </testcase>
+    <testcase classname="Test Users with sockets should delete relationship between user and socket" name="Test Users with sockets should delete relationship between user and socket" time="0.275">
+    </testcase>
+  </testsuite>
+  <testsuite name="Testing Resource creeation  API" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:12:58" time="3.342" tests="3">
+    <testcase classname="Testing Resource creeation  API Should create an resource" name="Testing Resource creeation  API Should create an resource" time="0.57">
+    </testcase>
+    <testcase classname="Testing searching Resources  API Should return one specific resource" name="Testing searching Resources  API Should return one specific resource" time="0.985">
+    </testcase>
+    <testcase classname="Testing searching Resources  API Should return all resource" name="Testing searching Resources  API Should return all resource" time="0.595">
+    </testcase>
+  </testsuite>
+  <testsuite name="public chat messages API test" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:13:01" time="2.047" tests="8">
+    <testcase classname="public chat messages API test User1 create a new public message" name="public chat messages API test User1 create a new public message" time="0.043">
+    </testcase>
+    <testcase classname="public chat messages API test User1 create a new public message with error" name="public chat messages API test User1 create a new public message with error" time="0.002">
+    </testcase>
+    <testcase classname="public chat messages API test User1 create a new public message with user id error" name="public chat messages API test User1 create a new public message with user id error" time="0.003">
+    </testcase>
+    <testcase classname="public chat messages API test User1 receive public message" name="public chat messages API test User1 receive public message" time="0.1">
+    </testcase>
+    <testcase classname="public chat messages API test User2 receive public message" name="public chat messages API test User2 receive public message" time="0.03">
+    </testcase>
+    <testcase classname="public chat messages API test User3 receive public message" name="public chat messages API test User3 receive public message" time="0.027">
+    </testcase>
+    <testcase classname="public chat messages API test User2 search with keyword" name="public chat messages API test User2 search with keyword" time="0.043">
+    </testcase>
+    <testcase classname="public chat messages API test User3 search with stop-word keyword" name="public chat messages API test User3 search with stop-word keyword" time="0.038">
+    </testcase>
+  </testsuite>
+  <testsuite name="Emergency Status Detail" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:13:03" time="1.066" tests="8">
+    <testcase classname="Emergency Status Detail Create a new emergency status detail in the database" name="Emergency Status Detail Create a new emergency status detail in the database" time="0.045">
+    </testcase>
+    <testcase classname="Emergency Status Detail Update emegency status detail - brief description" name="Emergency Status Detail Update emegency status detail - brief description" time="0.021">
+    </testcase>
+    <testcase classname="Emergency Status Detail Update emegency status detail - location description" name="Emergency Status Detail Update emegency status detail - location description" time="0.01">
+    </testcase>
+    <testcase classname="Emergency Status Detail get megency status detail" name="Emergency Status Detail get megency status detail" time="0.009">
+    </testcase>
+    <testcase classname="Picture and Description add a new picture and description in the database" name="Picture and Description add a new picture and description in the database" time="0.032">
+    </testcase>
+    <testcase classname="Picture and Description update picture description in the database" name="Picture and Description update picture description in the database" time="0.009">
+    </testcase>
+    <testcase classname="Picture and Description get picture and description in the database" name="Picture and Description get picture and description in the database" time="0.01">
+    </testcase>
+    <testcase classname="Picture and Description remove picture from the database" name="Picture and Description remove picture from the database" time="0.007">
+    </testcase>
+  </testsuite>
+  <testsuite name="private chat messages API TEST" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:13:04" time="2.008" tests="8">
+    <testcase classname="private chat messages API TEST Should create a new private msg" name="private chat messages API TEST Should create a new private msg" time="0.087">
+    </testcase>
+    <testcase classname="private chat messages API TEST Should get a list of private msg" name="private chat messages API TEST Should get a list of private msg" time="0.084">
+    </testcase>
+    <testcase classname="private chat messages API TEST Should search a list of private msg" name="private chat messages API TEST Should search a list of private msg" time="0.071">
+    </testcase>
+    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input msg" name="private chat messages API TEST Should not create a new private msg with an error input msg" time="0.002">
+    </testcase>
+    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input sender_user_id" name="private chat messages API TEST Should not create a new private msg with an error input sender_user_id" time="0.002">
+    </testcase>
+    <testcase classname="private chat messages API TEST Should not create a new private msg with an error input receiver_user_id" name="private chat messages API TEST Should not create a new private msg with an error input receiver_user_id" time="0.002">
+    </testcase>
+    <testcase classname="private chat messages API TEST Should not get a list of private msg with an error query" name="private chat messages API TEST Should not get a list of private msg with an error query" time="0.001">
+    </testcase>
+    <testcase classname="private chat messages API TEST Should not get a list of private msg with an error query receiver_user_id" name="private chat messages API TEST Should not get a list of private msg with an error query receiver_user_id" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Create Messages" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:13:07" time="1.438" tests="6">
+    <testcase classname="Create Messages Create a new message in the database" name="Create Messages Create a new message in the database" time="0.357">
+    </testcase>
+    <testcase classname="Getting Messages getting messages from  the database" name="Getting Messages getting messages from  the database" time="0.031">
+    </testcase>
+    <testcase classname="Getting Messages find messages by normal keyword" name="Getting Messages find messages by normal keyword" time="0.033">
+    </testcase>
+    <testcase classname="Getting Messages find messages by stop-word" name="Getting Messages find messages by stop-word" time="0.029">
+    </testcase>
+    <testcase classname="Getting Messages find messages by id" name="Getting Messages find messages by id" time="0.026">
+    </testcase>
+    <testcase classname="Getting Messages set msg spam" name="Getting Messages set msg spam" time="0.028">
+    </testcase>
+  </testsuite>
+  <testsuite name="emergency status detail API test" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:13:08" time="1.446" tests="8">
+    <testcase classname="emergency status detail API test User updates emergency status brief description" name="emergency status detail API test User updates emergency status brief description" time="0.033">
+    </testcase>
+    <testcase classname="emergency status detail API test User updates emergency status location description" name="emergency status detail API test User updates emergency status location description" time="0.035">
+    </testcase>
+    <testcase classname="emergency status detail API test User gets emergency status brief description" name="emergency status detail API test User gets emergency status brief description" time="0.019">
+    </testcase>
+    <testcase classname="emergency status detail API test User gets emergency status location description" name="emergency status detail API test User gets emergency status location description" time="0.016">
+    </testcase>
+    <testcase classname="picture and description API test User adds a picture and discription description" name="picture and description API test User adds a picture and discription description" time="0.091">
+    </testcase>
+    <testcase classname="picture and description API test User gets all picture and description" name="picture and description API test User gets all picture and description" time="0.023">
+    </testcase>
+    <testcase classname="picture and description API test User updates description of a picture" name="picture and description API test User updates description of a picture" time="0.018">
+    </testcase>
+    <testcase classname="picture and description API test User deletes a picture and description from db" name="picture and description API test User deletes a picture and description from db" time="0.019">
+    </testcase>
+  </testsuite>
+  <testsuite name="create spam report API TEST" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:13:10" time="1.767" tests="2">
+    <testcase classname="create spam report API TEST user spam" name="create spam report API TEST user spam" time="0.037">
+    </testcase>
+    <testcase classname="create spam report API TEST msg spam" name="create spam report API TEST msg spam" time="0.047">
+    </testcase>
+  </testsuite>
+  <testsuite name="Create Announcement API" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:13:11" time="1.573" tests="3">
+    <testcase classname="Create Announcement API Should create an announcement" name="Create Announcement API Should create an announcement" time="0.074">
+    </testcase>
+    <testcase classname="Get Announcement API Should get all the announcement" name="Get Announcement API Should get all the announcement" time="0.042">
+    </testcase>
+    <testcase classname="Get Announcement API Should get announcement filtered by keyword" name="Get Announcement API Should get announcement filtered by keyword" time="0.046">
+    </testcase>
+  </testsuite>
+  <testsuite name="Can creat an announcement" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:13:13" time="1.515" tests="4">
+    <testcase classname="Can creat an announcement Should create an announcement" name="Can creat an announcement Should create an announcement" time="0.076">
+    </testcase>
+    <testcase classname="Can creat an announcement should reject announcement creation" name="Can creat an announcement should reject announcement creation" time="0.017">
+    </testcase>
+    <testcase classname="Can get announcements Getting all the announcement" name="Can get announcements Getting all the announcement" time="0.055">
+    </testcase>
+    <testcase classname="Can get announcements searching announcement by keyword" name="Can get announcements searching announcement by keyword" time="0.047">
+    </testcase>
+  </testsuite>
+  <testsuite name="Creating a resource" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:13:14" time="1.155" tests="4">
+    <testcase classname="Creating a resource Should create a resource " name="Creating a resource Should create a resource " time="0.156">
+    </testcase>
+    <testcase classname="Creating a resource Should validate require fields " name="Creating a resource Should validate require fields " time="0.032">
+    </testcase>
+    <testcase classname="Getting a resource Should get a resource previously inserted " name="Getting a resource Should get a resource previously inserted " time="0.076">
+    </testcase>
+    <testcase classname="Getting a resource Should get all the resource previously inserted " name="Getting a resource Should get all the resource previously inserted " time="0.047">
+    </testcase>
+  </testsuite>
+  <testsuite name="principal" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:13:16" time="1.366" tests="3">
+    <testcase classname="principal Creating Private Messages Create a new private chat message in the database" name="principal Creating Private Messages Create a new private chat message in the database" time="0.15">
+    </testcase>
+    <testcase classname="principal Getting Messages getting private  messages from  the database" name="principal Getting Messages getting private  messages from  the database" time="0.045">
+    </testcase>
+    <testcase classname="principal Search Messages getting private  messages from  the database" name="principal Search Messages getting private  messages from  the database" time="0.075">
+    </testcase>
+  </testsuite>
+  <testsuite name="principal" errors="0" failures="0" skipped="0" timestamp="2020-04-18T03:13:17" time="1.468" tests="2">
+    <testcase classname="principal Creating msg Spam Reports Create a new spam report in the database" name="principal Creating msg Spam Reports Create a new spam report in the database" time="0.077">
+    </testcase>
+    <testcase classname="principal Creating user Spam Reports Create a new user report in the database" name="principal Creating user Spam Reports Create a new user report in the database" time="0.024">
     </testcase>
   </testsuite>
 </testsuites>

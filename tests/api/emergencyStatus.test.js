@@ -3,7 +3,7 @@ const agent = require('superagent')
 const express = require('express');
 
 // Initiate Server
-let PORT = 3000;
+let PORT = 3001;
 let HOST = 'http://localhost:' + PORT;
 
 let app = require('../../app').app;
@@ -29,12 +29,10 @@ beforeAll(async () => {
         .then((res) =>{
             userId = res.body.user.userId;
             token = res.body.tokens.token;
-            console.log(userId);
-            console.log(token);
         });
 
 
-    
+
 
     briefDescription = {
         description: 'This is a brief description',
@@ -128,7 +126,7 @@ describe('picture and description API test', () => {
                 //expect(res.body.picture_path).toBe('tests/api/testImage/test.jpg');
                 expect(res.body.picture_description).toBe('picture description');
                 pictureId = res.body._id;
-                
+
             });
     });
 
@@ -150,7 +148,6 @@ describe('picture and description API test', () => {
             .send({"pictureDescription": "new description"})
             .set('Accept', 'application/json')
             .then((res) =>{
-                console.log(res);
                 expect(res.body.picture_description).toBe('new description');
             });
     });
@@ -166,7 +163,7 @@ describe('picture and description API test', () => {
             });
     });
 
-    
+
 
 
 
@@ -175,4 +172,3 @@ describe('picture and description API test', () => {
 
 // end of describe
 });
-    

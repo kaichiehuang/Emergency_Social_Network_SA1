@@ -52,6 +52,7 @@ class ChatMessagesController {
             });
 
             // 5. return a response
+            res.contentType('application/json');
             return res.status(201).send(JSON.stringify({
                 'result': 'chat message created',
                 'data': {
@@ -69,6 +70,7 @@ class ChatMessagesController {
                     'spam': true
                 });
             } else {
+                res.contentType('application/json');
                 /* istanbul ignore next */
                 return res.status(422).send({
                     'error': err
@@ -88,13 +90,14 @@ class ChatMessagesController {
         const page = req.query.page; // default = 0
         // When a keyword is specified
         console.log(keyword, page);
+        res.contentType('application/json');
+
         if (keyword !== undefined && keyword.length !== 0) {
             // search keyword
             ChatMessage.findMessagesByKeyword(keyword)
                 .then( (messages) => {
                     // get specific page of 10 messages
                     const msg = messages.slice(page * constants.PAGINATION_NUMBER, page * constants.PAGINATION_NUMBER + constants.PAGINATION_NUMBER);
-                    res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(msg));
                 })
                 .catch( (err) => {
@@ -106,7 +109,6 @@ class ChatMessagesController {
             // If no keyword or status is specified
             chatMessage.getChatMessages()
                 .then((result) => {
-                    res.contentType('application/json');
                     res.status(201).send(JSON.stringify(result));
                 }).catch((err) => {
                     /* istanbul ignore next */

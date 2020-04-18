@@ -2,7 +2,7 @@ const TestDatabase = require('../services/testDataBase')
 const agent = require('superagent')
 
 // Initiate Server
-let PORT = 3000;
+let PORT = 3001;
 let HOST = 'http://localhost:' + PORT;
 
 let app = require('../../app').app;
@@ -37,7 +37,7 @@ describe('API USERS TEST', () => {
             .send(user)
             .set('accept', 'json')
             .then(res =>{
-                userId = res.body.user.userId;
+                userId = res.body.user._id;
                 token = res.body.tokens.token;
                 expect(res.body.user.username).toBe('APIUserTest');
             })
@@ -55,7 +55,6 @@ describe('API USERS TEST', () => {
             .send(userEmpty)
             .set('accept', 'json')
             .then(res =>{
-               console.log(res)
             })
             .catch(error =>{
                 expect(error.status).toBe(422);
@@ -85,7 +84,6 @@ describe('API USERS TEST', () => {
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{
-                console.log(res.body);
                 expect(res.body.length).toBe(1);
             })
     })
@@ -140,7 +138,7 @@ describe('API USERS TEST', () => {
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{
-                expect(res.body.user.status).toBe(userStatus);
+                expect(res.body.status).toBe(userStatus);
             })
     })
 
@@ -174,7 +172,7 @@ describe('Test Users with sockets', () =>{
             .send(user)
             .set('accept', 'json')
             .then(res =>{
-                userId = res.body.user.userId;
+                userId = res.body.user._id;
                 token = res.body.tokens.token;
                 expect(res.body.user.username).toBe('APIUserTest');
             })
@@ -185,7 +183,7 @@ describe('Test Users with sockets', () =>{
 
     });
 
-    test('should create relationshio between user and socket',async() => {
+    test('should create relationship between user and socket',async() => {
 
         let socket= { socketId : "1"};
         await agent.post(HOST + '/api/users/'+userId+'/socket')
@@ -195,8 +193,7 @@ describe('Test Users with sockets', () =>{
         .set('Authorization', token)
         .set('accept', 'json')
         .then(res =>{
-            console.log(res.body);
-            expect(res.body.sockets).toBeDefined();
+            expect(res.body.sockets['1']).toBe(true);
         })
     })
 
@@ -209,7 +206,6 @@ describe('Test Users with sockets', () =>{
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{
-                console.log(res.body);
             })
 
         await agent.delete(HOST + '/api/users/'+userId+'/socket/' + socket.socketId)
@@ -218,7 +214,6 @@ describe('Test Users with sockets', () =>{
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{
-                console.log(res.body);
                 expect(res.body.sockets.length).toBeUndefined();
             })
     })

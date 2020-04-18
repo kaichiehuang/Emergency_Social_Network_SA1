@@ -10,9 +10,9 @@ class PrivateChatMessage extends BaseMessage {
      */
     static initiatePrivateChat(receiver_user_id) {
         Cookies.set('receiver_user_id', receiver_user_id);
-        $('#private-chat > li').remove();
-        const privateChatMessageModel = new PrivateChatMessage();
-        privateChatMessageModel.updateMessageListView('private', '', 0);
+        $("#private-chat > li").remove();
+        let privateChatMessageModel = new PrivateChatMessage();
+        privateChatMessageModel.updateMessageListView('private', "", 0);
     }
 
     /**
@@ -34,8 +34,7 @@ class PrivateChatMessage extends BaseMessage {
             const newID = $(this).data('view-id');
             if (newID === 'private-chat-content') {
                 page = 0;
-                privateChatMessageModel
-                    .updateMessageListView('private', '', page);
+                privateChatMessageModel.updateMessageListView('private', '', page);
                 private_wall_container.scrollTop =
                     private_wall_container.scrollHeight;
             }
@@ -48,15 +47,13 @@ class PrivateChatMessage extends BaseMessage {
             e.preventDefault();
             const searchKeyword = $('#search-private-chat__input').val();
             page = 0;
-            privateChatMessageModel
-                .updateMessageListView('private', searchKeyword, page);
+            privateChatMessageModel.updateMessageListView('private', searchKeyword, page);
         });
         $('#search-private-chat__more-button').click(function(e) {
             e.preventDefault();
             const searchKeyword = $('#search-private-chat__input').val();
             page++;
-            privateChatMessageModel
-                .updateMessageListView('private', searchKeyword, page);
+            privateChatMessageModel.updateMessageListView('private', searchKeyword, page);
         });
     }
 }

@@ -4,7 +4,6 @@ const fs = require('fs');
 class EmergencyStatusDetailController {
 
     getEmergencyStatusDetail(req, res) {
-        console.log("I am here!");
         const userId = req.params.userId;
         EmergencyStatusDetail.getEmergencyStatusDetail(userId)
             .then((statusDetail) => {
@@ -19,7 +18,7 @@ class EmergencyStatusDetailController {
         const userId = req.params.userId;
         const description = req.body.description;
         const detailType = req.body.detailType;
-        
+
         EmergencyStatusDetail.updateEmergencyStatusDetail(userId, description, detailType)
             .then((statusDetail) => {
                 res.contentType('application/json');
@@ -42,8 +41,6 @@ class EmergencyStatusDetailController {
     }
 
     addPictureAndDescription(req, res) {
-        console.log("In add picture controller");
-        console.log(req.file);
         const userId = req.params.userId;
         const picturePath = req.file.path;
         const pictureName = req.file.filename;
@@ -62,7 +59,7 @@ class EmergencyStatusDetailController {
     updatePictureDescription(req, res) {
         const pictureId = req.params.pictureId;
         const pictureDescription = req.body.pictureDescription;
-        
+
         EmergencyStatusDetail.updatePictureDescription(pictureId, pictureDescription)
             .then((updatedPicAndDes) => {
                 res.contentType('application/json');
