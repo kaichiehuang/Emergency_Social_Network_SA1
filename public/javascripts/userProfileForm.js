@@ -55,36 +55,43 @@ class UserProfileForm {
      */
     static fillProfileFormStep1(user, template) {
         // set name
-        template.querySelector('input#user-profile-form__name')
-            .value = (user.name != undefined) ? user.name : '';
+        if(user.name != undefined){
+            template.querySelector('input#user-profile-form__name').value = user.name;
+        }
+
         // set last name
-        template.querySelector('input#user-profile-form__last_name')
-            .value = (user.last_name != undefined) ? user.last_name : '';
+        if(user.last_name != undefined){
+            template.querySelector('input#user-profile-form__last_name').value = user.last_name;
+        }
+
         // set birth date
-        template.querySelector('input#user-profile-form__birth_date')
-            .value = (user.birth_date != undefined) ? user.birth_date : '';
+        if(user.birth_date != undefined){
+            template.querySelector('input#user-profile-form__birth_date').value = user.birth_date;
+        }
+
         // set address
-        template.querySelector('input#user-profile-form__address')
-            .value = (user.address != undefined) ? user.address : '';
+        if(user.address != undefined){
+            template.querySelector('input#user-profile-form__address').value = user.address;
+        }
         // set city
-        template.querySelector('input#user-profile-form__city')
-            .value = (user.city != undefined) ? user.city : '';
+        if(user.city != undefined){
+            template.querySelector('input#user-profile-form__city').value = user.city;
+        }
         // set phone number
-        template.querySelector('input#user-profile-form__phone_number')
-            .value = (user.phone_number != undefined) ? user.phone_number : '';
+        if(user.phone_number != undefined){
+            template.querySelector('input#user-profile-form__phone_number').value = user.phone_number;
+        }
         // set emergency_contact
         if (user.emergency_contact != undefined) {
-            template.querySelector('input#user-profile-form__emergency_contact')
-                .value = (user.emergency_contact.name != undefined) ?
-                    user.emergency_contact.name : '';
-            template.querySelector(
-                'input#user-profile-form__emergency_contact_phone_number')
-                .value = (user.emergency_contact.phone_number != undefined) ?
-                    user.emergency_contact.phone_number : '';
-            template.querySelector(
-                'input#user-profile-form__emergency_contact_address')
-                .value = (user.emergency_contact.address != undefined) ?
-                    user.emergency_contact.address : '';
+            if(user.emergency_contact.name != undefined){
+                template.querySelector('input#user-profile-form__emergency_contact').value = user.emergency_contact.name;
+            }
+            if(user.emergency_contact.phone_number != undefined){
+                template.querySelector('input#user-profile-form__emergency_contact_phone_number').value = user.emergency_contact.phone_number;
+            }
+            if(user.emergency_contact.address != undefined){
+                template.querySelector('input#user-profile-form__emergency_contact_address').value = user.emergency_contact.address;
+            }
         }
 
         return template;
@@ -98,48 +105,30 @@ class UserProfileForm {
      */
     static fillProfileFormStep2(user, template) {
         // set emergency_contact
-        template.querySelector(
-            'select#user-profile-form__blood_type').value =
-            (user.medical_information != undefined &&
-                user.medical_information.blood_type != undefined) ?
-                user.medical_information.blood_type : '';
-        template.querySelector(
-            'textarea#user-profile-form__prescribed_drugs')
-            .innerText = (user.medical_information != undefined &&
-            user.medical_information.prescribed_drugs != undefined) ?
-                user.medical_information.prescribed_drugs : '';
+        if(user.medical_information != undefined && user.medical_information.blood_type != undefined){
+            template.querySelector('select#user-profile-form__blood_type').value = user.medical_information.blood_type;
+        }
 
-        if ((user.medical_information != undefined &&
-            user.medical_information.prescribed_drugs != undefined &&
-            user.medical_information.prescribed_drugs != '')) {
-            template.querySelector(
-                'textarea#user-profile-form__prescribed_drugs')
-                .innerText = user.medical_information.prescribed_drugs;
-            template.querySelector('input#has_prescribed_drugs1')
-                .checked = 'checked';
-            template.querySelector(
-                'textarea#user-profile-form__prescribed_drugs')
-                .classList.remove('hidden');
+        if(user.medical_information != undefined && user.medical_information.prescribed_drugs != undefined){
+            template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = user.medical_information.prescribed_drugs;
+        }
+
+
+        if (user.medical_information != undefined && user.medical_information.prescribed_drugs != undefined && user.medical_information.prescribed_drugs != '') {
+            template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = user.medical_information.prescribed_drugs;
+            template.querySelector('input#has_prescribed_drugs1').checked = 'checked';
+            template.querySelector('textarea#user-profile-form__prescribed_drugs').classList.remove('hidden');
         } else {
-            template.querySelector(
-                'textarea#user-profile-form__prescribed_drugs')
-                .innerText = '';
+            template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = '';
             template.querySelector('input#has_prescribed_drugs0').checked = 'checked';
         }
 
-        if ((user.medical_information != undefined &&
-            user.medical_information.allergies != undefined &&
-            user.medical_information.allergies != '')) {
-            template.querySelector(
-                'textarea#user-profile-form__allergies')
-                .innerText = user.medical_information.allergies;
-            template.querySelector(
-                'textarea#user-profile-form__allergies')
-                .classList.remove('hidden');
+        if (user.medical_information != undefined && user.medical_information.allergies != undefined && user.medical_information.allergies != '') {
+            template.querySelector('textarea#user-profile-form__allergies').innerText = user.medical_information.allergies;
+            template.querySelector('textarea#user-profile-form__allergies').classList.remove('hidden');
             template.querySelector('input#has_allergies1').checked = 'checked';
         } else {
-            template.querySelector('textarea#user-profile-form__allergies')
-                .innerText = '';
+            template.querySelector('textarea#user-profile-form__allergies').innerText = '';
             template.querySelector('input#has_allergies0').checked = 'checked';
         }
 
@@ -154,21 +143,15 @@ class UserProfileForm {
      */
     static fillProfileFormStep3(user, template) {
         // set emergency_contact
-        template.querySelector(
-            'textarea#user-profile-form__personal_message')
-            .innerText = (user.personal_message != undefined &&
-            user.personal_message.message != undefined) ?
-                user.personal_message.message : '';
-        template.querySelector(
-            'input#user-profile-form__security_question')
-            .value = (user.personal_message != undefined &&
-            user.personal_message.security_question != undefined) ?
-                user.personal_message.security_question : '';
-        template.querySelector(
-            'input#user-profile-form__security_question_answer')
-            .value = (user.personal_message != undefined &&
-            user.personal_message.security_question_answer != undefined) ?
-                user.personal_message.security_question_answer : '';
+        if(user.personal_message != undefined && user.personal_message.message != undefined){
+            template.querySelector('textarea#user-profile-form__personal_message').innerText = user.personal_message.message;
+        }
+        if(user.personal_message != undefined && user.personal_message.security_question != undefined){
+            template.querySelector('input#user-profile-form__security_question').value = user.personal_message.security_question;
+        }
+        if(user.personal_message != undefined && user.personal_message.security_question_answer != undefined){
+            template.querySelector('input#user-profile-form__security_question_answer').value = user.personal_message.security_question_answer;
+        }
         return template;
     }
 
@@ -200,6 +183,11 @@ class UserProfileForm {
         });
     }
 
+    /**
+     * Build data for submission to API
+     * @param  {[type]} formId [description]
+     * @return {[type]}        [description]
+     */
     static buildData(formId) {
         const data = $('#' + formId).serializeArray();
         const step = $('#' + formId).find('#form_step').val();
@@ -289,7 +277,6 @@ class UserProfileForm {
         if (finalData.personal_message == undefined) {
             finalData.personal_message = {};
         }
-
         if (key == 'security_question') {
             finalData.personal_message.security_question = value;
         } else if (key == 'security_question_answer') {
@@ -339,6 +326,10 @@ class UserProfileForm {
         UserProfileForm.initEvent();
     }
 
+    /**
+     * init event when drawn first time
+     * @return {[type]} [description]
+     */
     static initEvent() {
         $('.user-profile-menu-btn').click(function(event) {
             // eslint-disable-next-line no-invalid-this
@@ -351,13 +342,3 @@ class UserProfileForm {
         });
     }
 }
-
-/**
- * User profile behavior using jquery
- * @param  {[type]} ) {}          [description]
- * @return {[type]}   [description]
- */
-
-$(function() {
-
-});
