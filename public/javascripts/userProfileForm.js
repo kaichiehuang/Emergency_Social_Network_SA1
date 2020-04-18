@@ -190,7 +190,7 @@ class UserProfileForm {
                             'main-content-block');
                         UserProfileForm.updateComponentView(user._id, newStep);
                     } else {
-                        UserProfile.initiateUserProfile(userId);
+                        UserProfile.getInstance().initiateUserProfile(userId);
                         swapViewContent('user-profile-content',
                             'main-content-block');
                     }

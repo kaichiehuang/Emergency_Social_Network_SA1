@@ -168,7 +168,7 @@ class UserList {
         });
         $('.username').click(function(event) {
             // eslint-disable-next-line no-invalid-this
-            UserProfile.initiateUserProfile($(this).data('user-id'));
+            UserProfile.getInstance().initiateUserProfile($(this).data('user-id'));
         });
         // show emergency status detail
         $('.status-button').unbind().click(function(event) {
