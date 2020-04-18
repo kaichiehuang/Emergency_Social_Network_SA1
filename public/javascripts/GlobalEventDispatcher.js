@@ -1,7 +1,11 @@
 class GlobalEventDispatcher {
     static updateAllUserLists() {
         APIHandler.getInstance().sendRequest(apiPath + '/usersList/', 'get', {}, true, null)
-        .then( _ => {})
-        .catch( _ => {});
+        .then( res => {
+
+        })
+        .catch( err => {
+
+        });
     }
 }
