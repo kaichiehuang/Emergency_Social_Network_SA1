@@ -55,41 +55,41 @@ class UserProfileForm {
      */
     static fillProfileFormStep1(user, template) {
         // set name
-        if(user.name != undefined){
+        if (user.name != undefined) {
             template.querySelector('input#user-profile-form__name').value = user.name;
         }
 
         // set last name
-        if(user.last_name != undefined){
+        if (user.last_name != undefined) {
             template.querySelector('input#user-profile-form__last_name').value = user.last_name;
         }
 
         // set birth date
-        if(user.birth_date != undefined){
+        if (user.birth_date != undefined) {
             template.querySelector('input#user-profile-form__birth_date').value = user.birth_date;
         }
 
         // set address
-        if(user.address != undefined){
+        if (user.address != undefined) {
             template.querySelector('input#user-profile-form__address').value = user.address;
         }
         // set city
-        if(user.city != undefined){
+        if (user.city != undefined) {
             template.querySelector('input#user-profile-form__city').value = user.city;
         }
         // set phone number
-        if(user.phone_number != undefined){
+        if (user.phone_number != undefined) {
             template.querySelector('input#user-profile-form__phone_number').value = user.phone_number;
         }
         // set emergency_contact
         if (user.emergency_contact != undefined) {
-            if(user.emergency_contact.name != undefined){
+            if (user.emergency_contact.name != undefined) {
                 template.querySelector('input#user-profile-form__emergency_contact').value = user.emergency_contact.name;
             }
-            if(user.emergency_contact.phone_number != undefined){
+            if (user.emergency_contact.phone_number != undefined) {
                 template.querySelector('input#user-profile-form__emergency_contact_phone_number').value = user.emergency_contact.phone_number;
             }
-            if(user.emergency_contact.address != undefined){
+            if (user.emergency_contact.address != undefined) {
                 template.querySelector('input#user-profile-form__emergency_contact_address').value = user.emergency_contact.address;
             }
         }
@@ -105,11 +105,11 @@ class UserProfileForm {
      */
     static fillProfileFormStep2(user, template) {
         // set emergency_contact
-        if(user.medical_information != undefined && user.medical_information.blood_type != undefined){
+        if (user.medical_information != undefined && user.medical_information.blood_type != undefined) {
             template.querySelector('select#user-profile-form__blood_type').value = user.medical_information.blood_type;
         }
 
-        if(user.medical_information != undefined && user.medical_information.prescribed_drugs != undefined){
+        if (user.medical_information != undefined && user.medical_information.prescribed_drugs != undefined) {
             template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = user.medical_information.prescribed_drugs;
         }
 
@@ -143,13 +143,13 @@ class UserProfileForm {
      */
     static fillProfileFormStep3(user, template) {
         // set emergency_contact
-        if(user.personal_message != undefined && user.personal_message.message != undefined){
+        if (user.personal_message != undefined && user.personal_message.message != undefined) {
             template.querySelector('textarea#user-profile-form__personal_message').innerText = user.personal_message.message;
         }
-        if(user.personal_message != undefined && user.personal_message.security_question != undefined){
+        if (user.personal_message != undefined && user.personal_message.security_question != undefined) {
             template.querySelector('input#user-profile-form__security_question').value = user.personal_message.security_question;
         }
-        if(user.personal_message != undefined && user.personal_message.security_question_answer != undefined){
+        if (user.personal_message != undefined && user.personal_message.security_question_answer != undefined) {
             template.querySelector('input#user-profile-form__security_question_answer').value = user.personal_message.security_question_answer;
         }
         return template;
