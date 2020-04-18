@@ -8,3 +8,4 @@ npm-shrinkwrap.json
 .pairs
 --git-path.git-mob-template
 public/pictures/
+coverage
