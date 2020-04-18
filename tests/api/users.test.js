@@ -37,7 +37,7 @@ describe('API USERS TEST', () => {
             .send(user)
             .set('accept', 'json')
             .then(res =>{
-                userId = res.body.user.userId;
+                userId = res.body.user._id;
                 token = res.body.tokens.token;
                 expect(res.body.user.username).toBe('APIUserTest');
             })
@@ -138,7 +138,7 @@ describe('API USERS TEST', () => {
             .set('Authorization', token)
             .set('accept', 'json')
             .then(res =>{
-                expect(res.body.user.status).toBe(userStatus);
+                expect(res.body.status).toBe(userStatus);
             })
     })
 
