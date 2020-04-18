@@ -2,12 +2,21 @@ const ChatMessageModel = require('./model').ChatMessagesMongo;
 const StopWords = require('../utils/StopWords');
 const constants = require('../constants');
 
+/**
+ * handle chat message
+ */
 class ChatMessage {
-    constructor(message, user_id, user_status) {
+    /**
+     * constructor
+     * @param message
+     * @param userId
+     * @param userStatus
+     */
+    constructor(message, userId, userStatus) {
         this._id = null;
         this.message = message;
-        this.user_id = user_id;
-        this.status = user_status || 'UNDEFINED';
+        this.user_id = userId;
+        this.status = userStatus || 'UNDEFINED';
     }
 
     /**
@@ -75,6 +84,11 @@ class ChatMessage {
         });
     }
 
+    /**
+     * find msg by msg id
+     * @param id
+     * @returns {Promise<unknown>}
+     */
     static findMessageById(id) {
         return new Promise((resolve, reject) => {
             ChatMessageModel.findOne({

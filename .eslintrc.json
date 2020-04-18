@@ -17,13 +17,9 @@
     "spaced-comment": "warn",
     "comma-dangle": "off",
     "camelcase": "warn",
-    "max-len": "warn",
+    "max-len": "off",
     "quotes": "warn",
-    "valid-jsdoc": "warn",
-
-
-
-
+    "valid-jsdoc": "off",
     "arrow-parens": "warn"
   }
 }

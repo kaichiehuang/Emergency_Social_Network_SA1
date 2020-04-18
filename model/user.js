@@ -124,7 +124,7 @@ const constants = require('../constants');
      */
      validateRequiredFieldsUpdate(type, data) {
         return new Promise((resolve, reject) => {
-            if (type == "personal") {
+            if (type == 'personal') {
                 if (data.name == undefined || data.last_name == undefined || data.birth_date == undefined || data.city == undefined || data.address == undefined || data.phone_number == 0 || data.emergency_contact == undefined || data.emergency_contact.name == undefined || data.emergency_contact.phone_number == undefined || data.emergency_contact.address == 0) {
                     return reject("Missing required fields. Every field in this step is mandatory.");
                 } else if (data.privacy_terms_data_accepted == undefined || data.privacy_terms_data_accepted == '') {
@@ -134,7 +134,7 @@ const constants = require('../constants');
                         return reject('Missing required fields. Every field in this step is mandatory.');
                     }
                 }
-            } else if (type == "medical") {
+            } else if (type == 'medical') {
                 if (data.medical_information == undefined || data.medical_information.blood_type == 0) {
                     return reject('Blood type is a mandatory field, please select a valid blood type');
                 } else if (data.medical_information.privacy_terms_medical_accepted == undefined || data.medical_information.privacy_terms_medical_accepted == '') {
@@ -160,13 +160,13 @@ const constants = require('../constants');
      */
      validateLengthFieldsUpdate(type, data) {
         return new Promise((resolve, reject) => {
-            if (type == "personal") {
+            if (type == 'personal') {
                 if (data.city.length < 4 || data.address.length < 4) {
                     return reject("City and address must have more than 4 characters.");
                 } else if (data.phone_number.length < 7 || data.emergency_contact.phone_number.length < 7) {
                     return reject("Every phone number must have more than 7 characters.");
                 }
-            } else if (type == "medical") {
+            } else if (type == 'medical') {
                 if (data.medical_information.blood_type == 0) {
                     return reject('Blood type is a mandatory field, please select a valid blood type');
                 } else if (data.medical_information.privacy_terms_medical_accepted == undefined || data.medical_information.privacy_terms_medical_accepted == '') {
