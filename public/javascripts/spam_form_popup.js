@@ -1,4 +1,16 @@
 class SpamForm {
+    static instance= undefined;
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance() {
+        if (this.instance === undefined) {
+            this.instance = new SpamForm();
+        }
+        return this.instance;
+    }
+
     sendSpamReport() {
         console.log('-----sending----------');
         const spamMsgId = $('#spam_msg_id').val();
@@ -44,7 +56,7 @@ $(function() {
             $('#spam-error-alert').show();
             return false;
         }
-        const spamForm = new SpamForm();
+        const spamForm = SpamForm.getInstance();
         spamForm.sendSpamReport();
     });
     $('#spam-modal').modal('hide');
