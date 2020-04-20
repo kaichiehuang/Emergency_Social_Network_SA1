@@ -1,6 +1,15 @@
 // eslint-disable-next-line no-unused-vars
 class User {
-    constructor() {
+    static instance= undefined;
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance() {
+        if (this.instance === undefined) {
+            this.instance = new User();
+        }
+        return this.instance;
     }
 
     /**
@@ -8,7 +17,7 @@ class User {
      * @param  {[type]} userId [description]
      * @return {[type]}        [description]
      */
-    static async getUser(userId) {
+     async getUser(userId) {
         return await new Promise((resolve, reject) => {
             if (userId != null) {
                 APIHandler.getInstance()
@@ -31,7 +40,7 @@ class User {
      * Returns a list of users from the API
      * @return {[type]} [description]
      */
-    static async getPersonalMessage(userId, security_question_answer) {
+     async getPersonalMessage(userId, security_question_answer) {
         const data = {
             'security_question_answer': security_question_answer,
         };
@@ -52,7 +61,7 @@ class User {
      * Returns a list of users from the API
      * @return {[type]} [description]
      */
-    static async getUsers(keyword, status) {
+     async getUsers(keyword, status) {
         const data = {
             'username': keyword,
             'status': status
@@ -74,7 +83,7 @@ class User {
      * Update user information
      * @return {[type]} [description]
      */
-    static async updateUser(userId, data) {
+     async updateUser(userId, data) {
         return await new Promise((resolve, reject) => {
             APIHandler.getInstance()
                 .sendRequest('/users/' + userId, 'put',
@@ -96,8 +105,8 @@ class User {
      * [initCurrentUser description]
      * @return {[type]} [description]
      */
-    static updateCurrentUser() {
-        User.getCurrentUser()
+     updateCurrentUser() {
+        User.getInstance().getCurrentUser()
             .then((user) => {
                 currentUser = user;
             }).catch((err) => {
@@ -109,14 +118,14 @@ class User {
      * [initCurrentUser description]
      * @return {[type]} [description]
      */
-    static initCurrentUser() {
-        User.getCurrentUser()
+     initCurrentUser() {
+        User.getInstance().getCurrentUser()
             .then((user) => {
                 const currentUser = user;
                 if (currentUser.name === undefined ||
                     currentUser.name.length === 0) {
                     showElements('profile-update-invite');
-                    User.initUpdateInvite();
+                    User.getInstance().initUpdateInvite();
                 }
             }).catch((err) => {
 
@@ -127,10 +136,10 @@ class User {
      * [initCurrentUser description]
      * @return {[type]} [description]
      */
-    static async getCurrentUser() {
+     async getCurrentUser() {
         return await new Promise((resolve, reject) => {
             // init current user
-            User.getUser(Cookies.get('user-id'))
+            User.getInstance().getUser(Cookies.get('user-id'))
                 .then((user) => {
                     resolve(user);
                 }).catch((err) => {
@@ -143,7 +152,7 @@ class User {
      * [initUpdateInvite description]
      * @return {[type]} [description]
      */
-    static initUpdateInvite() {
+     initUpdateInvite() {
         window.setInterval(function() {
             showElements('profile-update-invite');
         }, 60000 * 5);

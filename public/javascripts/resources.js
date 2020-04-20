@@ -1,90 +1,92 @@
 class Resources {
+
+    static instance = undefined;
     /**
      * Initializing view
      */
     constructor() {
         $('#step-one-btn').on('click', (e) => {
-            Resources.addClassElements('selected-btn',
+            Resources.getInstance().addClassElements('selected-btn',
                 $('#step-one-btn'));
-            Resources.removeClassElements('selected-btn',
+            Resources.getInstance().removeClassElements('selected-btn',
                 $('#step-two-btn'), $('#step-three-btn'));
 
 
-            Resources.removeClassElements('hidden-main-content-block',
+            Resources.getInstance().removeClassElements('hidden-main-content-block',
                 $('#step-one-content'), $('#div-resource-type'));
-            Resources.addClassElements('hidden-main-content-block',
+            Resources.getInstance().addClassElements('hidden-main-content-block',
                 $('#resource-location-div'), $('#resource-picture-div'));
         });
 
         $('#step-two-btn').on('click', (e) => {
-            Resources.addClassElements('selected-btn',
+            Resources.getInstance().addClassElements('selected-btn',
                 $('#step-two-btn'));
-            Resources.removeClassElements('selected-btn',
+            Resources.getInstance().removeClassElements('selected-btn',
                 $('#step-one-btn'), $('#step-three-btn'));
 
-            Resources.removeClassElements('hidden-main-content-block',
+            Resources.getInstance().removeClassElements('hidden-main-content-block',
                 $('#resource-location-div'));
-            Resources.addClassElements('hidden-main-content-block',
+            Resources.getInstance().addClassElements('hidden-main-content-block',
                 $('#step-one-content'), $('#resource-picture-div'),
                 $('#div-resource-type'));
         });
 
 
         $('#step-three-btn').on('click', (e) => {
-            Resources.addClassElements('selected-btn',
+            Resources.getInstance().addClassElements('selected-btn',
                 $('#step-three-btn'));
-            Resources.removeClassElements('selected-btn',
+            Resources.getInstance().removeClassElements('selected-btn',
                 $('#step-two-btn'), $('#step-one-btn'));
 
-            Resources.removeClassElements('hidden-main-content-block',
+            Resources.getInstance().removeClassElements('hidden-main-content-block',
                 $('#resource-picture-div'));
-            Resources.addClassElements('hidden-main-content-block',
+            Resources.getInstance().addClassElements('hidden-main-content-block',
                 $('#step-one-content'), $('#resource-location-div'),
                 $('#div-resource-type'));
         });
 
 
         $('#supplies-btn').on('click', (e) => {
-            Resources.addClassElements('selected-btn',
+            Resources.getInstance().addClassElements('selected-btn',
                 $('#supplies-btn'));
-            Resources.removeClassElements('selected-btn',
+            Resources.getInstance().removeClassElements('selected-btn',
                 $('#shelter-btn'), $('#medical-btn'));
 
-            Resources.removeClassElements('hidden-main-content-block',
+            Resources.getInstance().removeClassElements('hidden-main-content-block',
                 $('#supplies-content-div'));
-            Resources.addClassElements('hidden-main-content-block',
+            Resources.getInstance().addClassElements('hidden-main-content-block',
                 $('#medical-content-div'), $('#shelter-content-div'));
         });
 
         $('#medical-btn').on('click', (e) => {
-            Resources.addClassElements('selected-btn',
+            Resources.getInstance().addClassElements('selected-btn',
                 $('#medical-btn'));
-            Resources.removeClassElements('selected-btn',
+            Resources.getInstance().removeClassElements('selected-btn',
                 $('#supplies-btn'), $('#shelter-btn'));
 
-            Resources.removeClassElements('hidden-main-content-block',
+            Resources.getInstance().removeClassElements('hidden-main-content-block',
                 $('#medical-content-div'));
-            Resources.addClassElements('hidden-main-content-block',
+            Resources.getInstance().addClassElements('hidden-main-content-block',
                 $('#supplies-content-div'), $('#shelter-content-div'));
         });
 
 
         $('#shelter-btn').on('click', (e) => {
-            Resources.addClassElements('selected-btn',
+            Resources.getInstance().addClassElements('selected-btn',
                 $('#shelter-btn'));
-            Resources.removeClassElements('selected-btn',
+            Resources.getInstance().removeClassElements('selected-btn',
                 $('#supplies-btn'), $('#medical-btn'));
 
-            Resources.removeClassElements('hidden-main-content-block',
+            Resources.getInstance().removeClassElements('hidden-main-content-block',
                 $('#shelter-content-div'));
-            Resources.addClassElements('hidden-main-content-block',
+            Resources.getInstance().addClassElements('hidden-main-content-block',
                 $('#medical-content-div'), $('#supplies-content-div'));
         });
 
         $('#resource-submit-btn').on('click', async (e) => {
-            const valid = await Resources.validateRequireFields();
+            const valid = await Resources.getInstance().validateRequireFields();
             if (valid.length===0) {
-                Resources.getValues();
+                Resources.getInstance().getValues();
             } else {
                 $('#modaltext').text(valid);
                 $('#validationsModal').modal('show');
@@ -95,37 +97,47 @@ class Resources {
             e.preventDefault();
             $('#resource-picture').val('');
             $('#image-preview').attr('src', '#');
-            Resources.addClassElements('hidden-main-content-block',
+            Resources.getInstance().addClassElements('hidden-main-content-block',
                 $('#imageDiv'));
         });
 
 
         $('#resource-picture').on('change', (e) => {
-            Resources.readURL();
-            Resources.removeClassElements('hidden-main-content-block',
+            Resources.getInstance().readURL();
+            Resources.getInstance().removeClassElements('hidden-main-content-block',
                 $('#imageDiv'));
         });
 
-        Resources.initializeFirstSelection();
+
+    }
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+     static getInstance(){
+        if (this.instance === undefined) {
+            this.instance = new Resources();
+        }
+        return this.instance;
     }
 
     /**
      * Initialize buttons selection
      */
-    static initializeFirstSelection() {
+     initializeFirstSelection() {
         $('#step-one-btn').trigger('click');
         $('#supplies-btn').trigger('click');
     }
 
 
-    static removeClassElements(nameClass, ...showElement) {
+     removeClassElements(nameClass, ...showElement) {
         for (const element of showElement) {
             element.removeClass(nameClass);
         }
     }
 
 
-    static addClassElements(nameClass, ...showElement) {
+     addClassElements(nameClass, ...showElement) {
         for (const element of showElement) {
             element.addClass(nameClass);
         }
@@ -134,7 +146,7 @@ class Resources {
     /**
      * Method to read the image and show a preview
      */
-    static readURL() {
+     readURL() {
         const input = $('#resource-picture').prop('files');
         if (input && input[0]) {
             const reader = new FileReader();
@@ -149,7 +161,7 @@ class Resources {
     /**
      * Getting values from the form to save the resource
      */
-    static getValues() {
+     getValues() {
         let description;
         let questionOne;
         let questionTwo;
@@ -193,11 +205,11 @@ class Resources {
             questionTwo: questionTwo,
         };
 
-        this.postResource(resourceObject);
+        Resources.getInstance().postResource(resourceObject);
     }
 
 
-    static validateRequireFields() {
+     validateRequireFields() {
         const resourceType = ('#div-resource-type button.selected-btn');
         if (resourceType.length === 0 ||
             $('#resource-location').val() === '' ||
@@ -258,7 +270,7 @@ class Resources {
      * @param resourceObject
      * @return {Promise<unknown>}
      */
-    static postResource(resourceObject) {
+     postResource(resourceObject) {
         const formData = new FormData();
 
         formData.append('user_id', Cookies.get('user-id'));
@@ -288,7 +300,7 @@ class Resources {
             }).done(function(response) {
                 $('#supplies-form').trigger('reset');
                 $('#image-preview').attr('src', '#');
-                Resources.initializeFirstSelection();
+                Resources.getInstance().initializeFirstSelection();
                 swapViewContent('public-chat-content');
                 resolve(response);
             }).fail(function(e) {
@@ -302,7 +314,7 @@ class Resources {
 
 
 $(function() {
-    new Resources();
+    Resources.getInstance().initializeFirstSelection();
 });
 
 

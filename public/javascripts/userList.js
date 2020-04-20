@@ -1,10 +1,22 @@
 class UserList {
+
+    static instance= undefined;
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance() {
+        if (this.instance === undefined) {
+            this.instance = new UserList();
+        }
+        return this.instance;
+    }
     /**
      * [drawUsers description]
      * @param  {[type]} containerId [description]
      * @return {[type]}             [description]
      */
-    static drawUsers(users, currentUser) {
+     drawUsers(users, currentUser) {
         const containerId = 'user-list-content__list';
         $('#user-list-content .no-results-message').addClass('hidden');
         // 1. find templates in html
@@ -77,11 +89,11 @@ class UserList {
                     listContainer.appendChild(template);
                 }
             }
-            UserList.registerEventsAfterDraw();
+            UserList.getInstance().registerEventsAfterDraw();
         }
     }
 
-    static showEmergencyStatus(userId) {
+     showEmergencyStatus(userId) {
         console.log('user id is ' + userId);
         $('#userEmergencyDetail').modal('show');
         // get brief description and location
@@ -133,23 +145,23 @@ class UserList {
      * draws empty list of users
      * @return {[type]} [description]
      */
-    static drawNoUsers() {
+     drawNoUsers() {
         $('#user-list-content__list li').remove();
         $('#user-list-content .no-results-message').removeClass('hidden');
     }
 
     // todo pass this to a class AddressBook that has an attribute currentUser
-    static updateComponentView(currentUser, searchKeyword, searchStatus) {
+     updateComponentView(currentUser, searchKeyword, searchStatus) {
         // get user data and then get messages to
         // paint and to check for unread messages
-        User.getUser(currentUser._id).then((user) => {
+        User.getInstance().getUser(currentUser._id).then((user) => {
             currentUser.unread_messages = user.unread_messages;
-            return User.getUsers(searchKeyword, searchStatus);
+            return User.getInstance().getUsers(searchKeyword, searchStatus);
         }).then((users) => {
             if (users.length > 0) {
-                UserList.drawUsers(users, currentUser);
+                UserList.getInstance().drawUsers(users, currentUser);
             } else {
-                UserList.drawNoUsers();
+                UserList.getInstance().drawNoUsers();
             }
         }).catch((err) => {
         });
@@ -158,7 +170,7 @@ class UserList {
     /**
      * [registerEventsAfterDraw description]
      */
-    static registerEventsAfterDraw() {
+     registerEventsAfterDraw() {
         globalContentChangerEvent();
         // assign view change event for chat button for each user in the list
         menuContentChangerEvent();
@@ -177,7 +189,7 @@ class UserList {
             // eslint-disable-next-line no-invalid-this
             const clickedUserStatus = $(this).data('status');
             if (clickedUserStatus === 'Emergency') {
-                UserList.showEmergencyStatus(clickedUserId);
+                UserList.getInstance().showEmergencyStatus(clickedUserId);
             }
         });
     }
@@ -190,11 +202,11 @@ class UserList {
  */
 $(function() {
     // Initial call to get the user list after login
-    UserList.updateComponentView(currentUser, '', '');
+    UserList.getInstance().updateComponentView(currentUser, '', '');
     // Socket IO implementation to update
     // user list on every change of users data.
     socket.on('user-list-update', () => {
-        UserList.updateComponentView(currentUser,
+        UserList.getInstance().updateComponentView(currentUser,
             $('#search-users-list__input').val(), '');
     });
     // Click event, to update user list when the user switch between views
@@ -203,7 +215,7 @@ $(function() {
         // eslint-disable-next-line no-invalid-this
         const newID = $(this).data('view-id');
         if (newID === 'user-list-content') {
-            UserList.updateComponentView(currentUser,
+            UserList.getInstance().updateComponentView(currentUser,
                 $('#search-users-list__input').val(), '');
         }
     });
@@ -231,7 +243,7 @@ $(function() {
                     selectedStatus = newSelectedStatus;
                 }
             }
-            UserList.updateComponentView(currentUser,
+            UserList.getInstance().updateComponentView(currentUser,
                 searchKeyword, selectedStatus);
         });
 });
