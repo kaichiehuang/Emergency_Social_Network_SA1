@@ -21,7 +21,7 @@ class Announcement extends BaseMessage {
      * [initiateAnnouncementsList description]
      * @return {[type]} [description]
      */
-    static initiateAnnouncementsList() {
+     initiateAnnouncementsList() {
         const announcement = Announcement.getInstance();
         announcement.updateMessageListView('announcements');
     }
