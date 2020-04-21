@@ -2,6 +2,10 @@
     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
         <div class="">
             <ul class="user-profile-menu">
+                <% if (step != '0') { %>
+                <li class="user-profile-menu__back">
+                    <a class="content-changer user-profile-menu-btn btn btn-primary" data-view-id="user-profile-content"><i class="fa fa-arrow-left"></i></a>
+                </li>
                 <li>
                     <a class="content-changer user-profile-menu-btn btn btn-primary <% if (step == '1') { %> active <% } %>" data-view-id="user-profile-form1">1. Personal</a>
                 </li>
@@ -11,6 +15,12 @@
                 <li>
                     <a class="content-changer user-profile-menu-btn btn btn-primary <% if (step == '3') { %> active <% } %>" data-view-id="user-profile-form3">3. Other</a>
                 </li>
+                <% } %>
+                <% if (step == '0') { %>
+                    <li class="user-profile-menu__back">
+                    <a class="content-changer user-profile-menu-btn btn btn-primary" data-view-id="user-profile-content"><i class="fa fa-arrow-left"></i></a>
+                    </li>
+                <% } %>
             </ul>
         </div>
     </div>

@@ -8,6 +8,10 @@ const constants = require('../constants');
  * Our class for user model taht will be attached to the schema
  */
  class UserModel {
+
+    constructor() {
+    }
+
     /**
      * Sets registration data
      * @param {[type]} username [description]
@@ -90,6 +94,9 @@ const constants = require('../constants');
      validateUpdate(data) {
         return new Promise((resolve, reject) => {
             let step = null;
+            if (data.step != undefined && data.step == 1) {
+                step = "account";
+            }
             if (data.step != undefined && data.step == 1) {
                 step = "personal";
             } else if (data.step != undefined && data.step == 2) {
