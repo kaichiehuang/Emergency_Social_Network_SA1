@@ -92,7 +92,7 @@ class PrivateChatMessage {
             StopWords.removeStopWords(query).then((preprocessedQuery) => {
                 console.log('after clean: ' + preprocessedQuery);
                 PrivateChatMessageModel.find({
-                    $or: [{'sender_user_id': senderUserId, 'receiver_user_id': receiverUserId,},
+                    $or: [{'sender_user_id': senderUserId, 'receiver_user_id': receiverUserId},
                         {'sender_user_id': receiverUserId, 'receiver_user_id': senderUserId}],
                     $text: {$search: preprocessedQuery}
                 })
