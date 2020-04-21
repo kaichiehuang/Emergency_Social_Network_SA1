@@ -1,17 +1,21 @@
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const indexRouter = require('./routes/index');
-const applicationRouter = require('./routes/application');
-const usersRouter = require('./routes/users');
-const chatMessagesRouter = require('./routes/chatMessages');
-const privateChatMessagesRouter = require('./routes/privateChatMessages');
-const usersListRouter = require('./routes/usersList');
-const announcementRouter = require('./routes/announcements');
-const resourcesRouter = require('./routes/resources');
-const emergencyStatusDetailRouter = require('./routes/emergencyStatusDetail');
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var compression = require('compression');
+var bodyParser = require('body-parser');
+var indexRouter = require('./routes/index');
+var registrationRouter = require('./routes/registration');
+var applicationRouter = require('./routes/application');
+var usersRouter = require('./routes/users');
+var chatMessagesRouter = require('./routes/chatMessages');
+var privateChatMessagesRouter = require('./routes/privateChatMessages');
+var usersListRouter = require('./routes/usersList');
+var announcementRouter = require('./routes/announcements');
+var resourcesRouter = require('./routes/resources');
+var emergencyStatusDetailRouter = require('./routes/emergencyStatusDetail');
+var testRouter = require('./routes/testroute');
 const spamReportRouter = require('./routes/spamReport');
 
 let ENVIRONMENT = 'development';
@@ -119,6 +123,7 @@ app.use('/api/emergencyStatusDetail', emergencyStatusDetailRouter);
 app.use('/api/spam-report', spamReportRouter);
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
 app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirejs')));
+app.use('/api/test', testRouter);
 // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   next(createError(404));

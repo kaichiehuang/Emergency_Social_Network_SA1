@@ -52,7 +52,13 @@ const UserSchema = new Schema(
             type: Map,
             of: Boolean
         },
-        spam: Boolean
+        spam: Boolean,
+        active: {
+            type: Boolean, 
+            default: true
+        },
+        role: String
+        
     },
     schemaOptions
 );
