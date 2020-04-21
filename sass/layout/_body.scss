@@ -1,6 +1,9 @@
 .form-error-message-container {
     display: none;
 }
+.btn {
+    border-radius: 5px;
+}
 .main-content-block {
     display: block;
     padding-top: 135px;
@@ -22,6 +25,12 @@
     &.acknowledgement-page-content {
         padding-top: 0;
         padding-bottom: 100px;
+    }
+}
+&.main-content-login {
+    .main-content-block {
+        background: none !important;
+        border: none;
     }
 }
 .hidden-main-content-block {
@@ -285,7 +294,6 @@ form {
             @include flexbox;
             @include align-items(center);
             @include justify-content(space-between);
-
             .list-group-item__left {
                 @include flexbox;
                 @include align-items(center);
@@ -323,7 +331,7 @@ form {
                     font-size: 0.2em;
                     color: $brand_color1;
                 }
-                .report-link{
+                .report-link {
                     font-size: 3px;
                     font-weight: lighter;
                     color: $brand_color1;
@@ -338,7 +346,6 @@ form {
                 }
                 .report {
                     margin-right: 5px;
-
                 }
             }
         }
@@ -573,11 +580,19 @@ form {
         margin-bottom: 30px;
         border-bottom: 1px dotted $brand_color2;
         border-bottom: 1px dotted #ccc;
-        .edit-profile-button {
+        .profile-edit-buttons {
             position: absolute;
             right: 0px;
             top: 7.5px;
+            @include flexbox;
+            @include align-items(center);
+            @include justify-content(flex-end);
+            .btn {
+                margin-left: 15px;
+            }
         }
+        .edit-profile-button {}
+        .edit-account-button {}
         .profile-block__subtitle {
             color: $brand_color1;
             margin: 0;
@@ -677,7 +692,7 @@ form {
                         }
                     }
                 }
-                input[type=text], textarea, select {
+                input[type=text], input[type=password], textarea, select {
                     width: 63%;
                     border: 1px solid #999;
                     text-align: center;
@@ -753,7 +768,10 @@ form {
         list-style: none;
         li {
             padding: 5px 12.5px;
-            min-width: 33.333333%;
+            min-width: 25%;
+            &.user-profile-menu__back {
+                min-width: 10%;
+            }
             a {
                 display: block;
                 width: 100%;
@@ -996,8 +1014,7 @@ form {
         margin-top: 20%;
     }
 }
-
-#user-spam-modal{
+#user-spam-modal {
     .modal-header {
         .close {
             opacity: 1 !important;

@@ -20,10 +20,11 @@ class UserProfileForm {
      * changes the receiver for the private chat
      * @param profileFormUserId
      */
-     initiateUserProfileForm(profileFormUserId) {
+    initiateUserProfileForm(profileFormUserId, step) {
         Cookies.set('profile_form_user_id', profileFormUserId);
-        UserProfileForm.getInstance().updateComponentView(profileFormUserId, 1);
+        UserProfileForm.getInstance().updateComponentView(profileFormUserId, step);
         UserProfileForm.getInstance().initEvent();
+
     }
 
     /**
@@ -48,19 +49,52 @@ class UserProfileForm {
                 // set username
                 template.querySelector('.user-profile__username')
                     .innerText = user.username;
-                if (step == 1) {
+                if (step == 0) {
+                    template = UserProfileForm.getInstance().fillProfileFormStep0(user, template);
+                }
+                else if (step == 1) {
                     template =  UserProfileForm.getInstance().fillProfileFormStep1(user, template);
                 }
-                if (step == 2) {
+                else if (step == 2) {
                     template =  UserProfileForm.getInstance().fillProfileFormStep2(user, template);
                 }
-                if (step == 3) {
+                else if (step == 3) {
                     template =  UserProfileForm.getInstance().fillProfileFormStep3(user, template);
                 }
 
                 profileFormContainer.appendChild(template);
             }
         }
+    }
+
+    /**
+     * [fillProfileFormStep0 description]
+     * @param  {[type]} user     [description]
+     * @param  {[type]} template [description]
+     * @return {[type]}          [description]
+     */
+    fillProfileFormStep0(user, template) {
+        // set name
+        if (user.username != undefined) {
+            template.querySelector('input#user-profile-form__username').value = user.username;
+        }
+
+        // set last name
+        if (user.password != undefined) {
+            template.querySelector('input#user-profile-form__password').value = user.password;
+        }
+
+        // set privilege
+        if (user != undefined && user.privilege_level != undefined) {
+            template.querySelector('select#user-profile-form__privilege_level').value = user.privilege_level;
+        }
+
+        // set privilege
+        if (user.account_visibility != undefined && user.account_visibility != undefined) {
+            template.querySelector('select#user-profile-form__account_visibility').value = user.account_visibility;
+        }
+
+        return template;
     }
 
     /**

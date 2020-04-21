@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
+        <div class="user-profile-forms main-content-block hidden" id="user-profile-form0">
+            <template id="userProfileFormTemplate0">
+                <h3 class="text-center block-title">User profile - <strong class="user-profile__username"></strong></h3>
+
+                <% var step = '0';%>
+                <% include user_profile_menu %>
+
+                <div class="row">
+                    <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
+                        <div class="inner-content-block-profile">
+
+                            <form accept-charset="utf-8" id="profile-form1" class="profile-form">
+                                <input type="hidden" name="step" value="0" id="form_step">
+                                <input type="hidden" name="user_id" id="form_user_id" value="">
+                                <!-- Account info -->
+                                <div class="profile-form profile-form__account-info">
+                                    <h4 class="subtitle">Personal Information</h4>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Username</label>
+                                            <input type="text" id="user-profile-form__username" username="username" class="form-control" placeholder="username" >
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Password</label>
+                                            <input type="password" id="user-profile-form__password" name="password" class="form-control" placeholder="password" >
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Privilege Level</label>
+                                            <select name="privilege_level" id="user-profile-form__privilege_level">
+                                                <option value="">Please select an option</option>
+                                                <option value="user">User</option>
+                                                <option value="coordinator">Coordinator</option>
+                                                <option value="administrator">Administrator</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="profile-form__user-attribute-data">
+                                        <div class="form-group">
+                                            <label class="required">Account status</label>
+                                            <select name="account_status" id="user-profile-account_visibility">
+                                                <option value="">Please select an option</option>
+                                                <option value="1">Active</option>
+                                                <option value="0">Inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="profile-form__submit">
+                                        <button id="profile-form__submit-form1" class="btn btn-primary">Save</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <div id="user-profile-form-content__container-0">
+
+            </div>
+            <br><br>
+        </div>
+    </div>
+</div>

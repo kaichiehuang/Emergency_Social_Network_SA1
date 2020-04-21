@@ -177,7 +177,10 @@ class UserProfile {
         globalContentChangerEvent();
         if (Cookies.get('profile_user_id') == currentUser._id) {
             $('.edit-profile-button').click(function(event) {
-                UserProfileForm.initiateUserProfileForm(currentUser._id);
+                UserProfileForm.getInstance().initiateUserProfileForm(currentUser._id, 1);
+            });
+            $('.edit-account-button').click(function(event) {
+                UserProfileForm.getInstance().initiateUserProfileForm(currentUser._id, 0);
             });
         }
         $('#user-profile__personal-message-form').submit(function(event) {
