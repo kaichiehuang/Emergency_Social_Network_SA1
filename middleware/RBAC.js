@@ -36,7 +36,7 @@ class RoleBasedAccessControl {
         let action = route + ':' + method;
         let active = await RoleBasedAccessControl.checkActive(userId, res);
 
-        if (action === "put") {
+        if (method === "put") {
             if (req.params.userId != userId && role != 'administrator') {
                 return res.status(401).send("Invalid attempt to modify other user's profile").end();
             } 
