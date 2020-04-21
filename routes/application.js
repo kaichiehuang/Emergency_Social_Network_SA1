@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = new express.Router();
 
 /* home page for logged in users . */
 router.get('/', function(req, res, next) {

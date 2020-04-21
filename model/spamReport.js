@@ -1,6 +1,10 @@
 const SpamReportModel = require('./model').SpamReportMongo;
 
+/**
+ * spam report model
+ */
 class SpamReport {
+    // eslint-disable-next-line require-jsdoc
     constructor(level, type, description) {
         this.level = level;
         this.type = type;

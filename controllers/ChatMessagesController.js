@@ -2,6 +2,9 @@ const ChatMessage = require('../model/chatMessage.js');
 const User = require('../model/user.js');
 const constants = require('../constants');
 
+/**
+ * chat message controller
+ */
 class ChatMessagesController {
     /**
      * [createMessage description]
@@ -22,11 +25,11 @@ class ChatMessagesController {
             }));
         }
         const message = requestData['message'];
-        const user_id = requestData['user_id'];
+        const userId = requestData['user_id'];
         let userFound = null;
         let spam = false;
         // 1. Get user and validate that it exists
-        User.findUserById(user_id).then((result) => {
+        User.findUserById(userId).then((result) => {
             userFound = result;
             /* istanbul ignore next */
             if (userFound.spam) {

@@ -1,24 +1,33 @@
 const PrivateChatMessageModel = require('./model').PrivateChatMessagesMongo;
 const StopWords = require('../utils/StopWords');
 
+/**
+ * private msg model
+ */
 class PrivateChatMessage {
-    constructor(message, sender_user_id, receiver_user_id, user_status) {
+    // eslint-disable-next-line require-jsdoc
+    constructor(message, senderUserId, receiverUserId, userStatus) {
         this._id = null;
         this.message = message;
-        this.sender_user_id = sender_user_id;
-        this.receiver_user_id = receiver_user_id;
-        this.status = user_status || 'UNDEFINED';
+        this.senderUserId = senderUserId;
+        this.receiverUserId = receiverUserId;
+        this.status = userStatus || 'UNDEFINED';
     }
+
+    /**
+     * create new msg
+     * @returns {Promise<unknown>}
+     */
     createNewMessage() {
         return new Promise((resolve, reject) => {
-            if(this.sender_user_id == this.receiver_user_id){
+            if (this.senderUserId == this.receiverUserId) {
                 /* istanbul ignore next */
-                reject("Cannot chat with himself");
+                reject('Cannot chat with himself');
             }
             const newChatMessage = new PrivateChatMessageModel({
                 message: this.message,
-                sender_user_id: this.sender_user_id,
-                receiver_user_id: this.receiver_user_id,
+                sender_user_id: this.senderUserId,
+                receiver_user_id: this.receiverUserId,
                 status: this.status
             });
             newChatMessage.save().then((result) => {
@@ -36,23 +45,23 @@ class PrivateChatMessage {
     /**
      * [getChatMessages description]
      *
-     * @param  {[type]} sender_user_id   [description]
-     * @param  {[type]} receiver_user_id [description]
+     * @param  {[type]} senderUserId   [description]
+     * @param  {[type]} receiverUserId [description]
      * @return {[type]}                  [description]
      */
-    getChatMessages(sender_user_id, receiver_user_id) {
+    getChatMessages(senderUserId, receiverUserId) {
         return new Promise((resolve, reject) => {
             PrivateChatMessageModel.find({
                 $or: [
                     {
                         // condition 1
-                        'sender_user_id': sender_user_id,
-                        'receiver_user_id': receiver_user_id,
+                        'sender_user_id': senderUserId,
+                        'receiver_user_id': receiverUserId,
                     },
                     {
                         // condition 2
-                        'sender_user_id': receiver_user_id,
-                        'receiver_user_id': sender_user_id
+                        'sender_user_id': receiverUserId,
+                        'receiver_user_id': senderUserId
                     }
                 ]
             })
@@ -70,21 +79,21 @@ class PrivateChatMessage {
 
     /**
      *
-     * @param sender_user_id
-     * @param receiver_user_id
+     * @param senderUserId
+     * @param receiverUserId
      * @param query
      * @param page
      * @param pageSize
      * @return {Promise<unknown>}
      */
-    searchChatMessages(sender_user_id, receiver_user_id, query, page, pageSize) {
+    searchChatMessages(senderUserId, receiverUserId, query, page, pageSize) {
         return new Promise( (resolve, reject) =>{
             const skipSize = page * pageSize;
             StopWords.removeStopWords(query).then((preprocessedQuery) => {
                 console.log('after clean: ' + preprocessedQuery);
                 PrivateChatMessageModel.find({
-                    $or: [{'sender_user_id': sender_user_id, 'receiver_user_id': receiver_user_id,},
-                        {'sender_user_id': receiver_user_id, 'receiver_user_id': sender_user_id}],
+                    $or: [{'sender_user_id': senderUserId, 'receiver_user_id': receiverUserId},
+                        {'sender_user_id': receiverUserId, 'receiver_user_id': senderUserId}],
                     $text: {$search: preprocessedQuery}
                 })
                     .populate('sender_user_id', ['_id', 'username']).populate('receiver_user_id', ['_id', 'username'])

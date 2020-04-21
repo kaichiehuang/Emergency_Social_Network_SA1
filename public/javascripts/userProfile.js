@@ -5,7 +5,7 @@ class UserProfile {
      * @return {[type]} [description]
      */
     static getInstance() {
-        if (this.instance == undefined) {
+        if (this.instance === undefined) {
             this.instance = new UserProfile();
         }
         return this.instance;
@@ -159,7 +159,7 @@ class UserProfile {
         // get user data and then get messages to
         // paint and to check for unread messages
         UserProfile.getInstance().resetProfile();
-        User.getUser(currentUserId).then((user) => {
+        User.getInstance().getUser(currentUserId).then((user) => {
             if (user != undefined) {
                 UserProfile.getInstance().drawProfile(user);
             }
@@ -197,7 +197,7 @@ class UserProfile {
     validatePersonalMessageQuestion() {
         const security_question_answer = $('#user-profile__personal-message-q-answer').val();
         const userId = Cookies.get('profile_user_id');
-        User.getPersonalMessage(userId, security_question_answer).then((result) => {
+        User.getInstance().getPersonalMessage(userId, security_question_answer).then((result) => {
             $('#user-profile__personal-message').html(result.message);
             showElements('user-profile__personal-message-container');
         }).catch((err) => {

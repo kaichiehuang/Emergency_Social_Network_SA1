@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = new express.Router();
 const UsersController = require(__dirname + '/../controllers/usersController');
 const bodyParser = require('body-parser');
 const TokenServerClass = require('../middleware/TokenServer');

@@ -23,7 +23,7 @@ class UserModel {
     setRegistrationData(username, password) {
         this.username = username;
         this.password = password;
-        this.status = "UNDEFINED";
+        this.status = 'UNDEFINED';
     }
 
     /*******************
@@ -64,7 +64,6 @@ class UserModel {
             }
         });
     }
-
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
@@ -98,7 +97,6 @@ class UserModel {
         });
     }
 
-
     /*******************
 
           OPERATIONS
@@ -111,11 +109,11 @@ class UserModel {
     registerUser() {
         return new Promise((resolve, reject) => {
             this.hashPassword(this.password);
-            this.save().then(_ => {
+            this.save().then((_) => {
                 return resolve(true);
-            }).catch(err => {
+            }).catch((err) => {
                 return reject(err);
-            })
+            });
         });
     }
     /**
@@ -125,13 +123,13 @@ class UserModel {
      */
     updateUser(data) {
         return new Promise((resolve, reject) => {
-            this.validateUpdate(data).then(result => {
+            this.validateUpdate(data).then((result) => {
                 if (data['status'] != undefined) {
-                    this.status_timestamp = new Date()
+                    this.status_timestamp = new Date();
                 }
                 this.set(data);
                 return this.save();
-            }).then(usr => {
+            }).then((usr) => {
                 return resolve(true);
             }).catch((err) => {
                 return reject(err);
@@ -208,7 +206,9 @@ class UserModel {
             } else {
                 return reject('Socket does not exist');
             }
-            return this.save().then((result) => {
+
+            this.save()
+            .then((result) => {
                 return resolve(result);
             }).catch((err) => {
                 return reject(err);
@@ -240,7 +240,6 @@ class UserModel {
                         } else {
                             count++;
                         }
-                        this.unread_messages.set(senderUserId, count);
                     }
                 }
                 return this.save();
@@ -264,10 +263,11 @@ class UserModel {
             if (this.personal_message != undefined && this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(security_question_answer) == 0) {
                 return resolve(this.personal_message.message);
             } else {
-                return reject("Invalid answer");
+                return reject('Invalid answer');
             }
         });
     }
+
     /**
      * [setUserDataValidator description]
      * @param {[type]} dataValidator [description]
@@ -279,7 +279,7 @@ class UserModel {
 
           STATIC FIND FUNCTIONS
 
-          *****************************/
+    *****************************/
     /**
      * Checks if a username exists
      * @param  {[type]} username [description]
@@ -323,10 +323,10 @@ class UserModel {
      */
     static findUserByUsername(username) {
         return new Promise((resolve, reject) => {
-            let userModel = new User();
+            const userModel = new User();
             this.findOne({
                 username: username
-            }).exec().then(user => {
+            }).exec().then((user) => {
                 return resolve(user);
             }).catch((err) => {
                 return reject(err);
@@ -343,23 +343,23 @@ class UserModel {
             let searchingUser = null;
             User.findUserById(currentUserId).then((user) => {
                 if (user == null) {
-                    return reject("You are not authorized");
+                    return reject('You are not authorized');
                 }
-                //same user no need to check if its an admin or authorized
+                // same user no need to check if its an admin or authorized
                 if (currentUserId.toString().localeCompare(id) == 0) {
                     return resolve(user);
                 }
-                //diff user, check if its an admin or authorized
+                // diff user, check if its an admin or authorized
                 searchingUser = user;
                 return User.findUserById(id);
             }).then((user) => {
                 if (user == null) {
-                    return reject("You are not authorized");
+                    return reject('You are not authorized');
                 }
-                //diff user, check if its an admin or authorized
+                // diff user, check if its an admin or authorized
                 if (currentUserId.toString().localeCompare(id) != 0) {
                     if (user.emergency_contact == undefined || user.emergency_contact.phone_number == undefined || searchingUser.phone_number == undefined || searchingUser.phone_number == '' || searchingUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
-                        return reject("You are not authorized");
+                        return reject('You are not authorized');
                     }
                 }
                 return resolve(user);

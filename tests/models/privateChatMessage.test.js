@@ -1,8 +1,7 @@
 const TestDatabase = require('../services/testDataBase');
 const PrivateChatMessage = require('../../model/privateChatMessage');
-const User = require("../../model/user");
-
 const testDatabase = new TestDatabase();
+require('../../model/user');
 
 beforeAll(async () => {
     await testDatabase.start();
@@ -37,7 +36,6 @@ describe('principal', () => {
             const chatMessage = new PrivateChatMessage('This a test message', '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439012');
             await chatMessage.createNewMessage().then((msg) => {
                 messsageId = msg;
-                return;
             });
         });
 
@@ -55,7 +53,6 @@ describe('principal', () => {
             const chatMessage = new PrivateChatMessage('This a test message', '507f1f77bcf86cd799439011', '507f1f77bcf86cd799439012');
             await chatMessage.createNewMessage().then((msg) => {
                 messsageId = msg;
-                return;
             });
         });
 

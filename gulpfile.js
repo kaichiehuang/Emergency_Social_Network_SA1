@@ -1,20 +1,20 @@
 // File paths
 const files = {
     sassPath: './sass/**/*.scss'
-}
+};
 const destinations = {
     cssPath: './public/stylesheets/'
-}
+};
 
 
-//************************************
+//* ***********************************
 //
 //
-//use this when using old node and gulp
+// use this when using old node and gulp
 //
 //
 //
-//************************************
+//* ***********************************
 
 
 // const gulp = require('gulp');
@@ -42,47 +42,62 @@ const destinations = {
 //
 
 
+//* ***********************************
+//
+//
+// use this when using new node and gulp
+//
+//
+//
+//* ***********************************
 
-//************************************
-//
-//
-//use this when using new node and gulp
-//
-//
-//
-//************************************
-
 
 //
-const gulp = require("gulp");
-const browserSync = require("browser-sync").create();
-const sass = require("gulp-sass");
+const gulp = require('gulp');
+const browserSync = require('browser-sync').create();
+const sass = require('gulp-sass');
 
+/**
+ * do style
+ * @param done
+ * @returns {*}
+ */
 function doStyles(done) {
-    return gulp.series(sassCompile, done => {
+    return gulp.series(sassCompile, (done) => {
         done();
     })(done);
 }
 
+/**
+ * sass complie
+ * @returns {*|void}
+ */
 function sassCompile() {
     return gulp.src(files.sassPath)
-    .pipe(sass({ outputStyle: 'compressed' }))
-    .on("error", sass.logError)
+        .pipe(sass({outputStyle: 'compressed'}))
+        .on('error', sass.logError)
         // .pipe(postcss([autoprefixer(), cssnano()]))
         .pipe(gulp.dest(destinations.cssPath)).pipe(browserSync.stream());
 }
 
+/**
+ * reload
+ * @param done
+ */
 function reload(done) {
     browserSync.reload();
     done();
 }
 
+/**
+ * watch
+ */
 function watch() {
     browserSync.init({
-        proxy: "http://localhost:3000",
+        proxy: 'http://localhost:3000',
         port: 3010
     });
     gulp.watch(files.sassPath, doStyles);
     // gulp.watch(paths.php.src, reload);
 }
-gulp.task("default", watch);
+gulp.task('default', watch);

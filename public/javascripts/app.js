@@ -57,7 +57,7 @@ $(function() {
                 swapViewContent('acknowledgement-page-content', 'main-content-block');
             }
         }
-        User.initCurrentUser();
+        User.getInstance().initCurrentUser();
         $('.hideadble-menu-item a').click(function(event) {
             $('.menu-less').parent().addClass('hidden');
             $('.menu-more').parent().removeClass('hidden');
