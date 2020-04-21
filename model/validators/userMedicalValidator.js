@@ -1,9 +1,9 @@
-const UserValidatorInterface = require('./userValidatorInterface');
+const ValidatorInterface = require('./validatorInterface.js');
 
 /**
  * Our class for user model taht will be attached to the schema
  */
-class UserMedicalValidator extends UserValidatorInterface{
+class UserMedicalValidator extends ValidatorInterface{
     /**
      * [constructor description]
      * @return {[type]} [description]

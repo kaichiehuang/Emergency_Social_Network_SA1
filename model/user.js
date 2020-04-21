@@ -113,7 +113,8 @@ class UserModel {
             if (this.userDataStepValidator == null) {
                 return reject("Error");
             }
-            this.userDataStepValidator.validateStepData(data).then((result) => {
+            this.userDataStepValidator.validateStepData(data)
+            .then((result) => {
                 return resolve(true);
             }).catch((err) => {
                 return reject(err);

@@ -1,9 +1,9 @@
 /**
  * Our class for user model taht will be attached to the schema
  */
-class UserValidatorInterface {
+class ValidatorInterface {
     constructor() {
-        this.arrayData = [];
+        this.validateData = [];
         this.validatorRules = {
             "requiredRules": [], // list of variables
             "lengthRules": [], // array of objects {"field", "minLength": 3},{"field", "minLength": 3},
@@ -40,7 +40,7 @@ class UserValidatorInterface {
      */
     validateRequiredFields() {
         return new Promise((resolve, reject) => {
-            if (this.validatorRules.requiredRules.length > 0) {
+            if (this.validatorRules.requiredRules != undefined && this.validatorRules.requiredRules.length > 0) {
                 for (var i = 0; i < this.validatorRules.requiredRules.length; i++) {
                     const field = this.validatorRules.requiredRules[i];
                     let validationResult = false;
@@ -68,11 +68,11 @@ class UserValidatorInterface {
      */
     validateRequiredField(fieldName, innerObject) {
         if (innerObject != undefined) {
-            if (this.arrayData[innerObject][fieldName] == undefined || this.arrayData[innerObject][fieldName] == "" || this.arrayData[innerObject][fieldName].length == 0) {
+            if (this.validateData[innerObject][fieldName] == undefined || this.validateData[innerObject][fieldName] == "" || this.validateData[innerObject][fieldName].length == 0) {
                 return false;
             }
         } else {
-            if (this.arrayData[fieldName] == undefined || this.arrayData[fieldName] == "" || this.arrayData[fieldName].length == 0) {
+            if (this.validateData[fieldName] == undefined || this.validateData[fieldName] == "" || this.validateData[fieldName].length == 0) {
                 return false;
             }
         }
@@ -86,7 +86,7 @@ class UserValidatorInterface {
      */
     validateFieldsByLength() {
         return new Promise((resolve, reject) => {
-            if (this.validatorRules.lengthRules.length > 0) {
+            if (this.validatorRules.lengthRules != undefined && this.validatorRules.lengthRules.length > 0) {
                 for (var i = 0; i < this.validatorRules.lengthRules.length; i++) {
                     const field = this.validatorRules.lengthRules[i];
                     let validationResult = false;
@@ -116,11 +116,11 @@ class UserValidatorInterface {
      */
     validateFieldByLength (fieldName, minLength, innerObject) {
         if (innerObject != undefined) {
-            if (this.arrayData[innerObject][fieldName] == undefined || this.arrayData[innerObject][fieldName].length < minLength) {
+            if (this.validateData[innerObject][fieldName] == undefined || this.validateData[innerObject][fieldName].length < minLength) {
                 return false;
             }
         } else {
-            if (this.arrayData[fieldName] == undefined || this.arrayData[fieldName].length < minLength) {
+            if (this.validateData[fieldName] == undefined || this.validateData[fieldName].length < minLength) {
                 return false;
             }
         }
@@ -134,7 +134,7 @@ class UserValidatorInterface {
      */
     validateCustomRules() {
         return new Promise((resolve, reject) => {
-            if (this.validatorRules.customRules.length > 0) {
+            if (this.validatorRules.customRules != undefined && this.validatorRules.customRules.length > 0) {
                 for (var i = 0; i < this.validatorRules.customRules.length; i++) {
                     const field = this.validatorRules.customRules[i];
                     let validationResult = false;
@@ -144,7 +144,7 @@ class UserValidatorInterface {
 
                     if (!validationResult) {
                         if (field.msg == undefined) {
-                            return reject("Error12");
+                            return reject("Error");
                         }
                         return reject(field.msg);
                     }
@@ -159,7 +159,7 @@ class UserValidatorInterface {
      * @param {[type]} data [description]
      */
     setValidationData(data) {
-        this.arrayData = data;
+        this.validateData = data;
     }
 }
-module.exports = UserValidatorInterface;
+module.exports = ValidatorInterface;
