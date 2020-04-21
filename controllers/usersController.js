@@ -1,5 +1,7 @@
 const User = require('../model/user.js');
 const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js')
+
+
 // const  = model.User;
 class UsersController {
     /**
@@ -89,6 +91,7 @@ class UsersController {
     updateUser(req, res) {
         let userInstance = null;
         const userId = req.params.userId;
+
         // 1. update user data
         User.findById(userId).then(user => {
             userInstance = user;
