@@ -87,7 +87,8 @@ class PrivateChatMessage {
                         {'sender_user_id': receiver_user_id, 'receiver_user_id': sender_user_id}],
                     $text: {$search: preprocessedQuery}
                 })
-                    .populate('sender_user_id', ['_id', 'username']).populate('receiver_user_id', ['_id', 'username'])
+                    .populate('sender_user_id', ['_id', 'username'])
+                    .populate('receiver_user_id', ['_id', 'username'])
                     .sort({created_at: -1})
                     .skip(skipSize).limit(pageSize)
                     .then((result) => {

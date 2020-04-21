@@ -1,4 +1,5 @@
 const Announcement = require('../model/announcement');
+const SocketIOController = require('../controllers/SocketIOController.js');
 class AnnouncementController {
     /**
      * Create an annoucement
@@ -13,11 +14,14 @@ class AnnouncementController {
 
         // save new announcement
         newAnnouncement.saveAnnouncement().then((newAnnouncement) => {
-            res.io.emit('new-announcement', {
-                'id': newAnnouncement._id,
-                'message': newAnnouncement.message,
-                'created_at': newAnnouncement.created_at,
-            });
+
+            let socketIO = new SocketIOController(res.io);
+            socketIO.emitAnnouncement(newAnnouncement);
+            // res.io.emit('new-announcement', {
+            //     'id': newAnnouncement._id,
+            //     'message': newAnnouncement.message,
+            //     'created_at': newAnnouncement.created_at,
+            // });
 
             res.contentType('application/json');
             res.status(201).send(JSON.stringify(newAnnouncement));

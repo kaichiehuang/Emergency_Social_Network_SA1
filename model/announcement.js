@@ -50,8 +50,17 @@ class Announcement {
      */
     static getAnnouncements(sort_type, limit) {
         return new Promise((resolve, reject) => {
+            const populateQuery = {
+                path: 'user_id',
+                select: '_id username',
+                match: {}
+            };
+            //TODO: GET user role
+            if (true) {
+                populateQuery['match']['active'] =true;
+            }
             AnnouncementModel.find({})
-                .populate("user_id", ["_id", "username"])
+                .populate(populateQuery)
                 .sort({
                     created_at: sort_type
                 }).limit(parseInt(limit))
@@ -74,13 +83,21 @@ class Announcement {
      */
     static findAnnouncements(keywords, index, sort_type) {
         return new Promise((resolve, reject) => {
+            const populateQuery = {
+                path: 'user_id',
+                select: '_id username',
+                match: {}
+            };
+            //TODO: GET user role
+            if (true) {
+                populateQuery['match']['active'] =true;
+            }
             let totalSkip = index * constants.PAGINATION_NUMBER;
-            console.log("before clean keywords: " + keywords);
             StopWords.removeStopWords(keywords).then(filteredKeyWords => {
                 console.log("after clean keywords: " + filteredKeyWords);
                 AnnouncementModel.find(
                     {$text: {$search: filteredKeyWords}})
-                    .populate("user_id", ["_id", "username"])
+                    .populate(populateQuery)
                     .sort({
                         created_at: sort_type
                     })

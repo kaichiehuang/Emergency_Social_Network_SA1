@@ -218,8 +218,9 @@ const constants = require('../constants');
         return new Promise((resolve, reject) => {
             this.validateUpdate(data).then(result => {
                 if (data['status'] != undefined) {
-                    this.status_timestamp = new Date()
+                    this.status_timestamp = new Date();
                 }
+
                 this.set(data);
                 return this.save();
             }).then(usr => {
@@ -229,6 +230,9 @@ const constants = require('../constants');
             });
         });
     }
+
+
+
 
     /**
      * hashes a user password //

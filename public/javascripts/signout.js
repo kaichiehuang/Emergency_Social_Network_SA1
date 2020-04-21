@@ -22,12 +22,17 @@ $(function() {
 
         window.location.replace('/');
     }
-
-    /** **** events declaration ********/
-
-    $('a[href="#signout-action"]').click(function(e) {
-        e.preventDefault();
+    function signoutUser() {
         setOnline(false);
         signout();
+    }
+    /** **** events declaration ********/
+    $('a[href="#signout-action"]').click(function(e) {
+        e.preventDefault();
+        signoutUser();
+    });
+
+    socket.on('logout-user', () => {
+        signoutUser();
     });
 });

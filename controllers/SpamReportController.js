@@ -2,6 +2,7 @@ const constants = require('../constants');
 const SpamReport = require('../model/spamReport');
 const ChatMessage = require('../model/chatMessage');
 const User = require('../model/user');
+const SocketIOController = require('../controllers/SocketIOController.js');
 
 class SpamReportController {
     /**
@@ -30,13 +31,16 @@ class SpamReportController {
                     return newReport.saveSpamReport();
                 })
                 .then((newReport) => {
-                    res.io.emit('spam-report-number', {
+                    let spamData ={
                         'user': {
                             'user_id': reportedUserId,
                             'spam': spamUser,
                             'number': spamUserReportedTimes
                         }
-                    });
+                    };
+                    const socketIO = new SocketIOController(res.io);
+                    socketIO.emitSpamReport(spamData);
+                    // res.io.emit('spam-report-number', spam);
                     res.contentType('application/json');
                     res.status(201).send(newReport);
                 })
@@ -58,13 +62,22 @@ class SpamReportController {
                     return newReport.saveSpamReport();
                 })
                 .then((newReport) => {
-                    res.io.emit('spam-report-number', {
+                    let spamData = {
                         'message': {
                             'message_id': reportMessageId,
                             'spam': spamMessage,
                             'number': spamMessageReportedTimes
                         }
-                    });
+                    };
+                    const socketIO = new SocketIOController(res.io);
+                    socketIO.emitSpamReport(spamData);
+                    // res.io.emit('spam-report-number', {
+                    //     'message': {
+                    //         'message_id': reportMessageId,
+                    //         'spam': spamMessage,
+                    //         'number': spamMessageReportedTimes
+                    //     }
+                    // });
                     res.contentType('application/json');
                     res.status(201).send(newReport);
                 })

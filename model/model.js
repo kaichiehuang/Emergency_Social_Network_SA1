@@ -30,12 +30,12 @@ const UserSchema = new Schema(
             type: Map,
             of: Number
         },
-        personal_message:{
+        personal_message: {
             message: String,
             security_question: String,
             security_question_answer: String
         },
-        medical_information:{
+        medical_information: {
             blood_type: String,
             allergies: String,
             prescribed_drugs: String,
@@ -52,7 +52,12 @@ const UserSchema = new Schema(
             type: Map,
             of: Boolean
         },
-        spam: Boolean
+        spam: Boolean,
+        active: {
+            type: Boolean,
+            default: 1
+        },
+        role: String
     },
     schemaOptions
 );
@@ -170,7 +175,7 @@ module.exports = {
     ChatMessagesMongo: ChatMessages,
     PrivateChatMessagesMongo: PrivateChatMessages,
     AnnouncementsMongo: Announcements,
-    ResourcesMongo:Resources,
+    ResourcesMongo: Resources,
     EmergencyStatusDetailMongo: EmergencyStatusDetail,
     PictureAndDescriptionMongo: PictureAndDescription,
     SpamReportMongo: SpamReport

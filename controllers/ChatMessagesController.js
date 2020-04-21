@@ -1,6 +1,7 @@
 const ChatMessage = require('../model/chatMessage.js');
 const User = require('../model/user.js');
 const constants = require('../constants');
+const SocketIOController = require('../controllers/SocketIOController.js');
 
 class ChatMessagesController {
     /**
@@ -39,7 +40,7 @@ class ChatMessagesController {
             return chatMessage.createNewMessage();
         }).then((chatMessageCreated) => {
             // 4. if chat message was saved emit the chat message to everyone
-            res.io.emit('new-chat-message', {
+            const message ={
                 '_id': chatMessageCreated._id,
                 'message': chatMessageCreated.message,
                 'user_id': {
@@ -49,7 +50,21 @@ class ChatMessagesController {
                 },
                 'created_at': chatMessageCreated.created_at,
                 'status': chatMessageCreated.status
-            });
+            };
+
+            const socketIO = new SocketIOController(res.io);
+            socketIO.emitMessage(message);
+            // res.io.emit('new-chat-message', {
+            //     '_id': chatMessageCreated._id,
+            //     'message': chatMessageCreated.message,
+            //     'user_id': {
+            //         '_id': userFound._id,
+            //         'username': userFound.username,
+            //         'reported_spams': userFound.reported_spams
+            //     },
+            //     'created_at': chatMessageCreated.created_at,
+            //     'status': chatMessageCreated.status
+            // });
 
             // 5. return a response
             res.contentType('application/json');

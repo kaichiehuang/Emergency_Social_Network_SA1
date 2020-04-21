@@ -1,6 +1,7 @@
 const PrivateChatMessage = require('../model/privateChatMessage.js');
 const User = require('../model/user.js');
 const constants = require('../constants');
+const SocketIOController = require('../controllers/SocketIOController.js');
 class PrivateChatMessagesController {
     /**
      * [createMessage description]
@@ -111,23 +112,40 @@ class PrivateChatMessagesController {
     static emitToSockets(privateChatMessageCreated, sockets, response, senderUser, receiverUser, status) {
         //1. iterate the list of sockects and emit the data
         if (sockets != undefined && sockets.size > 0) {
+            let privateMessage = {
+                "id": privateChatMessageCreated._id,
+                "message": privateChatMessageCreated.message,
+                "sender_user_id": {
+                    "_id": senderUser._id,
+                    "username": senderUser.username
+                },
+                "receiver_user_id": {
+                    "_id": receiverUser._id,
+                    "username": receiverUser.username
+                },
+                "created_at": privateChatMessageCreated.created_at,
+                "status": status
+            };
             /* istanbul ignore next */
             for (let socketId of sockets.keys()) {
-                response.io.to(socketId).emit('new-private-chat-message', {
-                    "id": privateChatMessageCreated._id,
-                    "message": privateChatMessageCreated.message,
-                    "sender_user_id": {
-                        "_id": senderUser._id,
-                        "username": senderUser.username
-                    },
-                    "receiver_user_id": {
-                        "_id": receiverUser._id,
-                        "username": receiverUser.username
-                    },
-                    "created_at": privateChatMessageCreated.created_at,
-                    "status": status
-                });
-                response.io.to(socketId).emit('user-list-update');
+                let socketIO = new SocketIOController(response.io.to(socketId));
+                socketIO.emitPrivateChat(socketId, privateMessage);
+                socketIO.emitUserList();
+                // response.io.to(socketId).emit('new-private-chat-message', {
+                //     "id": privateChatMessageCreated._id,
+                //     "message": privateChatMessageCreated.message,
+                //     "sender_user_id": {
+                //         "_id": senderUser._id,
+                //         "username": senderUser.username
+                //     },
+                //     "receiver_user_id": {
+                //         "_id": receiverUser._id,
+                //         "username": receiverUser.username
+                //     },
+                //     "created_at": privateChatMessageCreated.created_at,
+                //     "status": status
+                // });
+                // response.io.to(socketId).emit('user-list-update');
             }
         }
     }
@@ -151,7 +169,7 @@ function searchPrivateMessage(requestData, res) {
 function getAllPrivateMessage(requestData, res) {
     let privateChatMessage = new PrivateChatMessage();
     let receiverUser = null;
-    console.log(requestData)
+    console.log(requestData);
     User.findUserById(requestData['sender_user_id']).then(result => {
         receiverUser = result;
         return privateChatMessage.getChatMessages(requestData['sender_user_id'], requestData['receiver_user_id']);

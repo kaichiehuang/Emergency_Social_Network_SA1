@@ -51,8 +51,17 @@ class ChatMessage {
      */
     getChatMessages() {
         return new Promise((resolve, reject) => {
-            ChatMessageModel.find({})
-                .populate('user_id', ['_id', 'username', 'reported_spams'])
+            const populateQuery = {
+                path: 'user_id',
+                select: '_id username reported_spams',
+                match: {}
+            };
+            //TODO: GET user role
+            if (true) {
+                populateQuery['match']['active'] =true;
+            }
+            ChatMessageModel.find()
+                .populate(populateQuery)
                 .then((result) => {
                     resolve(result);
                 })
@@ -71,8 +80,19 @@ class ChatMessage {
     static findMessagesByKeyword(keyword) {
         return new Promise((resolve, reject) => {
             StopWords.removeStopWords(keyword).then((filteredKeyWords) => {
+                const populateQuery = {
+                    path: 'user_id',
+                    select: '_id username reported_spams',
+                    match: {}
+                };
+                // TODO: GET user role
+                if (true) {
+                    populateQuery['match']['active'] =true;
+                }
+
+
                 ChatMessageModel.find({$text: {$search: filteredKeyWords}})
-                    .populate('user_id', ['_id', 'username'])
+                    .populate(populateQuery)
                     .sort({created_at: 'asc'})
                     .then((messages) => {
                         resolve(messages);
