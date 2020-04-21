@@ -28,26 +28,33 @@ describe("Business Validations for user", () => {
         let userName = "ab";
         let user = new User()
         user.setRegistrationData(userName, "password");
-        return expect(user.validateUserName()).toBe(false);
+        return user.validateCreate().catch((err) => {
+            expect(err).not.toBe("")
+        })
     })
-    test("raise error validating paaswords with less than 4 characters", async () => {
+    test("raise error validating passwords with less than 4 characters", async () => {
         expect.assertions(1);
         let password = "ab";
         let user = new User();
-        user.setRegistrationData("userName", password);
-        return expect(user.validatePassword()).toBe(false);
+        user.setRegistrationData("asdasdasdasdasd", password);
+        return user.validateCreate().catch((err) => {
+            console.log(err)
+            expect(err).not.toBe(null)
+        })
     })
     test('should pass validation for banned user names', () => {
         expect.assertions(1);
         let user = new User();
         user.setRegistrationData('user1234d', "password");
-        return expect(user.validateBannedUsername()).toBeTruthy();
+        return expect(user.validateCreate()).toBeTruthy();
     })
     test('should send an error for banned user names', async () => {
         expect.assertions(1);
         let user = new User();
         user.setRegistrationData('broadcasthost', "password");
-        return expect(user.validateBannedUsername()).toBe(false);
+        return user.validateCreate().catch((err) => {
+            expect(err).not.toBe("")
+        })
     })
     test('should validate user names previously registered', () => {
         let user = new User();
