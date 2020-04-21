@@ -11,15 +11,19 @@ class UserOtherValidator extends ValidatorInterface{
     constructor(){
         super();
         this.validatorRules = {
-            customRules: [
+            "customRules": [
                 {
-                    customRuleName: 'validateSecurityQuestion',
-                    msg: "The security question and the answer to this cannot be empty if one of these is sent.",
+                    "customRuleName": 'validateSecurityQuestion',
+                    "msg": "The security question and the answer to this cannot be empty if one of these is sent.",
                 },
             ],
         };
     }
 
+    /**
+     * Validates structure of security question and answer, they should both exists if one is not empty
+     * @return {[type]} [description]
+     */
     validateSecurityQuestion(){
         if (this.validateData.personal_message != undefined) {
             if (this.validateData.personal_message.security_question.length == 0 && this.validateData.personal_message.security_question_answer.length != 0) {

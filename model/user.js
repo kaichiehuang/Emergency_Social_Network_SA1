@@ -1,19 +1,19 @@
 const mongoose = require('mongoose');
 const UserSchema = require('./model').UserSchema;
 const bcrypt = require('bcrypt');
-const blacklist = require('the-big-username-blacklist');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
 const UserPersonalValidator = require('./validators/userPersonalValidator.js');
 const UserMedicalValidator = require('./validators/userMedicalValidator.js');
 const UserOtherValidator = require('./validators/userOtherValidator.js');
 const UserDefaultValidator = require('./validators/userDefaultValidator.js');
+const NewUserValidator = require('./validators/newUserValidator.js');
 /**
  * Our class for user model taht will be attached to the schema
  */
 class UserModel {
     constructor() {
-        this.userDataStepValidator = null;
+        this.dataValidator = null;
     }
     /**
      * Sets registration data
@@ -38,19 +38,16 @@ class UserModel {
      */
     validateCreate() {
         return new Promise((resolve, reject) => {
-            // validate username structure
-            if (!this.validateUserName()) {
-                return reject('Invalid username, please enter a longer username (min 3 characters)');
-            }
-            // validate banned users
-            if (!this.validateBannedUsername()) {
-                return reject('Invalid username, this username is reserved for the platform. Please enter a different username.');
-            }
-            // validate password structure
-            if (!this.validatePassword()) {
-                return reject('Invalid password, please enter a longer username (min 4 characters)');
-            }
-            return resolve(true);
+            this.setUserDataValidator(new NewUserValidator());
+            this.dataValidator.validateDataRules({
+                "username": this.username,
+                "password": this.password
+            })
+            .then((result) => {
+                return resolve(true);
+            }).catch((err) => {
+                return reject(err);
+            })
         });
     }
     /**
@@ -67,28 +64,7 @@ class UserModel {
             }
         });
     }
-    /**
-     * VALIDATE USER NAMES LENGTH
-     * [validateUserName description]
-     * @return {[type]} [description]
-     */
-    validateUserName() {
-        if (this.username.length < 3) {
-            return false;
-        }
-        return true;
-    }
-    // VALIDATE PASSWORD  LENGTH
-    /**
-     * [validatePassword description]
-     * @return {[type]} [description]
-     */
-    validatePassword() {
-        if (this.password.length < 4) {
-            return false;
-        }
-        return true;
-    }
+
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
@@ -97,23 +73,23 @@ class UserModel {
         return new Promise((resolve, reject) => {
             let step = null;
             if (data.step != undefined && data.step == 0) {
-                this.userDataStepValidator = new UserAccountValidator();
+                this.setUserDataValidator(new UserAccountValidator());
             } else if (data.step != undefined && data.step == 1) {
-                this.userDataStepValidator = new UserPersonalValidator();
+                this.setUserDataValidator(new UserPersonalValidator());
             } else if (data.step != undefined && data.step == 2) {
-                this.userDataStepValidator = new UserMedicalValidator();
+                this.setUserDataValidator(new UserMedicalValidator());
             } else if (data.step != undefined && data.step == 3) {
-                this.userDataStepValidator = new UserOtherValidator();
+                this.setUserDataValidator(new UserOtherValidator());
             }else{
                 //default validator
-                this.userDataStepValidator = new UserDefaultValidator();
+                this.setUserDataValidator(new UserDefaultValidator());
             }
 
             //fail because it has no validator for this
-            if (this.userDataStepValidator == null) {
+            if (this.dataValidator == null) {
                 return reject("Error");
             }
-            this.userDataStepValidator.validateStepData(data)
+            this.dataValidator.validateDataRules(data)
             .then((result) => {
                 return resolve(true);
             }).catch((err) => {
@@ -122,23 +98,12 @@ class UserModel {
         });
     }
 
-    /**
-     * Validates if a username is banned
-     * @return {[type]} [description]
-     */
-    validateBannedUsername() {
-        // 3. Validate BlackListUser\
-        const black = blacklist.validate(this.username);
-        if (!black) {
-            return false;
-        }
-        return true;
-    }
+
     /*******************
 
           OPERATIONS
 
-          ******************/
+    ******************/
     /**
      * Register a username in DB. it hashes the password
      * @return {[type]} [description]
@@ -305,10 +270,10 @@ class UserModel {
     }
     /**
      * [setUserDataValidator description]
-     * @param {[type]} userDataStepValidator [description]
+     * @param {[type]} dataValidator [description]
      */
-    setUserDataValidator(userDataStepValidator) {
-        this.userDataStepValidator = userDataStepValidator;
+    setUserDataValidator(dataValidator) {
+        this.dataValidator = dataValidator;
     }
     /******************************
 

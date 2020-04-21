@@ -8,12 +8,13 @@ class ValidatorInterface {
             "requiredRules": [], // list of variables
             "lengthRules": [], // array of objects {"field", "minLength": 3},{"field", "minLength": 3},
             "customRules": [],
+            "acceptedData": []
         };
     }
     /**
-     *
+     *   Validates a
      */
-    validateStepData(data) {
+    validateDataRules(data) {
         //set data for global access
         this.setValidationData(data);
         return new Promise((resolve, reject) => {
