@@ -1,24 +1,35 @@
 class PrivateChatMessage extends BaseMessage {
+    static instance = undefined;
     constructor() {
         super();
         this.type = 'private';
+    }
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance(){
+        if (this.instance === undefined) {
+            this.instance = new PrivateChatMessage();
+        }
+        return this.instance;
     }
 
     /**
      * changes the receiver for the private chat
      * @param  {[type]} receiver_user_id [description]
      */
-    static initiatePrivateChat(receiver_user_id) {
+     initiatePrivateChat(receiver_user_id) {
         Cookies.set('receiver_user_id', receiver_user_id);
         $("#private-chat > li").remove();
-        let privateChatMessageModel = new PrivateChatMessage();
+        let privateChatMessageModel = PrivateChatMessage.getInstance();
         privateChatMessageModel.updateMessageListView('private', "", 0);
     }
 
     /**
      * [registerEventsAfterDraw description]
      */
-    static registerEventsAfterDraw() {
+     registerEventsAfterDraw() {
         /** **** events declaration ********/
         $('#private-send-btn').click(function(e) {
             privateChatMessageModel.sendMessage('private');
@@ -61,7 +72,7 @@ class PrivateChatMessage extends BaseMessage {
 //* ***********************************************
 //* ***********************************************
 let private_wall_container = document.getElementById('private-msg_area');
-const privateChatMessageModel = new PrivateChatMessage();
+const privateChatMessageModel =  PrivateChatMessage.getInstance();
 $(function() {
     // eslint-disable-next-line no-unused-vars
     let page = 0;
@@ -95,5 +106,5 @@ $(function() {
     });
     // init private chat messages and announcements
     privateChatMessageModel.updateMessageListView('private');
-    PrivateChatMessage.registerEventsAfterDraw();
+    PrivateChatMessage.getInstance().registerEventsAfterDraw();
 });

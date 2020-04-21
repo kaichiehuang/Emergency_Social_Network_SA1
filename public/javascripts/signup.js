@@ -1,5 +1,4 @@
-$(function () {
-
+$(function() {
     /**
      * [postMessage description]
      * @param  {[type]} e [description]

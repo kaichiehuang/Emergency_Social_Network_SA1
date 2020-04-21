@@ -1,15 +1,28 @@
 class Announcement extends BaseMessage {
+
+    static instance = undefined;
+
     constructor() {
         super();
         this.type = 'announcement';
+    }
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance(){
+        if(this.instance === undefined) {
+            this.instance = new Announcement();
+        }
+        return this.instance;
     }
 
     /**
      * [initiateAnnouncementsList description]
      * @return {[type]} [description]
      */
-    static initiateAnnouncementsList() {
-        const announcement = new Announcement();
+     initiateAnnouncementsList() {
+        const announcement = Announcement.getInstance();
         announcement.updateMessageListView('announcements');
     }
 
@@ -18,7 +31,7 @@ class Announcement extends BaseMessage {
      * @param  {[type]} data [description]
      * @return {[type]}      [description]
      */
-    static drawLastAnnouncement(data) {
+    drawLastAnnouncement(data) {
         const lastAnnouncementContainer = $('#last-announcement-container');
         lastAnnouncementContainer.html(data.message);
     }
@@ -27,7 +40,7 @@ class Announcement extends BaseMessage {
      * Gets the last announcement
      * @return {[type]} [description]
      */
-    static getLastAnnouncement() {
+    getLastAnnouncement() {
         const url = '/announcements';
         const data = {
             last: true,
@@ -37,7 +50,8 @@ class Announcement extends BaseMessage {
             .sendRequest(url, 'get', data, true, null)
             .then((response) => {
                 if (response.length > 0) {
-                    Announcement.drawLastAnnouncement(response[0]);
+                    Announcement.getInstance()
+                        .drawLastAnnouncement(response[0]);
                 }
             });
     }
@@ -83,16 +97,16 @@ class Announcement extends BaseMessage {
 //* ***********************************************
 //* ***********************************************
 let announcement_wall_container = document.getElementById('announcement-msg_area');
-const announcementModel = new Announcement();
+const announcementModel =  Announcement.getInstance();
 let page = 0;
 $(function() {
     // listen for public chat events
     socket.on('new-announcement', (data) => {
-        Announcement.drawLastAnnouncement(data);
+        Announcement.getInstance().drawLastAnnouncement(data);
         announcementModel.updateMessageListView('announcement');
         announcement_wall_container.scrollTop = 0;
     });
     // init announcement chat messages and announcements
-    Announcement.getLastAnnouncement();
+    Announcement.getInstance().getLastAnnouncement();
     announcementModel.initFormEvents();
 });
