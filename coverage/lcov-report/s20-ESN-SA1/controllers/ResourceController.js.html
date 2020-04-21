@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.89% </span>
+                <span class="strong">88.37% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>40/45</span>
+                <span class='fraction'>38/43</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.89% </span>
+                <span class="strong">88.37% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>40/45</span>
+                <span class='fraction'>38/43</span>
             </div>
         
             
@@ -177,12 +177,7 @@
 <a name='L118'></a><a href='#L118'>118</a>
 <a name='L119'></a><a href='#L119'>119</a>
 <a name='L120'></a><a href='#L120'>120</a>
-<a name='L121'></a><a href='#L121'>121</a>
-<a name='L122'></a><a href='#L122'>122</a>
-<a name='L123'></a><a href='#L123'>123</a>
-<a name='L124'></a><a href='#L124'>124</a>
-<a name='L125'></a><a href='#L125'>125</a>
-<a name='L126'></a><a href='#L126'>126</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<a name='L121'></a><a href='#L121'>121</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -194,6 +189,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -201,8 +198,6 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -253,16 +248,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -305,28 +296,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Resource = require('../model/resource')
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Resource = require('../model/resource');
 const User = require('../model/user.js');
 const ChatMessage = require('../model/chatMessage.js');
 &nbsp;
-class ResourceController{
-&nbsp;
+/**
+ * resource controller
+ */
+class ResourceController {
     /**
      * Method to create a resource
      * @param req
      * @param res
      */
-    registerResource(req,res){
-        console.log("in register resource")
+    registerResource(req, res) {
+        console.log('in register resource');
         console.log(req.body );
         console.log(req.file );
-        //console.log(JSON.parse(req.body));
+        // console.log(JSON.parse(req.body));
         const requestData = req.body;
         console.log(requestData.user_id);
-        //Getting the parameters from request body
-        const user_id = requestData.user_id;
+        // Getting the parameters from request body
+        const userId = requestData.user_id;
         const resourceType = requestData['resourceType'];
         const name = requestData['name'];
         const location = requestData['location'];
@@ -334,8 +326,6 @@ class ResourceController{
         const questionOne = requestData['questionOne'];
         const questionTwo = requestData['questionTwo'];
         const questionThree = requestData['questionThree'];
-        const image = requestData['image'];
-        const contentType = requestData['contentType'];
 &nbsp;
         console.log('questionOne:'+ questionOne);
         console.log('questionTwo:'+ questionTwo);
@@ -343,22 +333,22 @@ class ResourceController{
 &nbsp;
         let file;
         let fileType;
-        <span class="missing-if-branch" title="if path not taken" >I</span>if(req.file === undefined){
-<span class="cstat-no" title="statement not covered" >            file = "";</span>
-<span class="cstat-no" title="statement not covered" >            fileType="";</span>
-        }else{
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (req.file === undefined) {
+<span class="cstat-no" title="statement not covered" >            file = '';</span>
+<span class="cstat-no" title="statement not covered" >            fileType='';</span>
+        } else {
             file =req.file.buffer;
             fileType = req.file.mimetype;
         }
 &nbsp;
-        const resource = new Resource(user_id,resourceType,name,location,
-            description,questionOne,questionTwo,questionThree,file,fileType)
+        const resource = new Resource(userId, resourceType, name, location,
+            description, questionOne, questionTwo, questionThree, file, fileType);
 &nbsp;
         resource.saveResource()
-            .then((newResource =&gt;{
-                User.findUserById(user_id)
+            .then(((newResource) =&gt;{
+                User.findUserById(userId)
                     .then((userFound)=&gt;{
-                        //Create Message on the public Chat
+                        // Create Message on the public Chat
                         // 2. Create chat message object
                         const chatMessage = new ChatMessage('Resource Shared:' + name,
                             userFound._id, userFound.status);
@@ -378,19 +368,15 @@ class ResourceController{
                                 });
 &nbsp;
 &nbsp;
-&nbsp;
                                 res.contentType('application/json');
                                 res.status(201).send(JSON.stringify(newResource));
-                            })
-                    })
-&nbsp;
-&nbsp;
-        })).catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
-<span class="cstat-no" title="statement not covered" >            return res.status(422).send(JSON.stringify({</span>
-                'error': err.message
-            }));
-        });
-&nbsp;
+                            });
+                    });
+            })).catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
+<span class="cstat-no" title="statement not covered" >                return res.status(422).send(JSON.stringify({</span>
+                    'error': err.message
+                }));
+            });
     }
 &nbsp;
 &nbsp;
@@ -399,25 +385,25 @@ class ResourceController{
      * @param req
      * @param res
      */
-    getResource(req,res){
+    getResource(req, res) {
         const resourceId = req.params.resourceId;
 &nbsp;
-        //Get resource by ID
-        if(resourceId !== undefined){
+        // Get resource by ID
+        if (resourceId !== undefined) {
             Resource.findResourceById(resourceId)
-                .then(resource =&gt;{
+                .then((resource) =&gt;{
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(resource));
                 })
                 .catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
 <span class="cstat-no" title="statement not covered" >                    return res.status(422).send(JSON.stringify({</span>
-                    'error': err.message
-                }));
-            });
-        }else{
-            //Get all resources
+                        'error': err.message
+                    }));
+                });
+        } else {
+            // Get all resources
             Resource.findResources()
-                .then(resources =&gt;{
+                .then((resources) =&gt;{
                     res.contentType('application/json');
                     return res.status(201).send(JSON.stringify(resources));
                 })
@@ -428,10 +414,9 @@ class ResourceController{
                 });
         }
     }
-&nbsp;
 }
 &nbsp;
-module.exports = ResourceController
+module.exports = ResourceController;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -439,7 +424,7 @@ module.exports = ResourceController
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Apr 17 2020 15:17:05 GMT-0700 (GMT-07:00)
+                at Tue Apr 21 2020 00:27:31 GMT-0700 (GMT-07:00)
             </div>
         </div>
         <script src="../../prettify.js"></script>

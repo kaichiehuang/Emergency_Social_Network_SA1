@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96% </span>
+                <span class="strong">64% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>24/25</span>
+                <span class='fraction'>16/25</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">62.5% </span>
+                <span class="strong">37.5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/8</span>
+                <span class='fraction'>3/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96% </span>
+                <span class="strong">64% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>24/25</span>
+                <span class='fraction'>16/25</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -134,7 +134,11 @@
 <a name='L75'></a><a href='#L75'>75</a>
 <a name='L76'></a><a href='#L76'>76</a>
 <a name='L77'></a><a href='#L77'>77</a>
-<a name='L78'></a><a href='#L78'>78</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -142,21 +146,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -212,28 +220,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Announcement = require('../model/announcement');
+&nbsp;
+/**
+ * announcement controller
+ */
 class AnnouncementController {
     /**
      * Create an annoucement
      * @param req
      * @param res
      */
-    createAnnouncement(req, res) {
-        let requestData = req.body;
-        let message = requestData['message'];
-        let user_id = requestData['user_id'];
-        let newAnnouncement = new Announcement(message, user_id, 'OK');
+<span class="fstat-no" title="function not covered" >    cr</span>eateAnnouncement(req, res) {
+        const requestData = <span class="cstat-no" title="statement not covered" >req.body;</span>
+        const message = <span class="cstat-no" title="statement not covered" >requestData['message'];</span>
+        const userId = <span class="cstat-no" title="statement not covered" >requestData['user_id'];</span>
+        const newAnnouncement = <span class="cstat-no" title="statement not covered" >new Announcement(message, userId, 'OK');</span>
 &nbsp;
         // save new announcement
-        newAnnouncement.saveAnnouncement().then((newAnnouncement) =&gt; {
-            res.io.emit('new-announcement', {
+<span class="cstat-no" title="statement not covered" >        newAnnouncement.saveAnnouncement().then(<span class="fstat-no" title="function not covered" >(n</span>ewAnnouncement) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >            res.io.emit('new-announcement', {</span>
                 'id': newAnnouncement._id,
                 'message': newAnnouncement.message,
                 'created_at': newAnnouncement.created_at,
             });
 &nbsp;
-            res.contentType('application/json');
-            res.status(201).send(JSON.stringify(newAnnouncement));
+<span class="cstat-no" title="statement not covered" >            res.contentType('application/json');</span>
+<span class="cstat-no" title="statement not covered" >            res.status(201).send(JSON.stringify(newAnnouncement));</span>
         }).catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
             /* istanbul ignore next */
             return res.status(422).send(JSON.stringify({
@@ -255,16 +267,16 @@ class AnnouncementController {
         const index = req.query.page;
         let limit = req.query.limit;
         const last = req.query.last;
-        let sort_type = -1;
+        let sortType = -1;
 &nbsp;
         if (keywords === undefined || keywords.length == 0 || index === undefined || last === true) {
             <span class="missing-if-branch" title="if path not taken" >I</span>if (last != undefined &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >last)</span> {
                 /* istanbul ignore next */
                 limit = parseInt('1');
-<span class="cstat-no" title="statement not covered" >                sort_type = -1;</span>
+<span class="cstat-no" title="statement not covered" >                sortType = -1;</span>
             }
 &nbsp;
-            Announcement.getAnnouncements(sort_type, limit).then((announcements) =&gt; {
+            Announcement.getAnnouncements(sortType, limit).then((announcements) =&gt; {
                 res.contentType('application/json');
                 res.status(201).send(JSON.stringify(announcements));
             }).catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
@@ -274,8 +286,8 @@ class AnnouncementController {
                 }));
             });
         } else {
-            sort_type = -1;
-            Announcement.findAnnouncements(keywords, index, sort_type).then((announcements) =&gt; {
+            sortType = -1;
+            Announcement.findAnnouncements(keywords, index, sortType).then((announcements) =&gt; {
                 res.contentType('application/json');
                 res.status(201).send(JSON.stringify(announcements));
             }).catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
@@ -295,7 +307,7 @@ module.exports = AnnouncementController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Apr 17 2020 15:17:05 GMT-0700 (GMT-07:00)
+                at Tue Apr 21 2020 00:27:31 GMT-0700 (GMT-07:00)
             </div>
         </div>
         <script src="../../prettify.js"></script>

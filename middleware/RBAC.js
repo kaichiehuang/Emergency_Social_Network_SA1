@@ -33,10 +33,11 @@ class RoleBasedAccessControl {
         let route = req.baseUrl;
         let method = Object.keys(req.route.methods)[0];
         let role = await RoleBasedAccessControl.getRole(userId, res);
+        console.log("The role is " + role);
         let action = route + ':' + method;
         let active = await RoleBasedAccessControl.checkActive(userId, res);
 
-        if (method === "put") {
+        if (method === "put" && req.params.pictureId == null) {
             if (req.params.userId != userId && role != 'administrator') {
                 return res.status(401).send("Invalid attempt to modify other user's profile").end();
             } 
