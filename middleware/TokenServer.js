@@ -19,6 +19,7 @@ class TokenServer {
 
     static validateToken(req, res, next) {
         console.log('validateTokenMid');
+        console.log(Object.keys(req.route.methods)[0]);
         const token = req.header('Authorization');
         if (token) {
             TokenServer.verifyToken(token)
