@@ -5,7 +5,7 @@ const rbac = new RBAC(rules);
 
 class RoleBasedAccessControl {
 
-    //chech by userId if the user is active or not
+    //check by userId if the user is active or not
     static checkActive(userId, res) {
         return User.findUserById(userId).then((user) => {
             //true or false
@@ -48,8 +48,8 @@ class RoleBasedAccessControl {
                 if (result) {
                   // we are allowed access
                   console.log(userId + " is allowed to " + action);
-                  return res.status(200).send(userId + " is allowed to " + action).end();// UNAUTHORIZED
-                  //next();
+                  //return res.status(200).send(userId + " is allowed to " + action).end();// UNAUTHORIZED
+                  next();
                 } else {
                   // we are not allowed access
                   return res.status(401).send("rbac not passed").end();// UNAUTHORIZED

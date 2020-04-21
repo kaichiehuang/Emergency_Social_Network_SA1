@@ -3,6 +3,7 @@ const router = new express.Router();
 const PrivateChatMessagesController = require(__dirname + '/../controllers/PrivateChatMessagesController');
 const bodyParser = require('body-parser');
 const TokenServerClass = require('../middleware/TokenServer');
+const RBAC = require('../middleware/RBAC');
 // application/json parser
 const jsonParser = bodyParser.json();
 
@@ -11,10 +12,10 @@ const privateChatMessagesController = new PrivateChatMessagesController();
 
 
 // get method for getting chat messages
-router.get('/', TokenServerClass.validateToken, jsonParser, privateChatMessagesController.getChatMessages);
+router.get('/', TokenServerClass.validateToken, RBAC.validateUser, jsonParser, privateChatMessagesController.getChatMessages);
 
 // post method for creating a chat message
-router.post('/', TokenServerClass.validateToken, jsonParser, privateChatMessagesController.createMessage);
+router.post('/', TokenServerClass.validateToken, RBAC.validateUser, jsonParser, privateChatMessagesController.createMessage);
 
 
 // put method for updating a chat message
