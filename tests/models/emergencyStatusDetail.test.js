@@ -1,6 +1,7 @@
 const TestDatabase = require('../services/testDataBase');
 const EmergencyStatusDetail = require('../../model/emergencyStatusDetail');
 const testDatabase = new TestDatabase();
+require('../../model/user');
 
 beforeAll(async () => {
     await testDatabase.start();

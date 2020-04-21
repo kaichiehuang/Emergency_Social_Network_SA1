@@ -1,6 +1,7 @@
 const TestDatabase = require('../services/testDataBase');
 const Announcement = require('../../model/announcement');
 const testDatabase = new TestDatabase();
+require('../../model/user');
 
 beforeAll(async () => {
     await testDatabase.start();

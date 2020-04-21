@@ -4,6 +4,7 @@ const constants = require('../../constants');
 const testDatabase = new TestDataBase();
 const fs = require('fs');
 const pictureTest = './tests/resources/photo_resources_test.png';
+require('../../model/user');
 
 beforeAll(async () => {
     await testDatabase.start();

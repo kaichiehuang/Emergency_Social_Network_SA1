@@ -1,5 +1,6 @@
 const TestDatabase = require('../services/testDataBase');
 const ChatMessage = require('../../model/chatMessage');
+require('../../model/user');
 const testDatabase = new TestDatabase();
 
 beforeAll(async () => {
