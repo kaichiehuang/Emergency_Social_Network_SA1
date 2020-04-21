@@ -1,12 +1,9 @@
 const TestDataBase = require('../services/testDataBase');
 const Resource =require('../../model/resource');
-const User = require("../../model/user");
 const constants = require('../../constants');
 const testDatabase = new TestDataBase();
 const fs = require('fs');
-
-const pictureTest = "./tests/resources/photo_resources_test.png"
-
+const pictureTest = './tests/resources/photo_resources_test.png';
 
 beforeAll(async () => {
     await testDatabase.start();
@@ -21,33 +18,31 @@ afterEach(async () => {
 });
 
 
-describe('Creating a resource',() => {
-
-    test('Should create a resource ', async() => {
+describe('Creating a resource', () => {
+    test('Should create a resource ', async () => {
         expect.assertions(1);
-        var imgFile =fs.readFileSync(pictureTest)
-        //var fileStr = imgFile.toString('base64')
+        const imgFile =fs.readFileSync(pictureTest);
+        // var fileStr = imgFile.toString('base64')
         const resource = new Resource(
             '507f1f77bcf86cd799439011',
             constants.RESOURCE_MEDICAL,
             'resource name',
             'resource location',
-        'resource description',
+            'resource description',
             true,
             true,
             true,
             imgFile,
             'image/png');
-        const newResource = await resource.saveResource()
+        const newResource = await resource.saveResource();
         expect(newResource.name).toBe('resource name');
-
     });
 
 
-    test('Should validate require fields ', async() => {
+    test('Should validate require fields ', async () => {
         expect.assertions(1);
-        var imgFile =fs.readFileSync(pictureTest)
-        //var fileStr = imgFile.toString('base64')
+        const imgFile =fs.readFileSync(pictureTest);
+        // var fileStr = imgFile.toString('base64')
         const resource = new Resource(
             '507f1f77bcf86cd799439011',
             constants.RESOURCE_MEDICAL,
@@ -59,22 +54,19 @@ describe('Creating a resource',() => {
             true,
             imgFile,
             'image/png');
-        //const newResource = await resource.saveResource();
+        // const newResource = await resource.saveResource();
 
         return expect(resource.saveResource())
-            .rejects.toEqual('Please validate require fields.')
-
-
+            .rejects.toEqual('Please validate require fields.');
     });
-
 });
 
 
-describe('Getting a resource',() => {
+describe('Getting a resource', () => {
     let resourceId;
     beforeEach(async () => {
-        var imgFile =fs.readFileSync(pictureTest)
-        //var fileStr = imgFile.toString('base64')
+        const imgFile =fs.readFileSync(pictureTest);
+        // var fileStr = imgFile.toString('base64')
         const resource = new Resource(
             '507f1f77bcf86cd799439011',
             constants.RESOURCE_MEDICAL,
@@ -86,28 +78,25 @@ describe('Getting a resource',() => {
             true,
             imgFile,
             'image/png');
-        const newResource = await resource.saveResource()
+        const newResource = await resource.saveResource();
         resourceId = newResource._id;
-
     });
 
 
-    test('Should get a resource previously inserted ', async() => {
+    test('Should get a resource previously inserted ', async () => {
         expect.assertions(1);
 
         const resource = await Resource.findResourceById(resourceId);
         expect(resource._id.toString()).toBe(resourceId.toString());
-
     });
 
 
-
-    test('Should get all the resource previously inserted ', async() => {
+    test('Should get all the resource previously inserted ', async () => {
         expect.assertions(1);
 
-        var imgFile =fs.readFileSync(pictureTest)
-        //var fileStr = imgFile.toString('base64')
-        let resource = new Resource(
+        const imgFile =fs.readFileSync(pictureTest);
+        // var fileStr = imgFile.toString('base64')
+        const resource = new Resource(
             '507f1f77bcf86cd799439011',
             constants.RESOURCE_MEDICAL,
             'resource name 2',
@@ -118,12 +107,10 @@ describe('Getting a resource',() => {
             true,
             imgFile,
             'image/png');
-        await resource.saveResource()
+        await resource.saveResource();
 
         const resources = await Resource.findResources();
-        console.log(resources)
+        console.log(resources);
         expect(resources.length).toBe(2);
-
     });
-
-})
+});

@@ -1,8 +1,5 @@
-const TestDatabase = require("../services/testDataBase")
-const ChatMessage = require("../../model/chatMessage")
-const User = require("../../model/user");
-
-
+const TestDatabase = require('../services/testDataBase');
+const ChatMessage = require('../../model/chatMessage');
 const testDatabase = new TestDatabase();
 
 beforeAll(async () => {

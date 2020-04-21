@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = new express.Router();
 const ChatMessagesController = require(__dirname + '/../controllers/ChatMessagesController');
 const bodyParser = require('body-parser');
 const TokenServerClass = require('../middleware/TokenServer');

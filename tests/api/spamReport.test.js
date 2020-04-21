@@ -12,9 +12,9 @@ let server;
 
 const testDatabase = new TestDatabase();
 let token;
-let sender_user_id;
-let reporter_user_id;
-let public_message_id;
+let senderUserId;
+let reporterUserId;
+let publicMessageId;
 
 beforeAll(async () => {
     server = await app.listen(PORT);
@@ -30,7 +30,7 @@ beforeAll(async () => {
         .send(user)
         .set('accept', 'json')
         .then((res) =>{
-            sender_user_id = res.body.user.userId;
+            senderUserId = res.body.user.userId;
         });
     const user2 = {
         username: 'APIUserTest2',
@@ -43,11 +43,11 @@ beforeAll(async () => {
         .set('accept', 'json')
         .then((res) =>{
             token = res.body.tokens.token;
-            reporter_user_id = res.body.user.userId;
+            reporterUserId = res.body.user.userId;
         });
-    const chatMessage = new ChatMessage('This a test message', sender_user_id);
+    const chatMessage = new ChatMessage('This a test message', senderUserId);
     await chatMessage.createNewMessage().then((msg) => {
-        public_message_id = msg._id;
+        publicMessageId = msg._id;
     });
 });
 
@@ -59,16 +59,16 @@ afterAll(async () => {
 
 describe('create spam report API TEST', () => {
     test('user spam', async () =>{
-        let user_spam_msg = {
+        const userSpamMsg = {
             'level': 'user',
             'type': 'False',
             'description': 'lala',
-            'current_user_id': reporter_user_id,
-            'reported_user_id': sender_user_id,
-            'message_id': public_message_id
+            'current_user_id': reporterUserId,
+            'reported_user_id': senderUserId,
+            'message_id': publicMessageId
         };
         await agent.post(HOST + '/api/spam-report')
-            .send(user_spam_msg)
+            .send(userSpamMsg)
             .set('Authorization', token)
             .set('accept', 'json')
             .then((res) =>{
@@ -77,16 +77,16 @@ describe('create spam report API TEST', () => {
     });
 
     test('msg spam', async () =>{
-        let msg_spam_msg = {
+        const msgSpamMsg = {
             'level': 'message',
             'type': 'False',
             'description': 'lala',
-            'current_user_id': reporter_user_id,
-            'reported_user_id': sender_user_id,
-            'message_id': public_message_id
+            'current_user_id': reporterUserId,
+            'reported_user_id': senderUserId,
+            'message_id': publicMessageId
         };
         await agent.post(HOST + '/api/spam-report')
-            .send(msg_spam_msg)
+            .send(msgSpamMsg)
             .set('Authorization', token)
             .set('accept', 'json')
             .then((res) =>{

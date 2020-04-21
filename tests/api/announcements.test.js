@@ -1,15 +1,13 @@
-const TestDatabase = require("../services/testDataBase");
-const agent = require('superagent')
-
-
+const TestDatabase = require('../services/testDataBase');
+const agent = require('superagent');
 
 // Initiate Server
-let PORT = 3001;
-let HOST = 'http://localhost:' + PORT;
+const PORT = 3001;
+const HOST = 'http://localhost:' + PORT;
 
-let app = require('../../app').app;
+const app = require('../../app').app;
 app.set('port', PORT);
-let server = app.listen(PORT);
+const server = app.listen(PORT);
 
 const testDatabase = new TestDatabase();
 let token;
@@ -17,14 +15,10 @@ let userId;
 
 const user = {
     username: 'APIUserTest',
-    password:'fakePassword',
-    name:'fake name',
+    password: 'fakePassword',
+    name: 'fake name',
     last_name: 'fake last',
-}
-
-
-
-
+};
 
 beforeAll(async () => {
     await testDatabase.start();
@@ -33,38 +27,36 @@ beforeAll(async () => {
     await agent.post(HOST + '/api/users')
         .send(user)
         .set('accept', 'json')
-        .then(res =>{
+        .then((res) =>{
             token = res.body.tokens.token;
             userId = res.body.user.userId;
         });
 
-    console.log("token: " + token);
-    console.log("userId: " + userId);
+    console.log('token: ' + token);
+    console.log('userId: ' + userId);
 
 
-    let announcement = {
+    const announcement = {
         message: 'new announcement integration tests',
         user_id: userId,
-    }
+    };
 
-    let announcementTwo = {
+    const announcementTwo = {
         message: 'new announcement filtered integration tests',
         user_id: userId,
-    }
+    };
 
-    await agent.post(HOST +"/api/announcements")
+    await agent.post(HOST +'/api/announcements')
         .send(announcement)
         .set('Authorization', token)
         .set('accept', 'json')
-        .then()
+        .then();
 
-    await agent.post(HOST +"/api/announcements")
+    await agent.post(HOST +'/api/announcements')
         .send(announcementTwo)
         .set('Authorization', token)
         .set('accept', 'json')
-        .then()
-
-
+        .then();
 });
 
 afterAll(async () => {
@@ -74,42 +66,41 @@ afterAll(async () => {
 });
 
 
-describe("Create Announcement API", () =>{
-
-    test('Should create an announcement', async() =>{
+describe('Create Announcement API', () =>{
+    test('Should create an announcement', async () =>{
         expect.assertions(1);
 
-        let announcement = {
+        const announcement = {
             message: 'new announcement',
             user_id: userId,
-        }
+        };
 
-        await agent.post(HOST +"/api/announcements")
+        await agent.post(HOST +'/api/announcements')
             .send(announcement)
             .set('Authorization', token)
             .set('accept', 'json')
-            .then(res =>{
-                 return expect(res.body.message).toBe('new announcement');
-            })
-    })
-})
+            .then((res) =>{
+                return expect(res.body.message).toBe('new announcement');
+            });
+    });
+});
 
 
-describe("Get Announcement API", () =>{
-    test('Should get all the announcement', async() =>{
+describe('Get Announcement API', () =>{
+    test('Should get all the announcement', async () =>{
         expect.assertions(1);
-        await agent.get(HOST +"/api/announcements")
+        await agent.get(HOST +'/api/announcements')
             .send()
             .set('Authorization', token)
             .set('accept', 'json')
-            .then(res =>{
+            .then((res) =>{
                 return expect(res.body.length).toBe(3);
-            })
-    })
+            });
+    });
 
-    test('Should get announcement filtered by keyword', async() =>{
+    test('Should get announcement filtered by keyword', async () =>{
         expect.assertions(1);
-        await agent.get(HOST +"/api/announcements")
+        await agent.get(HOST +'/api/announcements')
             .query('q=filtered' )
             .query('page=0')
             .query('limit=1')
@@ -118,8 +109,8 @@ describe("Get Announcement API", () =>{
             .send()
             .set('Authorization', token)
             .set('accept', 'json')
-            .then(res =>{
+            .then((res) =>{
                 return expect(res.body.length).toBe(1);
-            })
-    })
-})
+            });
+    });
+});
