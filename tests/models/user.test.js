@@ -123,6 +123,8 @@ describe("Searching and update operations on a user previously inserted", () => 
             expect(createdUser.acknowledgement).toBeTruthy()
             expect(createdUser.onLine).toBeTruthy()
             expect(createdUser.status).toBe("OK")
+        }).catch(res => {
+            console.log(res)
         })
     })
     test('update user status (specific status method)', async () => {
@@ -234,7 +236,7 @@ describe("Update operations on a user - profile information and validation rules
             },
             "privacy_terms_data_accepted": 1
         }).catch(err => {
-            expect(err).toMatch('Every phone number must have more than 7 characters.');
+            expect(err).toMatch('Phone numbers must be longer than 7 characters');
         });
     })
     test("update data validation OK - user info step 1 - all data complete", () => {

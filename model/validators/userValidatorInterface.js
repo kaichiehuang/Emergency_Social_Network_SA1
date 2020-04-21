@@ -7,6 +7,7 @@ class UserValidatorInterface {
         this.validatorRules = {
             "requiredRules": [], // list of variables
             "lengthRules": [], // array of objects {"field", "minLength": 3},{"field", "minLength": 3},
+            "customRules": [],
         };
     }
     /**
@@ -17,10 +18,16 @@ class UserValidatorInterface {
         this.setValidationData(data);
         return new Promise((resolve, reject) => {
             //1. validate required fields
-            this.validateRequiredFields().then((result) => {
+            this.validateRequiredFields()
+            .then((result) => {
                 //2. validate required fields
                 return this.validateFieldsByLength();
-            }).then((result) => {
+            })
+            .then((result) => {
+                //3. custom rules
+                return this.validateCustomRules();
+            })
+            .then((result) => {
                 return resolve(true);
             }).catch((err) => {
                 return reject(err);
@@ -28,12 +35,11 @@ class UserValidatorInterface {
         });
     }
     /**
-     * [validateRequiredFields description]
+     * Validate required fields
      * @return {[type]} [description]
      */
     validateRequiredFields() {
         return new Promise((resolve, reject) => {
-            console.log(this.validatorRules);
             if (this.validatorRules.requiredRules.length > 0) {
                 for (var i = 0; i < this.validatorRules.requiredRules.length; i++) {
                     const field = this.validatorRules.requiredRules[i];
@@ -55,7 +61,7 @@ class UserValidatorInterface {
         });
     }
     /**
-     * Validates required field
+     * Validates 1 required field
      * @param  {[type]} data      [description]
      * @param  {[type]} fieldName [description]
      * @return {[type]}           [description]
@@ -120,6 +126,34 @@ class UserValidatorInterface {
         }
         return true;
     }
+    /**
+     * Validates fields by length
+     * @param  {[type]} data      [description]
+     * @param  {[type]} fieldName [description]
+     * @return {[type]}           [description]
+     */
+    validateCustomRules() {
+        return new Promise((resolve, reject) => {
+            if (this.validatorRules.customRules.length > 0) {
+                for (var i = 0; i < this.validatorRules.customRules.length; i++) {
+                    const field = this.validatorRules.customRules[i];
+                    let validationResult = false;
+                    if(field.customRuleName.length > 0){
+                        validationResult = this[field.customRuleName]();
+                    }
+
+                    if (!validationResult) {
+                        if (field.msg == undefined) {
+                            return reject("Error12");
+                        }
+                        return reject(field.msg);
+                    }
+                }
+            }
+            return resolve(true);
+        });
+    }
+
     /**
      * [setValidationData description]
      * @param {[type]} data [description]

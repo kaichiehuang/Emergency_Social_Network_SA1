@@ -7,6 +7,7 @@ const constants = require('../constants');
 const UserPersonalValidator = require('./validators/userPersonalValidator.js');
 const UserMedicalValidator = require('./validators/userMedicalValidator.js');
 const UserOtherValidator = require('./validators/userOtherValidator.js');
+const UserDefaultValidator = require('./validators/userDefaultValidator.js');
 /**
  * Our class for user model taht will be attached to the schema
  */
@@ -24,11 +25,13 @@ class UserModel {
         this.password = password;
         this.status = "UNDEFINED";
     }
+
     /*******************
 
         VALIDATIONS
 
-        ******************/
+    ******************/
+
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
@@ -101,6 +104,9 @@ class UserModel {
                 this.userDataStepValidator = new UserMedicalValidator();
             } else if (data.step != undefined && data.step == 3) {
                 this.userDataStepValidator = new UserOtherValidator();
+            }else{
+                //default validator
+                this.userDataStepValidator = new UserDefaultValidator();
             }
 
             //fail because it has no validator for this
@@ -334,7 +340,6 @@ class UserModel {
     static userExist(id) {
         return new Promise((resolve, reject) => {
             User.findUserById(id).then((user) => {
-                console.log(user);
                 if (user !== null) {
                     return resolve(true);
                 } else {

@@ -15,11 +15,11 @@ class UserMedicalValidator extends UserValidatorInterface{
             "requiredRules": [{
                 "innerObject": "medical_information",
                 "fieldName": 'blood_type',
-                "msg": commonMsg
+                "msg": "Blood type is a mandatory field, please select a valid blood type"
             },{
                 "innerObject": "medical_information",
                 "fieldName": 'privacy_terms_medical_accepted',
-                "msg": "Please accept the terms and conditions"
+                "msg": "Please accept the term and conditions for medical data treatment"
             }],
             "lengthRules": [], // array of objects {"fieldName", "minLength": 3, "msg"},{"field", "minLength": 3, "msg"},
         };
