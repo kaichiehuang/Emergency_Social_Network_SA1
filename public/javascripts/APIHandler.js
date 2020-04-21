@@ -2,13 +2,19 @@ class APIHandler {
 
     static instance = null;
 
-    constructor() {
-    }
-
+    /**
+     * Sends requests to API for every component or object using Jquery
+     * @param  {[type]} url         [description]
+     * @param  {[type]} operation   [description]
+     * @param  {[type]} data        [description]
+     * @param  {[type]} token       [description]
+     * @param  {[type]} contentType [description]
+     * @return {[type]}             [description]
+     */
     sendRequest(url, operation, data, token, contentType) {
-        let jwt = Cookies.get('user-jwt-esn');
+        const jwt = Cookies.get('user-jwt-esn');
 
-        let contentTyoeOption = contentType ?
+        let contentTypeOption = contentType ?
             contentType : "application/x-www-form-urlencoded; charset=UTF-8";
 
         let headers = token ? {
@@ -22,7 +28,7 @@ class APIHandler {
             type: operation,
             data: dataSend,
             headers: headers,
-            contentType: contentTyoeOption
+            contentType: contentTypeOption
         };
 
         return new Promise((resolve, reject) => {
@@ -37,6 +43,10 @@ class APIHandler {
         });
     }
 
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
     static getInstance() {
         if (this.instance == null) {
             this.instance = new APIHandler();

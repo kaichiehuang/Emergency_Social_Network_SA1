@@ -1,24 +1,35 @@
 class PrivateChatMessage extends BaseMessage {
+    static instance = undefined;
     constructor() {
         super();
         this.type = 'private';
+    }
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance(){
+        if (this.instance === undefined) {
+            this.instance = new PrivateChatMessage();
+        }
+        return this.instance;
     }
 
     /**
      * changes the receiver for the private chat
      * @param  {[type]} receiver_user_id [description]
      */
-    static initiatePrivateChat(receiver_user_id) {
+     initiatePrivateChat(receiver_user_id) {
         Cookies.set('receiver_user_id', receiver_user_id);
-        $('#private-chat > li').remove();
-        const privateChatMessageModel = new PrivateChatMessage();
-        privateChatMessageModel.updateMessageListView('private', '', 0);
+        $("#private-chat > li").remove();
+        let privateChatMessageModel = PrivateChatMessage.getInstance();
+        privateChatMessageModel.updateMessageListView('private', "", 0);
     }
 
     /**
      * [registerEventsAfterDraw description]
      */
-    static registerEventsAfterDraw() {
+     registerEventsAfterDraw() {
         /** **** events declaration ********/
         $('#private-send-btn').click(function(e) {
             privateChatMessageModel.sendMessage('private');
@@ -34,8 +45,7 @@ class PrivateChatMessage extends BaseMessage {
             const newID = $(this).data('view-id');
             if (newID === 'private-chat-content') {
                 page = 0;
-                privateChatMessageModel
-                    .updateMessageListView('private', '', page);
+                privateChatMessageModel.updateMessageListView('private', '', page);
                 private_wall_container.scrollTop =
                     private_wall_container.scrollHeight;
             }
@@ -48,15 +58,13 @@ class PrivateChatMessage extends BaseMessage {
             e.preventDefault();
             const searchKeyword = $('#search-private-chat__input').val();
             page = 0;
-            privateChatMessageModel
-                .updateMessageListView('private', searchKeyword, page);
+            privateChatMessageModel.updateMessageListView('private', searchKeyword, page);
         });
         $('#search-private-chat__more-button').click(function(e) {
             e.preventDefault();
             const searchKeyword = $('#search-private-chat__input').val();
             page++;
-            privateChatMessageModel
-                .updateMessageListView('private', searchKeyword, page);
+            privateChatMessageModel.updateMessageListView('private', searchKeyword, page);
         });
     }
 }
@@ -64,7 +72,7 @@ class PrivateChatMessage extends BaseMessage {
 //* ***********************************************
 //* ***********************************************
 let private_wall_container = document.getElementById('private-msg_area');
-const privateChatMessageModel = new PrivateChatMessage();
+const privateChatMessageModel =  PrivateChatMessage.getInstance();
 $(function() {
     // eslint-disable-next-line no-unused-vars
     let page = 0;
@@ -98,5 +106,5 @@ $(function() {
     });
     // init private chat messages and announcements
     privateChatMessageModel.updateMessageListView('private');
-    PrivateChatMessage.registerEventsAfterDraw();
+    PrivateChatMessage.getInstance().registerEventsAfterDraw();
 });

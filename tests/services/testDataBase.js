@@ -1,8 +1,11 @@
 const mongoose = require('mongoose');
 const {MongoMemoryServer} = require('mongodb-memory-server');
 
-
+/**
+ * test database set up
+ */
 class TestDataBase {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         this.server = new MongoMemoryServer();
         this.connection = null;

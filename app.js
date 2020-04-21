@@ -18,27 +18,27 @@ var emergencyStatusDetailRouter = require('./routes/emergencyStatusDetail');
 var testRouter = require('./routes/testroute');
 const spamReportRouter = require('./routes/spamReport');
 
-let ENVIRONMENT = "development";
+let ENVIRONMENT = 'development';
 
 /* istanbul ignore next */
 if (process.env.NODE_ENV != undefined ) {
     ENVIRONMENT = process.env.NODE_ENV;
 }
 
-//redirect library for https - uncomment on server
+// redirect library for https - uncomment on server
 // var httpsRedirectTool = require('express-http-to-https').redirectToHTTPS
-var app = express();
+const app = express();
 
 
-//change if using https fo security issues
+// change if using https fo security issues
 // app.use(compression())
 // https redirect uncomment on server
 // app.use(httpsRedirectTool([], [], 301));
 let serverType = 'http';
 
 /* istanbul ignore next */
-if (ENVIRONMENT == "production") {
-    serverType = "http";
+if (ENVIRONMENT == 'production') {
+    serverType = 'http';
 }
 
 let http = null;
@@ -61,10 +61,10 @@ if (serverType == 'http') {
     server = http.createServer(app);
 } else {
     /* istanbul ignore next */
-    let options = {}
+    let options = {};
     // https certificates for localhost
     /* istanbul ignore next */
-    if (ENVIRONMENT != "production") {
+    if (ENVIRONMENT != 'production') {
         /**
          * Create HTTPS server.
          */
@@ -76,8 +76,8 @@ if (serverType == 'http') {
     server = https.createServer({}, app);
 }
 
-var io = require('socket.io')(server);
-var count = 0;
+const io = require('socket.io')(server);
+let count = 0;
 io.sockets.on('connection', function(socket) {
     /* istanbul ignore next */
     count++;
@@ -87,19 +87,19 @@ io.sockets.on('connection', function(socket) {
 });
 
 
-//add socket io to our response as a middleware
+// add socket io to our response as a middleware
 app.use(function(req, res, next) {
     res.io = io;
     next();
 });
 
-//application/x-www-form-urlencoded
+// application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-//application/json
-//app.use(bodyParser.json());
-app.use(bodyParser.json({ limit: '5mb' }));
+// application/json
+// app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '5mb'}));
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 // set the view engine to ejs
@@ -107,19 +107,19 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/public/pictures',express.static(path.join(__dirname, 'public/pictures')));
+app.use('/public/pictures', express.static(path.join(__dirname, 'public/pictures')));
 app.use('/', indexRouter);
 // app.use('/sign-up', registrationRouter);
 app.use('/app', applicationRouter);
 app.use('/example', indexRouter);
 app.use('/api/users', usersRouter);
-//app.use('/api/token', tokenRouter);
+// app.use('/api/token', tokenRouter);
 app.use('/api/chat-messages', chatMessagesRouter);
 app.use('/api/private-chat-messages', privateChatMessagesRouter);
 app.use('/api/usersList', usersListRouter);
-app.use('/api/announcements',announcementRouter);
-app.use('/api/resources',resourcesRouter);
-app.use('/api/emergencyStatusDetail',emergencyStatusDetailRouter);
+app.use('/api/announcements', announcementRouter);
+app.use('/api/resources', resourcesRouter);
+app.use('/api/emergencyStatusDetail', emergencyStatusDetailRouter);
 app.use('/api/spam-report', spamReportRouter);
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
 app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirejs')));

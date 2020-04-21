@@ -1,14 +1,13 @@
-const TestDatabase = require("../services/testDataBase");
-const agent = require('superagent')
-const express = require('express');
+const TestDatabase = require('../services/testDataBase');
+const agent = require('superagent');
 
 // Initiate Server
-let PORT = 3000;
-let HOST = 'http://localhost:' + PORT;
+const PORT = 3001;
+const HOST = 'http://localhost:' + PORT;
 
-let app = require('../../app').app;
+const app = require('../../app').app;
 app.set('port', PORT);
-let server = app.listen(PORT);
+const server = app.listen(PORT);
 
 const testDatabase = new TestDatabase();
 let token;
@@ -29,12 +28,8 @@ beforeAll(async () => {
         .then((res) =>{
             userId = res.body.user.userId;
             token = res.body.tokens.token;
-            console.log(userId);
-            console.log(token);
         });
 
-
-    
 
     briefDescription = {
         description: 'This is a brief description',
@@ -47,7 +42,6 @@ beforeAll(async () => {
     };
 
 
-
     // end of before all
 });
 
@@ -58,7 +52,6 @@ afterAll(async () => {
 });
 
 describe('emergency status detail API test', () => {
-
     test('User updates emergency status brief description', async () => {
         expect.assertions(1);
         await agent.put(HOST + '/api/emergencyStatusDetail/' + userId)
@@ -66,7 +59,7 @@ describe('emergency status detail API test', () => {
             .set('Authorization', token)
             .set('Accept', 'application/json')
             .then((res) =>{
-                //console.log(res);
+                // console.log(res);
                 expect(res.body.status_description).toBe('This is a brief description');
             });
     });
@@ -78,7 +71,7 @@ describe('emergency status detail API test', () => {
             .set('Authorization', token)
             .set('Accept', 'application/json')
             .then((res) =>{
-                //console.log(res);
+                // console.log(res);
                 expect(res.body.share_location).toBe('This is a location description');
             });
     });
@@ -90,7 +83,7 @@ describe('emergency status detail API test', () => {
             .set('Authorization', token)
             .set('Accept', 'application/json')
             .then((res) =>{
-                //console.log(res);
+                // console.log(res);
                 expect(res.body.status_description).toBe('This is a brief description');
             });
     });
@@ -102,11 +95,10 @@ describe('emergency status detail API test', () => {
             .set('Authorization', token)
             .set('Accept', 'application/json')
             .then((res) =>{
-                //console.log(res);
+                // console.log(res);
                 expect(res.body.share_location).toBe('This is a location description');
             });
     });
-
 
 
 // end of describe
@@ -114,21 +106,19 @@ describe('emergency status detail API test', () => {
 
 
 describe('picture and description API test', () => {
-
     let pictureId;
     test('User adds a picture and discription description', async () => {
         expect.assertions(1);
         await agent.post(HOST + '/api/emergencyStatusDetail/' + userId)
             .attach('picture', 'tests/api/testImage/test.jpg')
-            .field("pictureDescription", "picture description")
+            .field('pictureDescription', 'picture description')
             .set('Authorization', token)
             .set('Accept', 'application/json')
             .then((res) =>{
-                //console.log(res);
-                //expect(res.body.picture_path).toBe('tests/api/testImage/test.jpg');
+                // console.log(res);
+                // expect(res.body.picture_path).toBe('tests/api/testImage/test.jpg');
                 expect(res.body.picture_description).toBe('picture description');
                 pictureId = res.body._id;
-                
             });
     });
 
@@ -138,7 +128,7 @@ describe('picture and description API test', () => {
             .set('Authorization', token)
             .set('Accept', 'application/json')
             .then((res) =>{
-                //console.log(res);
+                // console.log(res);
                 expect(res.body[0].picture_description).toBe('picture description');
             });
     });
@@ -147,10 +137,9 @@ describe('picture and description API test', () => {
         expect.assertions(1);
         await agent.put(HOST + '/api/emergencyStatusDetail/picture/' + pictureId)
             .set('Authorization', token)
-            .send({"pictureDescription": "new description"})
+            .send({'pictureDescription': 'new description'})
             .set('Accept', 'application/json')
             .then((res) =>{
-                console.log(res);
                 expect(res.body.picture_description).toBe('new description');
             });
     });
@@ -161,18 +150,11 @@ describe('picture and description API test', () => {
             .set('Authorization', token)
             .set('Accept', 'application/json')
             .then((res) =>{
-                //console.log(res);
+                // console.log(res);
                 expect(res.body.picture_description).toBe('new description');
             });
     });
 
-    
-
-
-
-
-
 
 // end of describe
 });
-    

@@ -3,6 +3,9 @@ const SpamReport = require('../model/spamReport');
 const ChatMessage = require('../model/chatMessage');
 const User = require('../model/user');
 
+/**
+ * spam report controller
+ */
 class SpamReportController {
     /**
      * Create a spam report
@@ -24,7 +27,7 @@ class SpamReportController {
             let spamUser = false;
             let spamUserReportedTimes;
             User.setReportSpam(reportedUserId, currentUserId)
-                .then(user => {
+                .then((user) => {
                     spamUser = user.spam;
                     spamUserReportedTimes = user.reported_spams.size;
                     return newReport.saveSpamReport();
@@ -52,7 +55,7 @@ class SpamReportController {
             let spamMessage = false;
             let spamMessageReportedTimes;
             ChatMessage.setReportSpam(reportMessageId, currentUserId)
-                .then(message => {
+                .then((message) => {
                     spamMessage = message.spam;
                     spamMessageReportedTimes = message.reported_spams.size;
                     return newReport.saveSpamReport();

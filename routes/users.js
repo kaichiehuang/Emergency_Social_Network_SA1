@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = new express.Router();
 const UsersController = require(__dirname + '/../controllers/usersController');
 const bodyParser = require('body-parser');
 const TokenServerClass = require('../middleware/TokenServer');
@@ -22,7 +22,7 @@ router.get('/:userId/personal-message', TokenServerClass.validateToken, jsonPars
 // post method for creating a user
 router.post('/', jsonParser, usersController.createUser);
 // put method for updating a user status
-router.put('/:userId/status', TokenServerClass.validateToken, jsonParser, usersController.updateUserStatus);
+router.put('/:userId/status', TokenServerClass.validateToken, jsonParser, usersController.updateUser);
 
 
 module.exports = router;

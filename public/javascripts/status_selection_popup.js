@@ -1,24 +1,29 @@
 class StatusSelection {
+    static instance= undefined;
+
+
     constructor() {
         const statusButton = document.getElementById('status-button');
         statusButton.addEventListener('click', this.showModal);
         const confirmButton = document.getElementById('statusConfirmButton');
         confirmButton.addEventListener('click', this.statusConfirm);
     }
-
-    updateAllUserLists() {
-        APIHandler.getInstance()
-            .sendRequest('/usersList/',
-                'get', null, true, null)
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                $('#update-status-alert').html(error);
-                $('#update-status-alert').show();
-            });
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance() {
+        if (this.instance === undefined) {
+            this.instance = new StatusSelection();
+        }
+        return this.instance;
     }
 
+
+    /**
+     * [statusConfirm description]
+     * @return {[type]} [description]
+     */
     statusConfirm() {
         const status = $('.modal-instructions :checked').val();
         const user_id = Cookies.get('user-id');
@@ -31,16 +36,7 @@ class StatusSelection {
                 $('#status-modal').modal('toggle');
                 Cookies.set('user-status', response.user.status);
 
-                APIHandler.getInstance()
-                    .sendRequest('/usersList/',
-                        'get', null, true, null)
-                    .then((response) => {
-                        console.log(response);
-                    })
-                    .catch((error) => {
-                        $('#update-status-alert').html(error);
-                        $('#update-status-alert').show();
-                    });
+                GlobalEventDispatcher.updateAllUserLists();
                 // change header icon for status
                 if (status === 'OK') {
                     $('#statusIcon').removeClass();
@@ -84,5 +80,5 @@ class StatusSelection {
 }
 
 $(function() {
-    new StatusSelection();
+     StatusSelection.getInstance();
 });

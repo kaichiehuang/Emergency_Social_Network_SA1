@@ -1,13 +1,13 @@
-const TestDatabase = require('../services/testDataBase')
-const agent = require('superagent')
+const TestDatabase = require('../services/testDataBase');
+const agent = require('superagent');
 
 // Initiate Server
-let PORT = 3000;
-let HOST = 'http://localhost:' + PORT;
+const PORT = 3001;
+const HOST = 'http://localhost:' + PORT;
 
-let app = require('../../app').app;
+const app = require('../../app').app;
 app.set('port', PORT);
-let server = app.listen(PORT);
+const server = app.listen(PORT);
 
 const testDatabase = new TestDatabase();
 
@@ -23,60 +23,59 @@ afterAll(async () => {
 
 const user = {
     username: 'APIUserTest',
-    password:'fakePassword',
-    name:'fake name',
+    password: 'fakePassword',
+    name: 'fake name',
     last_name: 'fake last',
-}
+};
 
 describe('API USERS TEST', () => {
     let token;
     let userId;
-    test('Should insert  a new user' , async () =>{
+    test('Should insert  a new user', async () =>{
         expect.assertions(1);
         await agent.post(HOST + '/api/users')
             .send(user)
             .set('accept', 'json')
-            .then(res =>{
-                userId = res.body.user.userId;
+            .then((res) =>{
+                userId = res.body.user._id;
                 token = res.body.tokens.token;
                 expect(res.body.user.username).toBe('APIUserTest');
-            })
-    })
+            });
+    });
 
 
-    test('Should not insert  a new user (empty fields)' , async () =>{
+    test('Should not insert  a new user (empty fields)', async () =>{
         expect.assertions(1);
         const userEmpty = {
             username: 'undefined',
-            password:undefined,
-        }
+            password: undefined,
+        };
 
         await agent.post(HOST + '/api/users')
             .send(userEmpty)
             .set('accept', 'json')
-            .then(res =>{
-               console.log(res)
+            .then((res) =>{
             })
-            .catch(error =>{
+            .catch((error) =>{
                 expect(error.status).toBe(422);
             });
-    })
+    });
 
 
-    test('Should get a list of users' ,async() =>{
+    test('Should get a list of users', async () =>{
         expect.assertions(1);
         await agent.get(HOST + '/api/users')
             .accept('application/json')
             .send()
             .set('Authorization', token)
             .set('accept', 'json')
-            .then(res =>{
+            .then((res) =>{
                 expect(res.body.length).toBe(1);
-            })
-    })
+            });
+    });
 
 
-    test('Should get a list of users filtered by keywords' ,async() =>{
+    test('Should get a list of users filtered by keywords', async () =>{
         expect.assertions(1);
         await agent.get(HOST + '/api/users')
             .query('username=API')
@@ -84,13 +83,12 @@ describe('API USERS TEST', () => {
             .send()
             .set('Authorization', token)
             .set('accept', 'json')
-            .then(res =>{
-                console.log(res.body);
+            .then((res) =>{
                 expect(res.body.length).toBe(1);
-            })
-    })
+            });
+    });
 
-    test('Should get a list of users filtered by status' ,async() =>{
+    test('Should get a list of users filtered by status', async () =>{
         expect.assertions(1);
         await agent.get(HOST + '/api/users')
             .query('status=UNDEFINED')
@@ -98,71 +96,66 @@ describe('API USERS TEST', () => {
             .send()
             .set('Authorization', token)
             .set('accept', 'json')
-            .then(res =>{
+            .then((res) =>{
                 expect(res.body.length).toBe(1);
-            })
-    })
+            });
+    });
 
 
-
-    test('Should update user information (acknowledgement)', async() =>{
+    test('Should update user information (acknowledgement)', async () =>{
         expect.assertions(1);
-        let userStatus = 'HELP';
-        let user = {
+        const userStatus = 'HELP';
+        const user = {
             acknowledgement: true,
             onLine: true,
             status: userStatus
-        }
+        };
 
         await agent.put(HOST + '/api/users/' + userId)
-            //.query(userId)
+            // .query(userId)
             .accept('application/json')
             .send(user)
             .set('Authorization', token)
             .set('accept', 'json')
-            .then(res =>{
+            .then((res) =>{
                 expect(res.body.acknowledgement).toBe(true);
-            })
-    })
+            });
+    });
 
 
-    test('Should update user status', async() =>{
+    test('Should update user status', async () =>{
         expect.assertions(1);
-        let userStatus = 'HELP';
-        let user = {
+        const userStatus = 'HELP';
+        const user = {
             status: userStatus
-        }
+        };
 
         await agent.put(HOST + '/api/users/' + userId + '/status')
-            //.query(userId)
+            // .query(userId)
             .accept('application/json')
             .send(user)
             .set('Authorization', token)
             .set('accept', 'json')
-            .then(res =>{
-                expect(res.body.user.status).toBe(userStatus);
-            })
-    })
+            .then((res) =>{
+                expect(res.body.status).toBe(userStatus);
+            });
+    });
 
 
-
-    test('Should return an user', async() => {
+    test('Should return an user', async () => {
         expect.assertions(1);
 
         await agent.get(HOST + '/api/users/' + userId)
-            //.query(userId)
+            // .query(userId)
             .accept('application/json')
             .send()
             .set('Authorization', token)
             .set('accept', 'json')
-            .then(res =>{
+            .then((res) =>{
                 expect(res.body._id).toBe(userId);
-            })
-    })
-
-
-
-})
+            });
+    });
+});
 
 
 describe('Test Users with sockets', () =>{
@@ -173,54 +166,48 @@ describe('Test Users with sockets', () =>{
         await agent.post(HOST + '/api/users')
             .send(user)
             .set('accept', 'json')
-            .then(res =>{
-                userId = res.body.user.userId;
+            .then((res) =>{
+                userId = res.body.user._id;
                 token = res.body.tokens.token;
                 expect(res.body.user.username).toBe('APIUserTest');
-            })
+            });
     });
 
     afterEach(async () => {
         await testDatabase.cleanup();
-
     });
 
-    test('should create relationshio between user and socket',async() => {
-
-        let socket= { socketId : "1"};
+    test('should create relationship between user and socket', async () => {
+        const socket= {socketId: '1'};
         await agent.post(HOST + '/api/users/'+userId+'/socket')
-        //.query('userId='+ userId)
-        .accept('application/json')
-        .send(socket)
-        .set('Authorization', token)
-        .set('accept', 'json')
-        .then(res =>{
-            console.log(res.body);
-            expect(res.body.sockets).toBeDefined();
-        })
-    })
+        // .query('userId='+ userId)
+            .accept('application/json')
+            .send(socket)
+            .set('Authorization', token)
+            .set('accept', 'json')
+            .then((res) =>{
+                expect(res.body.sockets['1']).toBe(true);
+            });
+    });
 
 
-    test('should delete relationship between user and socket',async() => {
-        let socket= { socketId : "1"};
+    test('should delete relationship between user and socket', async () => {
+        const socket= {socketId: '1'};
         await agent.post(HOST + '/api/users/'+userId+'/socket')
             .accept('application/json')
             .send(socket)
             .set('Authorization', token)
             .set('accept', 'json')
-            .then(res =>{
-                console.log(res.body);
-            })
+            .then((res) =>{
+            });
 
         await agent.delete(HOST + '/api/users/'+userId+'/socket/' + socket.socketId)
             .accept('application/json')
             .send(socket)
             .set('Authorization', token)
             .set('accept', 'json')
-            .then(res =>{
-                console.log(res.body);
+            .then((res) =>{
                 expect(res.body.sockets.length).toBeUndefined();
-            })
-    })
-
-})
+            });
+    });
+});

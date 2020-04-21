@@ -1,5 +1,6 @@
 $(function() {
     function signout() {
+        GlobalEventDispatcher.updateAllUserLists();
         Cookies.remove('user-jwt-esn', {path: ''});
         Cookies.remove('user-jwt-refresh-esn', {path: ''});
         Cookies.remove('user-id', {path: ''});

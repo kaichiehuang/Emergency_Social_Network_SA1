@@ -12,18 +12,9 @@
   "extends": "google",
   "rules": {
     "indent": ["error", 4],
-    "prefer-const": "warn",
-    "require-jsdoc": "warn",
-    "spaced-comment": "warn",
     "comma-dangle": "off",
-    "camelcase": "warn",
-    "max-len": "warn",
-    "quotes": "warn",
-    "valid-jsdoc": "warn",
-
-
-
-
-    "arrow-parens": "warn"
+    "max-len": "off",
+    "valid-jsdoc": "off",
+    "prefer-promise-reject-errors": "off"
   }
 }

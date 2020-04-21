@@ -1,17 +1,4 @@
 $(function() {
-    function updateUsersList() {
-        APIHandler.getInstance()
-            .sendRequest('/usersList/', 'get',
-                null, true, null)
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                $('#update-status-alert').html(error);
-                $('#update-status-alert').show();
-            });
-    }
-
     /**
      * [postMessage description]
      * @param  {[type]} e [description]
@@ -54,7 +41,7 @@ $(function() {
                     $('.user-name-placeholder').html(username);
                     if (user_acknowledgement) {
                         setOnline(true);
-                        updateUsersList();
+                        GlobalEventDispatcher.updateAllUserLists();
                         window.location.replace('/app');
                     } else {
                         swapViewContent('acknowledgement-page-content',
@@ -91,7 +78,7 @@ $(function() {
                 user_acknowledgement = response.acknowledgement;
                 Cookies.set('user-acknowledgement', user_acknowledgement);
                 setOnline(true);
-                updateUsersList();
+                GlobalEventDispatcher.updateAllUserLists();
                 window.location.replace('/app');
             }).fail(function() {
                 $('#signup-error-alert').html();

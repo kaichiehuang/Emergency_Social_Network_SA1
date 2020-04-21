@@ -1,5 +1,5 @@
-const TestDatabase = require("../services/testDataBase")
-const User = require("../../model/user")
+const TestDatabase = require('../services/testDataBase');
+const User = require('../../model/user');
 const testDatabase = new TestDatabase();
 beforeAll(async () => {
     return testDatabase.start();
@@ -10,625 +10,685 @@ afterAll(async () => {
 afterEach(async () => {
     return await testDatabase.cleanup();
 });
-describe("User registration ", () => {
-    test("Registers a User to the database", async () => {
-        expect.assertions(1);
-        let userName = "username_test"
-        let user = new User()
-        user.setRegistrationData(userName, "password");
-        let newUser = await user.registerUser();
-        return await expect(newUser.username).toBe(userName)
-    })
-})
+describe('User registration ', () => {
+    test('Registers a User to the database', async () => {
+        const userName = 'username_test';
+        const user = new User();
+        user.setRegistrationData(userName, 'password');
+        return user.registerUser().then((result) => {
+            expect(result).toBeTruthy();
+            expect(user.username).toBe(userName);
+        });
+    });
+});
 //
-describe("Business Validations for user", () => {
-    test("raise error validating username with less than 3 characters", async () => {
+describe('Business Validations for user', () => {
+    test('raise error validating username with less than 3 characters', async () => {
         expect.assertions(1);
-        let userName = "ab";
-        let user = new User()
-        user.setRegistrationData(userName, "password");
-
-        return await expect(user.validateUserName()).rejects.toMatch('Invalid username, please enter a longer username');
-    })
-    test("raise error validating paaswords with less than 4 characters", async () => {
+        const userName = 'ab';
+        const user = new User();
+        user.setRegistrationData(userName, 'password');
+        return expect(user.validateUserName()).toBe(false);
+    });
+    test('raise error validating paaswords with less than 4 characters', async () => {
         expect.assertions(1);
-        let password = "ab";
-        let user = new User();
-        user.setRegistrationData("userName", password);
-        return await expect(user.validatePassword()).rejects.toMatch('Invalid password, please enter a longer username (min 4 characters');
-    })
-    test('should pass validation for banned user names', async () => {
+        const password = 'ab';
+        const user = new User();
+        user.setRegistrationData('userName', password);
+        return expect(user.validatePassword()).toBe(false);
+    });
+    test('should pass validation for banned user names', () => {
         expect.assertions(1);
-        let user = new User();
-        user.setRegistrationData('user1', "password");
-        return await expect(user.validateBannedUsername()).toBeTruthy();
-    })
+        const user = new User();
+        user.setRegistrationData('user1234d', 'password');
+        return expect(user.validateBannedUsername()).toBeTruthy();
+    });
     test('should send an error for banned user names', async () => {
         expect.assertions(1);
-        let user = new User();
-        user.setRegistrationData('broadcasthost', "password");
-        return expect(user.validateBannedUsername()).rejects.toBe('Invalid username, this username is reserved for the platform. Please enter a different username.');
-    })
-    test('should validate user names previously registered', async () => {
-        expect.assertions(1);
-        let user = new User();
-        user.setRegistrationData("username_test", "password");
-        await user.registerUser();
-        return await expect(User.usernameExists("username_test")).toBeTruthy();
-    })
+        const user = new User();
+        user.setRegistrationData('broadcasthost', 'password');
+        return expect(user.validateBannedUsername()).toBe(false);
+    });
+    test('should validate user names previously registered', () => {
+        const user = new User();
+        user.setRegistrationData('username_test', 'password');
+        return user.registerUser().then( (result) => {
+            expect(result).toBeTruthy();
+            return User.usernameExists('username_test');
+        }).then((res) => {
+            expect(res).toBeTruthy();
+        });
+    });
     test('should validate user names not registered', async () => {
         expect.assertions(1);
-        return User.usernameExists("username_not_registered").then(res => {
-            return expect(res).toBeFalsy();
-        })
-    })
-})
+        return User.usernameExists('username_not_registered').then((res) => {
+            expect(res).toBeFalsy();
+        });
+    });
+});
 describe('User password validations,', () => {
-    let userId;
     let userName;
     beforeEach(async () => {
-        userName = "userNamePassword"
-        let user = new User()
-        user.setRegistrationData(userName, "password");
+        userName = 'userNamePassword';
+        createdUser = new User();
+        createdUser.setRegistrationData(userName, 'password');
 
-        let newUser = await user.registerUser();
-        userId = String(newUser._id);
-    })
-    test("should password match with the database password", async () => {
+        return createdUser.registerUser()
+            .then((result) => {
+                userId = String(createdUser._id);
+            });
+    });
+    test('should password match with the database password', async () => {
         expect.assertions(1);
-        let anotherUser = new User();
-        anotherUser.setRegistrationData(userName, "password");
-        let response = await anotherUser.isPasswordMatch()
-        return expect(response.username).toBe(userName);
-    })
+        return createdUser.isPasswordMatch('password')
+            .then((res) => {
+                expect(res).toBeTruthy();
+            });
+    });
     test('should send an error message validating password,  password not matching', async () => {
         expect.assertions(1);
-        let userPass = new User();
-        userPass.setRegistrationData(userName, "pass");
-        return expect(userPass.isPasswordMatch()).rejects.toBe('Invalid username / password.');
-    })
-    test('should send an error message validation password,  user not exist', async () => {
-        expect.assertions(1);
-        let user = new User();
-        user.setRegistrationData("notauser", "pass");
-        return expect(user.isPasswordMatch()).rejects.toBe('Invalid username / password.')
-    })
-})
-describe("Searching and update operations on a user previously inserted", () => {
+        return createdUser.isPasswordMatch('pass')
+            .catch((res) => {
+                expect(res).toBe('Invalid username / password.');
+            });
+    });
+});
+describe('Searching and update operations on a user previously inserted', () => {
     let userId;
-    beforeEach(async () => {
-        let userName = "userName"
-        let user = new User()
-        user.setRegistrationData(userName, "password");
+    let createdUser;
+    beforeEach(() => {
+        const userName = 'userName';
+        createdUser = new User();
+        createdUser.setRegistrationData(userName, 'password');
 
-        let newUser = await user.registerUser();
-        userId = String(newUser._id);
-    })
-    test("searching a user by the username", async () => {
+        return createdUser.registerUser()
+            .then((result) => {
+                userId = String(createdUser._id);
+            });
+    });
+    test('searching a user by the username', () => {
         expect.assertions(1);
-        let userName = "userName"
-        await User.findUserByUsername(userName).then(usr => {
-            return expect(usr.username).toBe(userName)
-        })
-    })
-    test("update data of the user", async () => {
-        expect.assertions(3);
-        let user = new User()
-        let updatedUser = await user.updateUser(userId, {
-            "acknowledgement": true,
-            "onLine":true,
-            "status":"OK"
+        return User.findUserByUsername(createdUser.username).then((usr) => {
+            expect(usr.username).toBe(createdUser.username);
         });
-        expect(updatedUser.acknowledgement).toBeTruthy()
-        expect(updatedUser.onLine).toBeTruthy()
-        return expect(updatedUser.status).toBe("OK")
-    })
+    });
+    test('update data of the user', () => {
+        expect.assertions(3);
+        return createdUser.updateUser({
+            'acknowledgement': true,
+            'onLine': true,
+            'status': 'OK'
+        }).then( (result) => {
+            expect(createdUser.acknowledgement).toBeTruthy();
+            expect(createdUser.onLine).toBeTruthy();
+            expect(createdUser.status).toBe('OK');
+        });
+    });
     test('update user status (specific status method)', async () => {
         expect.assertions(1);
-        let user = new User()
-        let updatedUser = await user.updateUser(userId, {"status":"HELP"});
-        return await expect(updatedUser.status).toBe("HELP");
-    })
-    test("searching a user by the id ", async () => {
+        return createdUser.updateUser({'status': 'HELP'}).then( (result) => {
+            expect(createdUser.status).toBe('HELP');
+        });
+    });
+    test('searching a user by the id ', async () => {
         expect.assertions(1);
-        return await User.findUserById(userId).then(usr => {
-            expect(String(usr._id)).toBe(userId)
-        })
-    })
-})
-describe("Update operations on a user - profile information and validation rules", () => {
-    let userId;
+        return await User.findUserById(userId).then((usr) => {
+            expect(String(usr._id)).toBe(userId);
+        });
+    });
+});
+describe('Update operations on a user - profile information and validation rules', () => {
+    let createdUser;
     beforeEach(async () => {
-        let userName = "profileUser"
-        let user = new User()
-        user.setRegistrationData(userName, "password");
+        const userName = 'profileUser';
+        createdUser = new User();
+        createdUser.setRegistrationData(userName, 'password');
 
-        let newUser = await user.registerUser();
-        userId = String(newUser._id);
-    })
-    //1.
-    test("update data validation required fields - user info step 1 - empty data", async () => {
-        let user = new User()
-        return await expect(user.updateUser(userId, {
-            //step1
-            "step": 1,
+        return createdUser.registerUser()
+            .then((result) => {
+                userId = String(createdUser._id);
+            });
+    });
+    // 1.
+    test('update data validation required fields - user info step 1 - empty data', () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 1,
 
-            "name": "",
-            "last_name": "",
-            "phone_number": "",
-            "address": "",
-            "city": "",
-            "birth_date": "",
-            "emergency_contact":{
-                "name": "",
-                "phone_number": "",
-                "address": "",
-                "email": ""
+            'name': '',
+            'last_name': '',
+            'phone_number': '',
+            'address': '',
+            'city': '',
+            'birth_date': '',
+            'emergency_contact': {
+                'name': '',
+                'phone_number': '',
+                'address': '',
+                'email': ''
             },
-            "privacy_terms_data_accepted": null
-        }))
-        .rejects.toMatch('Missing required fields. Every field in this step is mandatory.');
-    })
-    test("update data validation required fields - user info step 1 - missing some data", async () => {
-        let user = new User()
-        return await expect(user.updateUser(userId, {
-            //step1
-            "step": 1,
-
-            "name": "name",
-            "last_name": "apellido",
-            "phone_number": "31321",
-            "address": "sssssss",
-            "city": "Sunnyvale",
-            "birth_date": "",
-            "emergency_contact":{
-                "name": "Juan",
-                "phone_number": "",
-                "address": ""
-            },
-            "privacy_terms_data_accepted": null
-        }))
-        .rejects.toMatch('Missing required fields. Every field in this step is mandatory.');
-    })
-    test("update data validation required fields - user info step 1 - all data, missing data treatment acceptance", async () => {
-        let user = new User()
-        return await expect(user.updateUser(userId, {
-            //step1
-            "step": 1,
-
-            "name": "name",
-            "last_name": "apellido",
-            "phone_number": "31321",
-            "address": "sssssss",
-            "city": "Sunnyvale",
-            "birth_date": "2000-01-01",
-            "emergency_contact":{
-                "name": "Juan",
-                "phone_number": "336999645",
-                "address": "432 easy street"
-            },
-            "privacy_terms_data_accepted": null
-        }))
-        .rejects.toMatch('Please accept the term and conditions for personal data treatment');
-    })
-    test("update data validation required fields - user info step 1 - all data, phone length", async () => {
-        let user = new User()
-        return await expect(user.updateUser(userId, {
-            //step1
-            "step": 1,
-
-            "name": "name",
-            "last_name": "apellido",
-            "phone_number": "31321",
-            "address": "sssssss",
-            "city": "Sunnyvale",
-            "birth_date": "2000-01-01",
-            "emergency_contact":{
-                "name": "Juan",
-                "phone_number": "336999645",
-                "address": "432 easy street"
-            },
-            "privacy_terms_data_accepted": 1
-        }))
-        .rejects.toMatch('Every phone number must have more than 7 characters.');
-    })
-    test("update data validation OK - user info step 1 - all data complete", async () => {
-        let user = new User()
-        user = await user.updateUser(userId, {
-            //step1
-            "step": 1,
-
-            "name": "name",
-            "last_name": "apellido",
-            "phone_number": "44444444",
-            "address": "sssssss",
-            "city": "Sunnyvale",
-            "birth_date": "2000-01-01",
-            "emergency_contact":{
-                "name": "Juan",
-                "phone_number": "336999645",
-                "address": "432 easy street"
-            },
-            "privacy_terms_data_accepted": 1
+            'privacy_terms_data_accepted': null
+        }).catch((err) => {
+            expect(err).toMatch('Missing required fields. Every field in this step is mandatory.');
         });
+    });
+    test('update data validation required fields - user info step 1 - missing some data', () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 1,
 
-        return expect(user.phone_number).toMatch('44444444');
-    })
-    test("update data validation required fields - user info step 2 - blood type required", async () => {
-        let user = new User()
-        return await expect(user.updateUser(userId, {
-            //step1
-            "step": 2,
-
-            "medical_information":{
-                "blood_type": "",
-                "allergies": "",
-                "prescribed_drugs": "",
-                "privacy_terms_medical_accepted": null,
+            'name': 'name',
+            'last_name': 'apellido',
+            'phone_number': '31321',
+            'address': 'sssssss',
+            'city': 'Sunnyvale',
+            'birth_date': '',
+            'emergency_contact': {
+                'name': 'Juan',
+                'phone_number': '',
+                'address': ''
             },
-        }))
-        .rejects.toMatch('Blood type is a mandatory field, please select a valid blood type');
-    })
-    test("update data validation required fields - user info step 2 - data treatment medical info required", async () => {
-        let user = new User()
-        return await expect(user.updateUser(userId, {
-            //step1
-            "step": 2,
-
-            "medical_information":{
-                "blood_type": "AB+",
-                "allergies": "",
-                "prescribed_drugs": "",
-                "privacy_terms_medical_accepted": null,
-            },
-        }))
-        .rejects.toMatch('Please accept the term and conditions for medical data treatment');
-    })
-    test("update data validation OK - user info step 2 - all data complete", async () => {
-        let user = new User()
-        user = await user.updateUser(userId, {
-            //step1
-            "step": 2,
-
-            "medical_information":{
-                "blood_type": "AB+",
-                "allergies": "list of allergies",
-                "prescribed_drugs": "",
-                "privacy_terms_medical_accepted": 1,
-            },
+            'privacy_terms_data_accepted': null
+        }).catch((err) => {
+            expect(err).toMatch('Missing required fields. Every field in this step is mandatory.');
         });
+    });
+    test('update data validation required fields - user info step 1 - all data, missing data treatment acceptance', () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 1,
 
-        return expect(user.medical_information.allergies).toMatch('list of allergies');
-    })
-    test("update data validation required fields - user info step 3 - security question and answer", async () => {
-        let user = new User()
-        return await expect(user.updateUser(userId, {
-            //step1
-            "step": 3,
+            'name': 'name',
+            'last_name': 'apellido',
+            'phone_number': '31321',
+            'address': 'sssssss',
+            'city': 'Sunnyvale',
+            'birth_date': '2000-01-01',
+            'emergency_contact': {
+                'name': 'Juan',
+                'phone_number': '336999645',
+                'address': '432 easy street'
+            },
+            'privacy_terms_data_accepted': null
+        }).catch((err) => {
+            expect(err).toMatch('Please accept the term and conditions for personal data treatment');
+        });
+    });
+    test('update data validation required fields - user info step 1 - all data, phone length', () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 1,
 
-            "personal_message":{
-                "message": "",
-                "security_question": "a question",
-                "security_question_answer": ""
+            'name': 'name',
+            'last_name': 'apellido',
+            'phone_number': '31321',
+            'address': 'sssssss',
+            'city': 'Sunnyvale',
+            'birth_date': '2000-01-01',
+            'emergency_contact': {
+                'name': 'Juan',
+                'phone_number': '336999645',
+                'address': '432 easy street'
+            },
+            'privacy_terms_data_accepted': 1
+        }).catch((err) => {
+            expect(err).toMatch('Every phone number must have more than 7 characters.');
+        });
+    });
+    test('update data validation OK - user info step 1 - all data complete', () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 1,
+
+            'name': 'name',
+            'last_name': 'apellido',
+            'phone_number': '44444444',
+            'address': 'sssssss',
+            'city': 'Sunnyvale',
+            'birth_date': '2000-01-01',
+            'emergency_contact': {
+                'name': 'Juan',
+                'phone_number': '336999645',
+                'address': '432 easy street'
+            },
+            'privacy_terms_data_accepted': 1
+        }).then((res) => {
+            expect(res).toBe(true);
+            expect(createdUser.phone_number).toMatch('44444444');
+        });
+    });
+    test('update data validation required fields - user info step 2 - blood type required', () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 2,
+
+            'medical_information': {
+                'blood_type': '',
+                'allergies': '',
+                'prescribed_drugs': '',
+                'privacy_terms_medical_accepted': null,
+            },
+        }).catch((err) => {
+            expect(err).toMatch('Blood type is a mandatory field, please select a valid blood type'); ;
+        });
+    });
+    test('update data validation required fields - user info step 2 - data treatment medical info required', async () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 2,
+
+            'medical_information': {
+                'blood_type': 'AB+',
+                'allergies': '',
+                'prescribed_drugs': '',
+                'privacy_terms_medical_accepted': null,
+            },
+        }).catch((err) => {
+            expect(err).toMatch('Please accept the term and conditions for medical data treatment');
+        });
+    });
+    test('update data validation OK - user info step 2 - all data complete', () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 2,
+
+            'medical_information': {
+                'blood_type': 'AB+',
+                'allergies': 'list of allergies',
+                'prescribed_drugs': '',
+                'privacy_terms_medical_accepted': 1,
+            },
+        }).then((res) => {
+            expect(res).toBe(true);
+            expect(createdUser.medical_information.allergies).toMatch('list of allergies');
+        });
+    });
+    test('update data validation required fields - user info step 3 - security question and answer', () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 3,
+
+            'personal_message': {
+                'message': '',
+                'security_question': 'a question',
+                'security_question_answer': ''
             }
-        }))
-        .rejects.toMatch('The security question and the answer to this cannot be empty if one of these is sent.');
-    })
-    test("update data validation OK - user info step 3 - all data complete", async () => {
-        let user = new User()
-        user = await user.updateUser(userId, {
-            //step1
-            "step": 3,
-
-            "personal_message":{
-                "message": "a message",
-                "security_question": "a question",
-                "security_question_answer": "an answer"
-            }
+        }).catch((err) => {
+            expect(err).toMatch('The security question and the answer to this cannot be empty if one of these is sent.');
         });
+    });
+    test('update data validation OK - user info step 3 - all data complete', () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 3,
 
-        return expect(user.personal_message.message).toMatch('a message');
-    })
-})
-describe("Test profile access for only authorized users", () => {
+            'personal_message': {
+                'message': 'a message',
+                'security_question': 'a question',
+                'security_question_answer': 'an answer'
+            }
+        }).then((res) => {
+            expect(res).toBe(true);
+            expect(createdUser.personal_message.message).toMatch('a message');
+        });
+    });
+});
+describe('Test profile access for only authorized users', () => {
     let user1Id = null;
     let user2Id = null;
     let user3Id = null;
+    let createdUser1 = null;
+    let createdUser2 = null;
+    let createdUser3 = null;
 
     beforeEach(async () => {
-        const user_instance = new User();
-        let user1 = new User()
-        user1.setRegistrationData("username1", "zzzzzzzzz");
-        user1 = await user1.registerUser();
-        user1Id = user1._id;
-        await user_instance.updateUser(user1._id, {
-            "step": 1,
+        createdUser1 = new User();
+        createdUser1.setRegistrationData('username1', 'zzzzzzzzz');
+        return createdUser1.registerUser()
+            .then((result) => {
+                user1Id = String(createdUser1._id);
+                // set data
+                return createdUser1.updateUser({
+                    'step': 1,
 
-            "name": "name",
-            "last_name": "apellido",
-            "phone_number": "44444444",
-            "address": "sssssss",
-            "city": "Sunnyvale",
-            "birth_date": "2000-01-01",
-            "emergency_contact":{
-                "name": "Juan",
-                //**** ONLY A USER WITH THIS PHONE NUMBER CAN ACCESS THE MESSAGE
-                "phone_number": "2142244",
-                "address": "432 easy street"
-            },
-            "privacy_terms_data_accepted": 1
-        });
-        await user_instance.updateUser(user1._id, {
-            "step": 3,
-            "personal_message":{
-                "message": "a message",
-                "security_question": "a question",
-                "security_question_answer": "an answer"
-            }
-        });
+                    'name': 'name',
+                    'last_name': 'apellido',
+                    'phone_number': '44444444',
+                    'address': 'sssssss',
+                    'city': 'Sunnyvale',
+                    'birth_date': '2000-01-01',
+                    'emergency_contact': {
+                        'name': 'Juan',
+                        //* *** ONLY A USER WITH THIS PHONE NUMBER CAN ACCESS THE MESSAGE
+                        'phone_number': '2142244',
+                        'address': '432 easy street'
+                    },
+                    'privacy_terms_data_accepted': 1
+                });
+                // set personal message
+            })
+            .then((result) => {
+                return createdUser1.updateUser({
+                    'step': 3,
+                    'personal_message': {
+                        'message': 'a message',
+                        'security_question': 'a question',
+                        'security_question_answer': 'an answer'
+                    }
+                });
+            })
+            .then( (result) =>{
+                createdUser2 = new User();
+                createdUser2.setRegistrationData('username2', 'zzzzzzzzz');
+                return createdUser2.registerUser();
+            })
+            .then( (result) =>{
+                user2Id = String(createdUser2._id);
+                return createdUser2.updateUser({
+                    'step': 1,
 
-        let user2 = new User()
-        user2.setRegistrationData("username2", "zzzzzzzzz");
-        user2 = await user2.registerUser();
-        user2Id = user2._id;
-        await user_instance.updateUser(user2._id, {
-            "step": 1,
+                    'name': 'name2',
+                    'last_name': 'apellido',
+                    'phone_number': '2142244',
+                    'address': 'sssssss',
+                    'city': 'Sunnyvale',
+                    'birth_date': '2000-01-01',
+                    'emergency_contact': {
+                        'name': 'Juan22',
+                        'phone_number': '222142244',
+                        'address': '432 easy street'
+                    },
+                    'privacy_terms_data_accepted': 1
+                });
+            })
+            .then( (result) =>{
+                createdUser3 = new User();
+                createdUser3.setRegistrationData('username3', 'zzzzzzzzz');
+                return createdUser3.registerUser();
+            })
+            .then( (result) =>{
+                user3Id = String(createdUser3._id);
+                return createdUser3.updateUser({
+                    'step': 1,
 
-            "name": "name2",
-            "last_name": "apellido",
-            "phone_number": "2142244",
-            "address": "sssssss",
-            "city": "Sunnyvale",
-            "birth_date": "2000-01-01",
-            "emergency_contact":{
-                "name": "Juan22",
-                "phone_number": "222142244",
-                "address": "432 easy street"
-            },
-            "privacy_terms_data_accepted": 1
-        });
-
-        let user3 = new User()
-        user3.setRegistrationData("username3", "zzzzzzzzz");
-        user3 = await user3.registerUser();
-        user3Id = user3._id;
-        await user_instance.updateUser(user3._id, {
-            "step": 1,
-
-            "name": "name3",
-            "last_name": "apellido",
-            "phone_number": "2143332244",
-            "address": "sssssss",
-            "city": "Sunnyvale",
-            "birth_date": "2000-01-01",
-            "emergency_contact":{
-                "name": "Juan22",
-                "phone_number": "222142244",
-                "address": "432 easy street"
-            },
-            "privacy_terms_data_accepted": 1
-        });
-
-    })
-    test("NO ACCESS TO PROFILE - invalid must fail", async () => {
-        console.log(user1Id)
+                    'name': 'name3',
+                    'last_name': 'apellido',
+                    'phone_number': '2143332244',
+                    'address': 'sssssss',
+                    'city': 'Sunnyvale',
+                    'birth_date': '2000-01-01',
+                    'emergency_contact': {
+                        'name': 'Juan22',
+                        'phone_number': '222142244',
+                        'address': '432 easy street'
+                    },
+                    'privacy_terms_data_accepted': 1
+                });
+            })
+            .then((res) => {
+            // console.log(createdUser1, createdUser2, createdUser3);
+            })
+            .catch((_) => {});
+    });
+    test('NO ACCESS TO PROFILE - invalid must fail', async () => {
+        console.log(user1Id);
         expect.assertions(1);
-        return await User.findUserByIdIfAuthorized(user1Id,user3Id)
-        .then(listUser => {
-        }).catch(err => {
-            console.log(user1Id, user3Id)
-            expect(err).toBe('You are not authorized');
-        });
-    })
-    test("ACCESS TO PROFILE, matching phone - must work", async () => {
-        console.log(user1Id)
+        return await User.findUserByIdIfAuthorized(user1Id, user3Id)
+            .then((listUser) => {
+            }).catch((err) => {
+                console.log(user1Id, user3Id);
+                expect(err).toBe('You are not authorized');
+            });
+    });
+    test('ACCESS TO PROFILE, matching phone - must work', async () => {
+        console.log(user1Id);
         expect.assertions(1);
-        return await User.findUserByIdIfAuthorized(user1Id,user2Id)
-        .then(listUser => {
-            expect(listUser.emergency_contact.phone_number).toBe('2142244');
-        }).catch(err => {});
-    })
+        return await User.findUserByIdIfAuthorized(user1Id, user2Id)
+            .then((listUser) => {
+                expect(listUser.emergency_contact.phone_number).toBe('2142244');
+            }).catch((err) => {});
+    });
 
-    test("ACCESS TO PERSONAL MESSAGE, matching phone AND WRONG ANSWER - must fail", async () => {
-        console.log(user1Id)
+    test('ACCESS TO PERSONAL MESSAGE, WRONG ANSWER - must fail', async () => {
+        console.log(createdUser1.personal_message);
         expect.assertions(1);
-        return await User.getPersonalMessage(user1Id,user2Id, "wrong answer")
-        .then(listUser => {
-
-        }).catch(err => {
-            console.log(user1Id, user2Id)
-            expect(err).toBe("Invalid answer");
+        return createdUser1.getPersonalMessage('wrong answer').catch((err) => {
+            expect(err).toMatch('Invalid answer');
         });
-    })
-    test("ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work", async () => {
-        console.log(user1Id)
+    });
+    test('ACCESS TO PERSONAL MESSAGE, matching phone AND RIGHT ANSWER - must work', async () => {
         expect.assertions(1);
-        return await User.getPersonalMessage(user1Id,user2Id, "an answer")
-        .then(message => {
-            expect(message).toBe("a message");
-        }).catch(err => {
+        return createdUser1.getPersonalMessage('an answer').then((message) => {
+            expect(message).toBe('a message');
         });
-    })
-})
-describe("get all users ordered by online status and username", () => {
-    beforeEach(async () => {
-        let user = new User()
-        user.setRegistrationData("CcccUser", "zzzzzzzzz");
-        let newUser = await user.registerUser();
-        await user.updateUser(newUser._id, {
-            "acknowledgement": true,
-            "onLine":true,
-            "status":"OK"
-        });
+    });
+});
+describe('get all users ordered by online status and username', () => {
+    let createdUser1;
+    let createdUser2;
+    let createdUser3;
 
-        let otheruser = new User()
-        otheruser.setRegistrationData("BbbbUser", "BbbbUser");
-        await otheruser.registerUser();
-        otheruser = new User()
-        otheruser.setRegistrationData("AaaaUser", "AaaaUser");
-        await otheruser.registerUser();
+    beforeEach(() => {
+        createdUser1 = new User();
+        createdUser1.setRegistrationData('CcccUser', 'zzzzzzzzz');
 
-    })
-    test("get users ordered", async () => {
+        return createdUser1.registerUser()
+            .then((result) => {
+                return createdUser1.updateUser({
+                    'acknowledgement': true,
+                    'onLine': true,
+                    'status': 'OK'
+                });
+            })
+            .then((result) => {
+                createdUser2 = new User();
+                createdUser2.setRegistrationData('BbbbUser', 'BbbbUser');
+                return createdUser2.registerUser();
+            })
+            .then((result) => {
+                createdUser3 = new User();
+                createdUser3.setRegistrationData('AaaaUser', 'AaaaUser');
+                return createdUser3.registerUser();
+            });
+    });
+    test('get users ordered', () => {
         expect.assertions(2);
-        let user = new User();
-        return await User.getUsers().then(listUser => {
-            expect(listUser[0].username).toBe("CcccUser")
-            expect(listUser[0].onLine).toBeTruthy()
-        })
-    })
-})
-describe("search users by username", () => {
-    beforeEach(async () => {
-        let user = new User()
-        user.setRegistrationData("CcccUser", "zzzzzzzzz");
-        let newUser = await user.registerUser();
-        let otheruser = new User()
-        otheruser.setRegistrationData("BbbbUser", "BbbbUser");
-        await otheruser.registerUser();
-        otheruser = new User()
-        otheruser.setRegistrationData("AaaaUser", "AaaaUser");
-        await otheruser.registerUser();
-        await user.updateUser(newUser._id, {
-            "acknowledgement": true,
-            "onLine":true,
-            "status":"OK"
+        return User.getUsers().then((listUsers) => {
+            console.log(listUsers);
+            expect(listUsers[0].username).toBe('CcccUser'); // createdUser1.username
+            expect(listUsers[0].onLine).toBeTruthy();
         });
-    })
-    test("get users by username search", async () => {
-        expect.assertions(1);
-        let usernametoSearch = 'User'
-        return await User.findUsersByParams({
-            "username": usernametoSearch
-        }).then(listUser => {
-            expect(listUser.length).toBe(3)
-        })
-    })
-    test("get users by username search", async () => {
-        expect.assertions(1);
-        let usernametoSearch = 'ccc'
-        return await User.findUsersByParams({
-            "username": usernametoSearch
-        }).then(listUser => {
-            expect(listUser.length).toBe(1)
-        })
-    })
-})
-describe("search users by status", () => {
-    beforeEach(async () => {
-        let user = new User()
-        user.setRegistrationData("CcccUser", "zzzzzzzzz");
-        let newUser = await user.registerUser();
-        await user.updateUser(newUser._id, {
-            "acknowledgement": true,
-            "onLine":true,
-            "status":"OK"
-        });
-        let otheruser = new User()
-        otheruser.setRegistrationData("BbbbUser", "BbbbUser");
-        await otheruser.registerUser();
-        otheruser = new User()
-        otheruser.setRegistrationData("AaaaUser", "AaaaUser");
-        await otheruser.registerUser();
+    });
+});
+describe('search users by username', () => {
+    let createdUser1;
+    let createdUser2;
+    let createdUser3;
 
-    })
-    test("get users by status OK", async () => {
+    beforeEach(() => {
+        createdUser1 = new User();
+        createdUser1.setRegistrationData('CcccUser', 'zzzzzzzzz');
+
+        return createdUser1.registerUser()
+            .then((result) => {
+                return createdUser1.updateUser({
+                    'acknowledgement': true,
+                    'onLine': true,
+                    'status': 'OK'
+                });
+            })
+            .then((result) => {
+                createdUser2 = new User();
+                createdUser2.setRegistrationData('BbbbUser', 'BbbbUser');
+                return createdUser2.registerUser();
+            })
+            .then((result) => {
+                createdUser3 = new User();
+                createdUser3.setRegistrationData('AaaaUser', 'AaaaUser');
+                return createdUser3.registerUser();
+            });
+    });
+    test('get users by username search', async () => {
         expect.assertions(1);
-        let status = 'OK'
+        const usernametoSearch = 'User';
         return await User.findUsersByParams({
-            "status": status
-        }).then(listUser => {
-            expect(listUser.length).toBe(1)
-        })
-    })
-    test("get users by status UNDEFINED", async () => {
+            'username': usernametoSearch
+        }).then((listUser) => {
+            expect(listUser.length).toBe(3);
+        });
+    });
+    test('get users by username search', async () => {
         expect.assertions(1);
-        let status = 'UNDEFINED'
+        const usernametoSearch = 'ccc';
         return await User.findUsersByParams({
-            "status": status
-        }).then(listUser => {
-            expect(listUser.length).toBe(2)
-        })
-    })
-})
-describe("Tokens", () => {
+            'username': usernametoSearch
+        }).then((listUser) => {
+            expect(listUser.length).toBe(1);
+        });
+    });
+});
+describe('search users by status', () => {
+    let createdUser1;
+    let createdUser2;
+    let createdUser3;
+    beforeEach(async () => {
+        createdUser1 = new User();
+        createdUser1.setRegistrationData('CcccUser', 'zzzzzzzzz');
+
+        return createdUser1.registerUser()
+            .then((result) => {
+                return createdUser1.updateUser({
+                    'acknowledgement': true,
+                    'onLine': true,
+                    'status': 'OK'
+                });
+            })
+            .then((result) => {
+                createdUser2 = new User();
+                createdUser2.setRegistrationData('BbbbUser', 'BbbbUser');
+                return createdUser2.registerUser();
+            })
+            .then((result) => {
+                createdUser3 = new User();
+                createdUser3.setRegistrationData('AaaaUser', 'AaaaUser');
+                return createdUser3.registerUser();
+            });
+    });
+    test('get users by status OK', async () => {
+        expect.assertions(1);
+        const status = 'OK';
+        return await User.findUsersByParams({
+            'status': status
+        }).then((listUser) => {
+            expect(listUser.length).toBe(1);
+        });
+    });
+    test('get users by status UNDEFINED', async () => {
+        expect.assertions(1);
+        const status = 'UNDEFINED';
+        return await User.findUsersByParams({
+            'status': status
+        }).then((listUser) => {
+            expect(listUser.length).toBe(2);
+        });
+    });
+});
+describe('Tokens', () => {
     test('should generate token for the user', async () => {
-        let userName = "userNameToken"
-        let user = new User()
-        user.setRegistrationData(userName, "password");
+        const userName = 'userNameToken';
+        const createdUser = new User();
+        createdUser.setRegistrationData(userName, 'password');
 
-        await user.registerUser();
-        return await user.generateTokens().then(tokens => {
-            expect(tokens).toBeDefined();
-        })
-    })
-})
-describe("Search for users by id", () => {
-    test('should return  true if user exist', async () => {
-        let userName = "userNameToken"
-        let user = new User()
-        user.setRegistrationData(userName, "password");
+        return createdUser.registerUser()
+            .then((result) => {
+                return createdUser.generateTokens();
+            });
+    });
+});
+describe('Search for users by id', () => {
+    test('should return  true if user exist', () => {
+        const userName = 'userNameToken';
+        const createdUser = new User();
+        createdUser.setRegistrationData(userName, 'password');
 
-        let newUser = await user.registerUser();
-        return await User.userExist(newUser._id).then(userExist => {
-            expect(userExist).toBeTruthy()
-        })
-    })
-    test('should return false if user not exist', async () => {
-        return await User.userExist('507f1f77bcf86cd799439011').then(userExist => {
-            expect(userExist).toBeFalsy()
-        })
-    })
-})
-describe("Sockets", () => {
+        return createdUser.registerUser()
+            .then((result) => {
+                expect(result).toBeTruthy();
+                return User.userExist(String(createdUser._id));
+            })
+            .then((result) =>{
+                expect(result).toBeTruthy();
+            });
+    });
+    test('should return false if user not exist', () => {
+        return User.userExist('507f1f77bcf86cd799439011')
+            .then((userExist) => {
+                expect(userExist).toBeFalsy();
+            });
+    });
+});
+describe('Sockets', () => {
     let newUser;
     beforeEach(async () => {
-        let user = new User()
-        user.setRegistrationData("usersocket", "password");
-        newUser = await user.registerUser();
-    })
-    test('should associate socket to the user', async () => {
-        return await User.insertSocket(newUser._id, '1').then(userResponse => {
-            expect(userResponse).toBeDefined()
-        })
-    })
+        newUser = new User();
+        newUser.setRegistrationData('usersocket', 'password');
+
+        return newUser.registerUser()
+            .then((result) => {
+                userId = String(newUser._id);
+            });
+    });
+    test('should associate socket to the user', () => {
+        return newUser.insertSocket('1')
+            .then((userResponse) => {
+                expect(userResponse).toBeTruthy();
+                expect(newUser.sockets).toBeDefined();
+            });
+    });
     test('should remove socket associated to an user', async () => {
-        await User.insertSocket(newUser._id, '1');
-        return await User.removeSocket(newUser._id, '1').then(userExist => {
-            expect(userExist).toBeDefined()
-        })
-    })
-    test('should reject a promis if socket id doesnt exist', async () => {
-        return expect(User.removeSocket(newUser._id, '2')).rejects.toBe("Socket does not exist");
-    })
-})
-describe("Chat message count & spam report", () => {
+        return newUser.insertSocket('1')
+            .then((userResponse) => {
+                expect(userResponse).toBeTruthy();
+                expect(newUser.sockets).toBeDefined();
+                return newUser.removeSocket('1');
+            })
+            .then((userResponse) => {
+                expect(userResponse).toBeTruthy();
+                expect(newUser.sockets).toBeDefined();
+                expect(newUser.sockets.has('1')).toBeFalsy();
+            });
+    });
+    test('should reject a promise if socket id doesnt exist', async () => {
+        return expect(newUser.removeSocket('2')).rejects.toBe('Socket does not exist');
+    });
+});
+describe('Chat message count & spam report', () => {
     let newUser1;
     let newUser2;
     beforeEach(async () => {
-        let user = new User()
-        user.setRegistrationData("usersocket1", "password");
-        newUser1 = await user.registerUser();
-        user = new User()
-        user.setRegistrationData("usersocket2", "password");
-        newUser2 = await user.registerUser();
-    })
-
-    test('set user spam report', async ()=>{
-      let usrId; let usrReporterId;
-      await User.findUserByUsername(newUser1.username).then((usr) => {
-        usrId = usr._id.toString();
-      });
-      await User.findUserByUsername(newUser2.username).then((usr) => {
-        usrReporterId = usr._id.toString();
-      });
-      await User.setReportSpam(usrId, usrReporterId).then((usr) => {
-        return expect(usr.reported_spams.get(usrReporterId)).toBe(true);
-      });
+        newUser1 = new User();
+        newUser1.setRegistrationData('usersocket1', 'password');
+        return newUser1.registerUser()
+            .then((result) => {
+                expect(result).toBeTruthy();
+                newUser2 = new User();
+                newUser2.setRegistrationData('usersocket2', 'password');
+                return newUser2.registerUser();
+            })
+            .then((result) => {
+                expect(result).toBeTruthy();
+            });
     });
-
-
-    test('should increase count', async () => {
-        return await expect(User.changeMessageCount(newUser1, newUser2, true)).toBeDefined()
-    })
-})
+    test('should increase count', () => {
+        return newUser1.changeMessageCount(String(newUser2._id))
+            .then((result) => {
+                expect(result).toBe(1);
+            });
+    });
+    test('should increase count', () => {
+        return newUser1.changeMessageCount(String(newUser2._id))
+            .then((result) => {
+                expect(result).toBe(1);
+            });
+    });
+});

@@ -1,11 +1,22 @@
 class EmergencyStatusDetail {
+    static instance = undefined;
     constructor() {
         this._id = null;
         this.user_id = null;
     }
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+     static getInstance(){
+        if (this.instance === undefined) {
+            this.instance = new EmergencyStatusDetail();
+        }
+        return this.instance;
+    }
 
     // done
-    static setEditDescriptionEvent() {
+     setEditDescriptionEvent() {
         $('.edit-button').click(function(event) {
             event.preventDefault();
             console.log('edit button clicked!');
@@ -32,7 +43,7 @@ class EmergencyStatusDetail {
     }
 
     // done
-    static setSaveDescriptionEvent() {
+     setSaveDescriptionEvent() {
         const user_id = Cookies.get('user-id');
         $('.save-button').click(function(event) {
             event.preventDefault();
@@ -97,7 +108,7 @@ class EmergencyStatusDetail {
     }
 
     // done
-    static setDeletePictureEvent(pictureId) {
+     setDeletePictureEvent(pictureId) {
         $('#' + pictureId).click(function(event) {
             event.preventDefault();
 
@@ -120,7 +131,7 @@ class EmergencyStatusDetail {
     }
 
     // done
-    static setAddPictureEvent() {
+     setAddPictureEvent() {
         $('.add-button').click(function(event) {
             event.preventDefault();
             $('#addPictureModal').modal('show');
@@ -130,12 +141,12 @@ class EmergencyStatusDetail {
                 $('.upload-button').removeClass('hidden');
             });
 
-            EmergencyStatusDetail.setUploadEvent();
+            EmergencyStatusDetail.getInstance().setUploadEvent();
         });
     }
 
     // done
-    static setUploadEvent() {
+     setUploadEvent() {
         $('.upload-button').unbind().click(function(event) {
             console.log('upload button pressed');
             event.preventDefault();
@@ -160,7 +171,7 @@ class EmergencyStatusDetail {
                 processData: false,
             }).done(function(response) {
                 console.log(response);
-                EmergencyStatusDetail.drawPictureAndDescription(response);
+                EmergencyStatusDetail.getInstance().drawPictureAndDescription(response);
                 $('#picDiscription').val('');
                 $('#file').val('');
                 $('#picDiscription').addClass('hidden');
@@ -175,7 +186,7 @@ class EmergencyStatusDetail {
     }
 
     // done
-    static drawPictureAndDescription(pictureObj) {
+     drawPictureAndDescription(pictureObj) {
         const t = document.querySelector('#pictureAndDescriptionTemplate');
         t.content.querySelector('img').src = pictureObj.picture_path;
         t.content.querySelector('button').id = pictureObj._id;
@@ -188,16 +199,16 @@ class EmergencyStatusDetail {
             .getElementsByClassName('sharePicture');
         pictureContainer[0].appendChild(clone);
 
-        EmergencyStatusDetail.setDeletePictureEvent(pictureObj._id);
+        EmergencyStatusDetail.getInstance().setDeletePictureEvent(pictureObj._id);
     }
 
     // done
-    static generatePreviewPage() {
-        EmergencyStatusDetail.setEditDescriptionEvent();
+     generatePreviewPage() {
+        EmergencyStatusDetail.getInstance().setEditDescriptionEvent();
 
-        EmergencyStatusDetail.setSaveDescriptionEvent();
+        EmergencyStatusDetail.getInstance().setSaveDescriptionEvent();
 
-        EmergencyStatusDetail.setAddPictureEvent();
+        EmergencyStatusDetail.getInstance().setAddPictureEvent();
 
         // retrieve detailed data
         const user_id = Cookies.get('user-id');
@@ -236,7 +247,8 @@ class EmergencyStatusDetail {
             .then((response) => {
                 response.forEach(function(pictureObj) {
                     console.log(pictureObj);
-                    EmergencyStatusDetail.drawPictureAndDescription(pictureObj);
+                    EmergencyStatusDetail.getInstance()
+                        .drawPictureAndDescription(pictureObj);
                 });
             })
             .catch((error) => {
@@ -247,5 +259,5 @@ class EmergencyStatusDetail {
 }
 
 $(function() {
-    EmergencyStatusDetail.generatePreviewPage();
+    EmergencyStatusDetail.getInstance().generatePreviewPage();
 });

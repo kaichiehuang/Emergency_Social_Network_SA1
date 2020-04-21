@@ -1,14 +1,27 @@
 class PublicChatMessage extends BaseMessage {
+
+    static instance = undefined;
+
     constructor() {
         super();
         this.type = 'public';
+    }
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance(){
+        if (this.instance === undefined) {
+            this.instance = new PublicChatMessage();
+        }
+        return this.instance;
     }
 
     /**
      * [registerEventsAfterDraw description]
      * @return {[type]} [description]
      */
-    static registerEventsAfterDraw() {
+     registerEventsAfterDraw() {
         /** **** events declaration ********/
         $('#public-send-btn').click(function(e) {
             publicChatMessageModel.sendMessage('public');
@@ -61,7 +74,7 @@ class PublicChatMessage extends BaseMessage {
 }
 
 let public_wall_container = document.getElementById('public-msg_area');
-let publicChatMessageModel = new PublicChatMessage();
+let publicChatMessageModel =  PublicChatMessage.getInstance();
 $(function() {
     // eslint-disable-next-line no-unused-vars
     let page = 0;
@@ -80,5 +93,5 @@ $(function() {
 
     // init public chat messages and announcements
     publicChatMessageModel.updateMessageListView('public');
-    PublicChatMessage.registerEventsAfterDraw();
+    PublicChatMessage.getInstance().registerEventsAfterDraw();
 });

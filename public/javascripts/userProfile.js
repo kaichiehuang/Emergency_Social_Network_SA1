@@ -1,139 +1,179 @@
 class UserProfile {
+    static instance;
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance() {
+        if (this.instance === undefined) {
+            this.instance = new UserProfile();
+        }
+        return this.instance;
+    }
+
     /**
      * changes the receiver for the private chat
      * @param  {[type]} receiver_user_id [description]
      */
-    static initiateUserProfile(profile_user_id) {
+    initiateUserProfile(profile_user_id) {
         Cookies.set('profile_user_id', profile_user_id);
-        UserProfile.updateComponentView(profile_user_id);
+        UserProfile.getInstance().updateComponentView(profile_user_id);
     }
-
-    static resetProfile() {
-        document.getElementById('user-profile-content__container')
-            .innerText = '';
+    /**
+     * Resets a User's profile view
+     * @return {[type]} [description]
+     */
+    resetProfile() {
+        document.getElementById('user-profile-content__container').innerText = '';
     }
-
     /**
      * [drawUsers description]
      * @param user
      */
-    static drawProfile(user) {
+    drawProfile(user) {
         const containerId = 'user-profile-content__container';
         // 1. find templates in html
-        const profileTemplate = document
-            .querySelector('template#userProfileTemplate');
+        const profileTemplate = document.querySelector('template#userProfileTemplate');
         // 2. find container
         const profileContainer = document.getElementById(containerId);
         if (profileContainer != undefined) {
             // 3. draw using the template
-            if (profileTemplate != undefined &&
-                profileTemplate != null && user != undefined) {
-                const template = profileTemplate.content.cloneNode(true);
-                // set username
-                template.querySelectorAll('.user-profile__username')
-                    .forEach((element) => element.innerText = user.username);
-                // set name
-                template.querySelector('.user-profile__name')
-                    .innerText = (user.name != undefined) ? user.name : '';
-                // set last name
-                template.querySelector('.user-profile__last_name')
-                    .innerText = (user.last_name != undefined) ?
-                        user.last_name : '';
-                // set birth date
-                template.querySelector('.user-profile__birth_date')
-                    .innerText = (user.birth_date != undefined) ?
-                        new Date(Date.parse(user.birth_date))
-                            .toUTCString().toLocaleString() : '';
-                // set address
-                template.querySelector('.user-profile__address')
-                    .innerText = (user.address != undefined) ?
-                        user.address : '';
-                // set city
-                template.querySelector('.user-profile__city').innerText =
-                    (user.city != undefined) ? user.city : '';
-                // set phone number
-                template.querySelector('.user-profile__phone_number')
-                    .innerText = (user.phone_number != undefined) ?
-                        user.phone_number : '';
-                // set emergency_contact
-                if (user.emergency_contact != undefined) {
-                    template.querySelector('.user-profile__emergency_contact')
-                        .innerText =
-                        (user.emergency_contact.name != undefined) ?
-                            user.emergency_contact.name : '';
-                    template
-                        .querySelector(
-                            '.user-profile__emergency_contact_phone_number')
-                        .innerText =
-                        (user.emergency_contact.phone_number != undefined) ?
-                            user.emergency_contact.phone_number : '';
-                    template.querySelector(
-                        '.user-profile__emergency_contact_address')
-                        .innerText =
-                        (user.emergency_contact.address != undefined) ?
-                            user.emergency_contact.address : '';
-                }
-                // set medical information
-                if (user.personal_message != undefined) {
-                    template.querySelector(
-                        '.user-profile__personal-message-q'
-                    ).innerText =
-                        (user.personal_message.security_question != undefined) ?
-                            user.personal_message.security_question :
-                            ' -- No question available --';
-                }
-
-                // set medical information
-                if (user.medical_information != undefined) {
-                    template.querySelector('.user-profile__blood_type')
-                        .innerText =
-                        (user.medical_information.blood_type != undefined) ?
-                            user.medical_information.blood_type : '';
-                    template.querySelector('.user-profile__prescribed_drugs')
-                        .innerText =
-                        (user.medical_information.prescribed_drugs
-                            != undefined) ?
-                            user.medical_information.prescribed_drugs : '';
-                    template.querySelector('.user-profile__allergies')
-                        .innerText =
-                        (user.medical_information.allergies != undefined) ?
-                            user.medical_information.allergies : '';
-                }
+            if (profileTemplate != undefined && profileTemplate != null && user != undefined) {
+                let template = profileTemplate.content.cloneNode(true);
+                //part 1 - personal info
+                template = this.drawProfilePart1Info(user, template);
+                //part 1 - emergency contact
+                template = this.drawProfilePart1EmergencyContact(user, template);
+                //part 2 - medical info
+                template = this.drawProfilePart2Info(user, template);
+                //part3 - personal message
+                template = this.drawProfilePart3Info(user, template);
 
                 // if user is not the same as current User remove edit buttons
                 if (user._id != currentUser._id) {
-                    template.querySelectorAll('.edit-profile-button')
-                        .forEach((element) => element.remove());
+                    template.querySelectorAll('.edit-profile-button').forEach((element) => element.remove());
                 }
                 profileContainer.appendChild(template);
             }
         }
     }
-
+    /**
+     * Add personal info to template component
+     * @param  {[type]} user     [description]
+     * @param  {[type]} template [description]
+     * @return {[type]}          [description]
+     */
+    drawProfilePart1Info(user, template) {
+        // set emergency_contact
+        if (user.emergency_contact != undefined) {
+            if (user.emergency_contact.name != undefined) {
+                template.querySelector('.user-profile__emergency_contact').innerText = user.emergency_contact.name;
+            }
+            if (user.emergency_contact.phone_number != undefined) {
+                template.querySelector('.user-profile__emergency_contact_phone_number').innerText = user.emergency_contact.phone_number;
+            }
+            if (user.emergency_contact.address != undefined) {
+                template.querySelector('.user-profile__emergency_contact_address').innerText = user.emergency_contact.address;
+            }
+        }
+        return template;
+    }
+    /**
+     * Add emergency contact info to template component
+     * @param  {[type]} user     [description]
+     * @param  {[type]} template [description]
+     * @return {[type]}          [description]
+     */
+    drawProfilePart1EmergencyContact(user, template) {
+        // set username
+        template.querySelectorAll('.user-profile__username').forEach((element) => element.innerText = user.username);
+        // set name
+        if (user.name != undefined) {
+            template.querySelector('.user-profile__name').innerText = user.name;
+        }
+        // set last name
+        if (user.last_name != undefined) {
+            template.querySelector('.user-profile__last_name').innerText = user.last_name;
+        }
+        // set birth date
+        if ((user.birth_date != undefined)) {
+            template.querySelector('.user-profile__birth_date').innerText = new Date(Date.parse(user.birth_date)).toUTCString().toLocaleString();
+        }
+        // set address
+        if (user.address != undefined) {
+            template.querySelector('.user-profile__address').innerText = user.address;
+        }
+        // set city
+        if (user.city != undefined) {
+            template.querySelector('.user-profile__city').innerText = user.city;
+        }
+        // set phone number
+        if (user.phone_number != undefined) {
+            template.querySelector('.user-profile__phone_number').innerText = user.phone_number;
+        }
+        return template;
+    }
+    /**
+     * Meedical info in profile
+     * @param  {[type]} user     [description]
+     * @param  {[type]} template [description]
+     * @return {[type]}          [description]
+     */
+    drawProfilePart2Info(user, template) {
+        // set medical information
+        if (user.medical_information != undefined) {
+            if (user.medical_information.blood_type != undefined) {
+                template.querySelector('.user-profile__blood_type').innerText = user.medical_information.blood_type;
+            }
+            if (user.medical_information.prescribed_drugs != undefined) {
+                template.querySelector('.user-profile__prescribed_drugs').innerText = user.medical_information.prescribed_drugs;
+            }
+            if (user.medical_information.allergies != undefined) {
+                template.querySelector('.user-profile__allergies').innerText = user.medical_information.allergies;
+            }
+        }
+        return template;
+    }
+    /**
+     * Personal message
+     * @param  {[type]} user     [description]
+     * @param  {[type]} template [description]
+     * @return {[type]}          [description]
+     */
+    drawProfilePart3Info(user, template) {
+        // set personal message information
+        if (user.personal_message != undefined) {
+            let question = ' -- No question available --';
+            if (user.personal_message.security_question != undefined) {
+                question = user.personal_message.security_question;
+            }
+            template.querySelector('.user-profile__personal-message-q').innerText = question;
+        }
+        return template;
+    }
     /**
      * Updates the UI
      * @param  {[type]} currentUser [description]
      */
-    static updateComponentView(currentUserId) {
+    updateComponentView(currentUserId) {
         // get user data and then get messages to
         // paint and to check for unread messages
-        UserProfile.resetProfile();
-        User.getUser(currentUserId).then((user) => {
+        UserProfile.getInstance().resetProfile();
+        User.getInstance().getUser(currentUserId).then((user) => {
             if (user != undefined) {
-                UserProfile.drawProfile(user);
+                UserProfile.getInstance().drawProfile(user);
             }
         }).catch((err) => {
             showElements('profile-not-authorized');
         }).finally(() => {
-            UserProfile.registerEventsAfterDraw();
+            UserProfile.getInstance().registerEventsAfterDraw();
         });
     }
-
     /**
      * Events needed after UI is rendered
      * @return {[type]} [description]
      */
-    static registerEventsAfterDraw() {
+    registerEventsAfterDraw() {
         globalContentChangerEvent();
         if (Cookies.get('profile_user_id') == currentUser._id) {
             $('.edit-profile-button').click(function(event) {
@@ -142,28 +182,26 @@ class UserProfile {
         }
         $('#user-profile__personal-message-form').submit(function(event) {
             event.preventDefault();
-            UserProfile.validatePersonalMessageQuestion();
+            UserProfile.getInstance().validatePersonalMessageQuestion();
         });
-
         showElementEvent();
         hideElementEvent();
     }
-
-    static validatePersonalMessageQuestion() {
-        const security_question_answer =
-            $('#user-profile__personal-message-q-answer').val();
+    /**
+     * Validate a Users personal message question before displaying the personal message
+     * @return {[type]} [description]
+     */
+    validatePersonalMessageQuestion() {
+        const security_question_answer = $('#user-profile__personal-message-q-answer').val();
         const userId = Cookies.get('profile_user_id');
-        User.getPersonalMessage(userId, security_question_answer)
-            .then((result) => {
-                $('#user-profile__personal-message').html(result.message);
-                showElements('user-profile__personal-message-container');
-            })
-            .catch((err) => {
-                alert(err);
-            });
+        User.getInstance().getPersonalMessage(userId, security_question_answer).then((result) => {
+            $('#user-profile__personal-message').html(result.message);
+            showElements('user-profile__personal-message-container');
+        }).catch((err) => {
+            alert(err);
+        });
     }
 }
-
 /**
  * User profile behavior using jquery
  * @param  {[type]} ) {}          [description]
@@ -175,15 +213,14 @@ $(function() {
         // eslint-disable-next-line no-invalid-this
         const newID = $(this).data('view-id');
         if (newID === 'user-profile-content') {
-            UserProfile.initiateUserProfile(currentUser._id);
+            UserProfile.getInstance().initiateUserProfile(currentUser._id);
         }
     });
-
     $('.btn-profile-update-invite').click(function(event) {
         // eslint-disable-next-line no-invalid-this
         const newID = $(this).data('view-id');
         if (newID === 'user-profile-content') {
-            UserProfile.initiateUserProfile(currentUser._id);
+            UserProfile.getInstance().initiateUserProfile(currentUser._id);
         }
     });
 });
