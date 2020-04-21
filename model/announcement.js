@@ -2,15 +2,18 @@ const AnnouncementModel = require('./model').AnnouncementsMongo;
 const StopWords = require('../utils/StopWords');
 const constants = require('../constants');
 
-//Create index on mongodb
-//db.announcements.createIndex({"message":"text"})
-
+// Create index on mongodb
+// db.announcements.createIndex({"message":"text"})
+/**
+ * announcement model
+ */
 class Announcement {
-    constructor(message, user_id, user_status) {
+    // eslint-disable-next-line require-jsdoc
+    constructor(message, userId, userStatus) {
         this._id = null;
         this.message = message;
-        this.user_id = user_id;
-        this.status = user_status;
+        this.user_id = userId;
+        this.status = userStatus;
     }
 
     /**
@@ -19,27 +22,27 @@ class Announcement {
      */
     saveAnnouncement() {
         return new Promise((resolve, reject) => {
-            //validate for empty announcement
-            if (new String(this.message) == "") {
-                reject("Invalid announcement, please enter the message that you want to send");
+            // validate for empty announcement
+            if (new String(this.message) == '') {
+                reject('Invalid announcement, please enter the message that you want to send');
             }
-            //save new announcement
-            let newAnnouncement = new AnnouncementModel({
+            // save new announcement
+            const newAnnouncement = new AnnouncementModel({
                 message: this.message,
                 user_id: this.user_id,
                 status: this.status
             });
             newAnnouncement.save()
-                .then(result => {
+                .then((result) => {
                     this._id = result.id;
                     resolve(result);
                 })
-                .catch(err => {
+                .catch((err) => {
                     /* istanbul ignore next */
-                    console.log("Error creating announcement:" + err)
+                    console.log('Error creating announcement:' + err);
                     reject(err);
-                })
-        })
+                });
+        });
     }
 
 
@@ -48,56 +51,57 @@ class Announcement {
      * the user that post the announcement
      * @returns {Promise<unknown>}
      */
-    static getAnnouncements(sort_type, limit) {
+    static getAnnouncements(sortType, limit) {
         return new Promise((resolve, reject) => {
             AnnouncementModel.find({})
-                .populate("user_id", ["_id", "username"])
+                .populate('user_id', ['_id', 'username'])
                 .sort({
-                    created_at: sort_type
+                    created_at: sortType
                 }).limit(parseInt(limit))
-                .then(result => {
+                .then((result) => {
                     resolve(result);
                 })
                 .catch((err) => {
                     /* istanbul ignore next */
-                    console.log("Error getting Announcements: " + err);
-                    //throw err.message;
-                    reject("Error getting Announcements: " + err.message);
+                    console.log('Error getting Announcements: ' + err);
+                    // throw err.message;
+                    reject('Error getting Announcements: ' + err.message);
                 });
-        })
+        });
     }
 
     /**
      * Search announcements by keywords with pagination
+     * @param index
      * @param keywords
+     * @param sortType
      * @returns {Promise<unknown>}
      */
-    static findAnnouncements(keywords, index, sort_type) {
+    static findAnnouncements(keywords, index, sortType) {
         return new Promise((resolve, reject) => {
-            let totalSkip = index * constants.PAGINATION_NUMBER;
-            console.log("before clean keywords: " + keywords);
-            StopWords.removeStopWords(keywords).then(filteredKeyWords => {
-                console.log("after clean keywords: " + filteredKeyWords);
+            const totalSkip = index * constants.PAGINATION_NUMBER;
+            console.log('before clean keywords: ' + keywords);
+            StopWords.removeStopWords(keywords).then((filteredKeyWords) => {
+                console.log('after clean keywords: ' + filteredKeyWords);
                 AnnouncementModel.find(
                     {$text: {$search: filteredKeyWords}})
-                    .populate("user_id", ["_id", "username"])
+                    .populate('user_id', ['_id', 'username'])
                     .sort({
-                        created_at: sort_type
+                        created_at: sortType
                     })
                     .skip(totalSkip)
                     .limit(constants.PAGINATION_NUMBER)
-                    .then(result => {
+                    .then((result) => {
                         resolve(result);
                     })
                     .catch(function(err) {
                         /* istanbul ignore next */
-                        console.log("Error getting Announcements by keyword: " + err);
+                        console.log('Error getting Announcements by keyword: ' + err);
                         reject(err);
                     });
-            })
-        })
+            });
+        });
     }
-
 }
 
 

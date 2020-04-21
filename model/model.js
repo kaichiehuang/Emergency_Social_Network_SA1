@@ -30,18 +30,18 @@ const UserSchema = new Schema(
             type: Map,
             of: Number
         },
-        personal_message:{
+        personal_message: {
             message: String,
             security_question: String,
             security_question_answer: String
         },
-        medical_information:{
+        medical_information: {
             blood_type: String,
             allergies: String,
             prescribed_drugs: String,
             privacy_terms_medical_accepted: Boolean,
         },
-        emergency_contact:{
+        emergency_contact: {
             name: String,
             phone_number: String,
             address: String,
@@ -139,38 +139,38 @@ const SpamReportSchema = new Schema(
 
 const ResourceSchema = new Schema({
     user_id: {type: Schema.Types.ObjectId, ref: 'User'},
-    resource_type:{
+    resource_type: {
         type: String,
-        enum : ['SUPPLIES','MEDICAL','SHELTER'],
+        enum: ['SUPPLIES', 'MEDICAL', 'SHELTER'],
     },
-    name:String,
-    location:String,
-    image:{ data: Buffer, contentType: String },
-    description:String,
-    question_one:Boolean,
-    question_two:Boolean,
-    question_three:Boolean,
-    },
-    schemaOptions
+    name: String,
+    location: String,
+    image: {data: Buffer, contentType: String},
+    description: String,
+    question_one: Boolean,
+    question_two: Boolean,
+    question_three: Boolean,
+},
+schemaOptions
 );
 
 
-const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema);
+const ReservedNames = mongoose.model('Reserved_names', ReservedNameSchema);
 const ChatMessages = mongoose.model('Chat_Messages', ChatMessageSchema);
 const PrivateChatMessages = mongoose.model('Private_Chat_Messages', PrivateChatMessageSchema);
 const Announcements= mongoose.model('Announcement', AnnouncementSchema);
 const Resources= mongoose.model('Resource', ResourceSchema);
 const EmergencyStatusDetail = mongoose.model('Emergency_Status_Detail', EmergencyStatusDetailSchema);
 const PictureAndDescription = mongoose.model('Pictures_and_Description', PictureAndDescriptionSchema);
-const SpamReport = mongoose.model("Spam_Report", SpamReportSchema);
+const SpamReport = mongoose.model('Spam_Report', SpamReportSchema);
 
 module.exports = {
     UserSchema: UserSchema,
-    ReservedNamesMongo: Reserved_names,
+    ReservedNamesMongo: ReservedNames,
     ChatMessagesMongo: ChatMessages,
     PrivateChatMessagesMongo: PrivateChatMessages,
     AnnouncementsMongo: Announcements,
-    ResourcesMongo:Resources,
+    ResourcesMongo: Resources,
     EmergencyStatusDetailMongo: EmergencyStatusDetail,
     PictureAndDescriptionMongo: PictureAndDescription,
     SpamReportMongo: SpamReport
