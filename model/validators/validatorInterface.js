@@ -139,6 +139,7 @@ class ValidatorInterface {
                 for (var i = 0; i < this.validatorRules.customRules.length; i++) {
                     const field = this.validatorRules.customRules[i];
                     let validationResult = false;
+                    //call custom function
                     if(field.customRuleName.length > 0){
                         validationResult = this[field.customRuleName]();
                     }
