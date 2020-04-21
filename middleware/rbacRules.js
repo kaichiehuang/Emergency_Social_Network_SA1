@@ -10,10 +10,11 @@ const rbacRules = {
             '/api/emergencyStatusDetail:*',
             '/api/spam-report:*',
             '/api/test:*'
+            
         ]
     },
     coordinator: {
-        can: ['/api/announcements:post', '/api/test:post'],
+        can: ['/api/announcements:post'],
         inherits:['citizen']
     },
     administrator: {

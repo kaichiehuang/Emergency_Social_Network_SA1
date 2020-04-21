@@ -53,7 +53,10 @@ const UserSchema = new Schema(
             of: Boolean
         },
         spam: Boolean,
-        active: Boolean,
+        active: {
+            type: Boolean, 
+            default: true
+        },
         role: String
         
     },
