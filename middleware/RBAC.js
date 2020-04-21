@@ -6,8 +6,8 @@ const rbac = new RBAC(rules);
 class RoleBasedAccessControl {
 
     //chech by userId if the user is active or not
-    static async checkActive(userId) {
-        await User.findUserById(userId).then((user) => {
+    static checkActive(userId, res) {
+        return User.findUserById(userId).then((user) => {
             //true or false
             console.log(user.active);
             return user.active;
@@ -17,8 +17,9 @@ class RoleBasedAccessControl {
     }
 
     //get the role of the user
-    static async getRole(userId) {
-        User.findUserById(userId).then((user) => {
+    static getRole(userId, res) {
+        return User.findUserById(userId).then((user) => {
+            console.log(user.role);
             return user.role;
         }).catch((err) => {
             return res.status(500).send(err);
@@ -28,13 +29,19 @@ class RoleBasedAccessControl {
     //first check if the user is active, than see if the role of the user is permitted to do an action
     static async validateUser (req, res, next) {
         console.log("in validate user")
-        let userId = req.params.userId;
+        let userId = req.tokenUserId;
         let route = req.baseUrl;
         let method = Object.keys(req.route.methods)[0];
-        let role = await RoleBasedAccessControl.getRole(userId);
+        let role = await RoleBasedAccessControl.getRole(userId, res);
         let action = route + ':' + method;
-        let active = await RoleBasedAccessControl.checkActive(userId);
-        console.log("active = "+ active);
+        let active = await RoleBasedAccessControl.checkActive(userId, res);
+
+        if (action === "put") {
+            if (req.params.userId != userId && role != 'administrator') {
+                return res.status(401).send("Invalid attempt to modify other user's profile").end();
+            } 
+        }
+        
         if (active === true) {
             rbac.can(role, action) 
             .then(result => {

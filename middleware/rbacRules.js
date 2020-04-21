@@ -13,13 +13,11 @@ const rbacRules = {
         ]
     },
     coordinator: {
-        can: ['/api/announcements:post'],
+        can: ['/api/announcements:post', '/api/test:post'],
         inherits:['citizen']
     },
     administrator: {
-        can: [
-
-        ],
+        can: [],
         inherits:['coordinator']
     }
 }

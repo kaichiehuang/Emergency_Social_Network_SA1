@@ -10,10 +10,10 @@ const emergencyStatusDetailController = new EmergencyStatusDetailController();
 
 
 
-router.delete('/:userId', RBAC.validateUser,emergencyStatusDetailController.getEmergencyStatusDetail);
-router.post('/:userId', RBAC.validateUser,emergencyStatusDetailController.getEmergencyStatusDetail);
-router.put('/:userId', RBAC.validateUser,emergencyStatusDetailController.getEmergencyStatusDetail);
-router.get('/:userId', RBAC.validateUser,emergencyStatusDetailController.getEmergencyStatusDetail);
+router.delete('/:userId', TokenServerClass.validateToken, RBAC.validateUser,emergencyStatusDetailController.getEmergencyStatusDetail);
+router.post('/abc/cde/:123/def', TokenServerClass.validateToken, RBAC.validateUser,emergencyStatusDetailController.getEmergencyStatusDetail);
+router.put('/:userId', TokenServerClass.validateToken, RBAC.validateUser,emergencyStatusDetailController.getEmergencyStatusDetail);
+router.get('/:userId', TokenServerClass.validateToken, RBAC.validateUser,emergencyStatusDetailController.getEmergencyStatusDetail);
 
 
 module.exports = router;
