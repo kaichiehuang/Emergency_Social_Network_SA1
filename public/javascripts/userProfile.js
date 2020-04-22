@@ -179,8 +179,10 @@ class UserProfile {
             $('.edit-profile-button').click(function(event) {
                 UserProfileForm.getInstance().initiateUserProfileForm(currentUser._id, 1);
             });
+        }
+        if (Cookies.get('profile_user_id') == currentUser._id || currentUser.role == "administrator") {
             $('.edit-account-button').click(function(event) {
-                UserProfileForm.getInstance().initiateUserProfileForm(currentUser._id, 0);
+                UserProfileForm.getInstance().initiateUserProfileForm(Cookies.get('profile_user_id'), 0);
             });
         }
         $('#user-profile__personal-message-form').submit(function(event) {

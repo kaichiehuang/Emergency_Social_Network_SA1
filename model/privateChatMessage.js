@@ -25,7 +25,7 @@ class PrivateChatMessage {
                 reject('Cannot chat with himself');
             }
             // validate for empty announcement
-            if (this.message.toString() === '') {
+            if (this.message.localeCompare('') == 0) {
                 // eslint-disable-next-line prefer-promise-reject-errors
                 reject('Invalid message, cannot be empty');
             }

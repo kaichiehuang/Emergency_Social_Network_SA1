@@ -9,7 +9,13 @@ class UserAccountValidator extends NewUserValidator {
     */
     constructor() {
         super();
+        //allow empty for update account
+        this.validatorRules.lengthRules[1].allowEmpty = true;
     }
 }
 
 module.exports = UserAccountValidator;
+
+
+
+

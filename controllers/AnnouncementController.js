@@ -30,7 +30,7 @@ class AnnouncementController {
             socketIO.emitMessage('new-announcement', announcement);
 
             res.contentType('application/json');
-            res.status(201).send(JSON.stringify(newAnnouncement));
+            return res.status(201).send(JSON.stringify(newAnnouncement));
         }).catch((err) => {
             /* istanbul ignore next */
             return res.status(422).send(JSON.stringify({

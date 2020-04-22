@@ -91,10 +91,15 @@ class ValidatorInterface {
                 for (var i = 0; i < this.validatorRules.lengthRules.length; i++) {
                     const field = this.validatorRules.lengthRules[i];
                     let validationResult = false;
+                    const allowEmpty = false;
+                    if(field.allowEmpty){
+                        allowEmpty = field.allowEmpty;
+                    }
+
                     if (field.innerObject != undefined) {
-                        validationResult = this.validateFieldByLength(field.fieldName, field.minLength, field.innerObject);
+                        validationResult = this.validateFieldByLength(field.fieldName, field.minLength, field.innerObject, allowEmpty);
                     } else {
-                        validationResult = this.validateFieldByLength(field.fieldName, field.minLength);
+                        validationResult = this.validateFieldByLength(field.fieldName, field.minLength, null, allowEmpty);
                     }
                     if (!validationResult) {
                         if (field.msg == undefined || field.msg.length == 0) {
@@ -115,7 +120,13 @@ class ValidatorInterface {
      * @param  {[type]} fieldName [description]
      * @return {[type]}           [description]
      */
-    validateFieldByLength (fieldName, minLength, innerObject) {
+    validateFieldByLength (fieldName, minLength, innerObject, allowEmpty) {
+        //if it allows empty values move foward
+        if(allowEmpty && (this.validateData[innerObject][fieldName] == undefined || this.validateData[fieldName].length == 0)){
+            return true;
+        }
+
+        //else check for length rule
         if (innerObject != undefined) {
             if (this.validateData[innerObject][fieldName] == undefined || this.validateData[innerObject][fieldName].length < minLength) {
                 return false;
