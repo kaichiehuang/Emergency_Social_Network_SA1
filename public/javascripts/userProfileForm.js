@@ -22,8 +22,8 @@ class UserProfileForm {
      */
     initiateUserProfileForm(profileFormUserId, step) {
         Cookies.set('profile_form_user_id', profileFormUserId);
-        UserProfileForm.getInstance().updateComponentView(profileFormUserId, step);
-        UserProfileForm.getInstance().initEvent();
+        this.updateComponentView(profileFormUserId, step);
+        this.initEvent();
 
     }
 
@@ -50,16 +50,16 @@ class UserProfileForm {
                 template.querySelector('.user-profile__username')
                     .innerText = user.username;
                 if (step == 0) {
-                    template = UserProfileForm.getInstance().fillProfileFormStep0(user, template);
+                    template = this.fillProfileFormStep0(user, template);
                 }
                 else if (step == 1) {
-                    template =  UserProfileForm.getInstance().fillProfileFormStep1(user, template);
+                    template =  this.fillProfileFormStep1(user, template);
                 }
                 else if (step == 2) {
-                    template =  UserProfileForm.getInstance().fillProfileFormStep2(user, template);
+                    template =  this.fillProfileFormStep2(user, template);
                 }
                 else if (step == 3) {
-                    template =  UserProfileForm.getInstance().fillProfileFormStep3(user, template);
+                    template =  this.fillProfileFormStep3(user, template);
                 }
 
                 profileFormContainer.appendChild(template);
@@ -85,13 +85,14 @@ class UserProfileForm {
         }
 
         // set privilege
-        if (user != undefined && user.privilege_level != undefined) {
-            template.querySelector('select#user-profile-form__privilege_level').value = user.privilege_level;
+        if (user != undefined && user.role != undefined) {
+            template.querySelector('select#user-profile-form__role').value = user.role;
         }
 
         // set privilege
-        if (user.account_visibility != undefined && user.account_visibility != undefined) {
-            template.querySelector('select#user-profile-form__account_visibility').value = user.account_visibility;
+        template.querySelector('select#user-profile-form__active').value = 1;
+        if (user.active != undefined && !user.active) {
+            template.querySelector('select#user-profile-form__active').value = 0;
         }
 
         return template;
@@ -213,11 +214,11 @@ class UserProfileForm {
      saveUserProfile(formId, step) {
         return new Promise((resolve, reject) => {
             const userId = $('#' + formId).find('#form_user_id').val();
-            const data =  UserProfileForm.getInstance().buildData(formId);
+            const data =  this.buildData(formId);
             User.getInstance().updateUser(userId, data)
                 .then((user) => {
                     User.getInstance().updateCurrentUser();
-                    if (step < 3) {
+                    if (step >= 1 && step < 3) {
                         const newStep = parseInt(step) + 1;
                         swapViewContent('user-profile-form' + newStep,
                             'main-content-block');
@@ -247,17 +248,28 @@ class UserProfileForm {
             const key = object.name;
             const value = object.value;
             if (step == 1) {
-                finalData =  UserProfileForm.getInstance()
-                    .buildDataStep1(finalData, key, value);
+                finalData =  this.buildDataStep1(finalData, key, value);
             } else if (step == 2) {
-                finalData =  UserProfileForm.getInstance()
-                    .buildDataStep2(finalData, key, value);
+                finalData =  this.buildDataStep2(finalData, key, value);
             } else if (step == 3) {
-                finalData =  UserProfileForm.getInstance()
-                    .buildDataStep3(finalData, key, value);
+                finalData =  this.buildDataStep3(finalData, key, value);
+            }else{
+                finalData = this.buildDataDefaultStep(finalData, key, value);
             }
         }
 
+        return finalData;
+    }
+
+    /**
+     * [buildDataStep1 description]
+     * @param  {[type]} finalData [description]
+     * @param  {[type]} key       [description]
+     * @param  {[type]} value     [description]
+     * @return {[type]}           [description]
+     */
+     buildDataDefaultStep(finalData, key, value) {
+        finalData[key] = value;
         return finalData;
     }
 
@@ -351,8 +363,8 @@ class UserProfileForm {
         // to paint and to check for unread messages
         User.getInstance().getUser(currentUserId).then((user) => {
             if (user != undefined) {
-                UserProfileForm.getInstance().drawUserProfileForm(user, step);
-                UserProfileForm.getInstance().registerEventsAfterDraw(step);
+                this.drawUserProfileForm(user, step);
+                this.registerEventsAfterDraw(step);
             }
         }).catch((err) => {
         });
@@ -373,7 +385,7 @@ class UserProfileForm {
         showElementEvent();
         hideElementEvent();
         globalContentChangerEvent();
-        UserProfileForm.getInstance().initEvent();
+        this.initEvent();
     }
 
     /**
@@ -385,9 +397,7 @@ class UserProfileForm {
             // eslint-disable-next-line no-invalid-this
             const newID = $(this).data('view-id');
             if (newID.includes('user-profile-form')) {
-                UserProfileForm.getInstance()
-                    .updateComponentView(currentUser._id,
-                        newID[newID.length - 1]);
+                UserProfileForm.getInstance().updateComponentView(currentUser._id, newID[newID.length - 1]);
             }
         });
     }
