@@ -14,6 +14,11 @@ class EmergencyStatusDetailController {
         const userId = req.params.userId;
         EmergencyStatusDetail.getEmergencyStatusDetail(userId)
             .then((statusDetail) => {
+                if (statusDetail == null) {
+                    const emergencyStatusDetail = new EmergencyStatusDetail(userId);
+                    return emergencyStatusDetail.createEmergencyStatusDetail()
+                        .then(this.getEmergencyStatusDetail(req, res));
+                }
                 res.contentType('application/json');
                 return res.status(201).send(JSON.stringify(statusDetail));
             }).catch((err) => {

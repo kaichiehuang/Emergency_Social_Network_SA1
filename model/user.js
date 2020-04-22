@@ -111,21 +111,12 @@ class UserModel {
     registerUser() {
         return new Promise((resolve, reject) => {
             this.password = UserHelper.hashPassword(this.password);
-
-            // check if its first user
-            User.count({}).then((result) => {
-                if (result == 0) {
-                    this.role = 'administrator';
-                }
-
-                return this.save();
-            })
-                .then((_) => {
-                    return resolve(true);
-                }).catch((err) => {
-                /* istanbul ignore next */
-                    return reject(err);
-                });
+            this.save()
+            .then((_) => {
+                return resolve(true);
+            }).catch((err) => {
+                return reject(err);
+            });
         });
     }
     /**
@@ -511,6 +502,29 @@ class UserModel {
             }).catch((err) => {
                 /* istanbul ignore next */
                 reject(err);
+            });
+        });
+    }
+
+    static initAdminUser(){
+        return new Promise((resolve, reject) => {
+        //check if its first user
+            User.count({"username":"ESNAdmin"})
+            .then((result) => {
+                if(result == 0){
+                    let user = new User();
+                    user.setRegistrationData("ESNAdmin", "admin");
+                    user.role = "administrator";
+                    return user.registerUser();
+                }else{
+                    return resolve(true);
+                }
+            })
+            .then((result) => {
+                return resolve(true);
+            })
+            .catch((err) => {
+                return reject(false);
             });
         });
     }
