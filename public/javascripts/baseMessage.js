@@ -179,7 +179,7 @@ class BaseMessage {
                 }
             })
             .catch((error) => {
-                if(error.msg != undefined){
+                if (error.msg != undefined){
                     alert(error);
                 }
 
