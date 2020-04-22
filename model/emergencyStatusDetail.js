@@ -32,8 +32,6 @@ class EmergencyStatusDetail {
                     resolve(newEmergencyStatusDetail);
                 })
                 .catch(function(err) {
-                    console.log('initial emergency detail creation failed');
-                    console.log(err);
                     reject(err);
                 });
         });
@@ -96,8 +94,6 @@ class EmergencyStatusDetail {
                     resolve(result);
                 })
                 .catch(function(err) {
-                    console.log('find all picture and description fail');
-                    console.log(err);
                     reject(err);
                 });
         });
@@ -126,8 +122,6 @@ class EmergencyStatusDetail {
                     resolve(newPictureAndDescription);
                 })
                 .catch(function(err) {
-                    console.log('add picture and description fail');
-                    console.log(err);
                     reject(err);
                 });
         });

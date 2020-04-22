@@ -36,8 +36,6 @@ class PrivateChatMessage {
                 resolve(newChatMessage);
             }).catch(function(err) {
                 /* istanbul ignore next */
-                console.log('private message creation failed');
-                console.log(err);
                 reject(err);
             });
         });
@@ -71,7 +69,6 @@ class PrivateChatMessage {
                     resolve(results);
                 }).catch(function(err) {
                     /* istanbul ignore next */
-                    console.log('getChatMessages private error: ' + err);
                     reject(err);
                 });
         });
@@ -105,7 +102,6 @@ class PrivateChatMessage {
                     })
                     .catch(function(err) {
                         /* istanbul ignore next */
-                        console.log('Error getting Private message by query: ' + err);
                         reject(err);
                     });
             });

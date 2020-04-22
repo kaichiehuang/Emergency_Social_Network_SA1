@@ -37,10 +37,9 @@ class UserSocketsController {
             return user.removeSocket(socketId);
         }).then((result) => {
             res.contentType('application/json');
-            return res.status(201).send(JSON.stringify({"result": true}));
+            return res.status(201).send(JSON.stringify({'result': true}));
         }).catch((err) => {
             /* istanbul ignore next */
-            console.log('catch when socket id doesn\'t exist');
             return res.status(500).send(err);
         });
     }

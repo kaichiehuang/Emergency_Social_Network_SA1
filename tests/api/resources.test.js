@@ -58,7 +58,7 @@ beforeAll(async () => {
 
 
 describe('Testing Resource creeation  API', () =>{
-    test('Should create an resource', async () =>{
+    test('Should create a resource with picture', async () =>{
         expect.assertions(1);
 
         // var fileStr = imgFile.toString('base64')
@@ -84,6 +84,34 @@ describe('Testing Resource creeation  API', () =>{
                 return expect(res.body.name).toBe('resource name');
             });
     });
+
+    test('Should create a resource without picture', async () =>{
+        expect.assertions(1);
+
+        // var fileStr = imgFile.toString('base64')
+        const resource = {
+            user_id: userId,
+            resourceType: constants.RESOURCE_MEDICAL,
+            name: 'without picture',
+            location: 'resource location',
+            description: 'resource description',
+            questionOne: true,
+            questionTwo: true,
+            questionThree: true,
+            // image:imgFile,
+            contentType: 'image/png'};
+
+        await agent.post(HOST +'/api/resources')
+            .field(resource)
+            // .attach('resourceImage', pictureTest)
+            // .send(resource)
+            .set('Authorization', token)
+            // .set('accept', 'json')
+            .then((res) =>{
+                return expect(res.body.name).toBe('without picture');
+            });
+    });
+
 });
 
 
