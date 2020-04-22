@@ -11,7 +11,7 @@
                     <div class="col-xs-24 col-sm-24 col-md-24 col-lg-24">
                         <div class="inner-content-block-profile">
 
-                            <form accept-charset="utf-8" id="profile-form1" class="profile-form">
+                            <form accept-charset="utf-8" id="profile-form0" class="profile-form">
                                 <input type="hidden" name="step" value="0" id="form_step">
                                 <input type="hidden" name="user_id" id="form_user_id" value="">
                                 <!-- Account info -->
@@ -32,9 +32,9 @@
                                     <div class="profile-form__user-attribute-data">
                                         <div class="form-group">
                                             <label class="required">Privilege Level</label>
-                                            <select name="privilege_level" id="user-profile-form__privilege_level">
+                                            <select name="role" id="user-profile-form__role">
                                                 <option value="">Please select an option</option>
-                                                <option value="user">User</option>
+                                                <option value="citizen">Citizen</option>
                                                 <option value="coordinator">Coordinator</option>
                                                 <option value="administrator">Administrator</option>
                                             </select>
@@ -43,7 +43,7 @@
                                     <div class="profile-form__user-attribute-data">
                                         <div class="form-group">
                                             <label class="required">Account status</label>
-                                            <select name="account_status" id="user-profile-account_visibility">
+                                            <select name="active" id="user-profile-form__active">
                                                 <option value="">Please select an option</option>
                                                 <option value="1">Active</option>
                                                 <option value="0">Inactive</option>
@@ -52,7 +52,7 @@
                                     </div>
 
                                     <div class="profile-form__submit">
-                                        <button id="profile-form__submit-form1" class="btn btn-primary">Save</button>
+                                        <button id="profile-form__submit-form0" class="btn btn-primary">Save</button>
                                     </div>
                                 </div>
                             </form>

@@ -8,6 +8,7 @@ const UserMedicalValidator = require('./validators/userMedicalValidator.js');
 const UserOtherValidator = require('./validators/userOtherValidator.js');
 const UserDefaultValidator = require('./validators/userDefaultValidator.js');
 const NewUserValidator = require('./validators/newUserValidator.js');
+const UserAccountValidator = require('./validators/userAccountValidator.js');
 /**
  * Our class for user model taht will be attached to the schema
  */
@@ -255,12 +256,12 @@ class UserModel {
     }
     /**
      * Get the personal message for a user if the security question matches
-     * @param  {[type]} security_question_answer [description]
+     * @param  {[type]} securityQuestionAnswer [description]
      * @return {[type]}                          [description]
      */
-    getPersonalMessage(security_question_answer) {
+    getPersonalMessage(securityQuestionAnswer) {
         return new Promise((resolve, reject) => {
-            if (this.personal_message != undefined && this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(security_question_answer) == 0) {
+            if (this.personal_message != undefined && this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(securityQuestionAnswer) == 0) {
                 return resolve(this.personal_message.message);
             } else {
                 return reject('Invalid answer');

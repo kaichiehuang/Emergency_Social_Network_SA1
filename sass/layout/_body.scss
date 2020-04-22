@@ -767,8 +767,9 @@ form {
         @include justify-content(space-between);
         list-style: none;
         li {
-            padding: 5px 12.5px;
-            min-width: 25%;
+            padding: 5px 0px;
+            min-width: 26%;
+            max-width: 26%;
             &.user-profile-menu__back {
                 min-width: 10%;
             }
@@ -825,7 +826,7 @@ form {
     left: 0;
     background: rgba(#333, 0.5);
     z-index: 9999999999999999999;
-    padding: 45px 20px;
+    padding: 75px 30px;
     >div {
         background: white;
         height: 100%;
@@ -848,8 +849,8 @@ form {
     }
     .close {
         position: absolute;
-        right: 35px;
-        top: 60px;
+        right: 45px;
+        top: 95px;
         color: $brand_color2;
         opacity: 1;
         font-size: 1.75em;
