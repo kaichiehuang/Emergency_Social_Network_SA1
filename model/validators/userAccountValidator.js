@@ -9,6 +9,15 @@ class UserAccountValidator extends NewUserValidator {
     */
     constructor() {
         super();
+        const commonMsg = 'Invalid username and password.';
+        // allow empty for update account
+        this.validatorRules.requiredRules = [
+            {
+                fieldName: 'username',
+                msg: commonMsg
+            }
+        ];
+        this.validatorRules.lengthRules[1].allowEmpty = true;
     }
 }
 
