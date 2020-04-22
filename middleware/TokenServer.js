@@ -32,15 +32,11 @@ class TokenServer {
      * @returns {*}
      */
     static validateToken(req, res, next) {
-        console.log('validateTokenMid');
-        console.log(Object.keys(req.route.methods)[0]);
         const token = req.header('Authorization');
         if (token) {
             TokenServer.verifyToken(token)
                 .then((userId) => {
                     req.tokenUserId = userId.data;
-                    console.log('userId: ' + userId.data);
-                    console.log("req body message in tokenserver is + " + req.body.message)
                     next();
                 })
                 .catch((err) => {
