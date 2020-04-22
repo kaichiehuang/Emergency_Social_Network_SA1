@@ -23,7 +23,7 @@ class Announcement {
     saveAnnouncement() {
         return new Promise((resolve, reject) => {
             // validate for empty announcement
-            if (this.message.toString() === '') {
+            if (this.message.localeCompare('') == 0) {
                 // eslint-disable-next-line prefer-promise-reject-errors
                 reject('Invalid announcement, please enter the message that you want to send');
             }
@@ -36,11 +36,11 @@ class Announcement {
             newAnnouncement.save()
                 .then((result) => {
                     this._id = result.id;
-                    resolve(result);
+                    return resolve(result);
                 })
                 .catch((err) => {
                     /* istanbul ignore next */
-                    reject(err);
+                    return reject(err);
                 });
         });
     }
