@@ -93,8 +93,7 @@ class Announcement extends BaseMessage {
             announcement_wall_container.scrollTop = 0;
             //hide input area for citizen
             if (currentUser.role === 'citizen') {
-                $('.type_area').addClass('hidden');
-            }
+                $('#announcement-chat-content .type_area').addClass('hidden');            }
         });
     }
 }
