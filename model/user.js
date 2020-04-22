@@ -111,21 +111,12 @@ class UserModel {
     registerUser() {
         return new Promise((resolve, reject) => {
             this.password = UserHelper.hashPassword(this.password);
-
-            // check if its first user
-            User.count({}).then((result) => {
-                if (result == 0) {
-                    this.role = 'administrator';
-                }
-
-                return this.save();
-            })
-                .then((_) => {
-                    return resolve(true);
-                }).catch((err) => {
-                /* istanbul ignore next */
-                    return reject(err);
-                });
+            this.save()
+            .then((_) => {
+                return resolve(true);
+            }).catch((err) => {
+                return reject(err);
+            });
         });
     }
     /**
@@ -133,16 +124,35 @@ class UserModel {
      * @param  {[type]} data            Array of data
      * @return {[type]}                 [description]
      */
-    updateUser(data) {
+    updateUser(data, userId) {
         return new Promise((resolve, reject) => {
             this.validateUpdate(data).then((result) => {
                 if (data.status != undefined) {
                     this.status_timestamp = new Date();
                 }
-                if (data.password != undefined && data.password.length > 0) {
-                    data.password = UserHelper.hashPassword(data.password);
-                } else if (data.password != undefined) {
-                    delete data.password;
+                if (data['username'] != undefined || data['password'] != undefined) {
+                    new UserAccountValidator()
+                        .validateDataRules({
+                            'username': data['username'],
+                            'password': data['password']
+                        })
+                        .then((result) => {
+                            User.findUserByUsername(data['username'])
+                                .then((user) => {
+                                    if (user == null || user._id == userId) {
+                                        return resolve(true);
+                                    } else {
+                                        return reject('username already existed');
+                                    }
+                                });
+                        }).catch((err) => {
+                            return reject(err);
+                        });
+                    if (data.password != undefined && data.password.length > 0) {
+                        data.password = UserHelper.hashPassword(data.password);
+                    } else if (data.password != undefined) {
+                        delete data.password;
+                    }
                 }
                 this.set(data);
                 return this.save();
@@ -406,9 +416,10 @@ class UserModel {
      * [getUsers description]
      * @return {[type]} [description]
      */
-    static getUsers() {
+    static getUsers(isAdmin) {
         return new Promise((resolve, reject) => {
-            this.find({}).select('username onLine status').sort({
+            const condition = isAdmin ? {} : {active: true};
+            this.find(condition).select('username onLine status').sort({
                 onLine: -1,
                 username: 'asc'
             }).then((users) => {
@@ -424,7 +435,7 @@ class UserModel {
      * @param username
      * @return {Promise<unknown>}
      */
-    static findUsersByParams(params) {
+    static findUsersByParams(params, isAdmin) {
         return new Promise((resolve, reject) => {
             const data = {};
             if (params.username != undefined && params.username.length > 0) {
@@ -434,6 +445,9 @@ class UserModel {
             }
             if (params.status != undefined && params.status.length > 0) {
                 data.status = params.status;
+            }
+            if (!isAdmin) {
+                data.active = true;
             }
             console.log(data);
             this.find(data).select('username onLine status').sort({
@@ -488,6 +502,29 @@ class UserModel {
             }).catch((err) => {
                 /* istanbul ignore next */
                 reject(err);
+            });
+        });
+    }
+
+    static initAdminUser(){
+        return new Promise((resolve, reject) => {
+        //check if its first user
+            User.count({"username":"ESNAdmin"})
+            .then((result) => {
+                if(result == 0){
+                    let user = new User();
+                    user.setRegistrationData("ESNAdmin", "admin");
+                    user.role = "administrator";
+                    return user.registerUser();
+                }else{
+                    return resolve(true);
+                }
+            })
+            .then((result) => {
+                return resolve(true);
+            })
+            .catch((err) => {
+                return reject(false);
             });
         });
     }

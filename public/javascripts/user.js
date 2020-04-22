@@ -121,7 +121,7 @@ class User {
      initCurrentUser() {
         User.getInstance().getCurrentUser()
             .then((user) => {
-                const currentUser = user;
+                currentUser = user;
                 if (currentUser.name === undefined ||
                     currentUser.name.length === 0) {
                     showElements('profile-update-invite');

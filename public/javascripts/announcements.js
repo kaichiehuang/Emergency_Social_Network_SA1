@@ -61,6 +61,7 @@ class Announcement extends BaseMessage {
      * @return {[type]} [description]
      */
     initFormEvents() {
+
         $('#announcement-send-btn').click(function(e) {
             announcementModel.sendMessage('announcement');
         });
@@ -90,6 +91,10 @@ class Announcement extends BaseMessage {
             event.preventDefault();
             announcementModel.updateMessageListView('announcement');
             announcement_wall_container.scrollTop = 0;
+            //hide input area for citizen
+            if (currentUser.role === 'citizen') {
+                $('.type_area').addClass('hidden');
+            }
         });
     }
 }
@@ -100,6 +105,8 @@ let announcement_wall_container = document.getElementById('announcement-msg_area
 const announcementModel =  Announcement.getInstance();
 let page = 0;
 $(function() {
+
+
     // listen for public chat events
     socket.on('new-announcement', (data) => {
         Announcement.getInstance().drawLastAnnouncement(data);

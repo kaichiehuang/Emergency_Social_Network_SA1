@@ -1,6 +1,7 @@
 const User = require('../model/user.js');
 const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js');
 const SocketIO = require('../utils/SocketIO.js');
+const Roles = require('../utils/Roles.js');
 /**
  * user controller
  */
@@ -28,8 +29,11 @@ class UsersController {
 
         const jsonResponseData = {};
 
-        // 2. Validate if user exists
-        User.findUserByUsername(signUpData['username'])
+        User.initAdminUser()
+            .then((result) => {
+                // 2. Validate if user exists
+                return User.findUserByUsername(signUpData['username']);
+            })
             .then((user) => {
                 const userInstance = user;
                 // 4. if user doesn't exist validate data and create it
@@ -84,7 +88,7 @@ class UsersController {
         User.findById(userId).then((user) => {
             userInstance = user;
             this.validateAccountStatus(user, req.body, res.io);
-            return userInstance.updateUser(req.body);
+            return userInstance.updateUser(req.body, userId);
         }).then((_) => {
             let jsonResponseData = {};
             jsonResponseData = userInstance;
@@ -162,24 +166,30 @@ class UsersController {
         res.contentType('application/json');
         // type of search (username or status)
         if ((username !== undefined && username.length !== 0) || (status !== undefined && status.length !== 0)) {
-            // search users by username
-            User.findUsersByParams({
-                'username': username,
-                'status': status
-            }).then((users) => {
-                return res.status(201).send(JSON.stringify(users));
-            }).catch((err) => {
-                /* istanbul ignore next */
-                return res.status(500).send(err);
-            });
+            User.findUserById(req.tokenUserId)
+                .then((userInfo) => {
+                    // search users by username
+                    User.findUsersByParams({
+                        'username': username,
+                        'status': status}, Roles.isAdministrator(userInfo.role))
+                        .then((users) => {
+                            return res.status(201).send(JSON.stringify(users));
+                        }).catch((err) => {
+                        /* istanbul ignore next */
+                            return res.status(500).send(err);
+                        });
+                });
         } else {
-            // If there's not a query parameter return all users.
-            User.getUsers().then((users) => {
-                return res.status(201).send(JSON.stringify(users));
-            }).catch((err) => {
-                /* istanbul ignore next */
-                return res.status(500).send(err);
-            });
+            User.findUserById(req.tokenUserId)
+                .then((userInfo) => {
+                    // If there's not a query parameter return all users.
+                    User.getUsers(Roles.isAdministrator(userInfo.role)).then((users) => {
+                        return res.status(201).send(JSON.stringify(users));
+                    }).catch((err) => {
+                        /* istanbul ignore next */
+                        return res.status(500).send(err);
+                    });
+                });
         }
     }
 }
