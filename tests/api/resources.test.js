@@ -1,7 +1,6 @@
 const TestDatabase = require('../services/testDataBase');
 const agent = require('superagent');
 const constants = require('../../constants');
-const fs = require('fs');
 const pictureTest = './tests/resources/photo_resources_test.png';
 
 
@@ -111,7 +110,6 @@ describe('Testing Resource creeation  API', () =>{
                 return expect(res.body.name).toBe('without picture');
             });
     });
-
 });
 
 

@@ -691,10 +691,4 @@ describe('Chat message count & spam report', () => {
                 expect(result).toBe(1);
             });
     });
-    test('should increase count', () => {
-        return newUser1.changeMessageCount(String(newUser2._id))
-            .then((result) => {
-                expect(result).toBe(1);
-            });
-    });
 });

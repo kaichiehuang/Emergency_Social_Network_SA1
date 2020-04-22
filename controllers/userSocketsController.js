@@ -17,7 +17,7 @@ class UserSocketsController {
             return user.insertSocket(socketId);
         }).then((result) => {
             res.contentType('application/json');
-            return res.status(201).send(JSON.stringify({"result": true}));
+            return res.status(201).send(JSON.stringify({'result': true}));
         }).catch((err) => {
             /* istanbul ignore next */
             return res.status(500).send(err);
@@ -43,6 +43,5 @@ class UserSocketsController {
             return res.status(500).send(err);
         });
     }
-
 }
 module.exports = UserSocketsController;
