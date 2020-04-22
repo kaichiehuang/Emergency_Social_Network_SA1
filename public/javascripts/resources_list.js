@@ -1,5 +1,5 @@
 class ResourcesList {
-    static instance= undefined;
+    static instance;
     constructor() {
         $(document).on('click', '#icon', function(event) {
             // eslint-disable-next-line no-invalid-this

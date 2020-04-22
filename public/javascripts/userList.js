@@ -1,6 +1,6 @@
 class UserList {
 
-    static instance= undefined;
+    static instance;
     /**
      * Singleton instance element
      * @return {[type]} [description]

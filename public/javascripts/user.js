@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 class User {
-    static instance= undefined;
+    static instance;
     /**
      * Singleton instance element
      * @return {[type]} [description]

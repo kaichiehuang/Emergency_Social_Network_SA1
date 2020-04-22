@@ -1,5 +1,5 @@
 class StatusSelection {
-    static instance= undefined;
+    static instance;
 
 
     constructor() {
