@@ -516,6 +516,7 @@ class UserModel {
                         const user = new User();
                         user.setRegistrationData('ESNAdmin', 'admin');
                         user.role = 'administrator';
+                        user.status = 'OK';
                         return user.registerUser();
                     } else {
                         return resolve(true);
