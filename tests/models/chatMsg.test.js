@@ -44,7 +44,7 @@ describe('Getting Messages', () => {
     });
 
     test('find messages by normal keyword', async () => {
-        await ChatMessage.findMessagesByKeyword('test',true).then((msg) => {
+        await ChatMessage.findMessagesByKeyword('test', true).then((msg) => {
             expect(String(msg[0]._id)).toBe(messsageId);
         });
     });

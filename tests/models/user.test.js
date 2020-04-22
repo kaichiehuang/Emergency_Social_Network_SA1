@@ -25,37 +25,37 @@ describe('User registration ', () => {
 describe('Business Validations for user', () => {
     test('raise error validating username with less than 3 characters', async () => {
         expect.assertions(1);
-        let userName = "ab";
-        let user = new User()
-        user.setRegistrationData(userName, "password");
+        const userName = 'ab';
+        const user = new User();
+        user.setRegistrationData(userName, 'password');
         return user.validateCreate().catch((err) => {
-            expect(err).not.toBe("")
-        })
-    })
-    test("raise error validating passwords with less than 4 characters", async () => {
+            expect(err).not.toBe('');
+        });
+    });
+    test('raise error validating passwords with less than 4 characters', async () => {
         expect.assertions(1);
-        let password = "ab";
-        let user = new User();
-        user.setRegistrationData("asdasdasdasdasd", password);
+        const password = 'ab';
+        const user = new User();
+        user.setRegistrationData('asdasdasdasdasd', password);
         return user.validateCreate().catch((err) => {
-            console.log(err)
-            expect(err).not.toBe(null)
-        })
-    })
+            console.log(err);
+            expect(err).not.toBe(null);
+        });
+    });
     test('should pass validation for banned user names', () => {
         expect.assertions(1);
-        let user = new User();
-        user.setRegistrationData('user1234d', "password");
+        const user = new User();
+        user.setRegistrationData('user1234d', 'password');
         return expect(user.validateCreate()).toBeTruthy();
-    })
+    });
     test('should send an error for banned user names', async () => {
         expect.assertions(1);
-        let user = new User();
-        user.setRegistrationData('broadcasthost', "password");
+        const user = new User();
+        user.setRegistrationData('broadcasthost', 'password');
         return user.validateCreate().catch((err) => {
-            expect(err).not.toBe("")
-        })
-    })
+            expect(err).not.toBe('');
+        });
+    });
     test('should validate user names previously registered', () => {
         const user = new User();
         user.setRegistrationData('username_test', 'password');
@@ -122,15 +122,15 @@ describe('Searching and update operations on a user previously inserted', () => 
     test('update data of the user', () => {
         expect.assertions(3);
         return createdUser.updateUser({
-            "acknowledgement": true,
-            "onLine":true,
-            "status":"OK"
-        }).then( result => {
-            expect(createdUser.acknowledgement).toBeTruthy()
-            expect(createdUser.onLine).toBeTruthy()
-            expect(createdUser.status).toBe("OK")
-        })
-    })
+            'acknowledgement': true,
+            'onLine': true,
+            'status': 'OK'
+        }).then( (result) => {
+            expect(createdUser.acknowledgement).toBeTruthy();
+            expect(createdUser.onLine).toBeTruthy();
+            expect(createdUser.status).toBe('OK');
+        });
+    });
     test('update user status (specific status method)', async () => {
         expect.assertions(1);
         return createdUser.updateUser({'status': 'HELP'}).then( (result) => {
@@ -237,8 +237,8 @@ describe('Update operations on a user - profile information and validation rules
                 'phone_number': '336999645',
                 'address': '432 easy street'
             },
-            "privacy_terms_data_accepted": 1
-        }).catch(err => {
+            'privacy_terms_data_accepted': 1
+        }).catch((err) => {
             expect(err).toMatch('Phone numbers must be longer than 7 characters');
         });
     });

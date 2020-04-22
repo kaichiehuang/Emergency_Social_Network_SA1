@@ -3,18 +3,18 @@ const ValidatorInterface = require('./validatorInterface.js');
 /**
 * Our class for user model taht will be attached to the schema
 */
-class UserOtherValidator extends ValidatorInterface{
+class UserOtherValidator extends ValidatorInterface {
     /**
     * [constructor description]
     * @return {[type]} [description]
     */
-    constructor(){
+    constructor() {
         super();
         this.validatorRules = {
-            "customRules": [
+            'customRules': [
                 {
-                    "customRuleName": 'validateSecurityQuestion',
-                    "msg": "The security question and the answer to this cannot be empty if one of these is sent.",
+                    'customRuleName': 'validateSecurityQuestion',
+                    'msg': 'The security question and the answer to this cannot be empty if one of these is sent.',
                 },
             ],
         };
@@ -24,12 +24,11 @@ class UserOtherValidator extends ValidatorInterface{
      * Validates structure of security question and answer, they should both exists if one is not empty
      * @return {[type]} [description]
      */
-    validateSecurityQuestion(){
+    validateSecurityQuestion() {
         if (this.validateData.personal_message != undefined) {
             if (this.validateData.personal_message.security_question.length == 0 && this.validateData.personal_message.security_question_answer.length != 0) {
                 return false;
-            }
-            else if (this.validateData.personal_message.security_question.length != 0 && this.validateData.personal_message.security_question_answer.length == 0) {
+            } else if (this.validateData.personal_message.security_question.length != 0 && this.validateData.personal_message.security_question_answer.length == 0) {
                 return false;
             }
             return true;

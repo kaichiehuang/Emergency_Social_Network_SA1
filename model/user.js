@@ -113,11 +113,11 @@ class UserModel {
         return new Promise((resolve, reject) => {
             this.password = UserHelper.hashPassword(this.password);
             this.save()
-            .then((_) => {
-                return resolve(true);
-            }).catch((err) => {
-                return reject(err);
-            });
+                .then((_) => {
+                    return resolve(true);
+                }).catch((err) => {
+                    return reject(err);
+                });
         });
     }
     /**
@@ -507,26 +507,26 @@ class UserModel {
         });
     }
 
-    static initAdminUser(){
+    static initAdminUser() {
         return new Promise((resolve, reject) => {
-        //check if its first user
-            User.count({"username":"ESNAdmin"})
-            .then((result) => {
-                if(result == 0){
-                    let user = new User();
-                    user.setRegistrationData("ESNAdmin", "admin");
-                    user.role = "administrator";
-                    return user.registerUser();
-                }else{
+        // check if its first user
+            User.count({'username': 'ESNAdmin'})
+                .then((result) => {
+                    if (result == 0) {
+                        const user = new User();
+                        user.setRegistrationData('ESNAdmin', 'admin');
+                        user.role = 'administrator';
+                        return user.registerUser();
+                    } else {
+                        return resolve(true);
+                    }
+                })
+                .then((result) => {
                     return resolve(true);
-                }
-            })
-            .then((result) => {
-                return resolve(true);
-            })
-            .catch((err) => {
-                return reject(false);
-            });
+                })
+                .catch((err) => {
+                    return reject(false);
+                });
         });
     }
 }
