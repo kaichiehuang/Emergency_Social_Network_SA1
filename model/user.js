@@ -110,7 +110,16 @@ class UserModel {
     registerUser() {
         return new Promise((resolve, reject) => {
             this.hashPassword(this.password);
-            this.save().then((_) => {
+
+            //check if its first user
+            this.count({}).then((result) => {
+                if(result == 0){
+                    this.role == "administrator";
+                }
+
+                return this.save();
+            })
+            .then((_) => {
                 return resolve(true);
             }).catch((err) => {
                 return reject(err);

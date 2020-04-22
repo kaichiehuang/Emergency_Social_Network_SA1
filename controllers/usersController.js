@@ -40,7 +40,7 @@ class UsersController {
             /* istanbul ignore next */
                 res.contentType('application/json');
                 return res.status(422).send({
-                    msg: 'no existe'
+                    msg: 'User creation failed'
                 }).end();
             });
     }

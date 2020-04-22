@@ -201,7 +201,7 @@ describe('Test Users with sockets', () =>{
             .then((res) =>{
             });
 
-        await agent.delete(HOST + '/api/users/'+userId+'/sockets' + socket.socketId)
+        await agent.delete(HOST + '/api/users/'+userId+'/sockets/' + socket.socketId)
             .accept('application/json')
             .send(socket)
             .set('Authorization', token)
