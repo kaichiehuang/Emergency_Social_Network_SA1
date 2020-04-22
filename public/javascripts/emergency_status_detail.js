@@ -235,7 +235,7 @@ class EmergencyStatusDetail {
                 }
             })
             .catch((error) => {
-                $('#get-emergency-detail-alert').html(e);
+                $('#get-emergency-detail-alert').html(error);
                 $('#get-emergency-detail-alert').show();
             });
 
