@@ -53,6 +53,7 @@
     "testEnvironment": "node",
     "collectCoverageFrom": [
       "**/*.{js,jsx}",
+      "!SA1_Documentation/**",
       "!gulpfile.js",
       "!public/javascripts/**",
       "!model/database.js",
