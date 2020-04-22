@@ -163,7 +163,7 @@ schemaOptions
 );
 
 
-const Reserved_names = mongoose.model('Reserved_names', ReservedNameSchema);
+const ReservedNames = mongoose.model('Reserved_names', ReservedNameSchema);
 const ChatMessages = mongoose.model('Chat_Messages', ChatMessageSchema);
 const PrivateChatMessages = mongoose.model('Private_Chat_Messages', PrivateChatMessageSchema);
 const Announcements= mongoose.model('Announcement', AnnouncementSchema);
@@ -174,7 +174,7 @@ const SpamReport = mongoose.model('Spam_Report', SpamReportSchema);
 
 module.exports = {
     UserSchema: UserSchema,
-    ReservedNamesMongo: Reserved_names,
+    ReservedNamesMongo: ReservedNames,
     ChatMessagesMongo: ChatMessages,
     PrivateChatMessagesMongo: PrivateChatMessages,
     AnnouncementsMongo: Announcements,

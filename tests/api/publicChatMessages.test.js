@@ -81,7 +81,6 @@ describe('public chat messages API test', () => {
             .set('Authorization', token1)
             .set('Accept', 'application/json')
             .then((res) =>{
-
                 expect(res.body.data.message).toBe('This is a public message');
             });
     });

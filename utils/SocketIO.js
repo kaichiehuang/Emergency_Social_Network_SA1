@@ -3,7 +3,7 @@ class SocketIO {
         this.socketIO = io;
     }
     emitMessage(emitEvent, message) {
-        console.log("Emiting event:" + emitEvent);
+        console.log('Emiting event:' + emitEvent);
         this.socketIO.emit(emitEvent, message);
     }
 }

@@ -2,6 +2,10 @@ const PrivateChatMessage = require('../model/privateChatMessage.js');
 const User = require('../model/user.js');
 const constants = require('../constants');
 const SocketIO = require('../utils/SocketIO.js');
+
+/**
+ * private message controller
+ */
 class PrivateChatMessagesController {
     /**
      * [createMessage description]
@@ -31,19 +35,19 @@ class PrivateChatMessagesController {
         }
         // 1. capture request data
         const message = requestData['message'];
-        const sender_user_id = requestData['sender_user_id'];
-        const receiver_user_id = requestData['receiver_user_id'];
+        const sendeUserId = requestData['sender_user_id'];
+        const receiverUserId = requestData['receiver_user_id'];
         // 2. Get sender user and validate that it exists
-        User.findUserById(sender_user_id).then((result) => {
+        User.findUserById(sendeUserId).then((result) => {
             // save sender
             senderUser = result;
             // 3. Get receiver user and validate that it exists
-            return User.findUserById(receiver_user_id);
+            return User.findUserById(receiverUserId);
         }).then((result) => {
             // 4. save receiver
             receiverUser = result;
             // 5. Create private chat message object
-            const privateChatMessage = new PrivateChatMessage(message, sender_user_id, receiver_user_id, senderUser.status);
+            const privateChatMessage = new PrivateChatMessage(message, sendeUserId, receiverUserId, senderUser.status);
             // 6. save private chat message
             return privateChatMessage.createNewMessage();
         }).then((privateChatMessageCreated) => {
@@ -51,7 +55,7 @@ class PrivateChatMessagesController {
             PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, senderUser.sockets, res, senderUser, receiverUser, senderUser.status);
             PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, receiverUser.sockets, res, senderUser, receiverUser, senderUser.status);
             // 8. update message count for receiver
-            receiverUser.changeMessageCount(sender_user_id);
+            receiverUser.changeMessageCount(sendeUserId);
             // 9. return a response
             return res.status(201).send({
                 result: 'private chat message created',
@@ -153,6 +157,11 @@ class PrivateChatMessagesController {
     }
 }
 
+/**
+ * search private message
+ * @param requestData
+ * @param res
+ */
 function searchPrivateMessage(requestData, res) {
     const query = requestData['q'];
     const page = isNaN(requestData['page']) ? 0 : requestData['page'];
@@ -190,6 +199,11 @@ function searchPrivateMessage(requestData, res) {
         });
 }
 
+/**
+ * fetch all private message
+ * @param requestData
+ * @param res
+ */
 function getAllPrivateMessage(requestData, res) {
     const privateChatMessage = new PrivateChatMessage();
     let receiverUser = null;

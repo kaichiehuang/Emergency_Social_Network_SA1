@@ -3,6 +3,10 @@ const SocketIO = require('../utils/SocketIO.js');
 const User = require('../model/user.js');
 const Roles = require('../utils/Roles.js');
 
+
+/**
+ * announcement controller
+ */
 class AnnouncementController {
     /**
      * Create an annoucement
@@ -12,9 +16,9 @@ class AnnouncementController {
     createAnnouncement(req, res) {
         const requestData = req.body;
         const message = requestData['message'];
-        const user_id = requestData['user_id'];
-        const newAnnouncement = new Announcement(message, user_id, 'OK');
-        console.log('createAnnouncement');
+        const userId = requestData['user_id'];
+        const newAnnouncement = new Announcement(message, userId, 'OK');
+
         // save new announcement
         newAnnouncement.saveAnnouncement().then((newAnnouncement) => {
             const announcement = {
@@ -48,7 +52,7 @@ class AnnouncementController {
         const index = req.query.page;
         let limit = req.query.limit;
         const last = req.query.last;
-        let sort_type = -1;
+        let sortType = -1;
 
         User.findUserById(req.tokenUserId)
             .then((userInfo) => {
@@ -56,9 +60,9 @@ class AnnouncementController {
                     if (last != undefined && last) {
                         /* istanbul ignore next */
                         limit = parseInt('1');
-                        sort_type = -1;
+                        sortType = -1;
                     }
-                    Announcement.getAnnouncements(sort_type, limit, Roles.isAdministrator(userInfo.role))
+                    Announcement.getAnnouncements(sortType, limit, Roles.isAdministrator(userInfo.role))
                         .then((announcements) => {
                             res.contentType('application/json');
                             res.status(201).send(JSON.stringify(announcements));
@@ -69,8 +73,8 @@ class AnnouncementController {
                             }));
                         });
                 } else {
-                    sort_type = -1;
-                    Announcement.findAnnouncements(keywords, index, sort_type, Roles.isAdministrator(userInfo.role))
+                    sortType = -1;
+                    Announcement.findAnnouncements(keywords, index, sortType, Roles.isAdministrator(userInfo.role))
                         .then((announcements) => {
                             res.contentType('application/json');
                             res.status(201).send(JSON.stringify(announcements));

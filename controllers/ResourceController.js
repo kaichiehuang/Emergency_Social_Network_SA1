@@ -3,6 +3,9 @@ const User = require('../model/user.js');
 const ChatMessage = require('../model/chatMessage.js');
 const SocketIO = require('../utils/SocketIO.js');
 
+/**
+ * resource controller
+ */
 class ResourceController {
     /**
      * Method to create a resource
@@ -17,7 +20,7 @@ class ResourceController {
         const requestData = req.body;
         console.log(requestData.user_id);
         // Getting the parameters from request body
-        const user_id = requestData.user_id;
+        const userId = requestData.user_id;
         const resourceType = requestData['resourceType'];
         const name = requestData['name'];
         const location = requestData['location'];
@@ -40,12 +43,12 @@ class ResourceController {
             fileType = req.file.mimetype;
         }
 
-        const resource = new Resource(user_id, resourceType, name, location,
+        const resource = new Resource(userId, resourceType, name, location,
             description, questionOne, questionTwo, questionThree, file, fileType);
 
         resource.saveResource()
             .then(((newResource) =>{
-                User.findUserById(user_id)
+                User.findUserById(userId)
                     .then((userFound)=>{
                         // Create Message on the public Chat
                         // 2. Create chat message object

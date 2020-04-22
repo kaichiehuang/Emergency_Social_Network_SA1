@@ -1,10 +1,24 @@
 class StatusSelection {
+    static instance= undefined;
+
+
     constructor() {
         const statusButton = document.getElementById('status-button');
         statusButton.addEventListener('click', this.showModal);
         const confirmButton = document.getElementById('statusConfirmButton');
         confirmButton.addEventListener('click', this.statusConfirm);
     }
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance() {
+        if (this.instance === undefined) {
+            this.instance = new StatusSelection();
+        }
+        return this.instance;
+    }
+
 
     /**
      * [statusConfirm description]
@@ -20,7 +34,7 @@ class StatusSelection {
                 'put', data, true, null)
             .then((response) => {
                 $('#status-modal').modal('toggle');
-                Cookies.set('user-status', response.user.status);
+                Cookies.set('user-status', response.status);
 
                 GlobalEventDispatcher.updateAllUserLists();
                 // change header icon for status
@@ -66,5 +80,5 @@ class StatusSelection {
 }
 
 $(function() {
-    new StatusSelection();
+     StatusSelection.getInstance();
 });

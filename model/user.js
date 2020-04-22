@@ -1,13 +1,20 @@
 const mongoose = require('mongoose');
 const UserSchema = require('./model').UserSchema;
 const bcrypt = require('bcrypt');
-const blacklist = require('the-big-username-blacklist');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
+const UserPersonalValidator = require('./validators/userPersonalValidator.js');
+const UserMedicalValidator = require('./validators/userMedicalValidator.js');
+const UserOtherValidator = require('./validators/userOtherValidator.js');
+const UserDefaultValidator = require('./validators/userDefaultValidator.js');
+const NewUserValidator = require('./validators/newUserValidator.js');
 /**
  * Our class for user model taht will be attached to the schema
  */
 class UserModel {
+    constructor() {
+        this.dataValidator = null;
+    }
     /**
      * Sets registration data
      * @param {[type]} username [description]
@@ -18,33 +25,31 @@ class UserModel {
         this.password = password;
         this.status = 'UNDEFINED';
     }
-    /** *****************
+
+    /*******************
 
         VALIDATIONS
 
-        ******************/
+    ******************/
+
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
      */
     validateCreate() {
         return new Promise((resolve, reject) => {
-            // validate username structure
-            if (!this.validateUserName()) {
-                return reject('Invalid username, please enter a longer username (min 3 characters)');
-            }
-            // validate banned users
-            if (!this.validateBannedUsername()) {
-                return reject('Invalid username, this username is reserved for the platform. Please enter a different username.');
-            }
-            // validate password structure
-            if (!this.validatePassword()) {
-                return reject('Invalid password, please enter a longer username (min 4 characters)');
-            }
-            return resolve(true);
+            this.setUserDataValidator(new NewUserValidator());
+            this.dataValidator.validateDataRules({
+                "username": this.username,
+                "password": this.password
+            })
+            .then((result) => {
+                return resolve(true);
+            }).catch((err) => {
+                return reject(err);
+            })
         });
     }
-
     /**
      * [isPasswordMatch description]
      * @param  {[type]}  password [description]
@@ -60,139 +65,43 @@ class UserModel {
         });
     }
     /**
-     * VALIDATE USER NAMES LENGTH
-     * [validateUserName description]
-     * @return {[type]} [description]
-     */
-    validateUserName() {
-        if (this.username.length < 3) {
-            return false;
-        }
-        return true;
-    }
-
-    // VALIDATE PASSWORD  LENGTH
-    /**
-     * [validatePassword description]
-     * @return {[type]} [description]
-     */
-    validatePassword() {
-        if (this.password.length < 4) {
-            return false;
-        }
-        return true;
-    }
-    /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
      */
     validateUpdate(data) {
         return new Promise((resolve, reject) => {
             let step = null;
-            if (data.step != undefined && data.step == 1) {
-                step = 'personal';
+            if (data.step != undefined && data.step == 0) {
+                this.setUserDataValidator(new UserAccountValidator());
+            } else if (data.step != undefined && data.step == 1) {
+                this.setUserDataValidator(new UserPersonalValidator());
             } else if (data.step != undefined && data.step == 2) {
-                step = 'medical';
+                this.setUserDataValidator(new UserMedicalValidator());
             } else if (data.step != undefined && data.step == 3) {
-                step = 'other';
+                this.setUserDataValidator(new UserOtherValidator());
+            }else{
+                //default validator
+                this.setUserDataValidator(new UserDefaultValidator());
             }
-            // not updating personal info
-            if (step == null) {
+
+            //fail because it has no validator for this
+            if (this.dataValidator == null) {
+                return reject("Error");
+            }
+            this.dataValidator.validateDataRules(data)
+            .then((result) => {
                 return resolve(true);
-            } else {
-                // validate medical information and personal information and emergency contact information
-                this.validateRequiredFieldsUpdate(step, data).then((result) => {
-                    console.log('Firsts validations passed');
-                    return this.validateLengthFieldsUpdate(step, data);
-                }).then((result) => {
-                    console.log('All validations passed');
-                    return resolve(true);
-                }).catch((err) => {
-                    console.log('validations not passed');
-                    // if errors reject the promise
-                    console.log(err);
-                    return reject(err);
-                });
-            }
-        });
-    }
-    /**
-     * VALIDATE USER NAMES LENGTH
-     * [validateUserName description]
-     * @return {[type]} [description]
-     */
-    validateRequiredFieldsUpdate(type, data) {
-        return new Promise((resolve, reject) => {
-            if (type == 'personal') {
-                if (data.name == undefined || data.last_name == undefined || data.birth_date == undefined || data.city == undefined || data.address == undefined || data.phone_number == 0 || data.emergency_contact == undefined || data.emergency_contact.name == undefined || data.emergency_contact.phone_number == undefined || data.emergency_contact.address == 0) {
-                    return reject('Missing required fields. Every field in this step is mandatory.');
-                } else if (data.privacy_terms_data_accepted == undefined || data.privacy_terms_data_accepted == '') {
-                    return reject('Please accept the term and conditions for personal data treatment');
-                } else {
-                    if (data.name.length == 0 || data.last_name.length == 0 || data.birth_date.length == 0 || data.city.length == 0 || data.address.length == 0 || data.phone_number.length == 0 || data.emergency_contact == undefined || data.emergency_contact.name.length == 0 || data.emergency_contact.phone_number.length == 0 || data.emergency_contact.address.length == 0) {
-                        return reject('Missing required fields. Every field in this step is mandatory.');
-                    }
-                }
-            } else if (type == 'medical') {
-                if (data.medical_information == undefined || data.medical_information.blood_type == 0) {
-                    return reject('Blood type is a mandatory field, please select a valid blood type');
-                } else if (data.medical_information.privacy_terms_medical_accepted == undefined || data.medical_information.privacy_terms_medical_accepted == '') {
-                    return reject('Please accept the term and conditions for medical data treatment');
-                }
-            } else if (type == 'other') {
-                if (data.personal_message != undefined) {
-                    if (data.personal_message.security_question.length == 0 && data.personal_message.security_question_answer.length != 0) {
-                        return reject('The security question and the answer to this cannot be empty if one of these is sent.');
-                    }
-                    if (data.personal_message.security_question.length != 0 && data.personal_message.security_question_answer.length == 0) {
-                        return reject('The security question and the answer to this cannot be empty if one of these is sent.');
-                    }
-                }
-            }
-            return resolve(true);
-        });
-    }
-    /**
-     * VALIDATE USER NAMES LENGTH
-     * [validateUserName description]
-     * @return {[type]} [description]
-     */
-    validateLengthFieldsUpdate(type, data) {
-        return new Promise((resolve, reject) => {
-            if (type == 'personal') {
-                if (data.city.length < 4 || data.address.length < 4) {
-                    return reject('City and address must have more than 4 characters.');
-                } else if (data.phone_number.length < 7 || data.emergency_contact.phone_number.length < 7) {
-                    return reject('Every phone number must have more than 7 characters.');
-                }
-            } else if (type == 'medical') {
-                if (data.medical_information.blood_type == 0) {
-                    return reject('Blood type is a mandatory field, please select a valid blood type');
-                } else if (data.medical_information.privacy_terms_medical_accepted == undefined || data.medical_information.privacy_terms_medical_accepted == '') {
-                    return reject('Please accept the term and conditions for medical data treatment');
-                }
-            }
-            return resolve(true);
+            }).catch((err) => {
+                return reject(err);
+            })
         });
     }
 
-    /**
-     * Validates if a username is banned
-     * @return {[type]} [description]
-     */
-    validateBannedUsername() {
-        // 3. Validate BlackListUser\
-        const black = blacklist.validate(this.username);
-        if (!black) {
-            return false;
-        }
-        return true;
-    }
-    /** *****************
+    /*******************
 
           OPERATIONS
 
-          ******************/
+    ******************/
     /**
      * Register a username in DB. it hashes the password
      * @return {[type]} [description]
@@ -207,7 +116,6 @@ class UserModel {
             });
         });
     }
-
     /**
      * Updates the  user
      * @param  {[type]} data            Array of data
@@ -216,10 +124,9 @@ class UserModel {
     updateUser(data) {
         return new Promise((resolve, reject) => {
             this.validateUpdate(data).then((result) => {
-                if (data['status'] !== undefined) {
+                if (data['status'] != undefined) {
                     this.status_timestamp = new Date();
                 }
-
                 this.set(data);
                 return this.save();
             }).then((usr) => {
@@ -229,8 +136,6 @@ class UserModel {
             });
         });
     }
-
-
     /**
      * hashes a user password //
      * @param  {[type]} password [description]
@@ -262,7 +167,6 @@ class UserModel {
             });
         });
     }
-
     /**
      * Inserts a socket to the sockets map attribute
      * @param  {[type]} userId   [description]
@@ -286,7 +190,6 @@ class UserModel {
             });
         });
     }
-
     /**
      * Removes a socket from the sockets map attribute
      * @param  {[type]} userId   [description]
@@ -303,15 +206,15 @@ class UserModel {
             } else {
                 return reject('Socket does not exist');
             }
-            return this.save()
-                .then((result) => {
-                    return resolve(result);
-                }).catch((err) => {
-                    return reject(err);
-                });
+
+            this.save()
+            .then((result) => {
+                return resolve(result);
+            }).catch((err) => {
+                return reject(err);
+            });
         });
     }
-
     /**
      * Change message count for all messages sent by the senderUserId to current user
      * @param  {[type]} senderUserId   [description]
@@ -324,35 +227,32 @@ class UserModel {
             if (this.unread_messages == undefined) {
                 this.unread_messages = {};
             }
-            this.save()
-                .then((res) => {
-                    if (reset !== true && this.unread_messages.has(senderUserId) == false) {
-                        this.unread_messages.set(senderUserId, 1);
-                    } else {
-                        let count = this.unread_messages.get(senderUserId);
-                        if (reset === true) {
-                            this.unread_messages.delete(senderUserId);
-                        } else if (reset !== true) {
-                            if (isNaN(count) || count <= 0) {
-                                count = 1;
-                            } else {
-                                count++;
-                            }
-                            this.unread_messages.set(senderUserId, count);
+            this.save().then((res) => {
+                if (reset !== true && this.unread_messages.has(senderUserId) == false) {
+                    this.unread_messages.set(senderUserId, 1);
+                } else {
+                    let count = this.unread_messages.get(senderUserId);
+                    if (reset === true) {
+                        this.unread_messages.delete(senderUserId);
+                    } else if (reset !== true) {
+                        if (isNaN(count) || count <= 0) {
+                            count = 1;
+                        } else {
+                            count++;
                         }
                     }
-                    return this.save();
-                }).then((res) => {
-                    if (reset === true) {
-                        return resolve(0);
-                    }
-                    return resolve(this.unread_messages.get(senderUserId));
-                }).catch((err) => {
-                    return reject(err);
-                });
+                }
+                return this.save();
+            }).then((res) => {
+                if (reset === true) {
+                    return resolve(0);
+                }
+                return resolve(this.unread_messages.get(senderUserId));
+            }).catch((err) => {
+                return reject(err);
+            });
         });
     }
-
     /**
      * Get the personal message for a user if the security question matches
      * @param  {[type]} security_question_answer [description]
@@ -367,11 +267,19 @@ class UserModel {
             }
         });
     }
-    /** ****************************
+
+    /**
+     * [setUserDataValidator description]
+     * @param {[type]} dataValidator [description]
+     */
+    setUserDataValidator(dataValidator) {
+        this.dataValidator = dataValidator;
+    }
+    /******************************
 
           STATIC FIND FUNCTIONS
 
-          *****************************/
+    *****************************/
     /**
      * Checks if a username exists
      * @param  {[type]} username [description]
@@ -391,7 +299,6 @@ class UserModel {
             });
         });
     }
-
     /**
      * username exists / true or false
      * @return {[type]} [description]
@@ -399,7 +306,6 @@ class UserModel {
     static userExist(id) {
         return new Promise((resolve, reject) => {
             User.findUserById(id).then((user) => {
-                console.log(user);
                 if (user !== null) {
                     return resolve(true);
                 } else {
@@ -478,7 +384,6 @@ class UserModel {
             });
         });
     }
-
     /**
      * [getUsers description]
      * @return {[type]} [description]
@@ -495,7 +400,6 @@ class UserModel {
             });
         });
     }
-
     /**
      * Find users by user name (contains)
      * @param username
@@ -523,7 +427,6 @@ class UserModel {
             });
         });
     }
-
     /**
      * Find user by user status
      * @param status
@@ -543,7 +446,6 @@ class UserModel {
             });
         });
     }
-
     /**
      * set report spam reporter for current user
      * @param userId
@@ -552,25 +454,23 @@ class UserModel {
      */
     static setReportSpam(userId, reporterUserId) {
         return new Promise((resolve, reject) => {
-            User.findUserById(userId)
-                .then((user) => {
-                    /* istanbul ignore next */
-                    if (user.reported_spams == undefined) {
-                        user.reported_spams = {};
-                    }
-                    user.reported_spams.set(reporterUserId, true);
-                    user.spam = (user.reported_spams.size >= constants.USER_SPAM_REPORTED_LIMIT);
-                    return user.save();
-                }).then((user) => {
-                    resolve(user);
-                }).catch((err) => {
-                    /* istanbul ignore next */
-                    reject(err);
-                });
+            User.findUserById(userId).then((user) => {
+                /* istanbul ignore next */
+                if (user.reported_spams == undefined) {
+                    user.reported_spams = {};
+                }
+                user.reported_spams.set(reporterUserId, true);
+                user.spam = (user.reported_spams.size >= constants.USER_SPAM_REPORTED_LIMIT);
+                return user.save();
+            }).then((user) => {
+                resolve(user);
+            }).catch((err) => {
+                /* istanbul ignore next */
+                reject(err);
+            });
         });
     }
 }
-
 UserSchema.loadClass(UserModel);
 const User = mongoose.model('User', UserSchema);
 module.exports = User;

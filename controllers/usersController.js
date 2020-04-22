@@ -1,6 +1,9 @@
 const User = require('../model/user.js');
 const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js');
 const SocketIO = require('../utils/SocketIO.js');
+/**
+ * user controller
+ */
 class UsersController {
     constructor() {
         this.updateUser = this.updateUser.bind(this);
@@ -71,7 +74,7 @@ class UsersController {
                                     });
                             } else {
                                 return res.status(401).send({
-                                    msg: 'Sorry, right now  your account is inactive, try to access later'
+                                    msg: 'Your account is inactive, try to login later'
                                 }).end();
                             }
                         }).catch((err) => {
@@ -115,30 +118,26 @@ class UsersController {
     updateUser(req, res) {
         let userInstance = null;
         const userId = req.params.userId;
-        console.log(userId);
         // 1. update user data
         User.findById(userId).then((user) => {
             userInstance = user;
             this.validateAccountStatus(user, req.body, res.io);
             return userInstance.updateUser(req.body);
-        })
-            .then( (_) => {
-                let jsonResponseData = {};
-                jsonResponseData = userInstance;
-                jsonResponseData['userId'] = userInstance._id;
-                res.contentType('application/json');
-                return res.status(201).send(JSON.stringify(jsonResponseData));
-            }).catch((err) => {
-                /* istanbul ignore next */
-                res.contentType('application/json');
-                /* istanbul ignore next */
-                return res.status(422).send({
-                    msg: err
-                }).end();
-            });
+        }).then((_) => {
+            let jsonResponseData = {};
+            jsonResponseData = userInstance;
+            jsonResponseData['userId'] = userInstance._id;
+            res.contentType('application/json');
+            return res.status(201).send(JSON.stringify(jsonResponseData));
+        }).catch((err) => {
+            /* istanbul ignore next */
+            res.contentType('application/json');
+            /* istanbul ignore next */
+            return res.status(422).send({
+                msg: err
+            }).end();
+        });
     }
-
-
     /**
      * Get the users of the DataBase (only user_name and online fields)
      * @param req
@@ -148,21 +147,19 @@ class UsersController {
         // check if user is authorized to get other users data
         const userId = req.params.userId;
         // 1. find user only if it is the same user or an authorized user
-        User.findUserByIdIfAuthorized(userId, req.tokenUserId)
-            .then((user) => {
-                res.contentType('application/json');
-                user.personal_message.message = '';
-                return res.status(201).send(JSON.stringify(user));
-            }).catch((err) => {
+        User.findUserByIdIfAuthorized(userId, req.tokenUserId).then((user) => {
+            res.contentType('application/json');
+            user.personal_message.message = '';
+            return res.status(201).send(JSON.stringify(user));
+        }).catch((err) => {
             /* istanbul ignore next */
-                if (err.toString().localeCompare('You are not authorized') == 0) {
-                    return res.status(403).send(err);
-                }
-                /* istanbul ignore next */
-                return res.status(500).send(err);
-            });
+            if (err.toString().localeCompare('You are not authorized') == 0) {
+                return res.status(403).send(err);
+            }
+            /* istanbul ignore next */
+            return res.status(500).send(err);
+        });
     }
-
     /**
      * Get the users of the DataBase (only user_name and online fields)
      * @param req
@@ -173,18 +170,18 @@ class UsersController {
             return res.status(403).send('Invalid answer');
         }
         const userId = req.params.userId;
-        const security_question_answer = req.query.security_question_answer;
-
+        const securityQuestionAnswer = req.query.security_question_answer;
         // 1. find user by id and check if user is authorized to get other users data
         User.findUserByIdIfAuthorized(userId, req.tokenUserId).then((userInstance) => {
-            return userInstance.getPersonalMessage(security_question_answer);
-        })
-            .then((message) => {
-                res.contentType('application/json');
-                return res.status(201).send({'message': message});
-            }).catch((err) => {
-                return res.status(403).send(err);
+            return userInstance.getPersonalMessage(securityQuestionAnswer);
+        }).then((message) => {
+            res.contentType('application/json');
+            return res.status(201).send({
+                'message': message
             });
+        }).catch((err) => {
+            return res.status(403).send(err);
+        });
     }
     /**
      * [createSocket description]
@@ -227,7 +224,6 @@ class UsersController {
             return res.status(500).send(err);
         });
     }
-
     /**
      * Search users by username or status
      * @param req

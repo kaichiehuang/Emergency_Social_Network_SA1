@@ -1,4 +1,5 @@
 class ResourcesList {
+    static instance= undefined;
     constructor() {
         $(document).on('click', '#icon', function(event) {
             // eslint-disable-next-line no-invalid-this
@@ -6,7 +7,7 @@ class ResourcesList {
                 if (cssClass.includes('id')) {
                     const index = cssClass.indexOf('-');
                     const resourceId = cssClass.substring(index + 1);
-                    ResourcesList.getResourceById(resourceId);
+                    ResourcesList.getInstance().getResourceById(resourceId);
                     break;
                 }
             }
@@ -21,14 +22,24 @@ class ResourcesList {
             event.preventDefault();
             const newID = $(this).data('view-id');
             if (newID === 'resources-list-content') {
-                ResourcesList.updateResourceListView();
+                ResourcesList.getInstance().updateResourceListView();
             }
         });
 
-        ResourcesList.updateResourceListView();
+
+    }
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance() {
+        if (this.instance === undefined) {
+            this.instance = new ResourcesList();
+        }
+        return this.instance;
     }
 
-    static showResourceDetail(resource) {
+     showResourceDetail(resource) {
         // Changing labels
         $('.modal-body #resource-type-label').text('Resource Type:');
         $('.modal-body #picture-label').text('Picture:');
@@ -50,7 +61,7 @@ class ResourcesList {
             .addClass('hidden-main-content-block');
         // /ADDING PICTURE
         $('.modal-body  #imageDiv').removeClass('hidden-main-content-block');
-        ResourcesList.readURL(resource.image);
+        ResourcesList.getInstance().readURL(resource.image);
         // Adding Location
         $('.modal-body #resource-location').text(resource.location);
         $('.modal-body #resource-location').attr('readonly', true);
@@ -99,7 +110,7 @@ class ResourcesList {
         case 'MEDICAL':
             // Hiding RESOURCES TYPE BUTTONS
             $('.modal-body #medical-btn')
-            removeClass('hidden-main-content-block');
+                .removeClass('hidden-main-content-block');
             $('.modal-body #supplies-btn')
                 .addClass('hidden-main-content-block');
             $('.modal-body #shelter-btn')
@@ -176,14 +187,14 @@ class ResourcesList {
     }
 
 
-    static async readURL(image) {
+     async readURL(image) {
         const base64Flag = 'data:image/png;base64,';
         const imageStr =
-            await ResourcesList.arrayBufferToBase64(image.data.data);
+            await  ResourcesList.getInstance().arrayBufferToBase64(image.data.data);
         $('.modal-body  #image-preview').attr('src', base64Flag + imageStr);
     }
 
-    static arrayBufferToBase64(buffer) {
+     arrayBufferToBase64(buffer) {
         let binary = '';
         const bytes = [].slice.call(new Uint8Array(buffer));
         bytes.forEach((b) => binary += String.fromCharCode(b));
@@ -191,13 +202,13 @@ class ResourcesList {
     };
 
 
-    static getResourceById(resourceId) {
+     getResourceById(resourceId) {
         return new Promise((resolve, reject) => {
             APIHandler.getInstance()
                 .sendRequest('/resources/' + resourceId,
                     'get', null, true, null)
                 .then((response) => {
-                    ResourcesList.showResourceDetail(response);
+                    ResourcesList.getInstance().showResourceDetail(response);
                     resolve(response);
                 })
                 .catch((error) => {
@@ -206,7 +217,7 @@ class ResourcesList {
         });
     }
 
-    static getResources() {
+     getResources() {
         return new Promise((resolve, reject) => {
             APIHandler.getInstance()
                 .sendRequest('/resources/',
@@ -220,7 +231,7 @@ class ResourcesList {
         });
     }
 
-    static drawResources(resources) {
+     drawResources(resources) {
         const containerId = 'resources_list-content';
         $('#resources-list-div .no-results-message').addClass('hidden');
         // 1. find templates in html
@@ -250,11 +261,11 @@ class ResourcesList {
     }
 
     // todo pass this to a class AddressBook that has an attribute currentUser
-    static updateResourceListView() {
+     updateResourceListView() {
         // get resource data
-        ResourcesList.getResources().then((resources) => {
+        ResourcesList.getInstance().getResources().then((resources) => {
             if (resources.length > 0) {
-                ResourcesList.drawResources(resources);
+                ResourcesList.getInstance().drawResources(resources);
             }
         }).catch((err) => {
         });
@@ -263,6 +274,6 @@ class ResourcesList {
 
 
 $(function() {
-    new ResourcesList();
+    ResourcesList.getInstance().updateResourceListView();
 });
 
