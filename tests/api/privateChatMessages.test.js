@@ -106,6 +106,7 @@ describe('private chat messages API TEST', () => {
         await agent.post(HOST + '/api/private-chat-messages')
             .send(errInputPrivateMsg)
             .set('Authorization', token)
+            .set('accept', 'json')
             .end((err, res) => {
                 expect(err).not.toBe(null);
                 expect(res.statusCode).toBe(422);

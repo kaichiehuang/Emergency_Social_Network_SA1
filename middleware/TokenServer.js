@@ -40,6 +40,7 @@ class TokenServer {
                 .then((userId) => {
                     req.tokenUserId = userId.data;
                     console.log('userId: ' + userId.data);
+                    console.log("req body message in tokenserver is + " + req.body.message)
                     next();
                 })
                 .catch((err) => {

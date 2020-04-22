@@ -3,6 +3,7 @@ const router = new express.Router();
 const ChatMessagesController = require(__dirname + '/../controllers/ChatMessagesController');
 const bodyParser = require('body-parser');
 const TokenServerClass = require('../middleware/TokenServer');
+const RBAC = require('../middleware/RBAC');
 // application/json parser
 const jsonParser = bodyParser.json();
 
@@ -11,10 +12,10 @@ const chatMessagesController = new ChatMessagesController();
 
 
 // get method for getting chat messages
-router.get('/', TokenServerClass.validateToken, jsonParser, chatMessagesController.getChatMessages);
+router.get('/', TokenServerClass.validateToken, RBAC.validateUser, jsonParser, chatMessagesController.getChatMessages);
 
 // post method for creating a chat message
-router.post('/', TokenServerClass.validateToken, jsonParser, chatMessagesController.createMessage);
+router.post('/', TokenServerClass.validateToken, RBAC.validateUser, jsonParser, chatMessagesController.createMessage);
 
 
 // put method for updating a chat message
