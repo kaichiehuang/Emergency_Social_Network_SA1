@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const UserSchema = require('./model').UserSchema;
 const Roles = require('../utils/Roles');
-const bcrypt = require('bcrypt');
 const UserHelper = require('../utils/userHelper');
-const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
 const UserPersonalValidator = require('./validators/userPersonalValidator.js');
 const UserMedicalValidator = require('./validators/userMedicalValidator.js');
@@ -54,20 +52,7 @@ class UserModel {
                 });
         });
     }
-    /**
-     * [isPasswordMatch description]
-     * @param  {[type]}  password [description]
-     * @return {Boolean}          [description]
-     */
-    isPasswordMatch(inputPassword) {
-        return new Promise((resolve, reject) => {
-            if (bcrypt.compareSync(inputPassword, this.password)) {
-                return resolve(true);
-            } else {
-                return reject('Invalid username / password.');
-            }
-        });
-    }
+
     /**
      * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
      * @return {[type]} [description]
@@ -165,30 +150,7 @@ class UserModel {
         });
     }
 
-    /**
-     * Generates a token for a user
-     * @return {[type]} [description]
-     */
-    generateTokens() {
-        return new Promise((resolve, reject) => {
-            let token = '';
-            TokenServerClass.generateToken(this._id, false).then((generatedToken) => {
-                token = generatedToken;
-                TokenServerClass.generateToken(this._id, true).then((genRefToken) => {
-                    const tokens = {
-                        token: token,
-                        ex_token: genRefToken
-                    };
-                    return resolve(tokens);
-                }).catch((err) => {
-                    /* istanbul ignore next */
-                    return reject(err);
-                });
-            }).catch((err) => {
-                return reject(err);
-            });
-        });
-    }
+
     /**
      * Inserts a socket to the sockets map attribute
      * @param  {[type]} userId   [description]

@@ -7,3 +7,4 @@ exclude_patterns:
   - "SA1_Documentation/"
   - "sass/"
   - "ssl/"
+  - "tests/"

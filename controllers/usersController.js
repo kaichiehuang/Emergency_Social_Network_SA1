@@ -2,6 +2,7 @@ const User = require('../model/user.js');
 const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js');
 const SocketIO = require('../utils/SocketIO.js');
 const Roles = require('../utils/Roles.js');
+const UserHelper = require('../utils/userHelper');
 /**
  * user controller
  */
@@ -209,7 +210,7 @@ function handleNonExistUser(userInstance, jsonResponseData, signUpData, res) {
         .then(function(result) {
             return userInstance.registerUser();
         }).then(function(response) {
-            return userInstance.generateTokens();
+            return UserHelper.generateTokens(userInstance._id);
         }).then((tokens) => {
             jsonResponseData.user = Object.assign({}, userInstance._doc);
             jsonResponseData.user.userId = userInstance._id.toString();
@@ -236,11 +237,11 @@ function handleNonExistUser(userInstance, jsonResponseData, signUpData, res) {
  * @param res
  */
 function handleExistUser(userInstance, jsonResponseData, signUpData, res) {
-    userInstance.isPasswordMatch(signUpData['password'])
+    UserHelper.isPasswordMatch(signUpData['password'], userInstance.password)
         .then((response) => {
             // Validating if user is active
             if (userInstance.active) {
-                userInstance.generateTokens()
+                UserHelper.generateTokens(userInstance._id)
                     .then((tokens) => {
                         jsonResponseData.user = Object.assign({}, userInstance._doc);
                         jsonResponseData.user.userId = userInstance._id.toString();
