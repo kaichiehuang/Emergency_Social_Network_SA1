@@ -40,7 +40,6 @@ class Announcement {
                 })
                 .catch((err) => {
                     /* istanbul ignore next */
-                    console.log('Error creating announcement:' + err);
                     reject(err);
                 });
         });
@@ -73,8 +72,6 @@ class Announcement {
                 })
                 .catch((err) => {
                     /* istanbul ignore next */
-                    console.log('Error getting Announcements: ' + err);
-                    // eslint-disable-next-line prefer-promise-reject-errors
                     reject('Error getting Announcements: ' + err.message);
                 });
         });
@@ -114,7 +111,6 @@ class Announcement {
                     })
                     .catch(function(err) {
                         /* istanbul ignore next */
-                        console.log('Error getting Announcements by keyword: ' + err);
                         reject(err);
                     });
             });

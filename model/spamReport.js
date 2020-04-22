@@ -28,7 +28,6 @@ class SpamReport {
                 })
                 .catch((err) => {
                     /* istanbul ignore next */
-                    console.log('Error creating spamReport:' + err);
                     reject(err);
                 });
         });

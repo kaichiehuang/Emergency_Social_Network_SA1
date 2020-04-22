@@ -53,7 +53,7 @@ class Resource {
                         resolve(result);
                     })
                     .catch((err) => {
-                        console.log('Error creating Resource:' + err);
+                        /* istanbul ignore next */
                         reject(err);
                     });
             }
@@ -76,7 +76,7 @@ class Resource {
                     resolve(result);
                 })
                 .catch( (err) =>{
-                    console.log('Error searching Resources:' + err);
+                    /* istanbul ignore next */
                     reject(err);
                 });
         });
@@ -95,7 +95,7 @@ class Resource {
                     resolve(result);
                 })
                 .catch( (err) =>{
-                    console.log('Error searching Resources:' + err);
+                    /* istanbul ignore next */
                     reject(err);
                 });
         });

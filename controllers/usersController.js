@@ -28,8 +28,11 @@ class UsersController {
 
         const jsonResponseData = {};
 
-        // 2. Validate if user exists
-        User.findUserByUsername(signUpData['username'])
+        User.initAdminUser()
+            .then((result) => {
+                // 2. Validate if user exists
+                return User.findUserByUsername(signUpData['username']);
+            })
             .then((user) => {
                 const userInstance = user;
                 // 4. if user doesn't exist validate data and create it
@@ -81,7 +84,7 @@ class UsersController {
         User.findById(userId).then((user) => {
             userInstance = user;
             this.validateAccountStatus(user, req.body, res.io);
-            return userInstance.updateUser(req.body);
+            return userInstance.updateUser(req.body, userId);
         }).then((_) => {
             let jsonResponseData = {};
             jsonResponseData = userInstance;
@@ -141,6 +144,7 @@ class UsersController {
                 'message': message
             });
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(403).send({
                 msg: err
             });
@@ -238,9 +242,8 @@ function handleExistUser(userInstance, jsonResponseData, signUpData, res) {
                 }).end();
             }
         }).catch((err) => {
-        /* istanbul ignore next */
             res.contentType('application/json');
-            console.log(err);
+            /* istanbul ignore next */
             return res.status(422).send({
                 msg: err
             }).end();
