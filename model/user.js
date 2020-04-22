@@ -8,6 +8,7 @@ const UserMedicalValidator = require('./validators/userMedicalValidator.js');
 const UserOtherValidator = require('./validators/userOtherValidator.js');
 const UserDefaultValidator = require('./validators/userDefaultValidator.js');
 const NewUserValidator = require('./validators/newUserValidator.js');
+const UserAccountValidator = require('./validators/userAccountValidator.js');
 /**
  * Our class for user model taht will be attached to the schema
  */
