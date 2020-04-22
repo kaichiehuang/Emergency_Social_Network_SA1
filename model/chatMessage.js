@@ -49,10 +49,18 @@ class ChatMessage {
      * Gets a list of chat messages without using filters
      * @return {[type]} [description]
      */
-    getChatMessages() {
+    getChatMessages(isAdmin) {
         return new Promise((resolve, reject) => {
-            ChatMessageModel.find({})
-                .populate('user_id', ['_id', 'username', 'reported_spams'])
+            const populateQuery = {
+                path: 'user_id',
+                select: '_id username reported_spams',
+                match: {}
+            };
+            if (!isAdmin) {
+                populateQuery['match']['active'] =true;
+            }
+            ChatMessageModel.find()
+                .populate(populateQuery)
                 .then((result) => {
                     resolve(result);
                 })
@@ -68,11 +76,19 @@ class ChatMessage {
      * Gets a list of chat messages with using filters
      * @return {[type]} [description]
      */
-    static findMessagesByKeyword(keyword) {
+    static findMessagesByKeyword(keyword, isAdmin) {
         return new Promise((resolve, reject) => {
             StopWords.removeStopWords(keyword).then((filteredKeyWords) => {
+                const populateQuery = {
+                    path: 'user_id',
+                    select: '_id username reported_spams',
+                    match: {}
+                };
+                if (!isAdmin) {
+                    populateQuery['match']['active'] =true;
+                }
                 ChatMessageModel.find({$text: {$search: filteredKeyWords}})
-                    .populate('user_id', ['_id', 'username'])
+                    .populate(populateQuery)
                     .sort({created_at: 'asc'})
                     .then((messages) => {
                         resolve(messages);

@@ -82,22 +82,5 @@ class TokenServer {
             resolve(generatedToken);
         });
     }
-
-    // static removeToken(token) {
-    //     return new Promise((resolve, rejected) => {
-    //         this.verifyToken(token)
-    //             .then((payload) => {
-    //                 this.verifyUser(payload)
-    //                     .then((verify) => {
-    //                         console.log('verify: ' + verify);
-    //                         resolve(verify);
-    //                     })
-    //                     .catch((err) => {
-    //                         console.log('error en verifyUser: ' + err);
-    //                         return res.status(401).send(err.message).end();// UNAUTHORIZED
-    //                     });
-    //             });
-    //     });
-    // }
 }
 module.exports = TokenServer;
