@@ -115,14 +115,14 @@ function setOnline(online_status, socketId) {
 function syncSocketId(socketId, deleteSocket) {
     const user_id = Cookies.get('user-id');
     const jwt = Cookies.get('user-jwt-esn');
-    let url = apiPath + '/users/' + user_id + '/socket';
+    let url = apiPath + '/users/' + user_id + '/sockets';
     let method = 'post';
     let data = {
         'socketId': socketId
     };
     // delete scenario
     if (deleteSocket) {
-        url = apiPath + '/users/' + user_id + '/socket/' + socketId;
+        url = apiPath + '/users/' + user_id + '/sockets/' + socketId;
         method = 'delete';
         data = {};
     }

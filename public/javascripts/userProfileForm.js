@@ -81,7 +81,7 @@ class UserProfileForm {
 
         // set last name
         if (user.password != undefined) {
-            template.querySelector('input#user-profile-form__password').value = user.password;
+            template.querySelector('input#user-profile-form__password').value = "";
         }
 
         // set privilege

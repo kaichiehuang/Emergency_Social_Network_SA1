@@ -52,7 +52,7 @@ class User {
                     resolve(response);
                 })
                 .catch((error) => {
-                    reject(error.responseText);
+                    reject(error.responseJSON.msg);
                 });
         });
     }

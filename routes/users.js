@@ -1,6 +1,7 @@
 const express = require('express');
 const router = new express.Router();
 const UsersController = require(__dirname + '/../controllers/usersController');
+const UserSocketsController = require(__dirname + '/../controllers/userSocketsController');
 const bodyParser = require('body-parser');
 const TokenServerClass = require('../middleware/TokenServer');
 const RBAC = require('../middleware/RBAC');
@@ -9,10 +10,13 @@ const RBAC = require('../middleware/RBAC');
 const jsonParser = bodyParser.json();
 // Require controller
 const usersController = new UsersController();
+const userSocketsController = new UserSocketsController();
 
+//socket management routes
+router.delete('/:userId/sockets/:socketId', TokenServerClass.validateToken, jsonParser, userSocketsController.deleteSocket);
+router.post('/:userId/sockets', TokenServerClass.validateToken, jsonParser, userSocketsController.createSocket);
 
-router.delete('/:userId/socket/:socketId', TokenServerClass.validateToken, jsonParser, usersController.deleteSocket);
-router.post('/:userId/socket', TokenServerClass.validateToken, jsonParser, usersController.createSocket);
+//user update
 router.put('/:userId', TokenServerClass.validateToken, RBAC.validateUser, jsonParser, usersController.updateUser);
 
 // get method to obtain all users
