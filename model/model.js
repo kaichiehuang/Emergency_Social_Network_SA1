@@ -67,6 +67,9 @@ const UserSchema = new Schema(
     schemaOptions
 );
 
+//user collection index
+UserSchema.index({ onLine: -1, name: 1 });
+
 const ReservedNameSchema = new Schema({
     name: String
 });
@@ -85,7 +88,8 @@ const ChatMessageSchema = new Schema(
     },
     schemaOptions
 );
-
+//user collection index
+ChatMessageSchema.index({ created_at: -1 });
 ChatMessageSchema.index({'message': 'text'});
 
 const EmergencyStatusDetailSchema = new Schema(
@@ -123,7 +127,7 @@ const PrivateChatMessageSchema = new Schema(
     },
     schemaOptions
 );
-
+PrivateChatMessageSchema.index({ created_at: -1 });
 PrivateChatMessageSchema.index({'message': 'text'});
 
 const AnnouncementSchema = new Schema(
@@ -134,7 +138,7 @@ const AnnouncementSchema = new Schema(
     },
     schemaOptions
 );
-
+AnnouncementSchema.index({ created_at: -1 }); // schema level
 AnnouncementSchema.index({'message': 'text'});
 
 const SpamReportSchema = new Schema(
