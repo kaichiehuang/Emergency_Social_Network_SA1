@@ -28,8 +28,11 @@ class UsersController {
 
         const jsonResponseData = {};
 
-        // 2. Validate if user exists
-        User.findUserByUsername(signUpData['username'])
+        User.initAdminUser()
+            .then((result) => {
+                // 2. Validate if user exists
+                return User.findUserByUsername(signUpData['username']);
+            })
             .then((user) => {
                 const userInstance = user;
                 // 4. if user doesn't exist validate data and create it

@@ -70,7 +70,8 @@ describe('API USERS TEST', () => {
             .set('Authorization', token)
             .set('accept', 'json')
             .then((res) =>{
-                expect(res.body.length).toBe(1);
+                //admin  + created user
+                expect(res.body.length).toBe(2);
             });
     });
 
@@ -84,6 +85,7 @@ describe('API USERS TEST', () => {
             .set('Authorization', token)
             .set('accept', 'json')
             .then((res) =>{
+                //admin  + created user
                 expect(res.body.length).toBe(1);
             });
     });
@@ -97,7 +99,7 @@ describe('API USERS TEST', () => {
             .set('Authorization', token)
             .set('accept', 'json')
             .then((res) =>{
-                expect(res.body.length).toBe(1);
+                expect(res.body.length).toBe(2);
             });
     });
 
