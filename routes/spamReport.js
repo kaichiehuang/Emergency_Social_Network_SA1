@@ -5,8 +5,9 @@ const TokenServerClass = require('../middleware/TokenServer');
 const jsonParser = bodyParser.json();
 const SpamReportController = require('../controllers/SpamReportController');
 const spamReportController = new SpamReportController();
+const RBAC = require('../middleware/RBAC');
 
-router.post('/', TokenServerClass.validateToken, jsonParser, spamReportController.createSpamReport);
+router.post('/', TokenServerClass.validateToken, RBAC.validateUser, jsonParser, spamReportController.createSpamReport);
 
 
 module.exports = router;

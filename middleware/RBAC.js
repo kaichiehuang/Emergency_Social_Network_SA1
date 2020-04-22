@@ -5,7 +5,7 @@ const rbac = new RBAC(rules);
 
 class RoleBasedAccessControl {
 
-    //chech by userId if the user is active or not
+    //check by userId if the user is active or not
     static checkActive(userId, res) {
         return User.findUserById(userId).then((user) => {
             //true or false
@@ -27,16 +27,22 @@ class RoleBasedAccessControl {
     }
 
     //first check if the user is active, than see if the role of the user is permitted to do an action
-    static async validateUser (req, res, next) {
+    static async doValidation (req, res, next) {
         console.log("in validate user")
         let userId = req.tokenUserId;
         let route = req.baseUrl;
         let method = Object.keys(req.route.methods)[0];
         let role = await RoleBasedAccessControl.getRole(userId, res);
+        console.log("The role is " + role);
         let action = route + ':' + method;
         let active = await RoleBasedAccessControl.checkActive(userId, res);
 
-        if (method === "put") {
+        console.log("req body message in RBAC is + " + req.body.message)
+
+        console.log("the action is: " + action);
+
+
+        if (method === "put" && req.params.pictureId == null && route === '/api/users') {
             if (req.params.userId != userId && role != 'administrator') {
                 return res.status(401).send("Invalid attempt to modify other user's profile").end();
             } 
@@ -48,8 +54,8 @@ class RoleBasedAccessControl {
                 if (result) {
                   // we are allowed access
                   console.log(userId + " is allowed to " + action);
-                  return res.status(200).send(userId + " is allowed to " + action).end();// UNAUTHORIZED
-                  //next();
+                  //return res.status(200).send(userId + " is allowed to " + action).end();// UNAUTHORIZED
+                  next();
                 } else {
                   // we are not allowed access
                   return res.status(401).send("rbac not passed").end();// UNAUTHORIZED
@@ -63,6 +69,11 @@ class RoleBasedAccessControl {
             return res.status(401).send("user not active").end();// UNAUTHORIZED
         }
     }
+
+    static async validateUser (req, res, next) {
+        await RoleBasedAccessControl.doValidation (req, res, next);
+    }
+
 }
 
 module.exports = RoleBasedAccessControl;
