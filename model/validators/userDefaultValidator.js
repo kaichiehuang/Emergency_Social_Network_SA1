@@ -9,10 +9,10 @@ class UserDefaultValidator extends ValidatorInterface {
      */
     constructor() {
         super();
-        const commonMsg = "All fields are mandatory in this step.";
+        const commonMsg = 'All fields are mandatory in this step.';
         this.validatorRules = {
-            "requiredRules": [], // array of objects, {fieldName: "", "msg", ""}
-            "lengthRules": [], // array of objects {"fieldName", "minLength": 3, "msg"},{"field", "minLength": 3, "msg"},
+            'requiredRules': [], // array of objects, {fieldName: "", "msg", ""}
+            'lengthRules': [], // array of objects {"fieldName", "minLength": 3, "msg"},{"field", "minLength": 3, "msg"},
         };
     }
 }
