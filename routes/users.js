@@ -11,8 +11,8 @@ const jsonParser = bodyParser.json();
 const usersController = new UsersController();
 
 
-router.delete('/:userId/socket/:socketId', TokenServerClass.validateToken, RBAC.validateUser, jsonParser, usersController.deleteSocket);
-router.post('/:userId/socket', TokenServerClass.validateToken, RBAC.validateUser, jsonParser, usersController.createSocket);
+router.delete('/:userId/socket/:socketId', TokenServerClass.validateToken, jsonParser, usersController.deleteSocket);
+router.post('/:userId/socket', TokenServerClass.validateToken, jsonParser, usersController.createSocket);
 router.put('/:userId', TokenServerClass.validateToken, RBAC.validateUser, jsonParser, usersController.updateUser);
 
 // get method to obtain all users

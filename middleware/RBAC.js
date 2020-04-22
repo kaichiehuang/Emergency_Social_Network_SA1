@@ -27,7 +27,7 @@ class RoleBasedAccessControl {
     }
 
     //first check if the user is active, than see if the role of the user is permitted to do an action
-    static async validateUser (req, res, next) {
+    static async doValidation (req, res, next) {
         console.log("in validate user")
         let userId = req.tokenUserId;
         let route = req.baseUrl;
@@ -37,7 +37,12 @@ class RoleBasedAccessControl {
         let action = route + ':' + method;
         let active = await RoleBasedAccessControl.checkActive(userId, res);
 
-        if (method === "put" && req.params.pictureId == null) {
+        console.log("req body message in RBAC is + " + req.body.message)
+
+        console.log("the action is: " + action);
+
+
+        if (method === "put" && req.params.pictureId == null && route === '/api/users') {
             if (req.params.userId != userId && role != 'administrator') {
                 return res.status(401).send("Invalid attempt to modify other user's profile").end();
             } 
@@ -64,6 +69,11 @@ class RoleBasedAccessControl {
             return res.status(401).send("user not active").end();// UNAUTHORIZED
         }
     }
+
+    static async validateUser (req, res, next) {
+        await RoleBasedAccessControl.doValidation (req, res, next);
+    }
+
 }
 
 module.exports = RoleBasedAccessControl;

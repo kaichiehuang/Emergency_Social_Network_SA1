@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64% </span>
+                <span class="strong">96% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>16/25</span>
+                <span class='fraction'>24/25</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.5% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/8</span>
+                <span class='fraction'>5/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">64% </span>
+                <span class="strong">96% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>16/25</span>
+                <span class='fraction'>24/25</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -150,21 +150,21 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -230,22 +230,22 @@ class AnnouncementController {
      * @param req
      * @param res
      */
-<span class="fstat-no" title="function not covered" >    cr</span>eateAnnouncement(req, res) {
-        const requestData = <span class="cstat-no" title="statement not covered" >req.body;</span>
-        const message = <span class="cstat-no" title="statement not covered" >requestData['message'];</span>
-        const userId = <span class="cstat-no" title="statement not covered" >requestData['user_id'];</span>
-        const newAnnouncement = <span class="cstat-no" title="statement not covered" >new Announcement(message, userId, 'OK');</span>
+    createAnnouncement(req, res) {
+        const requestData = req.body;
+        const message = requestData['message'];
+        const userId = requestData['user_id'];
+        const newAnnouncement = new Announcement(message, userId, 'OK');
 &nbsp;
         // save new announcement
-<span class="cstat-no" title="statement not covered" >        newAnnouncement.saveAnnouncement().then(<span class="fstat-no" title="function not covered" >(n</span>ewAnnouncement) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            res.io.emit('new-announcement', {</span>
+        newAnnouncement.saveAnnouncement().then((newAnnouncement) =&gt; {
+            res.io.emit('new-announcement', {
                 'id': newAnnouncement._id,
                 'message': newAnnouncement.message,
                 'created_at': newAnnouncement.created_at,
             });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            res.contentType('application/json');</span>
-<span class="cstat-no" title="statement not covered" >            res.status(201).send(JSON.stringify(newAnnouncement));</span>
+            res.contentType('application/json');
+            res.status(201).send(JSON.stringify(newAnnouncement));
         }).catch(<span class="fstat-no" title="function not covered" >(e</span>rr) =&gt; {
             /* istanbul ignore next */
             return res.status(422).send(JSON.stringify({
@@ -307,7 +307,7 @@ module.exports = AnnouncementController;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Apr 21 2020 00:27:31 GMT-0700 (GMT-07:00)
+                at Tue Apr 21 2020 16:59:42 GMT-0700 (GMT-07:00)
             </div>
         </div>
         <script src="../../prettify.js"></script>
