@@ -176,7 +176,7 @@ class UserList {
         menuContentChangerEvent();
         $('.chat-button').click(function(event) {
             // eslint-disable-next-line no-invalid-this
-            PrivateChatMessage.initiatePrivateChat($(this).data('user-id'));
+            PrivateChatMessage.getInstance().initiatePrivateChat($(this).data('user-id'));
         });
         $('.username').click(function(event) {
             // eslint-disable-next-line no-invalid-this

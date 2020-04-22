@@ -34,7 +34,7 @@ class StatusSelection {
                 'put', data, true, null)
             .then((response) => {
                 $('#status-modal').modal('toggle');
-                Cookies.set('user-status', response.user.status);
+                Cookies.set('user-status', response.status);
 
                 GlobalEventDispatcher.updateAllUserLists();
                 // change header icon for status

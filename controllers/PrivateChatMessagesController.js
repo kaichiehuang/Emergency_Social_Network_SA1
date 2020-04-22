@@ -1,6 +1,7 @@
 const PrivateChatMessage = require('../model/privateChatMessage.js');
 const User = require('../model/user.js');
 const constants = require('../constants');
+const SocketIO = require('../utils/SocketIO.js');
 
 /**
  * private message controller
@@ -96,13 +97,30 @@ class PrivateChatMessagesController {
                 msg: 'invalid receiver_user_id'
             }));
         }
-        if (requestData['q'] != undefined && requestData['q'].length != 0) {
-            // this is a search request, when q exists
-            searchPrivateMessage(requestData, res);
+
+        let otherUser;
+        if (requestData.tokenUserId === requestData['sender_user_id']) {
+            otherUser = requestData['receiver_user_id'];
         } else {
-            // get all private messages
-            getAllPrivateMessage(requestData, res);
+            otherUser = requestData['sender_user_id'];
         }
+
+        User.findUserById(otherUser)
+            .then((user) => {
+                // Validate the other account user status
+                // if it is inactive, we block the conversation.
+                if (!user.active) {
+                    return res.status(401).send({});
+                } else {
+                    if (requestData['q'] != undefined && requestData['q'].length != 0) {
+                        // this is a search request, when q exists
+                        searchPrivateMessage(requestData, res);
+                    } else {
+                        // get all private messages
+                        getAllPrivateMessage(requestData, res);
+                    }
+                }
+            });
     }
     /**
      * [emitToSockets description]
@@ -117,23 +135,25 @@ class PrivateChatMessagesController {
     static emitToSockets(privateChatMessageCreated, sockets, response, senderUser, receiverUser, status) {
         // 1. iterate the list of sockects and emit the data
         if (sockets != undefined && sockets.size > 0) {
+            const privateMessage = {
+                'id': privateChatMessageCreated._id,
+                'message': privateChatMessageCreated.message,
+                'sender_user_id': {
+                    '_id': senderUser._id,
+                    'username': senderUser.username
+                },
+                'receiver_user_id': {
+                    '_id': receiverUser._id,
+                    'username': receiverUser.username
+                },
+                'created_at': privateChatMessageCreated.created_at,
+                'status': status
+            };
             /* istanbul ignore next */
             for (const socketId of sockets.keys()) {
-                response.io.to(socketId).emit('new-private-chat-message', {
-                    'id': privateChatMessageCreated._id,
-                    'message': privateChatMessageCreated.message,
-                    'sender_user_id': {
-                        '_id': senderUser._id,
-                        'username': senderUser.username
-                    },
-                    'receiver_user_id': {
-                        '_id': receiverUser._id,
-                        'username': receiverUser.username
-                    },
-                    'created_at': privateChatMessageCreated.created_at,
-                    'status': status
-                });
-                response.io.to(socketId).emit('user-list-update');
+                const socketIO = new SocketIO(response.io.to(socketId));
+                socketIO.emitMessage('new-private-chat-message', privateMessage);
+                socketIO.emitMessage('user-list-update', '');
             }
         }
     }
@@ -149,14 +169,36 @@ function searchPrivateMessage(requestData, res) {
     const page = isNaN(requestData['page']) ? 0 : requestData['page'];
     const pageSize = constants.PAGINATION_NUMBER;
     const privateChatMessage = new PrivateChatMessage();
-    privateChatMessage.searchChatMessages(requestData['sender_user_id'], requestData['receiver_user_id'], query, page, pageSize).then((result) => {
-        res.send(result);
-    }).catch((err) => {
-        console.log(err);
-        return res.status(422).send({
-            error: err.message
+
+    let otherUser;
+    if (requestData.tokenUserId === requestData['sender_user_id']) {
+        otherUser = requestData['receiver_user_id'];
+    } else {
+        otherUser = requestData['sender_user_id'];
+    }
+    User.findUserById(otherUser)
+        .then((user) => {
+            // Validatig the other account user status
+            // if it is inactive, we block the conversation.
+            if (!user.active) {
+                return res.status(401).send({});
+            } else {
+                privateChatMessage.searchChatMessages(requestData['sender_user_id'], requestData['receiver_user_id'], query, page, pageSize)
+                    .then((result) => {
+                        res.send(result);
+                    }).catch((err) => {
+                        console.log(err);
+                        return res.status(422).send({
+                            error: err.message
+                        });
+                    });
+            }
+        }).catch((err) => {
+            console.log(err);
+            return res.status(422).send({
+                error: err.message
+            });
         });
-    });
 }
 
 /**
@@ -167,13 +209,11 @@ function searchPrivateMessage(requestData, res) {
 function getAllPrivateMessage(requestData, res) {
     const privateChatMessage = new PrivateChatMessage();
     let receiverUser = null;
-    console.log(requestData);
     User.findUserById(requestData['sender_user_id']).then((result) => {
         receiverUser = result;
         return privateChatMessage.getChatMessages(requestData['sender_user_id'], requestData['receiver_user_id']);
     }).then((result) => {
         // reset counter for user and messages received from user with id receiver_user_id
-        console.log(requestData['receiver_user_id']);
         receiverUser.changeMessageCount(requestData['receiver_user_id'], true);
         res.send(result);
     }).catch((err) => {
