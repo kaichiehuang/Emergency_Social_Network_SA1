@@ -26,7 +26,7 @@ class UserModel {
         this.status = 'UNDEFINED';
     }
 
-    /*******************
+    /** *****************
 
         VALIDATIONS
 
@@ -40,14 +40,14 @@ class UserModel {
         return new Promise((resolve, reject) => {
             this.setUserDataValidator(new NewUserValidator());
             this.dataValidator.validateDataRules({
-                "username": this.username,
-                "password": this.password
+                'username': this.username,
+                'password': this.password
             })
-            .then((result) => {
-                return resolve(true);
-            }).catch((err) => {
-                return reject(err);
-            })
+                .then((result) => {
+                    return resolve(true);
+                }).catch((err) => {
+                    return reject(err);
+                });
         });
     }
     /**
@@ -70,7 +70,7 @@ class UserModel {
      */
     validateUpdate(data) {
         return new Promise((resolve, reject) => {
-            let step = null;
+            const step = null;
             if (data.step != undefined && data.step == 0) {
                 this.setUserDataValidator(new UserAccountValidator());
             } else if (data.step != undefined && data.step == 1) {
@@ -79,25 +79,25 @@ class UserModel {
                 this.setUserDataValidator(new UserMedicalValidator());
             } else if (data.step != undefined && data.step == 3) {
                 this.setUserDataValidator(new UserOtherValidator());
-            }else{
-                //default validator
+            } else {
+                // default validator
                 this.setUserDataValidator(new UserDefaultValidator());
             }
 
-            //fail because it has no validator for this
+            // fail because it has no validator for this
             if (this.dataValidator == null) {
-                return reject("Error");
+                return reject('Error');
             }
             this.dataValidator.validateDataRules(data)
-            .then((result) => {
-                return resolve(true);
-            }).catch((err) => {
-                return reject(err);
-            })
+                .then((result) => {
+                    return resolve(true);
+                }).catch((err) => {
+                    return reject(err);
+                });
         });
     }
 
-    /*******************
+    /** *****************
 
           OPERATIONS
 
@@ -112,6 +112,7 @@ class UserModel {
             this.save().then((_) => {
                 return resolve(true);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -160,6 +161,7 @@ class UserModel {
                     };
                     return resolve(tokens);
                 }).catch((err) => {
+                    /* istanbul ignore next */
                     return reject(err);
                 });
             }).catch((err) => {
@@ -186,6 +188,7 @@ class UserModel {
             }).then((result) => {
                 return resolve(result);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -208,11 +211,12 @@ class UserModel {
             }
 
             this.save()
-            .then((result) => {
-                return resolve(result);
-            }).catch((err) => {
-                return reject(err);
-            });
+                .then((result) => {
+                    return resolve(result);
+                }).catch((err) => {
+                /* istanbul ignore next */
+                    return reject(err);
+                });
         });
     }
     /**
@@ -275,7 +279,7 @@ class UserModel {
     setUserDataValidator(dataValidator) {
         this.dataValidator = dataValidator;
     }
-    /******************************
+    /** ****************************
 
           STATIC FIND FUNCTIONS
 
@@ -329,6 +333,7 @@ class UserModel {
             }).exec().then((user) => {
                 return resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -380,6 +385,7 @@ class UserModel {
             }).exec().then((user) => {
                 return resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -396,6 +402,7 @@ class UserModel {
             }).then((users) => {
                 return resolve(users);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -423,6 +430,7 @@ class UserModel {
             }).then((users) => {
                 return resolve(users);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -442,6 +450,7 @@ class UserModel {
             }).then((users) => {
                 return resolve(users);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });

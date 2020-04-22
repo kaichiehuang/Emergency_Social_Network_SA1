@@ -80,7 +80,6 @@ class UsersController {
                         }).catch((err) => {
                             /* istanbul ignore next */
                             res.contentType('application/json');
-                            console.log(err);
                             return res.status(422).send({
                                 msg: err
                             }).end();
@@ -90,7 +89,7 @@ class UsersController {
             /* istanbul ignore next */
                 res.contentType('application/json');
                 return res.status(422).send({
-                    msg: 'no existe'
+                    msg: ''
                 }).end();
             });
     }
@@ -180,6 +179,7 @@ class UsersController {
                 'message': message
             });
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(403).send(err);
         });
     }
@@ -220,7 +220,6 @@ class UsersController {
             return res.status(201).send(JSON.stringify(user));
         }).catch((err) => {
             /* istanbul ignore next */
-            console.log('catch when socket id doesn\'t exist');
             return res.status(500).send(err);
         });
     }
@@ -245,7 +244,6 @@ class UsersController {
                 return res.status(201).send(JSON.stringify(users));
             }).catch((err) => {
                 /* istanbul ignore next */
-                console.log('Error searching users by username');
                 return res.status(500).send(err);
             });
         } else {
