@@ -1,4 +1,8 @@
 const Announcement = require('../model/announcement');
+const SocketIO = require('../utils/SocketIO.js');
+const User = require('../model/user.js');
+const Roles = require('../utils/Roles.js');
+
 
 /**
  * announcement controller
@@ -17,11 +21,13 @@ class AnnouncementController {
 
         // save new announcement
         newAnnouncement.saveAnnouncement().then((newAnnouncement) => {
-            res.io.emit('new-announcement', {
+            const announcement = {
                 'id': newAnnouncement._id,
                 'message': newAnnouncement.message,
                 'created_at': newAnnouncement.created_at,
-            });
+            };
+            const socketIO = new SocketIO(res.io);
+            socketIO.emitMessage('new-announcement', announcement);
 
             res.contentType('application/json');
             res.status(201).send(JSON.stringify(newAnnouncement));
@@ -48,34 +54,43 @@ class AnnouncementController {
         const last = req.query.last;
         let sortType = -1;
 
-        if (keywords === undefined || keywords.length == 0 || index === undefined || last === true) {
-            if (last != undefined && last) {
+        User.findUserById(req.tokenUserId)
+            .then((userInfo) => {
+                if (keywords === undefined || keywords.length == 0 || index === undefined || last === true) {
+                    if (last != undefined && last) {
+                        /* istanbul ignore next */
+                        limit = parseInt('1');
+                        sortType = -1;
+                    }
+                    Announcement.getAnnouncements(sortType, limit, Roles.isAdministrator(userInfo.role))
+                        .then((announcements) => {
+                            res.contentType('application/json');
+                            res.status(201).send(JSON.stringify(announcements));
+                        }).catch((err) => {
+                        /* istanbul ignore next */
+                            return res.status(422).send(JSON.stringify({
+                                'error': err.message
+                            }));
+                        });
+                } else {
+                    sortType = -1;
+                    Announcement.findAnnouncements(keywords, index, sortType, Roles.isAdministrator(userInfo.role))
+                        .then((announcements) => {
+                            res.contentType('application/json');
+                            res.status(201).send(JSON.stringify(announcements));
+                        }).catch((err) => {
+                        /* istanbul ignore next */
+                            return res.status(422).send(JSON.stringify({
+                                'error': err.message
+                            }));
+                        });
+                }
+            })
+            .catch( (err) => {
                 /* istanbul ignore next */
-                limit = parseInt('1');
-                sortType = -1;
-            }
-
-            Announcement.getAnnouncements(sortType, limit).then((announcements) => {
-                res.contentType('application/json');
-                res.status(201).send(JSON.stringify(announcements));
-            }).catch((err) => {
-                /* istanbul ignore next */
-                return res.status(422).send(JSON.stringify({
-                    'error': err.message
-                }));
+                console.log('Error searching messages by keyword');
+                return res.status(500).send(err);
             });
-        } else {
-            sortType = -1;
-            Announcement.findAnnouncements(keywords, index, sortType).then((announcements) => {
-                res.contentType('application/json');
-                res.status(201).send(JSON.stringify(announcements));
-            }).catch((err) => {
-                /* istanbul ignore next */
-                return res.status(422).send(JSON.stringify({
-                    'error': err.message
-                }));
-            });
-        }
     }
 }
 module.exports = AnnouncementController;

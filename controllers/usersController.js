@@ -1,9 +1,14 @@
 const User = require('../model/user.js');
 const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js');
+const SocketIO = require('../utils/SocketIO.js');
 /**
  * user controller
  */
 class UsersController {
+    constructor() {
+        this.updateUser = this.updateUser.bind(this);
+    }
+
     /**
      * [createUser description]
      * @param  {[type]} req [description]
@@ -19,62 +24,91 @@ class UsersController {
         if (signUpData['password'] == undefined) {
             signUpData['password'] = '';
         }
+
         const jsonResponseData = {};
+
         // 2. Validate if user exists
-        User.findUserByUsername(signUpData['username']).then((user) => {
-            let userInstance = user;
-            // 4. if user doesn't exist validate data and create it
-            if (user == null) {
-                userInstance = new User();
-                userInstance.setRegistrationData(signUpData['username'], signUpData['password']);
+        User.findUserByUsername(signUpData['username'])
+            .then((user) => {
+                let userInstance = user;
+                // 4. if user doesn't exist validate data and create it
+                if (user == null) {
+                    userInstance = new User();
+                    userInstance.setRegistrationData(signUpData['username'], signUpData['password']);
+
+                    // 3. Run validations on user object
+                    userInstance.validateCreate()
+                        .then(function(result) {
+                            return userInstance.registerUser();
+                        }).then(function(response) {
+                            return userInstance.generateTokens();
+                        }).then((tokens) => {
+                            jsonResponseData.user = Object.assign({}, userInstance._doc);
+                            jsonResponseData.user.userId = userInstance._id.toString();
+                            jsonResponseData.tokens = tokens;
+                            res.contentType('application/json');
+                            return res.status(201).send(JSON.stringify(jsonResponseData));
+                        }).then((res) => {
+                            const emergency_status_detail_instance = new EmergencyStatusDetail(userInstance._id);
+                            return emergency_status_detail_instance.createEmergencyStatusDetail();
+                        }).catch((err) => {
+                            res.contentType('application/json');
+                            console.log(err);
+                            return res.status(422).send({
+                                msg: err
+                            }).end();
+                        });
+                } else {
                 // 3. Run validations on user object
-                userInstance.validateCreate().then(function(result) {
-                    return userInstance.registerUser();
-                }).then(function(response) {
-                    return userInstance.generateTokens();
-                }).then((tokens) => {
-                    jsonResponseData.user = Object.assign({}, userInstance._doc);
-                    jsonResponseData.user.userId = userInstance._id.toString();
-                    jsonResponseData.tokens = tokens;
-                    res.contentType('application/json');
-                    return res.status(201).send(JSON.stringify(jsonResponseData));
-                }).then((res) => {
-                    const emergencyStatusDetail = new EmergencyStatusDetail(userInstance._id);
-                    return emergencyStatusDetail.createEmergencyStatusDetail();
-                }).catch((err) => {
-                    res.contentType('application/json');
-                    console.log(err);
-                    return res.status(422).send({
-                        msg: err
-                    }).end();
-                });
-            } else {
-                // 3. Run validations on user object
-                userInstance.isPasswordMatch(signUpData['password']).then(function(response) {
-                    return userInstance.generateTokens();
-                }).then((tokens) => {
-                    jsonResponseData.user = Object.assign({}, userInstance._doc);
-                    jsonResponseData.user.userId = userInstance._id.toString();
-                    jsonResponseData.tokens = tokens;
-                    res.contentType('application/json');
-                    return res.status(201).send(JSON.stringify(jsonResponseData));
-                }).catch((err) => {
-                    /* istanbul ignore next */
-                    res.contentType('application/json');
-                    console.log(err);
-                    return res.status(422).send({
-                        msg: err
-                    }).end();
+                    userInstance.isPasswordMatch(signUpData['password'])
+                        .then((response) => {
+                            // Validating if user is active
+                            if (userInstance.active) {
+                                userInstance.generateTokens()
+                                    .then((tokens) => {
+                                        jsonResponseData.user = Object.assign({}, userInstance._doc);
+                                        jsonResponseData.user.userId = userInstance._id.toString();
+                                        jsonResponseData.tokens = tokens;
+                                        res.contentType('application/json');
+                                        return res.status(201).send(JSON.stringify(jsonResponseData));
+                                    });
+                            } else {
+                                return res.status(401).send({
+                                    msg: 'Your account is inactive, try to login later'
+                                }).end();
+                            }
+                        }).catch((err) => {
+                            /* istanbul ignore next */
+                            res.contentType('application/json');
+                            console.log(err);
+                            return res.status(422).send({
+                                msg: err
+                            }).end();
+                        });
+                }
+            }).catch((err) => {
+            /* istanbul ignore next */
+                res.contentType('application/json');
+                return res.status(422).send({
+                    msg: 'no existe'
+                }).end();
+            });
+    }
+
+    validateAccountStatus(userData, newStatus, resSocket) {
+        if (newStatus.active !== undefined &&
+            userData.active &&
+            !newStatus.active) {
+            const sockets = userData.sockets;
+            if (sockets !== undefined && sockets.size > 0) {
+                sockets.forEach(function(value, index) {
+                    const socketIO = new SocketIO(resSocket.to(index));
+                    socketIO.emitMessage('logout-user', 'Sorry, Your account has benn Suspended');
                 });
             }
-        }).catch((err) => {
-            /* istanbul ignore next */
-            res.contentType('application/json');
-            return res.status(422).send({
-                msg: 'no existe'
-            }).end();
-        });
+        }
     }
+
     /**
      * [updateUser description]
      * @param  {[type]} req [description]
@@ -87,6 +121,7 @@ class UsersController {
         // 1. update user data
         User.findById(userId).then((user) => {
             userInstance = user;
+            this.validateAccountStatus(user, req.body, res.io);
             return userInstance.updateUser(req.body);
         }).then((_) => {
             let jsonResponseData = {};
