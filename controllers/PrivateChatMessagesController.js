@@ -74,7 +74,7 @@ class PrivateChatMessagesController {
             console.log(err);
             /* istanbul ignore next */
             return res.status(422).send({
-                "msg": err.message
+                "msg": err
             });
         });
     }

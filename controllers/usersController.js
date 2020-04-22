@@ -62,7 +62,8 @@ class UsersController {
     validateAccountStatus(userData, newStatus, resSocket) {
         if (newStatus.active !== undefined &&
             userData.active &&
-            !newStatus.active) {
+            newStatus.active.toString().localeCompare('0') === 0) {
+            console.log('dentro del evento');
             const sockets = userData.sockets;
             if (sockets !== undefined && sockets.size > 0) {
                 sockets.forEach(function(value, index) {
@@ -83,6 +84,7 @@ class UsersController {
      * @return {[type]}     [description]
      */
     updateUser(req, res) {
+        console.log('in update user');
         let userInstance = null;
         const userId = req.params.userId;
         // 1. update user data

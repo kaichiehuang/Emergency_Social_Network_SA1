@@ -468,10 +468,9 @@ class UserModel {
             });
         });
     }
-
     /**
-     * init admin user
-     * @returns {Promise<unknown>}
+     * Method to initialize the Administrator user
+     *
      */
     static initAdminUser() {
         return new Promise((resolve, reject) => {
@@ -482,6 +481,7 @@ class UserModel {
                         const user = new User();
                         user.setRegistrationData('ESNAdmin', 'admin');
                         user.role = 'administrator';
+                        user.status = 'OK';
                         return user.registerUser();
                     } else {
                         return resolve(true);

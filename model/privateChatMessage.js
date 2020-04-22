@@ -22,7 +22,7 @@ class PrivateChatMessage {
         return new Promise((resolve, reject) => {
             if (this.senderUserId == this.receiverUserId) {
                 /* istanbul ignore next */
-                return reject('Cannot chat with himself');
+                return reject('Cannot chat with yourself');
             }
             // validate for empty announcement
             if (this.message.localeCompare('') == 0) {
