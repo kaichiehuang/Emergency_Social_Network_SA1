@@ -31,7 +31,7 @@ class NewUserValidator extends ValidatorInterface {
                     'fieldName': 'password',
                     'minLength': 4,
                     'msg': 'Invalid password, please enter a longer password (min 4 characters)',
-                    "allowEmpty": false
+                    'allowEmpty': false
                 }
             ],
             'customRules': [
