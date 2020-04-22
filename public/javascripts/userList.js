@@ -37,77 +37,82 @@ class UserList {
         // 2. find container
         const listContainer = document.getElementById(containerId);
         $('#' + containerId + ' li').remove();
-        if (listContainer != undefined) {
-            // 3. iterate over users list and draw using the
-            // appropriate template based on online/offline state
-            for (let i = 0; i < users.length; i++) {
-                const user = users[i];
-                let template = null;
-                // 4. online state
-                if (onlineTemplate != undefined && user.onLine == true) {
-                    template = onlineTemplate.content.cloneNode(true);
-                }
-                // 5. offline state
-                else if (offlineTemplate != undefined &&
-                    (user.onLine == false || user.onLine == undefined)) {
-                    template = offlineTemplate.content.cloneNode(true);
-                }
-                if (template != undefined && template !=
-                    null && user != undefined) {
-                    template.querySelector('.username')
-                        .innerText = user.username;
-                    template.querySelector('.username')
-                        .setAttribute('data-user-id', user._id);
-                    template.querySelector('.chat-button')
-                        .setAttribute('data-user-id', user._id);
-                    template.querySelector('.status-button')
-                        .setAttribute('data-user-id', user._id);
-                    // set message counter from user
-                    if (currentUser.unread_messages != undefined &&
-                        currentUser.unread_messages[user._id] != undefined &&
-                        currentUser.unread_messages[user._id] > 0) {
-                        template.querySelector('.message-counter').innerText =
-                            currentUser.unread_messages[user._id];
-                    }
-                    if (user.status === 'OK') {
-                        template.querySelector('#statusSpan')
-                            .classList.add('background-color-ok');
-                        template.querySelector('#iconStatus')
-                            .classList.add('fa-check');
-                        template.querySelector('.status-button')
-                            .setAttribute('data-status', 'ok');
-                    } else if (user.status === 'HELP') {
-                        template.querySelector('#statusSpan')
-                            .classList.add('background-color-help');
-                        template.querySelector('#iconStatus')
-                            .classList.add('fa-exclamation');
-                        template.querySelector('.status-button')
-                            .setAttribute('data-status', 'help');
-                    } else if (user.status === 'EMERGENCY') {
-                        template.querySelector('#statusSpan')
-                            .classList.add('background-color-emergency');
-                        template.querySelector('#iconStatus')
-                            .classList.add('fa-exclamation-triangle');
-                        template.querySelector('.status-button')
-                            .setAttribute('data-status', 'Emergency');
-                    } else if (user.status === 'UNDEFINED') {
-                        template.querySelector('#statusSpan')
-                            .classList.add('background-color-undefined');
-                        template.querySelector('#iconStatus')
-                            .classList.add('fa-question');
-                        template.querySelector('.status-button')
-                            .setAttribute('data-status', 'undefined');
-                    }
-                    listContainer.appendChild(template);
-                }
-            }
-            UserList.getInstance().registerEventsAfterDraw();
+        if (listContainer == undefined || (onlineTemplate == undefined && offlineTemplate == undefined)) {
+            return;
         }
-    }
+        // 3. iterate over users list and draw using the
+        // appropriate template based on online/offline state
+        for (let i = 0; i < users.length; i++) {
+            const user = users[i];
+            let template = null;
+            // 4. online state
+            template = onlineTemplate.content.cloneNode(true);
+            // 5. offline state
+            if (user.onLine == false || user.onLine == undefined) {
+                template = offlineTemplate.content.cloneNode(true);
+            }
 
-     showEmergencyStatus(userId) {
-        console.log('user id is ' + userId);
+            if (template == undefined || template ==
+                null || user == undefined) {
+                return;
+            }
+
+            //draw
+            template.querySelector('.username')
+                .innerText = user.username;
+            template.querySelector('.username')
+                .setAttribute('data-user-id', user._id);
+            template.querySelector('.chat-button')
+                .setAttribute('data-user-id', user._id);
+            template.querySelector('.status-button')
+                .setAttribute('data-user-id', user._id);
+            // set message counter from user
+            if (currentUser.unread_messages != undefined &&
+                currentUser.unread_messages[user._id] != undefined &&
+                currentUser.unread_messages[user._id] > 0) {
+                template.querySelector('.message-counter').innerText =
+                    currentUser.unread_messages[user._id];
+            }
+
+            let userStatusLC = user.status.toLowerCase();
+            template.querySelector('#statusSpan')
+                .classList.add('background-color-' + userStatusLC);
+            template.querySelector('.status-button')
+                .setAttribute('data-status', user.status);
+            if (user.status === 'OK') {
+                template.querySelector('#iconStatus')
+                    .classList.add('fa-check');
+            } else if (user.status === 'HELP') {
+                template.querySelector('#iconStatus')
+                    .classList.add('fa-exclamation');
+            } else if (user.status === 'EMERGENCY') {
+                template.querySelector('#iconStatus')
+                    .classList.add('fa-exclamation-triangle');
+            } else if (user.status === 'UNDEFINED') {
+                template.querySelector('#iconStatus')
+                    .classList.add('fa-question');
+            }
+            listContainer.appendChild(template);
+        }
+        UserList.getInstance().registerEventsAfterDraw();
+    }
+    /**
+     * Show the detail of an emergency status
+     * @param  {[type]} userId [description]
+     * @return {[type]}        [description]
+     */
+    showEmergencyStatus(userId) {
         $('#userEmergencyDetail').modal('show');
+        //display detail
+        this.getUserStatusDetail(userId);
+        //display picture
+        this.getUserStatusPictures(userId);
+    }
+    /**
+     * [getUserStatusDetail description]
+     * @return {[type]} [description]
+     */
+    getUserStatusDetail(userId){
         // get brief description and location
         APIHandler.getInstance()
             .sendRequest('/emergencyStatusDetail/' + userId,
@@ -124,7 +129,12 @@ class UserList {
                 $('#get-emergency-detail-alert').html(error);
                 $('#get-emergency-detail-alert').show();
             });
-
+    }
+    /**
+     * Gets picture for user status
+     * @return {[type]} [description]
+     */
+    getUserStatusPictures(userId){
         $('.userPicAndDesBlock').empty();
         // get picutures and description
         APIHandler.getInstance()
@@ -132,7 +142,6 @@ class UserList {
                 'get', null, true, null)
             .then((response) => {
                 response.forEach(function(pictureObj) {
-                    console.log(pictureObj);
                     const t = document
                         .querySelector('#userPictureAndDescriptionTemplate');
                     t.content.querySelector('img').src =
@@ -200,7 +209,7 @@ class UserList {
             const clickedUserId = $(this).data('user-id');
             // eslint-disable-next-line no-invalid-this
             const clickedUserStatus = $(this).data('status');
-            if (clickedUserStatus === 'Emergency') {
+            if (clickedUserStatus.toLowerCase() == 'emergency') {
                 UserList.getInstance().showEmergencyStatus(clickedUserId);
             }
         });
