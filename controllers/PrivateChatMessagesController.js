@@ -18,7 +18,6 @@ class PrivateChatMessagesController {
         let senderUser = null;
         let receiverUser = null;
         // 0. validate right data from request body
-        console.log("req body message in controller is + " + req.body.message)
         if (requestData['message'] == undefined) {
             console.log("in undefined private message");
             return res.status(422).send(JSON.stringify({
@@ -75,7 +74,7 @@ class PrivateChatMessagesController {
             console.log(err);
             /* istanbul ignore next */
             return res.status(422).send({
-                error: err.message
+                "msg": err.message
             });
         });
     }
@@ -194,7 +193,7 @@ function searchPrivateMessage(requestData, res) {
             }
         }).catch((err) => {
             return res.status(422).send({
-                error: err.message
+                "msg": err.message
             });
         });
 }
@@ -217,7 +216,7 @@ function getAllPrivateMessage(requestData, res) {
     }).catch((err) => {
         /* istanbul ignore next */
         return res.status(422).send(JSON.stringify({
-            error: err.message
+            "msg": err.message
         }));
     });
 }

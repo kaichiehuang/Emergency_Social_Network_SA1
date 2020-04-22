@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const UserSchema = require('./model').UserSchema;
+const Roles = require('../utils/Roles');
 const bcrypt = require('bcrypt');
-const UserHelper = require('./util/userHelper');
+const UserHelper = require('../utils/userHelper');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
 const UserPersonalValidator = require('./validators/userPersonalValidator.js');
@@ -384,7 +385,7 @@ class UserModel {
                     return reject('You are not authorized');
                 }
                 // diff user, check if its an admin or authorized
-                if (currentUserId.toString().localeCompare(id) != 0) {
+                if (Roles.isAdministrator(searchingUser.role) === false) {
                     if (user.emergency_contact == undefined || user.emergency_contact.phone_number == undefined || searchingUser.phone_number == undefined || searchingUser.phone_number == '' || searchingUser.phone_number.localeCompare(user.emergency_contact.phone_number) != 0) {
                         return reject('You are not authorized');
                     }

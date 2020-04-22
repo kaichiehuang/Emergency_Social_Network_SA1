@@ -181,9 +181,10 @@ class BaseMessage {
                 }
             })
             .catch((error) => {
-                const errorAlert = $('#signup-error-alert');
-                errorAlert.html(error);
-                errorAlert.show();
+                if(error.msg != undefined){
+                    alert(error.msg);
+                }
+
             });
     }
 

@@ -25,6 +25,12 @@ class ChatMessage {
      */
     createNewMessage() {
         return new Promise((resolve, reject) => {
+            // validate for empty announcement
+            if (this.message.toString() === '') {
+                // eslint-disable-next-line prefer-promise-reject-errors
+                reject('Invalid message, cannot be empty');
+            }
+
             const newChatMessage = new ChatMessageModel({
                 message: this.message,
                 user_id: this.user_id,

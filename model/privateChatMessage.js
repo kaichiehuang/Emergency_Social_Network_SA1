@@ -24,6 +24,12 @@ class PrivateChatMessage {
                 /* istanbul ignore next */
                 reject('Cannot chat with himself');
             }
+            // validate for empty announcement
+            if (this.message.toString() === '') {
+                // eslint-disable-next-line prefer-promise-reject-errors
+                reject('Invalid message, cannot be empty');
+            }
+
             const newChatMessage = new PrivateChatMessageModel({
                 message: this.message,
                 sender_user_id: this.senderUserId,

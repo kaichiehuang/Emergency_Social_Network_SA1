@@ -34,7 +34,7 @@ class AnnouncementController {
         }).catch((err) => {
             /* istanbul ignore next */
             return res.status(422).send(JSON.stringify({
-                'error': err.message
+                'msg': err.message
             }));
         });
     }
