@@ -18,7 +18,10 @@ const user = {
     password: 'fakePassword',
     name: 'fake name',
     last_name: 'fake last',
+    role: 'administrator'
 };
+
+
 
 beforeAll(async () => {
     await testDatabase.start();
@@ -29,11 +32,20 @@ beforeAll(async () => {
         .set('accept', 'json')
         .then((res) =>{
             token = res.body.tokens.token;
+            //console.log(res.body.user);
             userId = res.body.user.userId;
+            //console.log("here here here " + res.body.user.role);
         });
 
     console.log('token: ' + token);
+
+
     console.log('userId: ' + userId);
+
+    await agent.put(HOST + '/api/users/' + userId)
+        .send(user)
+        .set('accept', 'json')
+        .set('Authorization', token)
 
 
     const announcement = {
@@ -94,6 +106,7 @@ describe('Get Announcement API', () =>{
             .set('Authorization', token)
             .set('accept', 'json')
             .then((res) =>{
+                // console.log(res.body);
                 return expect(res.body.length).toBe(3);
             });
     });

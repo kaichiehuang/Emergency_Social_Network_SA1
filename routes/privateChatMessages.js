@@ -3,6 +3,7 @@ const router = new express.Router();
 const PrivateChatMessagesController = require(__dirname + '/../controllers/PrivateChatMessagesController');
 const bodyParser = require('body-parser');
 const TokenServerClass = require('../middleware/TokenServer');
+const RBAC = require('../middleware/RBAC');
 // application/json parser
 const jsonParser = bodyParser.json();
 

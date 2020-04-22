@@ -57,10 +57,12 @@ const UserSchema = new Schema(
             type: Boolean,
             default: true
         },
+        // role: String
         role: {
             type: String,
-            default: 'Citizen'
-        },
+            default: 'citizen'
+        }
+        
     },
     schemaOptions
 );
