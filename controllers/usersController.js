@@ -25,16 +25,19 @@ class UsersController {
         if (signUpData['password'] == undefined) {
             signUpData['password'] = '';
         }
+
+        const jsonResponseData = {};
+
         // 2. Validate if user exists
         User.findUserByUsername(signUpData['username'])
             .then((user) => {
                 const userInstance = user;
                 // 4. if user doesn't exist validate data and create it
                 if (user == null) {
-                    handleUserNonExist(userInstance);
+                    handleNonExistUser(userInstance, jsonResponseData, signUpData, res);
                 } else {
                 // 3. Run validations on user object
-                    handleExistUser(userInstance);
+                    handleExistUser(userInstance, jsonResponseData, signUpData, res);
                 }
             }).catch((err) => {
             /* istanbul ignore next */
@@ -45,12 +48,6 @@ class UsersController {
             });
     }
 
-    /**
-     * validate account status
-     * @param userData
-     * @param newStatus
-     * @param resSocket
-     */
     validateAccountStatus(userData, newStatus, resSocket) {
         if (newStatus.active !== undefined &&
             userData.active &&
@@ -218,12 +215,13 @@ class UsersController {
 }
 
 /**
- * handle user not exist
- * @param userInstance
+ * non exist user handle
+ * @param instance
  */
-function handleUserNonExist(userInstance) {
+function handleNonExistUser(userInstance, jsonResponseData, signUpData, res) {
     userInstance = new User();
     userInstance.setRegistrationData(signUpData['username'], signUpData['password']);
+
     // 3. Run validations on user object
     userInstance.validateCreate()
         .then(function(result) {
@@ -251,8 +249,11 @@ function handleUserNonExist(userInstance) {
 /**
  * handle exist user
  * @param userInstance
+ * @param jsonResponseData
+ * @param signUpData
+ * @param res
  */
-function handleExistUser(userInstance) {
+function handleExistUser(userInstance, jsonResponseData, signUpData, res) {
     userInstance.isPasswordMatch(signUpData['password'])
         .then((response) => {
             // Validating if user is active
