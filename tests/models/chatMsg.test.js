@@ -38,19 +38,19 @@ describe('Getting Messages', () => {
 
     test('getting messages from  the database', async () => {
         const chatMessage = new ChatMessage();
-        await chatMessage.getChatMessages().then((msg) => {
+        await chatMessage.getChatMessages(true).then((msg) => {
             expect(String(msg[0]._id)).toBe(messsageId);
         });
     });
 
     test('find messages by normal keyword', async () => {
-        await ChatMessage.findMessagesByKeyword('test').then((msg) => {
+        await ChatMessage.findMessagesByKeyword('test',true).then((msg) => {
             expect(String(msg[0]._id)).toBe(messsageId);
         });
     });
 
     test('find messages by stop-word', async () => {
-        await ChatMessage.findMessagesByKeyword('a').then((msg) => {
+        await ChatMessage.findMessagesByKeyword('a', true).then((msg) => {
             expect(msg.length).toBe(0);
         });
     });

@@ -111,7 +111,6 @@ class ChatMessagesController {
                         })
                         .catch( (err) => {
                             /* istanbul ignore next */
-                            console.log('Error searching messages by keyword');
                             return res.status(500).send(err);
                         });
                 } else {
@@ -128,8 +127,7 @@ class ChatMessagesController {
                 }
             })
             .catch( (err) => {
-                /* istanbul ignore next */
-                console.log('Error searching messages by keyword');
+                /* istanbul ignore next */;
                 return res.status(500).send(err);
             });
     }

@@ -141,6 +141,7 @@ class UsersController {
                 'message': message
             });
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(403).send({
                 msg: err
             });
@@ -238,9 +239,8 @@ function handleExistUser(userInstance, jsonResponseData, signUpData, res) {
                 }).end();
             }
         }).catch((err) => {
-        /* istanbul ignore next */
             res.contentType('application/json');
-            console.log(err);
+            /* istanbul ignore next */
             return res.status(422).send({
                 msg: err
             }).end();

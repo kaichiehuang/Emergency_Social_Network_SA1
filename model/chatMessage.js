@@ -38,8 +38,6 @@ class ChatMessage {
                 })
                 .catch(function(err) {
                     /* istanbul ignore next */
-                    console.log('message creation failed');
-                    console.log(err);
                     reject(err);
                 });
         });
@@ -66,7 +64,6 @@ class ChatMessage {
                 })
                 .catch(function(err) {
                     /* istanbul ignore next */
-                    console.log('getChatMessages error: ' + err);
                     reject(err);
                 });
         });
