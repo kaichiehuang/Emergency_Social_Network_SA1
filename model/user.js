@@ -159,7 +159,7 @@ class UserModel {
                         });
                     if (data.password != undefined && data.password.length > 0) {
                         data.password = UserHelper.hashPassword(data.password);
-                    } else if (data.password != undefined){
+                    } else if (data.password != undefined) {
                         delete data.password;
                     }
                 }
@@ -425,9 +425,10 @@ class UserModel {
      * [getUsers description]
      * @return {[type]} [description]
      */
-    static getUsers() {
+    static getUsers(isAdmin) {
         return new Promise((resolve, reject) => {
-            this.find({}).select('username onLine status').sort({
+            const condition = isAdmin ? {} : {active: true};
+            this.find(condition).select('username onLine status').sort({
                 onLine: -1,
                 username: 'asc'
             }).then((users) => {
@@ -443,7 +444,7 @@ class UserModel {
      * @param username
      * @return {Promise<unknown>}
      */
-    static findUsersByParams(params) {
+    static findUsersByParams(params, isAdmin) {
         return new Promise((resolve, reject) => {
             const data = {};
             if (params.username != undefined && params.username.length > 0) {
@@ -453,6 +454,9 @@ class UserModel {
             }
             if (params.status != undefined && params.status.length > 0) {
                 data.status = params.status;
+            }
+            if (!isAdmin) {
+                data.active = true;
             }
             console.log(data);
             this.find(data).select('username onLine status').sort({
