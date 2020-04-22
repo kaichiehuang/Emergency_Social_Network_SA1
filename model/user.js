@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const UserSchema = require('./model').UserSchema;
 const bcrypt = require('bcrypt');
-const UserHelper = require("./util/userHelper");
+const UserHelper = require('./util/userHelper');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
 const UserPersonalValidator = require('./validators/userPersonalValidator.js');
@@ -111,7 +111,6 @@ class UserModel {
     registerUser() {
         return new Promise((resolve, reject) => {
             this.password = UserHelper.hashPassword(this.password);
-
             this.save()
             .then((_) => {
                 return resolve(true);
@@ -133,7 +132,7 @@ class UserModel {
                 }
                 if (data.password != undefined && data.password.length > 0) {
                     data.password = UserHelper.hashPassword(data.password);
-                } else if (data.password != undefined){
+                } else if (data.password != undefined) {
                     delete data.password;
                 }
                 this.set(data);
@@ -162,6 +161,7 @@ class UserModel {
                     };
                     return resolve(tokens);
                 }).catch((err) => {
+                    /* istanbul ignore next */
                     return reject(err);
                 });
             }).catch((err) => {
@@ -188,6 +188,7 @@ class UserModel {
             }).then((result) => {
                 return resolve(true);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -213,6 +214,7 @@ class UserModel {
                 .then((result) => {
                     return resolve(result);
                 }).catch((err) => {
+                /* istanbul ignore next */
                     return reject(err);
                 });
         });
@@ -251,6 +253,7 @@ class UserModel {
                 }
                 return resolve(this.unread_messages.get(senderUserId));
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -262,10 +265,9 @@ class UserModel {
      */
     getPersonalMessage(securityQuestionAnswer) {
         return new Promise((resolve, reject) => {
-            if (this.personal_message == undefined || this.personal_message.message == undefined || this.personal_message.security_question == undefined || this.personal_message.security_question_answer == undefined){
+            if (this.personal_message == undefined || this.personal_message.message == undefined || this.personal_message.security_question == undefined || this.personal_message.security_question_answer == undefined) {
                 return reject('Invalid answer');
-            }
-            else if (this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(securityQuestionAnswer) == 0) {
+            } else if (this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(securityQuestionAnswer) == 0) {
                 return resolve(this.personal_message.message);
             } else {
                 return reject('Invalid answer');
@@ -299,6 +301,7 @@ class UserModel {
                     return resolve(false);
                 }
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -316,6 +319,7 @@ class UserModel {
                     return resolve(false);
                 }
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -332,6 +336,7 @@ class UserModel {
             }).exec().then((user) => {
                 return resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -383,6 +388,7 @@ class UserModel {
             }).exec().then((user) => {
                 return resolve(user);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -399,6 +405,7 @@ class UserModel {
             }).then((users) => {
                 return resolve(users);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -426,6 +433,7 @@ class UserModel {
             }).then((users) => {
                 return resolve(users);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -445,6 +453,7 @@ class UserModel {
             }).then((users) => {
                 return resolve(users);
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
