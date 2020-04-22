@@ -22,12 +22,12 @@ class PrivateChatMessage {
         return new Promise((resolve, reject) => {
             if (this.senderUserId == this.receiverUserId) {
                 /* istanbul ignore next */
-                reject('Cannot chat with himself');
+                return reject('Cannot chat with himself');
             }
             // validate for empty announcement
             if (this.message.localeCompare('') == 0) {
                 // eslint-disable-next-line prefer-promise-reject-errors
-                reject('Invalid message, cannot be empty');
+                return reject('Invalid message, cannot be empty');
             }
 
             const newChatMessage = new PrivateChatMessageModel({
@@ -39,10 +39,10 @@ class PrivateChatMessage {
             newChatMessage.save().then((result) => {
                 console.log('private message created');
                 this._id = result.id;
-                resolve(newChatMessage);
+                return resolve(newChatMessage);
             }).catch(function(err) {
                 /* istanbul ignore next */
-                reject(err);
+                return reject(err);
             });
         });
     }
