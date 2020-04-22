@@ -2,8 +2,8 @@ const AnnouncementModel = require('./model').AnnouncementsMongo;
 const StopWords = require('../utils/StopWords');
 const constants = require('../constants');
 
-//Create index on mongodb
-//db.announcements.createIndex({"message":"text"})
+// Create index on mongodb
+// db.announcements.createIndex({"message":"text"})
 
 class Announcement {
     constructor(message, user_id, user_status) {
@@ -19,27 +19,28 @@ class Announcement {
      */
     saveAnnouncement() {
         return new Promise((resolve, reject) => {
-            //validate for empty announcement
-            if (new String(this.message) == "") {
-                reject("Invalid announcement, please enter the message that you want to send");
+            // validate for empty announcement
+            if (this.message.toString() === '') {
+                // eslint-disable-next-line prefer-promise-reject-errors
+                reject('Invalid announcement, please enter the message that you want to send');
             }
-            //save new announcement
-            let newAnnouncement = new AnnouncementModel({
+            // save new announcement
+            const newAnnouncement = new AnnouncementModel({
                 message: this.message,
                 user_id: this.user_id,
                 status: this.status
             });
             newAnnouncement.save()
-                .then(result => {
+                .then((result) => {
                     this._id = result.id;
                     resolve(result);
                 })
-                .catch(err => {
+                .catch((err) => {
                     /* istanbul ignore next */
-                    console.log("Error creating announcement:" + err)
+                    console.log('Error creating announcement:' + err);
                     reject(err);
-                })
-        })
+                });
+        });
     }
 
 
@@ -48,15 +49,15 @@ class Announcement {
      * the user that post the announcement
      * @returns {Promise<unknown>}
      */
-    static getAnnouncements(sort_type, limit) {
+    static getAnnouncements(sort_type, limit, isAdmin) {
         return new Promise((resolve, reject) => {
             const populateQuery = {
                 path: 'user_id',
                 select: '_id username',
                 match: {}
             };
-            //TODO: GET user role
-            if (true) {
+
+            if (!isAdmin) {
                 populateQuery['match']['active'] =true;
             }
             AnnouncementModel.find({})
@@ -64,37 +65,40 @@ class Announcement {
                 .sort({
                     created_at: sort_type
                 }).limit(parseInt(limit))
-                .then(result => {
+                .then((result) => {
                     resolve(result);
                 })
                 .catch((err) => {
                     /* istanbul ignore next */
-                    console.log("Error getting Announcements: " + err);
-                    //throw err.message;
-                    reject("Error getting Announcements: " + err.message);
+                    console.log('Error getting Announcements: ' + err);
+                    // throw err.message;
+                    // eslint-disable-next-line prefer-promise-reject-errors
+                    reject('Error getting Announcements: ' + err.message);
                 });
-        })
+        });
     }
 
     /**
      * Search announcements by keywords with pagination
      * @param keywords
+     * @param index
+     * @param sort_type
+     * @param isAdmin
      * @returns {Promise<unknown>}
      */
-    static findAnnouncements(keywords, index, sort_type) {
+    static findAnnouncements(keywords, index, sort_type, isAdmin) {
         return new Promise((resolve, reject) => {
             const populateQuery = {
                 path: 'user_id',
                 select: '_id username',
                 match: {}
             };
-            //TODO: GET user role
-            if (true) {
+            if (!isAdmin) {
                 populateQuery['match']['active'] =true;
             }
-            let totalSkip = index * constants.PAGINATION_NUMBER;
-            StopWords.removeStopWords(keywords).then(filteredKeyWords => {
-                console.log("after clean keywords: " + filteredKeyWords);
+            const totalSkip = index * constants.PAGINATION_NUMBER;
+            StopWords.removeStopWords(keywords).then((filteredKeyWords) => {
+                console.log('after clean keywords: ' + filteredKeyWords);
                 AnnouncementModel.find(
                     {$text: {$search: filteredKeyWords}})
                     .populate(populateQuery)
@@ -103,18 +107,17 @@ class Announcement {
                     })
                     .skip(totalSkip)
                     .limit(constants.PAGINATION_NUMBER)
-                    .then(result => {
+                    .then((result) => {
                         resolve(result);
                     })
                     .catch(function(err) {
                         /* istanbul ignore next */
-                        console.log("Error getting Announcements by keyword: " + err);
+                        console.log('Error getting Announcements by keyword: ' + err);
                         reject(err);
                     });
-            })
-        })
+            });
+        });
     }
-
 }
 
 

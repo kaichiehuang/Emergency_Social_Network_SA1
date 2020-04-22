@@ -1,7 +1,7 @@
 const Resource = require('../model/resource');
 const User = require('../model/user.js');
 const ChatMessage = require('../model/chatMessage.js');
-const SocketIOController = require('../controllers/SocketIOController.js');
+const SocketIO = require('../utils/SocketIO.js');
 
 class ResourceController {
     /**
@@ -65,19 +65,8 @@ class ResourceController {
                                     'status': chatMessageCreated.status
                                 };
                                 // 4. if chat message was saved emit the chat message to everyone
-                                const socketIO = new SocketIOController(res.io);
-                                socketIO.emitMessage(message);
-                                // res.io.emit('new-chat-message', {
-                                //     'id': chatMessageCreated._id,
-                                //     'message': chatMessageCreated.message,
-                                //     'user_id': {
-                                //         '_id': userFound._id,
-                                //         'username': userFound.username
-                                //     },
-                                //     'created_at': chatMessageCreated.created_at,
-                                //     'status': chatMessageCreated.status
-                                // });
-
+                                const socketIO = new SocketIO(res.io);
+                                socketIO.emitMessage('new-chat-message', message);
 
                                 res.contentType('application/json');
                                 res.status(201).send(JSON.stringify(newResource));

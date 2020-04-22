@@ -1,8 +1,7 @@
-const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js')
+const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js');
 const fs = require('fs');
 
 class EmergencyStatusDetailController {
-
     getEmergencyStatusDetail(req, res) {
         const userId = req.params.userId;
         EmergencyStatusDetail.getEmergencyStatusDetail(userId)
@@ -53,7 +52,6 @@ class EmergencyStatusDetailController {
             }).catch((err) => {
                 return res.status(500).send(err);
             });
-
     }
 
     updatePictureDescription(req, res) {
@@ -76,18 +74,16 @@ class EmergencyStatusDetailController {
                 const path = result.picture_path;
                 fs.unlink(path, (err) => {
                     if (err) {
-                      console.error(err)
-                      return
+                        console.error(err);
+                        return;
                     }
-                })
+                });
                 res.contentType('application/json');
                 return res.status(201).send(JSON.stringify(result));
             }).catch((err) => {
                 return res.status(500).send(err);
             });
     }
-
-
 }
 
 module.exports = EmergencyStatusDetailController;

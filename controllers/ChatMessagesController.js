@@ -1,7 +1,8 @@
 const ChatMessage = require('../model/chatMessage.js');
 const User = require('../model/user.js');
 const constants = require('../constants');
-const SocketIOController = require('../controllers/SocketIOController.js');
+const SocketIO = require('../utils/SocketIO.js');
+const Roles = require('../utils/Roles.js');
 
 class ChatMessagesController {
     /**
@@ -52,20 +53,8 @@ class ChatMessagesController {
                 'status': chatMessageCreated.status
             };
 
-            const socketIO = new SocketIOController(res.io);
-            socketIO.emitMessage(message);
-            // res.io.emit('new-chat-message', {
-            //     '_id': chatMessageCreated._id,
-            //     'message': chatMessageCreated.message,
-            //     'user_id': {
-            //         '_id': userFound._id,
-            //         'username': userFound.username,
-            //         'reported_spams': userFound.reported_spams
-            //     },
-            //     'created_at': chatMessageCreated.created_at,
-            //     'status': chatMessageCreated.status
-            // });
-
+            const socketIO = new SocketIO(res.io);
+            socketIO.emitMessage('new-chat-message', message);
             // 5. return a response
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify({
@@ -107,31 +96,39 @@ class ChatMessagesController {
         console.log(keyword, page);
         res.contentType('application/json');
 
-        if (keyword !== undefined && keyword.length !== 0) {
-            // search keyword
-            ChatMessage.findMessagesByKeyword(keyword)
-                .then( (messages) => {
-                    // get specific page of 10 messages
-                    const msg = messages.slice(page * constants.PAGINATION_NUMBER, page * constants.PAGINATION_NUMBER + constants.PAGINATION_NUMBER);
-                    return res.status(201).send(JSON.stringify(msg));
-                })
-                .catch( (err) => {
-                    /* istanbul ignore next */
-                    console.log('Error searching messages by keyword');
-                    return res.status(500).send(err);
-                });
-        } else {
-            // If no keyword or status is specified
-            chatMessage.getChatMessages()
-                .then((result) => {
-                    res.status(201).send(JSON.stringify(result));
-                }).catch((err) => {
-                    /* istanbul ignore next */
-                    return res.status(422).send(JSON.stringify({
-                        'error': err.message
-                    }));
-                });
-        }
+        User.findUserById(req.tokenUserId)
+            .then((userInfo) => {
+                if (keyword !== undefined && keyword.length !== 0) {
+                    // search keyword
+                    ChatMessage.findMessagesByKeyword(keyword, Roles.isAdministrator(userInfo.role))
+                        .then( (messages) => {
+                            // get specific page of 10 messages
+                            const msg = messages.slice(page * constants.PAGINATION_NUMBER, page * constants.PAGINATION_NUMBER + constants.PAGINATION_NUMBER);
+                            return res.status(201).send(JSON.stringify(msg));
+                        })
+                        .catch( (err) => {
+                            /* istanbul ignore next */
+                            console.log('Error searching messages by keyword');
+                            return res.status(500).send(err);
+                        });
+                } else {
+                    // If no keyword or status is specified
+                    chatMessage.getChatMessages( Roles.isAdministrator(userInfo.role))
+                        .then((result) => {
+                            res.status(201).send(JSON.stringify(result));
+                        }).catch((err) => {
+                        /* istanbul ignore next */
+                            return res.status(422).send(JSON.stringify({
+                                'error': err.message
+                            }));
+                        });
+                }
+            })
+            .catch( (err) => {
+                /* istanbul ignore next */
+                console.log('Error searching messages by keyword');
+                return res.status(500).send(err);
+            });
     }
 }
 module.exports = ChatMessagesController;

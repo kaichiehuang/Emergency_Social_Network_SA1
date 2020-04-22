@@ -2,7 +2,7 @@ const constants = require('../constants');
 const SpamReport = require('../model/spamReport');
 const ChatMessage = require('../model/chatMessage');
 const User = require('../model/user');
-const SocketIOController = require('../controllers/SocketIOController.js');
+const SocketIO = require('../utils/SocketIO.js');
 
 class SpamReportController {
     /**
@@ -38,8 +38,8 @@ class SpamReportController {
                             'number': spamUserReportedTimes
                         }
                     };
-                    const socketIO = new SocketIOController(res.io);
-                    socketIO.emitSpamReport(spamData);
+                    const socketIO = new SocketIO(res.io);
+                    socketIO.emitMessage('spam-report-number', spamData);
                     // res.io.emit('spam-report-number', spam);
                     res.contentType('application/json');
                     res.status(201).send(newReport);
@@ -69,15 +69,8 @@ class SpamReportController {
                             'number': spamMessageReportedTimes
                         }
                     };
-                    const socketIO = new SocketIOController(res.io);
-                    socketIO.emitSpamReport(spamData);
-                    // res.io.emit('spam-report-number', {
-                    //     'message': {
-                    //         'message_id': reportMessageId,
-                    //         'spam': spamMessage,
-                    //         'number': spamMessageReportedTimes
-                    //     }
-                    // });
+                    const socketIO = new SocketIO(res.io);
+                    socketIO.emitMessage('spam-report-number', spamData);
                     res.contentType('application/json');
                     res.status(201).send(newReport);
                 })

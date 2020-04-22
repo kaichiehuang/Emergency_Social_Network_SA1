@@ -1,8 +1,11 @@
 const User = require('../model/user.js');
 const EmergencyStatusDetail = require('../model/emergencyStatusDetail.js');
-const SocketIOController = require('../controllers/SocketIOController.js');
-// const  = model.User;
+const SocketIO = require('../utils/SocketIO.js');
 class UsersController {
+    constructor() {
+        this.updateUser = this.updateUser.bind(this);
+    }
+
     /**
      * [createUser description]
      * @param  {[type]} req [description]
@@ -58,18 +61,19 @@ class UsersController {
                         .then((response) => {
                             // Validating if user is active
                             if (userInstance.active) {
-                                return userInstance.generateTokens();
+                                userInstance.generateTokens()
+                                    .then((tokens) => {
+                                        jsonResponseData.user = Object.assign({}, userInstance._doc);
+                                        jsonResponseData.user.userId = userInstance._id.toString();
+                                        jsonResponseData.tokens = tokens;
+                                        res.contentType('application/json');
+                                        return res.status(201).send(JSON.stringify(jsonResponseData));
+                                    });
                             } else {
                                 return res.status(401).send({
                                     msg: 'Sorry, right now  your account is inactive, try to access later'
                                 }).end();
                             }
-                        }).then((tokens) => {
-                            jsonResponseData.user = Object.assign({}, userInstance._doc);
-                            jsonResponseData.user.userId = userInstance._id.toString();
-                            jsonResponseData.tokens = tokens;
-                            res.contentType('application/json');
-                            return res.status(201).send(JSON.stringify(jsonResponseData));
                         }).catch((err) => {
                             /* istanbul ignore next */
                             res.contentType('application/json');
@@ -87,6 +91,21 @@ class UsersController {
                 }).end();
             });
     }
+
+    validateAccountStatus(userData, newStatus, resSocket) {
+        if (newStatus.active !== undefined &&
+            userData.active &&
+            !newStatus.active) {
+            const sockets = userData.sockets;
+            if (sockets !== undefined && sockets.size > 0) {
+                sockets.forEach(function(value, index) {
+                    const socketIO = new SocketIO(resSocket.to(index));
+                    socketIO.emitMessage('logout-user', 'Sorry, Your account has benn Suspended');
+                });
+            }
+        }
+    }
+
     /**
      * [updateUser description]
      * @param  {[type]} req [description]
@@ -96,10 +115,11 @@ class UsersController {
     updateUser(req, res) {
         let userInstance = null;
         const userId = req.params.userId;
+        console.log(userId);
         // 1. update user data
         User.findById(userId).then((user) => {
             userInstance = user;
-            userInstance.validateAccountStatus(user, req.body, res.io);
+            this.validateAccountStatus(user, req.body, res.io);
             return userInstance.updateUser(req.body);
         })
             .then( (_) => {
@@ -109,7 +129,7 @@ class UsersController {
                 res.contentType('application/json');
                 return res.status(201).send(JSON.stringify(jsonResponseData));
             }).catch((err) => {
-            /* istanbul ignore next */
+                /* istanbul ignore next */
                 res.contentType('application/json');
                 /* istanbul ignore next */
                 return res.status(422).send({
@@ -118,17 +138,6 @@ class UsersController {
             });
     }
 
-    validateAccountStatus(userData, actualStatus,socketIO) {
-        if (userData.active && !actualStatus.active) {
-            let sockets = userData.sockets;
-            if (sockets !== undefined && sockets.size > 0) {
-                sockets.map((value, key) =>{
-                    const socketIO = new SocketIOController(socketIO.io.to(key));
-                    socketIO.emitLogOutUser();
-                });
-            }
-        }
-    }
 
     /**
      * Get the users of the DataBase (only user_name and online fields)

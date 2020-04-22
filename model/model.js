@@ -41,7 +41,7 @@ const UserSchema = new Schema(
             prescribed_drugs: String,
             privacy_terms_medical_accepted: Boolean,
         },
-        emergency_contact:{
+        emergency_contact: {
             name: String,
             phone_number: String,
             address: String,
@@ -55,9 +55,12 @@ const UserSchema = new Schema(
         spam: Boolean,
         active: {
             type: Boolean,
-            default: 1
+            default: true
         },
-        role: String
+        role: {
+            type: String,
+            default: 'Citizen'
+        },
     },
     schemaOptions
 );
@@ -144,19 +147,19 @@ const SpamReportSchema = new Schema(
 
 const ResourceSchema = new Schema({
     user_id: {type: Schema.Types.ObjectId, ref: 'User'},
-    resource_type:{
+    resource_type: {
         type: String,
-        enum : ['SUPPLIES','MEDICAL','SHELTER'],
+        enum: ['SUPPLIES', 'MEDICAL', 'SHELTER'],
     },
-    name:String,
-    location:String,
-    image:{ data: Buffer, contentType: String },
-    description:String,
-    question_one:Boolean,
-    question_two:Boolean,
-    question_three:Boolean,
-    },
-    schemaOptions
+    name: String,
+    location: String,
+    image: {data: Buffer, contentType: String},
+    description: String,
+    question_one: Boolean,
+    question_two: Boolean,
+    question_three: Boolean,
+},
+schemaOptions
 );
 
 
@@ -167,7 +170,7 @@ const Announcements= mongoose.model('Announcement', AnnouncementSchema);
 const Resources= mongoose.model('Resource', ResourceSchema);
 const EmergencyStatusDetail = mongoose.model('Emergency_Status_Detail', EmergencyStatusDetailSchema);
 const PictureAndDescription = mongoose.model('Pictures_and_Description', PictureAndDescriptionSchema);
-const SpamReport = mongoose.model("Spam_Report", SpamReportSchema);
+const SpamReport = mongoose.model('Spam_Report', SpamReportSchema);
 
 module.exports = {
     UserSchema: UserSchema,

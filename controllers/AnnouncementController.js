@@ -1,5 +1,8 @@
 const Announcement = require('../model/announcement');
-const SocketIOController = require('../controllers/SocketIOController.js');
+const SocketIO = require('../utils/SocketIO.js');
+const User = require('../model/user.js');
+const Roles = require('../utils/Roles.js');
+
 class AnnouncementController {
     /**
      * Create an annoucement
@@ -7,21 +10,20 @@ class AnnouncementController {
      * @param res
      */
     createAnnouncement(req, res) {
-        let requestData = req.body;
-        let message = requestData['message'];
-        let user_id = requestData['user_id'];
-        let newAnnouncement = new Announcement(message, user_id, 'OK');
-
+        const requestData = req.body;
+        const message = requestData['message'];
+        const user_id = requestData['user_id'];
+        const newAnnouncement = new Announcement(message, user_id, 'OK');
+        console.log('createAnnouncement');
         // save new announcement
         newAnnouncement.saveAnnouncement().then((newAnnouncement) => {
-
-            let socketIO = new SocketIOController(res.io);
-            socketIO.emitAnnouncement(newAnnouncement);
-            // res.io.emit('new-announcement', {
-            //     'id': newAnnouncement._id,
-            //     'message': newAnnouncement.message,
-            //     'created_at': newAnnouncement.created_at,
-            // });
+            const announcement = {
+                'id': newAnnouncement._id,
+                'message': newAnnouncement.message,
+                'created_at': newAnnouncement.created_at,
+            };
+            const socketIO = new SocketIO(res.io);
+            socketIO.emitMessage('new-announcement', announcement);
 
             res.contentType('application/json');
             res.status(201).send(JSON.stringify(newAnnouncement));
@@ -48,34 +50,43 @@ class AnnouncementController {
         const last = req.query.last;
         let sort_type = -1;
 
-        if (keywords === undefined || keywords.length == 0 || index === undefined || last === true) {
-            if (last != undefined && last) {
+        User.findUserById(req.tokenUserId)
+            .then((userInfo) => {
+                if (keywords === undefined || keywords.length == 0 || index === undefined || last === true) {
+                    if (last != undefined && last) {
+                        /* istanbul ignore next */
+                        limit = parseInt('1');
+                        sort_type = -1;
+                    }
+                    Announcement.getAnnouncements(sort_type, limit, Roles.isAdministrator(userInfo.role))
+                        .then((announcements) => {
+                            res.contentType('application/json');
+                            res.status(201).send(JSON.stringify(announcements));
+                        }).catch((err) => {
+                        /* istanbul ignore next */
+                            return res.status(422).send(JSON.stringify({
+                                'error': err.message
+                            }));
+                        });
+                } else {
+                    sort_type = -1;
+                    Announcement.findAnnouncements(keywords, index, sort_type, Roles.isAdministrator(userInfo.role))
+                        .then((announcements) => {
+                            res.contentType('application/json');
+                            res.status(201).send(JSON.stringify(announcements));
+                        }).catch((err) => {
+                        /* istanbul ignore next */
+                            return res.status(422).send(JSON.stringify({
+                                'error': err.message
+                            }));
+                        });
+                }
+            })
+            .catch( (err) => {
                 /* istanbul ignore next */
-                limit = parseInt('1');
-                sort_type = -1;
-            }
-
-            Announcement.getAnnouncements(sort_type, limit).then((announcements) => {
-                res.contentType('application/json');
-                res.status(201).send(JSON.stringify(announcements));
-            }).catch((err) => {
-                /* istanbul ignore next */
-                return res.status(422).send(JSON.stringify({
-                    'error': err.message
-                }));
+                console.log('Error searching messages by keyword');
+                return res.status(500).send(err);
             });
-        } else {
-            sort_type = -1;
-            Announcement.findAnnouncements(keywords, index, sort_type).then((announcements) => {
-                res.contentType('application/json');
-                res.status(201).send(JSON.stringify(announcements));
-            }).catch((err) => {
-                /* istanbul ignore next */
-                return res.status(422).send(JSON.stringify({
-                    'error': err.message
-                }));
-            });
-        }
     }
 }
 module.exports = AnnouncementController;
