@@ -48,6 +48,12 @@ class UsersController {
             });
     }
 
+    /**
+     * valiate account status
+     * @param userData
+     * @param newStatus
+     * @param resSocket
+     */
     validateAccountStatus(userData, newStatus, resSocket) {
         if (newStatus.active !== undefined &&
             userData.active &&
