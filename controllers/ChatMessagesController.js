@@ -18,12 +18,12 @@ class ChatMessagesController {
         const requestData = req.body;
         if (requestData['message'] == undefined) {
             return res.status(422).send(JSON.stringify({
-                'hola': 'invalid message'
+                'msg': 'invalid message'
             }));
         }
         if (requestData['user_id'] == undefined) {
             return res.status(422).send(JSON.stringify({
-                'hola': 'invalid user'
+                'msg': 'invalid user'
             }));
         }
         const message = requestData['message'];
@@ -80,7 +80,7 @@ class ChatMessagesController {
                 res.contentType('application/json');
                 /* istanbul ignore next */
                 return res.status(422).send({
-                    'error': err
+                    'msg': err
                 });
             }
         });
@@ -121,7 +121,7 @@ class ChatMessagesController {
                         }).catch((err) => {
                         /* istanbul ignore next */
                             return res.status(422).send(JSON.stringify({
-                                'error': err.message
+                                'msg': err.message
                             }));
                         });
                 }
