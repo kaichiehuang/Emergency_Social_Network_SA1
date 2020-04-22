@@ -124,7 +124,9 @@ class User {
                 currentUser = user;
                 if (currentUser.name === undefined ||
                     currentUser.name.length === 0) {
-                    showElements('profile-update-invite');
+                    setTimeout(function(){
+                        showElements('profile-update-invite')
+                    }, 15000);
                     User.getInstance().initUpdateInvite();
                 }
             }).catch((err) => {
