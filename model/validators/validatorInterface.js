@@ -88,11 +88,11 @@ class ValidatorInterface {
     validateFieldsByLength() {
         return new Promise((resolve, reject) => {
             if (this.validatorRules.lengthRules != undefined && this.validatorRules.lengthRules.length > 0) {
-                for (var i = 0; i < this.validatorRules.lengthRules.length; i++) {
+                for ( var i = 0 ; i < this.validatorRules.lengthRules.length; i++) {
                     const field = this.validatorRules.lengthRules[i];
                     let validationResult = false;
-                    const allowEmpty = false;
-                    if(field.allowEmpty){
+                    let allowEmpty = false;
+                    if (field.allowEmpty) {
                         allowEmpty = field.allowEmpty;
                     }
 
@@ -103,7 +103,7 @@ class ValidatorInterface {
                     }
                     if (!validationResult) {
                         if (field.msg == undefined || field.msg.length == 0) {
-                            return reject("Minimum length for " + field.fieldName + " is " + field.minLength);
+                            return reject("Minimum length for " + field.fieldName + " is " + field.minLength );
                         }
                         return reject(field.msg);
                     }
@@ -122,7 +122,7 @@ class ValidatorInterface {
      */
     validateFieldByLength (fieldName, minLength, innerObject, allowEmpty) {
         //if it allows empty values move foward
-        if(allowEmpty && (this.validateData[innerObject][fieldName] == undefined || this.validateData[fieldName].length == 0)){
+        if(allowEmpty && (this.validateData[fieldName] == undefined || this.validateData[fieldName].length == 0)){
             return true;
         }
 
