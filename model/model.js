@@ -55,7 +55,7 @@ const UserSchema = new Schema(
         spam: Boolean,
         active: {
             type: Boolean,
-            default: true
+            default: 1
         },
         // role: String
         role: {
