@@ -33,15 +33,15 @@ class BaseMessage {
         const listContainer = document.getElementById(type + '-chat');
 
         if (listContainer != undefined) {
-            const list_length = $('#'+type + '-chat > li').length;
+            const listLength = $('#'+type + '-chat > li').length;
             // 3. iterate over users list and draw using the
             // appropiate template based on online/offline state
             const template = messagesTemplate.content.cloneNode(true);
             if (template != undefined && template !=
                 null && message != undefined) {
-                let rowType = "even";
-                if (list_length % 2 == 1) {
-                    rowType = "odd";
+                let rowType = 'even';
+                if (listLength % 2 == 1) {
+                    rowType = 'odd';
                 }
                 template.querySelector('.user-post')
                     .classList.add('user-post-' + rowType);
@@ -145,17 +145,17 @@ class BaseMessage {
         const user_id = Cookies.get('user-id');
 
         let url = '/chat-messages';
-        let message_content = '#public-send-message-content';
+        let messageContent = '#public-send-message-content';
         let data = {
-            message: $(message_content).val(),
+            message: $(messageContent).val(),
             user_id: user_id
         };
         // for private messages
         if (type === 'private') {
             url = '/private-chat-messages';
-            message_content = '#private-send-message-content';
+            messageContent = '#private-send-message-content';
             data = {
-                message: $(message_content).val(),
+                message: $(messageContent).val(),
                 sender_user_id: user_id,
                 receiver_user_id: Cookies.get('receiver_user_id')
             };
@@ -163,9 +163,9 @@ class BaseMessage {
         // for announcements
         if (type === 'announcement') {
             url = '/announcements';
-            message_content = '#announcement-send-message-content';
+            messageContent = '#announcement-send-message-content';
             data = {
-                message: $(message_content).val(),
+                message: $(messageContent).val(),
                 user_id: user_id,
             };
         }
@@ -173,7 +173,7 @@ class BaseMessage {
         APIHandler.getInstance()
             .sendRequest(url, 'post', data, true, null)
             .then((response) => {
-                $(message_content).val('');
+                $(messageContent).val('');
                 if (type === 'public' && response.spam) {
                     $('#user-spam-modal').modal('show');
                 }
@@ -241,7 +241,7 @@ class BaseMessage {
      * @param  {number} page          [description]
      */
     updateMessageListView(type, searchKeyword, page) {
-        let self = this;
+        const self = this;
         if (searchKeyword == undefined || searchKeyword.length == 0) {
             this.deactivateSearchButtonsLoadMore(type);
         }
