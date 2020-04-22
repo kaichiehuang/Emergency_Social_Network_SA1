@@ -13,6 +13,7 @@ const UserAccountValidator = require('./validators/userAccountValidator.js');
  * Our class for user model taht will be attached to the schema
  */
 class UserModel {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         this.dataValidator = null;
     }
@@ -27,7 +28,7 @@ class UserModel {
         this.status = 'UNDEFINED';
     }
 
-    /*******************
+    /** *****************
 
         VALIDATIONS
 
@@ -41,14 +42,14 @@ class UserModel {
         return new Promise((resolve, reject) => {
             this.setUserDataValidator(new NewUserValidator());
             this.dataValidator.validateDataRules({
-                "username": this.username,
-                "password": this.password
+                'username': this.username,
+                'password': this.password
             })
-            .then((result) => {
-                return resolve(true);
-            }).catch((err) => {
-                return reject(err);
-            })
+                .then((result) => {
+                    return resolve(true);
+                }).catch((err) => {
+                    return reject(err);
+                });
         });
     }
     /**
@@ -71,7 +72,6 @@ class UserModel {
      */
     validateUpdate(data) {
         return new Promise((resolve, reject) => {
-            let step = null;
             if (data.step != undefined && data.step == 0) {
                 this.setUserDataValidator(new UserAccountValidator());
             } else if (data.step != undefined && data.step == 1) {
@@ -80,25 +80,25 @@ class UserModel {
                 this.setUserDataValidator(new UserMedicalValidator());
             } else if (data.step != undefined && data.step == 3) {
                 this.setUserDataValidator(new UserOtherValidator());
-            }else{
-                //default validator
+            } else {
+                // default validator
                 this.setUserDataValidator(new UserDefaultValidator());
             }
 
-            //fail because it has no validator for this
+            // fail because it has no validator for this
             if (this.dataValidator == null) {
-                return reject("Error");
+                return reject('Error');
             }
             this.dataValidator.validateDataRules(data)
-            .then((result) => {
-                return resolve(true);
-            }).catch((err) => {
-                return reject(err);
-            })
+                .then((result) => {
+                    return resolve(true);
+                }).catch((err) => {
+                    return reject(err);
+                });
         });
     }
 
-    /*******************
+    /** *****************
 
           OPERATIONS
 
@@ -209,11 +209,11 @@ class UserModel {
             }
 
             this.save()
-            .then((result) => {
-                return resolve(true);
-            }).catch((err) => {
-                return reject(err);
-            });
+                .then((result) => {
+                    return resolve(result);
+                }).catch((err) => {
+                    return reject(err);
+                });
         });
     }
     /**
@@ -279,7 +279,7 @@ class UserModel {
     setUserDataValidator(dataValidator) {
         this.dataValidator = dataValidator;
     }
-    /******************************
+    /** ****************************
 
           STATIC FIND FUNCTIONS
 
@@ -291,7 +291,6 @@ class UserModel {
      */
     static usernameExists(username) {
         return new Promise((resolve, reject) => {
-            const userModel = new User();
             this.findUserByUsername(username).then((user) => {
                 if (user !== null && user.username != undefined && user.username == username) {
                     return resolve(true);
@@ -327,7 +326,6 @@ class UserModel {
      */
     static findUserByUsername(username) {
         return new Promise((resolve, reject) => {
-            const userModel = new User();
             this.findOne({
                 username: username
             }).exec().then((user) => {
