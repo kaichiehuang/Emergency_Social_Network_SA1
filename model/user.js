@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const UserSchema = require('./model').UserSchema;
 const bcrypt = require('bcrypt');
-const UserHelper = require("./util/userHelper");
+const UserHelper = require('./util/userHelper');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
 const UserPersonalValidator = require('./validators/userPersonalValidator.js');
@@ -123,11 +123,30 @@ class UserModel {
      * @param  {[type]} data            Array of data
      * @return {[type]}                 [description]
      */
-    updateUser(data) {
+    updateUser(data, userId) {
         return new Promise((resolve, reject) => {
             this.validateUpdate(data).then((result) => {
                 if (data['status'] != undefined) {
                     this.status_timestamp = new Date();
+                }
+                if (data['username'] != undefined || data['password'] != undefined) {
+                    new UserAccountValidator()
+                        .validateDataRules({
+                            'username': data['username'],
+                            'password': data['password']
+                        })
+                        .then((result) => {
+                            User.findUserByUsername(data['username'])
+                                .then((user) => {
+                                    if (user == null || user._id == userId) {
+                                        return resolve(true);
+                                    } else {
+                                        return reject('username already existed');
+                                    }
+                                });
+                        }).catch((err) => {
+                            return reject(err);
+                        });
                 }
                 this.set(data);
                 return this.save();

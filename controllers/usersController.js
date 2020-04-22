@@ -81,7 +81,7 @@ class UsersController {
         User.findById(userId).then((user) => {
             userInstance = user;
             this.validateAccountStatus(user, req.body, res.io);
-            return userInstance.updateUser(req.body);
+            return userInstance.updateUser(req.body, userId);
         }).then((_) => {
             let jsonResponseData = {};
             jsonResponseData = userInstance;
