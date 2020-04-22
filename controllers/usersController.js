@@ -43,7 +43,7 @@ class UsersController {
             /* istanbul ignore next */
                 res.contentType('application/json');
                 return res.status(422).send({
-                    msg: ''
+                    msg: 'User creation failed'
                 }).end();
             });
     }
@@ -125,8 +125,11 @@ class UsersController {
      * @param res
      */
     getPersonalMessageUser(req, res) {
-        if (req.query.security_question_answer == undefined) {
-            return res.status(403).send('Invalid answer');
+        res.contentType('application/json');
+        if (req.query.security_question_answer == undefined || req.query.security_question_answer.length == 0) {
+            return res.status(403).send({
+                msg: 'Invalid answer'
+            });
         }
         const userId = req.params.userId;
         const securityQuestionAnswer = req.query.security_question_answer;
@@ -134,53 +137,14 @@ class UsersController {
         User.findUserByIdIfAuthorized(userId, req.tokenUserId).then((userInstance) => {
             return userInstance.getPersonalMessage(securityQuestionAnswer);
         }).then((message) => {
-            res.contentType('application/json');
             return res.status(201).send({
                 'message': message
             });
         }).catch((err) => {
             /* istanbul ignore next */
-            return res.status(403).send(err);
-        });
-    }
-    /**
-     * [createSocket description]
-     * @param  {[type]} req [description]
-     * @param  {[type]} res [description]
-     * @return {[type]}     [description]
-     */
-    createSocket(req, res) {
-        const socketId = req.body.socketId;
-        const userId = req.params.userId;
-        // 1. Validate if user exists
-        User.findUserById(userId).then((user) => {
-            return user.insertSocket(socketId);
-        }).then((user) => {
-            res.contentType('application/json');
-            return res.status(201).send(JSON.stringify(user));
-        }).catch((err) => {
-            /* istanbul ignore next */
-            return res.status(500).send(err);
-        });
-    }
-    /**
-     * Delete user sockets
-     * @param  {[type]} req [description]
-     * @param  {[type]} res [description]
-     * @return {[type]}     [description]
-     */
-    deleteSocket(req, res) {
-        const socketId = req.params.socketId;
-        const userId = req.params.userId;
-        // 1. Validate if user exists
-        User.findUserById(userId).then((user) => {
-            return user.removeSocket(socketId);
-        }).then((user) => {
-            res.contentType('application/json');
-            return res.status(201).send(JSON.stringify(user));
-        }).catch((err) => {
-            /* istanbul ignore next */
-            return res.status(500).send(err);
+            return res.status(403).send({
+                msg: err
+            });
         });
     }
     /**
@@ -190,7 +154,6 @@ class UsersController {
      * @return {*}
      */
     getUsers(req, res) {
-        console.log('searchUserInformation');
         const username = req.query.username;
         const status = req.query.status;
         res.contentType('application/json');
@@ -212,7 +175,6 @@ class UsersController {
                 return res.status(201).send(JSON.stringify(users));
             }).catch((err) => {
                 /* istanbul ignore next */
-                console.log('Error searching all users');
                 return res.status(500).send(err);
             });
         }
@@ -277,9 +239,8 @@ function handleExistUser(userInstance, jsonResponseData, signUpData, res) {
                 }).end();
             }
         }).catch((err) => {
-        /* istanbul ignore next */
             res.contentType('application/json');
-            console.log(err);
+            /* istanbul ignore next */
             return res.status(422).send({
                 msg: err
             }).end();

@@ -14,32 +14,6 @@ class Roles {
             return false;
         }
     }
-    //
-    // /**
-    //  * Method to validate if a user is an citizen
-    //  * @param role
-    //  * @returns {boolean}
-    //  */
-    // static isCitizen(role) {
-    //     if (role=== 'citizen') {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
-    //
-    // /**
-    //  * Method to validate if a user is an coordinator
-    //  * @param role
-    //  * @returns {boolean}
-    //  */
-    // static isCoordinator(role) {
-    //     if (role === 'coordinator') {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
 }
 
 module.exports = Roles;

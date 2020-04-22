@@ -111,12 +111,21 @@ class UserModel {
     registerUser() {
         return new Promise((resolve, reject) => {
             this.password = UserHelper.hashPassword(this.password);
-            this.save().then((_) => {
-                return resolve(true);
-            }).catch((err) => {
+
+            // check if its first user
+            User.count({}).then((result) => {
+                if (result == 0) {
+                    this.role = 'administrator';
+                }
+
+                return this.save();
+            })
+                .then((_) => {
+                    return resolve(true);
+                }).catch((err) => {
                 /* istanbul ignore next */
-                return reject(err);
-            });
+                    return reject(err);
+                });
         });
     }
     /**
@@ -127,8 +136,13 @@ class UserModel {
     updateUser(data) {
         return new Promise((resolve, reject) => {
             this.validateUpdate(data).then((result) => {
-                if (data['status'] != undefined) {
+                if (data.status != undefined) {
                     this.status_timestamp = new Date();
+                }
+                if (data.password != undefined && data.password.length > 0) {
+                    data.password = UserHelper.hashPassword(data.password);
+                } else if (data.password != undefined) {
+                    delete data.password;
                 }
                 this.set(data);
                 return this.save();
@@ -181,7 +195,7 @@ class UserModel {
                 }
                 return this.save();
             }).then((result) => {
-                return resolve(result);
+                return resolve(true);
             }).catch((err) => {
                 /* istanbul ignore next */
                 return reject(err);
@@ -248,6 +262,7 @@ class UserModel {
                 }
                 return resolve(this.unread_messages.get(senderUserId));
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -259,7 +274,9 @@ class UserModel {
      */
     getPersonalMessage(securityQuestionAnswer) {
         return new Promise((resolve, reject) => {
-            if (this.personal_message != undefined && this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(securityQuestionAnswer) == 0) {
+            if (this.personal_message == undefined || this.personal_message.message == undefined || this.personal_message.security_question == undefined || this.personal_message.security_question_answer == undefined) {
+                return reject('Invalid answer');
+            } else if (this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(securityQuestionAnswer) == 0) {
                 return resolve(this.personal_message.message);
             } else {
                 return reject('Invalid answer');
@@ -293,6 +310,7 @@ class UserModel {
                     return resolve(false);
                 }
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
@@ -310,6 +328,7 @@ class UserModel {
                     return resolve(false);
                 }
             }).catch((err) => {
+                /* istanbul ignore next */
                 return reject(err);
             });
         });
