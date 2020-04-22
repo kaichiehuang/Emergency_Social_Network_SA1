@@ -1,7 +1,13 @@
 // eslint-disable-next-line no-unused-vars
+/**
+ * Parent class for message drawing and sycing (private, public and announcements)
+ */
 class BaseMessage {
 
-
+    /**
+     * [constructor description]
+     * @return {[type]} [description]
+     */
     constructor() {
         this._id = null;
         this.message = '';
@@ -33,30 +39,22 @@ class BaseMessage {
             const template = messagesTemplate.content.cloneNode(true);
             if (template != undefined && template !=
                 null && message != undefined) {
+                let rowType = "even";
                 if (list_length % 2 == 1) {
-                    template.querySelector('.user-post')
-                        .classList.add('user-post-odd');
-                } else {
-                    template.querySelector('.user-post')
-                        .classList.add('user-post-even');
+                    rowType = "odd";
                 }
+                template.querySelector('.user-post')
+                    .classList.add('user-post-' + rowType);
+
                 const user_id = Cookies.get('user-id');
                 if (user_id === message.user_id._id) {
                     template.querySelector('.user-post')
                         .classList.add('user-post-current');
                 }
                 let indicatorStyle = '';
-                console.log('mesage status = ', message.status);
                 if (message.status != undefined && message.status != '') {
-                    if (message.status === 'OK') {
-                        indicatorStyle = 'background-color-ok';
-                    } else if (message.status === 'HELP') {
-                        indicatorStyle = 'background-color-help';
-                    } else if (message.status === 'EMERGENCY') {
-                        indicatorStyle = 'background-color-emergency';
-                    } else if (message.status === 'UNDEFINED') {
-                        indicatorStyle = 'background-color-undefined';
-                    }
+                    const userStatusLC = message.status.toLowerCase();
+                    indicatorStyle = 'background-color-' + userStatusLC;
 
                     template.querySelector('.status-indicator-element')
                         .classList.add('statusIndicator');
