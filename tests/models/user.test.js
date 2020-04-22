@@ -1,5 +1,6 @@
 const TestDatabase = require('../services/testDataBase');
 const User = require('../../model/user');
+const UserHelper = require('../../utils/userHelper');
 const testDatabase = new TestDatabase();
 beforeAll(async () => {
     return testDatabase.start();
@@ -87,14 +88,14 @@ describe('User password validations,', () => {
     });
     test('should password match with the database password', async () => {
         expect.assertions(1);
-        return createdUser.isPasswordMatch('password')
+        return UserHelper.isPasswordMatch('password', createdUser.password)
             .then((res) => {
                 expect(res).toBeTruthy();
             });
     });
     test('should send an error message validating password,  password not matching', async () => {
         expect.assertions(1);
-        return createdUser.isPasswordMatch('pass')
+        return UserHelper.isPasswordMatch('pass', createdUser.password)
             .catch((res) => {
                 expect(res).toBe('Invalid username / password.');
             });
@@ -607,7 +608,7 @@ describe('Tokens', () => {
 
         return createdUser.registerUser()
             .then((result) => {
-                return createdUser.generateTokens();
+                return UserHelper.generateTokens(result._id);
             });
     });
 });
