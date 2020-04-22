@@ -185,7 +185,7 @@ class UserModel {
                 }
                 return this.save();
             }).then((result) => {
-                return resolve(result);
+                return resolve(true);
             }).catch((err) => {
                 return reject(err);
             });
@@ -210,7 +210,7 @@ class UserModel {
 
             this.save()
             .then((result) => {
-                return resolve(result);
+                return resolve(true);
             }).catch((err) => {
                 return reject(err);
             });
@@ -261,7 +261,10 @@ class UserModel {
      */
     getPersonalMessage(securityQuestionAnswer) {
         return new Promise((resolve, reject) => {
-            if (this.personal_message != undefined && this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(securityQuestionAnswer) == 0) {
+            if (this.personal_message == undefined || this.personal_message.message == undefined || this.personal_message.security_question == undefined || this.personal_message.security_question_answer == undefined){
+                return reject('Invalid answer');
+            }
+            else if (this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(securityQuestionAnswer) == 0) {
                 return resolve(this.personal_message.message);
             } else {
                 return reject('Invalid answer');

@@ -186,7 +186,7 @@ describe('Test Users with sockets', () =>{
             .set('Authorization', token)
             .set('accept', 'json')
             .then((res) =>{
-                expect(res.body.sockets['1']).toBe(true);
+                expect(res.body.result).toBe(true);
             });
     });
 
@@ -201,13 +201,13 @@ describe('Test Users with sockets', () =>{
             .then((res) =>{
             });
 
-        await agent.delete(HOST + '/api/users/'+userId+'/socket/' + socket.socketId)
+        await agent.delete(HOST + '/api/users/'+userId+'/sockets' + socket.socketId)
             .accept('application/json')
             .send(socket)
             .set('Authorization', token)
             .set('accept', 'json')
             .then((res) =>{
-                expect(res.body.sockets.length).toBeUndefined();
+                expect(res.body.result).toBe(true);
             });
     });
 });

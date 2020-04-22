@@ -11,6 +11,18 @@ class UserList {
         }
         return this.instance;
     }
+
+    /**
+     * changes the receiver for the private chat
+     * @param  {[type]} receiver_user_id [description]
+     */
+    initiateUserList() {
+        this.updateComponentView(currentUser,
+            $('#search-users-list__input').val(), '');
+        $('#users-search-form .status-list__color')
+            .addClass('non-selected');
+    }
+
     /**
      * [drawUsers description]
      * @param  {[type]} containerId [description]
@@ -215,8 +227,7 @@ $(function() {
         // eslint-disable-next-line no-invalid-this
         const newID = $(this).data('view-id');
         if (newID === 'user-list-content') {
-            UserList.getInstance().updateComponentView(currentUser,
-                $('#search-users-list__input').val(), '');
+            UserList.getInstance().initiateUserList();
         }
     });
     /**
@@ -237,7 +248,7 @@ $(function() {
                     selectedStatus = null;
                 } else {
                     $('#users-search-form .status-list__color')
-                    addClass('non-selected');
+                        .addClass('non-selected');
                     // eslint-disable-next-line no-invalid-this
                     $(this).removeClass('non-selected');
                     selectedStatus = newSelectedStatus;
