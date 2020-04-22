@@ -1,14 +1,21 @@
 const RBAC = require('easy-rbac');
-const rules = require('./rbacRules.js')
+const rules = require('./rbacRules.js');
 const User = require('../model/user.js');
 const rbac = new RBAC(rules);
 
+/**
+ * role base access control
+ */
 class RoleBasedAccessControl {
-
-    //check by userId if the user is active or not
+    /**
+     * check by userId if the user is active or not
+     * @param userId
+     * @param res
+     * @returns {Q.Promise<unknown>}
+     */
     static checkActive(userId, res) {
         return User.findUserById(userId).then((user) => {
-            //true or false
+            // true or false
             console.log(user.active);
             return user.active;
         }).catch((err) => {
@@ -16,7 +23,12 @@ class RoleBasedAccessControl {
         });
     }
 
-    //get the role of the user
+    /**
+     * get the role of the user
+     * @param userId
+     * @param res
+     * @returns {Q.Promise<unknown>}
+     */
     static getRole(userId, res) {
         return User.findUserById(userId).then((user) => {
             console.log(user.role);
@@ -26,54 +38,66 @@ class RoleBasedAccessControl {
         });
     }
 
-    //first check if the user is active, than see if the role of the user is permitted to do an action
-    static async doValidation (req, res, next) {
-        console.log("in validate user")
-        let userId = req.tokenUserId;
-        let route = req.baseUrl;
-        let method = Object.keys(req.route.methods)[0];
-        let role = await RoleBasedAccessControl.getRole(userId, res);
-        console.log("The role is " + role);
-        let action = route + ':' + method;
-        let active = await RoleBasedAccessControl.checkActive(userId, res);
+    /** first check if the user is active, than see if the role of the user is permitted to do an action
+     *
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<*>}
+     */
+    static async doValidation(req, res, next) {
+        console.log('in validate user');
+        const userId = req.tokenUserId;
+        const route = req.baseUrl;
+        const method = Object.keys(req.route.methods)[0];
+        const role = await RoleBasedAccessControl.getRole(userId, res);
+        console.log('The role is ' + role);
+        const action = route + ':' + method;
+        const active = await RoleBasedAccessControl.checkActive(userId, res);
 
-        console.log("req body message in RBAC is + " + req.body.message)
+        console.log('req body message in RBAC is + ' + req.body.message);
 
-        console.log("the action is: " + action);
+        console.log('the action is: ' + action);
 
 
-        if (method === "put" && req.params.pictureId == null && route === '/api/users') {
+        if (method === 'put' && req.params.pictureId == null && route === '/api/users') {
             if (req.params.userId != userId && role != 'administrator') {
-                return res.status(401).send("Invalid attempt to modify other user's profile").end();
-            } 
+                return res.status(401).send('Invalid attempt to modify other user\'s profile').end();
+            }
         }
-        
+
         if (active === true) {
-            rbac.can(role, action) 
-            .then(result => {
-                if (result) {
-                  // we are allowed access
-                  console.log(userId + " is allowed to " + action);
-                  //return res.status(200).send(userId + " is allowed to " + action).end();// UNAUTHORIZED
-                  next();
-                } else {
-                  // we are not allowed access
-                  return res.status(401).send("rbac not passed").end();// UNAUTHORIZED
-                }
-              })
-              .catch(err => {
+            rbac.can(role, action)
+                .then((result) => {
+                    if (result) {
+                        // we are allowed access
+                        console.log(userId + ' is allowed to ' + action);
+                        // return res.status(200).send(userId + " is allowed to " + action).end();// UNAUTHORIZED
+                        next();
+                    } else {
+                        // we are not allowed access
+                        return res.status(401).send('rbac not passed').end();// UNAUTHORIZED
+                    }
+                })
+                .catch((err) => {
                 // something else went wrong - refer to err object
-                return res.status(401).send(err.message).end();
-              });
+                    return res.status(401).send(err.message).end();
+                });
         } else {
-            return res.status(401).send("user not active").end();// UNAUTHORIZED
+            return res.status(401).send('user not active').end();// UNAUTHORIZED
         }
     }
 
-    static async validateUser (req, res, next) {
-        await RoleBasedAccessControl.doValidation (req, res, next);
+    /**
+     * validate user
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
+    static async validateUser(req, res, next) {
+        await RoleBasedAccessControl.doValidation(req, res, next);
     }
-
 }
 
 module.exports = RoleBasedAccessControl;

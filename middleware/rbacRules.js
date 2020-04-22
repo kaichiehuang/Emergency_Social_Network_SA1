@@ -10,18 +10,17 @@ const rbacRules = {
             '/api/emergencyStatusDetail:*',
             '/api/spam-report:*',
             '/api/test:*'
-            
         ]
     },
     coordinator: {
         can: ['/api/announcements:post'],
-        inherits:['citizen']
+        inherits: ['citizen']
     },
     administrator: {
         can: [],
-        inherits:['coordinator']
+        inherits: ['coordinator']
     }
-}
+};
 
 module.exports = rbacRules;
 
