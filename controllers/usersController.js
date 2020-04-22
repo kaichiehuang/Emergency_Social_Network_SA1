@@ -69,6 +69,9 @@ class UsersController {
                     socketIO.emitMessage('logout-user', 'Sorry, Your account has benn Suspended');
                 });
             }
+            // Update user list to hide inactive users.
+            const socketIO = new SocketIO(resSocket);
+            socketIO.emitMessage('user-list-update', '');
         }
     }
 
