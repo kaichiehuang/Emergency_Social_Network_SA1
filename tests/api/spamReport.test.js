@@ -3,7 +3,7 @@ const agent = require('superagent');
 const ChatMessage = require('../../model/chatMessage');
 
 // Initiate Server
-const PORT = 3000;
+const PORT = 3001;
 const HOST = 'http://localhost:' + PORT;
 
 const app = require('../../app').app;

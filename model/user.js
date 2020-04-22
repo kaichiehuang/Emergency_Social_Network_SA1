@@ -110,12 +110,12 @@ class UserModel {
      */
     registerUser() {
         return new Promise((resolve, reject) => {
-            this.hashPassword(this.password);
+            this.password = UserHelper.hashPassword(this.password);
 
             //check if its first user
-            this.count({}).then((result) => {
+            User.count({}).then((result) => {
                 if(result == 0){
-                    this.role == "administrator";
+                    this.role = "administrator";
                 }
 
                 return this.save();
@@ -135,8 +135,13 @@ class UserModel {
     updateUser(data) {
         return new Promise((resolve, reject) => {
             this.validateUpdate(data).then((result) => {
-                if (data['status'] != undefined) {
+                if (data.status != undefined) {
                     this.status_timestamp = new Date();
+                }
+                if (data.password != undefined && data.password.length > 0) {
+                    data.password = UserHelper.hashPassword(data.password);
+                } else if (data.password != undefined){
+                    delete data.password;
                 }
                 this.set(data);
                 return this.save();
