@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const UserSchema = require('./model').UserSchema;
 const bcrypt = require('bcrypt');
+const UserHelper = require('./util/userHelper');
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
 const UserPersonalValidator = require('./validators/userPersonalValidator.js');
@@ -8,10 +9,12 @@ const UserMedicalValidator = require('./validators/userMedicalValidator.js');
 const UserOtherValidator = require('./validators/userOtherValidator.js');
 const UserDefaultValidator = require('./validators/userDefaultValidator.js');
 const NewUserValidator = require('./validators/newUserValidator.js');
+const UserAccountValidator = require('./validators/userAccountValidator.js');
 /**
  * Our class for user model taht will be attached to the schema
  */
 class UserModel {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         this.dataValidator = null;
     }
@@ -70,7 +73,6 @@ class UserModel {
      */
     validateUpdate(data) {
         return new Promise((resolve, reject) => {
-            const step = null;
             if (data.step != undefined && data.step == 0) {
                 this.setUserDataValidator(new UserAccountValidator());
             } else if (data.step != undefined && data.step == 1) {
@@ -108,7 +110,7 @@ class UserModel {
      */
     registerUser() {
         return new Promise((resolve, reject) => {
-            this.hashPassword(this.password);
+            this.password = UserHelper.hashPassword(this.password);
             this.save().then((_) => {
                 return resolve(true);
             }).catch((err) => {
@@ -137,14 +139,7 @@ class UserModel {
             });
         });
     }
-    /**
-     * hashes a user password //
-     * @param  {[type]} password [description]
-     * @return {[type]}          [description]
-     */
-    hashPassword(password) {
-        this.password = bcrypt.hashSync(password, 10);
-    }
+
     /**
      * Generates a token for a user
      * @return {[type]} [description]
@@ -259,12 +254,12 @@ class UserModel {
     }
     /**
      * Get the personal message for a user if the security question matches
-     * @param  {[type]} security_question_answer [description]
+     * @param  {[type]} securityQuestionAnswer [description]
      * @return {[type]}                          [description]
      */
-    getPersonalMessage(security_question_answer) {
+    getPersonalMessage(securityQuestionAnswer) {
         return new Promise((resolve, reject) => {
-            if (this.personal_message != undefined && this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(security_question_answer) == 0) {
+            if (this.personal_message != undefined && this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(securityQuestionAnswer) == 0) {
                 return resolve(this.personal_message.message);
             } else {
                 return reject('Invalid answer');
@@ -291,7 +286,6 @@ class UserModel {
      */
     static usernameExists(username) {
         return new Promise((resolve, reject) => {
-            const userModel = new User();
             this.findUserByUsername(username).then((user) => {
                 if (user !== null && user.username != undefined && user.username == username) {
                     return resolve(true);
@@ -327,7 +321,6 @@ class UserModel {
      */
     static findUserByUsername(username) {
         return new Promise((resolve, reject) => {
-            const userModel = new User();
             this.findOne({
                 username: username
             }).exec().then((user) => {

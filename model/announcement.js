@@ -51,7 +51,7 @@ class Announcement {
      * the user that post the announcement
      * @returns {Promise<unknown>}
      */
-    static getAnnouncements(sort_type, limit, isAdmin) {
+    static getAnnouncements(sortType, limit, isAdmin) {
         return new Promise((resolve, reject) => {
             const populateQuery = {
                 path: 'user_id',
@@ -65,7 +65,7 @@ class Announcement {
             AnnouncementModel.find({})
                 .populate(populateQuery)
                 .sort({
-                    created_at: sort_type
+                    created_at: sortType
                 }).limit(parseInt(limit))
                 .then((result) => {
                     resolve(result);

@@ -5,6 +5,7 @@ const SocketIO = require('../utils/SocketIO.js');
  * user controller
  */
 class UsersController {
+    // eslint-disable-next-line require-jsdoc
     constructor() {
         this.updateUser = this.updateUser.bind(this);
     }
@@ -30,60 +31,13 @@ class UsersController {
         // 2. Validate if user exists
         User.findUserByUsername(signUpData['username'])
             .then((user) => {
-                let userInstance = user;
+                const userInstance = user;
                 // 4. if user doesn't exist validate data and create it
                 if (user == null) {
-                    userInstance = new User();
-                    userInstance.setRegistrationData(signUpData['username'], signUpData['password']);
-
-                    // 3. Run validations on user object
-                    userInstance.validateCreate()
-                        .then(function(result) {
-                            return userInstance.registerUser();
-                        }).then(function(response) {
-                            return userInstance.generateTokens();
-                        }).then((tokens) => {
-                            jsonResponseData.user = Object.assign({}, userInstance._doc);
-                            jsonResponseData.user.userId = userInstance._id.toString();
-                            jsonResponseData.tokens = tokens;
-                            res.contentType('application/json');
-                            return res.status(201).send(JSON.stringify(jsonResponseData));
-                        }).then((res) => {
-                            const emergency_status_detail_instance = new EmergencyStatusDetail(userInstance._id);
-                            return emergency_status_detail_instance.createEmergencyStatusDetail();
-                        }).catch((err) => {
-                            res.contentType('application/json');
-                            console.log(err);
-                            return res.status(422).send({
-                                msg: err
-                            }).end();
-                        });
+                    handleNonExistUser(userInstance, jsonResponseData, signUpData, res);
                 } else {
                 // 3. Run validations on user object
-                    userInstance.isPasswordMatch(signUpData['password'])
-                        .then((response) => {
-                            // Validating if user is active
-                            if (userInstance.active) {
-                                userInstance.generateTokens()
-                                    .then((tokens) => {
-                                        jsonResponseData.user = Object.assign({}, userInstance._doc);
-                                        jsonResponseData.user.userId = userInstance._id.toString();
-                                        jsonResponseData.tokens = tokens;
-                                        res.contentType('application/json');
-                                        return res.status(201).send(JSON.stringify(jsonResponseData));
-                                    });
-                            } else {
-                                return res.status(401).send({
-                                    msg: 'Your account is inactive, try to login later'
-                                }).end();
-                            }
-                        }).catch((err) => {
-                            /* istanbul ignore next */
-                            res.contentType('application/json');
-                            return res.status(422).send({
-                                msg: err
-                            }).end();
-                        });
+                    handleExistUser(userInstance, jsonResponseData, signUpData, res);
                 }
             }).catch((err) => {
             /* istanbul ignore next */
@@ -94,6 +48,12 @@ class UsersController {
             });
     }
 
+    /**
+     * valiate account status
+     * @param userData
+     * @param newStatus
+     * @param resSocket
+     */
     validateAccountStatus(userData, newStatus, resSocket) {
         if (newStatus.active !== undefined &&
             userData.active &&
@@ -258,4 +218,72 @@ class UsersController {
         }
     }
 }
+
+/**
+ * non exist user handle
+ * @param instance
+ */
+function handleNonExistUser(userInstance, jsonResponseData, signUpData, res) {
+    userInstance = new User();
+    userInstance.setRegistrationData(signUpData['username'], signUpData['password']);
+
+    // 3. Run validations on user object
+    userInstance.validateCreate()
+        .then(function(result) {
+            return userInstance.registerUser();
+        }).then(function(response) {
+            return userInstance.generateTokens();
+        }).then((tokens) => {
+            jsonResponseData.user = Object.assign({}, userInstance._doc);
+            jsonResponseData.user.userId = userInstance._id.toString();
+            jsonResponseData.tokens = tokens;
+            res.contentType('application/json');
+            return res.status(201).send(JSON.stringify(jsonResponseData));
+        }).then((res) => {
+            const emergencyStatusDetail = new EmergencyStatusDetail(userInstance._id);
+            return emergencyStatusDetail.createEmergencyStatusDetail();
+        }).catch((err) => {
+            res.contentType('application/json');
+            console.log(err);
+            return res.status(422).send({
+                msg: err
+            }).end();
+        });
+}
+
+/**
+ * handle exist user
+ * @param userInstance
+ * @param jsonResponseData
+ * @param signUpData
+ * @param res
+ */
+function handleExistUser(userInstance, jsonResponseData, signUpData, res) {
+    userInstance.isPasswordMatch(signUpData['password'])
+        .then((response) => {
+            // Validating if user is active
+            if (userInstance.active) {
+                userInstance.generateTokens()
+                    .then((tokens) => {
+                        jsonResponseData.user = Object.assign({}, userInstance._doc);
+                        jsonResponseData.user.userId = userInstance._id.toString();
+                        jsonResponseData.tokens = tokens;
+                        res.contentType('application/json');
+                        return res.status(201).send(JSON.stringify(jsonResponseData));
+                    });
+            } else {
+                return res.status(401).send({
+                    msg: 'Your account is inactive, try to login later'
+                }).end();
+            }
+        }).catch((err) => {
+        /* istanbul ignore next */
+            res.contentType('application/json');
+            console.log(err);
+            return res.status(422).send({
+                msg: err
+            }).end();
+        });
+}
+
 module.exports = UsersController;
