@@ -179,7 +179,7 @@ describe('Test Users with sockets', () =>{
 
     test('should create relationship between user and socket', async () => {
         const socket= {socketId: '1'};
-        await agent.post(HOST + '/api/users/'+userId+'/socket')
+        await agent.post(HOST + '/api/users/'+userId+'/sockets')
         // .query('userId='+ userId)
             .accept('application/json')
             .send(socket)
@@ -193,7 +193,7 @@ describe('Test Users with sockets', () =>{
 
     test('should delete relationship between user and socket', async () => {
         const socket= {socketId: '1'};
-        await agent.post(HOST + '/api/users/'+userId+'/socket')
+        await agent.post(HOST + '/api/users/'+userId+'/sockets')
             .accept('application/json')
             .send(socket)
             .set('Authorization', token)
