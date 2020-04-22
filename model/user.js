@@ -506,7 +506,10 @@ class UserModel {
             });
         });
     }
-
+    /**
+     * Method to initialize the Administrator user
+     *
+     */
     static initAdminUser() {
         return new Promise((resolve, reject) => {
         // check if its first user
