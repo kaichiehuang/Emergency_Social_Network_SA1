@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const UserSchema = require('./model').UserSchema;
 const bcrypt = require('bcrypt');
+const UserHelper = require("./util/userHelper");
 const TokenServerClass = require('../middleware/TokenServer');
 const constants = require('../constants');
 const UserPersonalValidator = require('./validators/userPersonalValidator.js');
@@ -109,7 +110,7 @@ class UserModel {
      */
     registerUser() {
         return new Promise((resolve, reject) => {
-            this.hashPassword(this.password);
+            this.password = UserHelper.hashPassword(this.password);
             this.save().then((_) => {
                 return resolve(true);
             }).catch((err) => {
@@ -137,14 +138,7 @@ class UserModel {
             });
         });
     }
-    /**
-     * hashes a user password //
-     * @param  {[type]} password [description]
-     * @return {[type]}          [description]
-     */
-    hashPassword(password) {
-        this.password = bcrypt.hashSync(password, 10);
-    }
+
     /**
      * Generates a token for a user
      * @return {[type]} [description]
