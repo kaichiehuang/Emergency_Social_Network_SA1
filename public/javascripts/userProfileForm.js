@@ -85,7 +85,7 @@ class UserProfileForm {
         }
 
         // set privilege
-        if (user != undefined && (user.role == "coordinator" || user.role == "administrator")) {
+        if (user != undefined && (currentUser.role == "coordinator" || currentUser.role == "administrator")) {
             template.querySelector('select#user-profile-form__role').value = user.role;
         }else{
             template.querySelector('select#user-profile-form__role').remove();
@@ -94,7 +94,7 @@ class UserProfileForm {
 
         // set privilege
         template.querySelector('select#user-profile-form__active').value = 1;
-        if (user.active != undefined && (user.role == "coordinator" || user.role == "administrator")) {
+        if (user.active != undefined && (currentUser.role == "coordinator" || currentUser.role == "administrator")) {
             template.querySelector('select#user-profile-form__active').value = 0;
         }else{
             template.querySelector('select#user-profile-form__active').remove();
