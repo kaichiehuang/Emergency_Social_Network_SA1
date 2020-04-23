@@ -777,6 +777,17 @@ form {
                 display: block;
                 width: 100%;
                 border-radius: 5px;
+                padding-left: 10px;
+                padding-right: 10px;
+                font-size: 0.95em;
+                @include respond-to("small") {
+                    padding-left: 2px;
+                    padding-right: 2px;
+                }
+                @include respond-to("extra-small") {
+                    padding-right: 2px;
+                    padding-left: 2px;
+                }
                 &.active {
                     background: #f3f3f3;
                     color: #333;
