@@ -118,7 +118,9 @@ class UsersController {
         // 1. find user only if it is the same user or an authorized user
         User.findUserByIdIfAuthorized(userId, req.tokenUserId).then((user) => {
             res.contentType('application/json');
-            user.personal_message.message = '';
+            delete user.personal_message;
+            delete user.sockets;
+            delete user.password;
             return res.status(201).send(JSON.stringify(user));
         }).catch((err) => {
             /* istanbul ignore next */
