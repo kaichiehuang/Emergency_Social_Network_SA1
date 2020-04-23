@@ -248,7 +248,7 @@ class UserModel {
     getPersonalMessage(securityQuestionAnswer) {
         return new Promise((resolve, reject) => {
             if (this.personal_message == undefined || this.personal_message.message == undefined || this.personal_message.security_question == undefined || this.personal_message.security_question_answer == undefined) {
-                return reject('Invalid answer');
+                return reject('No personal message provided by this user');
             } else if (this.personal_message.security_question_answer.length > 0 && this.personal_message.security_question_answer.localeCompare(securityQuestionAnswer) == 0) {
                 return resolve(this.personal_message.message);
             } else {
