@@ -85,14 +85,20 @@ class UserProfileForm {
         }
 
         // set privilege
-        if (user != undefined && user.role != undefined) {
+        if (user != undefined && (user.role == "coordinator" || user.role == "administrator")) {
             template.querySelector('select#user-profile-form__role').value = user.role;
+        }else{
+            template.querySelector('select#user-profile-form__role').remove();
+            template.querySelector('label#user-profile-form__role_label').remove();
         }
 
         // set privilege
         template.querySelector('select#user-profile-form__active').value = 1;
-        if (user.active != undefined && !user.active) {
+        if (user.active != undefined && (user.role == "coordinator" || user.role == "administrator")) {
             template.querySelector('select#user-profile-form__active').value = 0;
+        }else{
+            template.querySelector('select#user-profile-form__active').remove();
+            template.querySelector('label#user-profile-form__active_label').remove();
         }
 
         return template;
