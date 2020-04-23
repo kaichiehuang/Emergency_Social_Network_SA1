@@ -170,7 +170,6 @@ class UserProfileForm {
             template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = user.medical_information.prescribed_drugs;
         }
 
-
         if (user.medical_information != undefined && user.medical_information.prescribed_drugs != undefined && user.medical_information.prescribed_drugs != '') {
             template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = user.medical_information.prescribed_drugs;
             template.querySelector('input#has_prescribed_drugs1').checked = 'checked';
