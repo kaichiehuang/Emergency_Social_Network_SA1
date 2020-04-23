@@ -93,8 +93,9 @@ class UserList {
                     .classList.add('fa-question');
             }
             listContainer.appendChild(template);
+            this.registerEventsAfterDraw();
         }
-        UserList.getInstance().registerEventsAfterDraw();
+
     }
     /**
      * Show the detail of an emergency status
