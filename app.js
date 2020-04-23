@@ -14,6 +14,7 @@ const resourcesRouter = require('./routes/resources');
 const emergencyStatusDetailRouter = require('./routes/emergencyStatusDetail');
 const testRouter = require('./routes/testroute');
 const spamReportRouter = require('./routes/spamReport');
+const compression = require('compression')
 
 let ENVIRONMENT = 'development';
 
@@ -95,13 +96,30 @@ app.use(bodyParser.urlencoded({
 // application/json
 // app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '5mb'}));
+
+app.use(compression({ filter: shouldCompress }))
+function shouldCompress (req, res) {
+  // fallback to standard filter function
+  return compression.filter(req, res)
+}
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//setup static assets cache control
+var publicOptions = {
+  dotfiles: 'ignore',
+  etag: false,
+  index: false,
+  maxAge: '15d',
+  redirect: false,
+}
+app.use(express.static(path.join(__dirname, 'public'), publicOptions));
 app.use('/public/pictures', express.static(path.join(__dirname, 'public/pictures')));
 app.use('/', indexRouter);
 // app.use('/sign-up', registrationRouter);
