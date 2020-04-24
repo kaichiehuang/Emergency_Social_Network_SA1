@@ -59,17 +59,17 @@ class SignoutComponent {
         /** **** events declaration ********/
         $('a[href="#signout-action"]').click(function(e) {
             e.preventDefault();
-            this.signout();
-            this.redirectHomePage();
+            SignoutComponent.getInstance().signout();
+            SignoutComponent.getInstance().redirectHomePage();
         });
 
         socket.on('logout-user', (data) => {
-            this.signout();
+            SignoutComponent.getInstance().signout();
             showElements('sign-out-poppup');
         });
 
         $('.btn-exit-popup').on('click', (e) => {
-            this.redirectHomePage();
+            SignoutComponent.getInstance().redirectHomePage();
         });
     }
 
