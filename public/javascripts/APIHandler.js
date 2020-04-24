@@ -38,7 +38,13 @@ class APIHandler {
                 })
                 .fail(function(e) {
                     console.log('Request Error' + e);
-                    reject(e);
+                    if(e.responseText == "jwt expired" || e.responseText == "invalid algorithm" || e.responseText == "invalid token" || e.responseText == "jwt malformed" ){
+                        SignoutComponent.getInstance().removeCookies();
+                        SignoutComponent.getInstance().signout();
+                        return reject(false);
+                    }else{
+                        reject(e);
+                    }
                 })
         });
     }

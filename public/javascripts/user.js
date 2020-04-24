@@ -27,11 +27,11 @@ class User {
                         resolve(response);
                     })
                     .catch((error) => {
-                        reject(error.message);
+                        reject(error);
                     });
             } else {
                 // eslint-disable-next-line prefer-promise-reject-errors
-                reject();
+                reject("ERROR");
             }
         });
     }
@@ -74,7 +74,7 @@ class User {
                     resolve(response);
                 })
                 .catch((error) => {
-                    reject(error.message);
+                    reject(error);
                 });
         });
     }
