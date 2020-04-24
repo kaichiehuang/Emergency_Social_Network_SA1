@@ -74,29 +74,44 @@ class UserList {
                     currentUser.unread_messages[user._id];
             }
 
-            let userStatusLC = user.status.toLowerCase();
-            template.querySelector('#statusSpan')
-                .classList.add('background-color-' + userStatusLC);
-            template.querySelector('.status-button')
-                .setAttribute('data-status', user.status);
-            if (user.status === 'OK') {
-                template.querySelector('#iconStatus')
-                    .classList.add('fa-check');
-            } else if (user.status === 'HELP') {
-                template.querySelector('#iconStatus')
-                    .classList.add('fa-exclamation');
-            } else if (user.status === 'EMERGENCY') {
-                template.querySelector('#iconStatus')
-                    .classList.add('fa-exclamation-triangle');
-            } else if (user.status === 'UNDEFINED') {
-                template.querySelector('#iconStatus')
-                    .classList.add('fa-question');
+            if(user.status != undefined){
+                this.drawUserStatues(template, user)
             }
+
             listContainer.appendChild(template);
-            this.registerEventsAfterDraw();
         }
+        this.registerEventsAfterDraw();
 
     }
+
+    /**
+     * Draws status info and icon
+     * @param  {[type]} template [description]
+     * @return {[type]}          [description]
+     */
+    drawUserStatues(template, user){
+        let userStatusLC = user.status.toLowerCase();
+        template.querySelector('#statusSpan')
+            .classList.add('background-color-' + userStatusLC);
+        template.querySelector('.status-button')
+            .setAttribute('data-status', user.status);
+
+        if (user.status === 'OK') {
+            template.querySelector('#iconStatus')
+                .classList.add('fa-check');
+        } else if (user.status === 'HELP') {
+            template.querySelector('#iconStatus')
+                .classList.add('fa-exclamation');
+        } else if (user.status === 'EMERGENCY') {
+            template.querySelector('#iconStatus')
+                .classList.add('fa-exclamation-triangle');
+        } else if (user.status === 'UNDEFINED') {
+            template.querySelector('#iconStatus')
+                .classList.add('fa-question');
+        }
+        return template;
+    }
+
     /**
      * Show the detail of an emergency status
      * @param  {[type]} userId [description]
