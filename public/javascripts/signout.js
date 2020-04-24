@@ -1,22 +1,40 @@
-$(function() {
-    function signout() {
-        setOnline(false);
-        GlobalEventDispatcher.updateAllUserLists();
-        removeCookies();
-
-        APIHandler.getInstance()
-            .sendRequest('/usersList/',
-                'get', null, true, null)
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                $('#update-status-alert').html(error);
-                $('#update-status-alert').show();
-            });
+class SignoutComponent {
+    /**
+     * Initializing view
+     */
+    constructor() {
+        this.instance = undefined;
     }
 
-    function removeCookies() {
+    /**
+     * Singleton instance element
+     * @return {[type]} [description]
+     */
+    static getInstance() {
+        if (this.instance === undefined) {
+            this.instance = new SignoutComponent();
+        }
+        return this.instance;
+    }
+
+    /**
+     * Log out function
+     * @return {[type]} [description]
+     */
+    signout() {
+        setOnline(false);
+        if(Cookies.remove('user-jwt-esn') != undefined){
+            //update all users
+            GlobalEventDispatcher.updateAllUserLists();
+        }
+        this.removeCookies();
+        this.redirectHomePage();
+    }
+    /**
+     * Remove all the info from the cookie
+     * @return {[type]} [description]
+     */
+    removeCookies() {
         Cookies.remove('user-jwt-esn', {path: ''});
         Cookies.remove('user-jwt-refresh-esn', {path: ''});
         Cookies.remove('user-id', {path: ''});
@@ -24,22 +42,38 @@ $(function() {
         Cookies.remove('user-acknowledgement', {path: ''});
         Cookies.remove('user-status', {path: ''});
     }
-    function redirectHomePage() {
+    /**
+     * Redirect user to home page
+     * @return {[type]} [description]
+     */
+    redirectHomePage() {
         window.location.replace('/');
     }
-    /** **** events declaration ********/
-    $('a[href="#signout-action"]').click(function(e) {
-        e.preventDefault();
-        signout();
-        redirectHomePage();
-    });
 
-    socket.on('logout-user', (data) => {
-        signout();
-        showElements('sign-out-poppup');
-    });
+    /**
+     * Register logout events
+     * @return {[type]} [description]
+     */
+    registerEvents() {
 
-    $('.btn-exit-popup').on('click', (e) => {
-        redirectHomePage();
-    });
+        /** **** events declaration ********/
+        $('a[href="#signout-action"]').click(function(e) {
+            e.preventDefault();
+            this.signout();
+            this.redirectHomePage();
+        });
+
+        socket.on('logout-user', (data) => {
+            this.signout();
+            showElements('sign-out-poppup');
+        });
+
+        $('.btn-exit-popup').on('click', (e) => {
+            this.redirectHomePage();
+        });
+    }
+
+}
+$(function() {
+    SignoutComponent.getInstance().registerEvents();
 });
