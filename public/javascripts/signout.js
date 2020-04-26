@@ -22,7 +22,7 @@ class SignoutComponent {
      * @return {[type]} [description]
      */
     signout() {
-        setOnline(false);
+        User.getInstance().setOnline(false);
         if(Cookies.remove('user-jwt-esn') != undefined){
             //update all users
             GlobalEventDispatcher.updateAllUserLists();
