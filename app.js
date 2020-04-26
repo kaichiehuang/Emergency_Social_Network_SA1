@@ -15,7 +15,6 @@ const emergencyStatusDetailRouter = require('./routes/emergencyStatusDetail');
 const testRouter = require('./routes/testroute');
 const spamReportRouter = require('./routes/spamReport');
 const compression = require('compression')
-const staticify = require('staticify')(path.join(__dirname, 'public'));
 
 let ENVIRONMENT = 'development';
 
@@ -122,8 +121,7 @@ var publicOptions = {
 app.use(express.static(path.join(__dirname, 'public'), publicOptions));
 
 //cache invalidation
-app.use(staticify.middleware);
-app.locals.getVersionedPath = staticify.getVersionedPath;
+app.locals.versionedAssets = 200;
 
 app.use('/public/pictures', express.static(path.join(__dirname, 'public/pictures')));
 app.use('/', indexRouter);

@@ -166,7 +166,7 @@ class User {
      * @param status
      */
     setOnline(online_status, socketId) {
-        const user_id = Cookies.get('user-id');
+        const userId = Cookies.get('user-id');
         const data = {
             onLine: online_status,
             acknowledgement: Cookies.get('user-acknowledgement'),
