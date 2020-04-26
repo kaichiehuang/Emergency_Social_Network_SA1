@@ -132,9 +132,7 @@ Speca.prototype.findContentItems = function (menuItems) {
             } catch (e) {
                 console.error('invalid expression: ' + href)
             }
-        } else {
-            console.log('!!!', a, href)
-        }
+        } else {}
     })
     return contentElements
 }

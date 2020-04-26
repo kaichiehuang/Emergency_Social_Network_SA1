@@ -88,7 +88,6 @@ ApiConsole.prototype.createModal = function (operationId) {
             this.hide()
         },
         (id) => {
-            console.log('Operation selected', id)
             if (id)
                 window.location.hash = id
         })

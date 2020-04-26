@@ -28,9 +28,7 @@ describe('Can creat an announcement', ()=> {
         return announcement.saveAnnouncement()
             .then((newAnnouncement) => {
                 expect(newAnnouncement.announcement).toBe(announcement.announcement);
-            }).catch((err) => {
-                console.log('Error creating announcement:' + err);
-            });
+            }).catch((err) => {});
     });
 
 
@@ -73,9 +71,7 @@ describe('Can get announcements', () => {
             .then((res) =>{
                 expect(res.length).toBe(2);
             })
-            .catch((err) =>{
-                console.log('Error Getting announcement:' + err);
-            });
+            .catch((err) =>{});
     });
 
     test('searching announcement by keyword', async () =>{
@@ -85,9 +81,7 @@ describe('Can get announcements', () => {
             .then((res) =>{
                 expect(res.length).toBe(1);
             })
-            .catch((err) =>{
-                console.log('Error Getting search announcement:' + err);
-            });
+            .catch((err) =>{});
     });
 });
 

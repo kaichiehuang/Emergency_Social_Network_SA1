@@ -35,7 +35,6 @@ beforeAll(async () => {
         .set('accept', 'json')
         .then((res) =>{
             token = res.body.tokens.token;
-            console.log(res.body.user);
             userId = res.body.user.userId;
         });
 

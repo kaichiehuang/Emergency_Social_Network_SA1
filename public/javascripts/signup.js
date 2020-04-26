@@ -48,7 +48,6 @@ $(function() {
                             'main-content-block');
                     }
                 }
-                console.log(response);
                 $('#signup-error-alert').hide();
             })
             .catch((error) => {
@@ -83,9 +82,7 @@ $(function() {
             }).fail(function() {
                 $('#signup-error-alert').html();
                 $('#signup-error-alert').show();
-            }).always(function() {
-                console.log('complete');
-            });
+            }).always(function() {});
         }
     }
 

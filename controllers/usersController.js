@@ -84,7 +84,6 @@ class UsersController {
      * @return {[type]}     [description]
      */
     updateUser(req, res) {
-        console.log('in update user');
         let userInstance = null;
         const userId = req.params.userId;
         // 1. update user data
@@ -224,7 +223,6 @@ function handleNonExistUser(userInstance, jsonResponseData, signUpData, res) {
             return emergencyStatusDetail.createEmergencyStatusDetail();
         }).catch((err) => {
             res.contentType('application/json');
-            console.log(err);
             return res.status(422).send({
                 msg: err
             }).end();

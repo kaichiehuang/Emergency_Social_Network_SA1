@@ -37,7 +37,6 @@ class PrivateChatMessage {
                 status: this.status
             });
             newChatMessage.save().then((result) => {
-                console.log('private message created');
                 this._id = result.id;
                 return resolve(newChatMessage);
             }).catch(function(err) {
@@ -93,7 +92,6 @@ class PrivateChatMessage {
         return new Promise( (resolve, reject) =>{
             const skipSize = page * pageSize;
             StopWords.removeStopWords(query).then((preprocessedQuery) => {
-                console.log('after clean: ' + preprocessedQuery);
                 PrivateChatMessageModel.find({
                     $or: [{'sender_user_id': senderUserId, 'receiver_user_id': receiverUserId},
                         {'sender_user_id': receiverUserId, 'receiver_user_id': senderUserId}],
