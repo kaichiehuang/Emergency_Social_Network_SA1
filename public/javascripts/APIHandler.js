@@ -12,6 +12,7 @@ class APIHandler {
      * @return {[type]}             [description]
      */
     sendRequest(url, operation, data, token, contentType) {
+        $("#boxloader").show();
         const jwt = Cookies.get('user-jwt-esn');
 
         let contentTypeOption = contentType ?
@@ -45,6 +46,9 @@ class APIHandler {
                     }else{
                         reject(e);
                     }
+                })
+                .always(function(){
+                    $("#boxloader").hide();
                 })
         });
     }

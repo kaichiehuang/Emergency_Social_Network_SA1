@@ -178,20 +178,16 @@ function searchPrivateMessage(requestData, res) {
     User.findUserById(otherUser)
         .then((user) => {
             // Validatig the other account user status
-            // if it is inactive, we block the conversation.
             if (!user.active) {
-                return res.status(401).send({});
+                return res.status(401).send({}).end();
             } else {
-                privateChatMessage.searchChatMessages(requestData['sender_user_id'], requestData['receiver_user_id'], query, page, pageSize)
-                    .then((result) => {
-                        res.send(result);
-                    }).catch((err) => {
-                        return res.status(422).send({
-                            error: err.message
-                        });
-                    });
+                return privateChatMessage.searchChatMessages(requestData['sender_user_id'], requestData['receiver_user_id'], query, page, pageSize)
             }
-        }).catch((err) => {
+        })
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((err) => {
             return res.status(422).send({
                 "msg": err.message
             });
