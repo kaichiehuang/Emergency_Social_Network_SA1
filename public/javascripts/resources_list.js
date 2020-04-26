@@ -1,6 +1,12 @@
+/**
+ * Class for Resource List
+ */
 class ResourcesList {
-    static instance;
+    /**
+     * Initializing Resource Class
+     */
     constructor() {
+        this.instance = undefined;
         $(document).on('click', '#icon', function(event) {
             // eslint-disable-next-line no-invalid-this
             for (const cssClass of this.classList) {
@@ -25,8 +31,6 @@ class ResourcesList {
                 ResourcesList.getInstance().updateResourceListView();
             }
         });
-
-
     }
     /**
      * Singleton instance element
@@ -39,162 +43,101 @@ class ResourcesList {
         return this.instance;
     }
 
-     showResourceDetail(resource) {
+    /**
+     * Method to initializae common elements
+     */
+    initializeCommonElements(resource) {
         // Changing labels
         $('.modal-body #resource-type-label').text('Resource Type:');
         $('.modal-body #picture-label').text('Picture:');
+        ResourcesList.getInstance().addClassElements('hidden-main-content-block',
+            $('.modal-body #div-steps'), $('.modal-body #resource-picture'), $('.modal-body #erasePicture'),
+            $('.modal-body #resource-submit-btn'));
 
-        // /Hide steps buttons
-        $('.modal-body #div-steps').addClass('hidden-main-content-block');
-        // SHOWING LOCATION IN THE SAME PAGE
-        $('.modal-body #resource-location-div')
-            .removeClass('hidden-main-content-block');
-        // SHOWING PICTURE IN THE SAME PAGE
-        $('.modal-body #resource-picture-div')
-            .removeClass('hidden-main-content-block');
-        // REMOVING PICTURES INPUTS
-        $('.modal-body #resource-picture')
-            .addClass('hidden-main-content-block');
-        $('.modal-body #erasePicture')
-            .addClass('hidden-main-content-block');
-        $('.modal-body #resource-submit-btn')
-            .addClass('hidden-main-content-block');
-        // /ADDING PICTURE
-        $('.modal-body  #imageDiv').removeClass('hidden-main-content-block');
+        ResourcesList.getInstance().removeClassElements('hidden-main-content-block',
+            $('.modal-body #resource-location-div'), $('.modal-body #resource-picture-div'),
+            $('.modal-body  #imageDiv'));
         ResourcesList.getInstance().readURL(resource.image);
         // Adding Location
-        $('.modal-body #resource-location').text(resource.location);
-        $('.modal-body #resource-location').attr('readonly', true);
+        const resourceLocationElement =$('.modal-body #resource-location');
+        resourceLocationElement.text(resource.location);
+        resourceLocationElement.attr('readonly', true);
         // Adding resource name
-        $('.modal-body #resource-name-id').val(resource.name);
-        $('.modal-body #resource-name-id').attr('readonly', true);
-        switch (resource.resource_type) {
-        case 'SUPPLIES':
-            // Hiding RESOURCES TYPE BUTTONS
-            $('.modal-body #supplies-btn')
-                .removeClass('hidden-main-content-block');
-            $('.modal-body #medical-btn').addClass('hidden-main-content-block');
-            $('.modal-body #shelter-btn').addClass('hidden-main-content-block');
+        const resourceNameElement =$('.modal-body #resource-name-id');
+        resourceNameElement.val(resource.name);
+        resourceNameElement.attr('readonly', true);
+    }
 
-            // HIDING DIVS OF ANOTHER RESOURCE TYPE
-            $('.modal-body #supplies-content-div')
-                .removeClass('hidden-main-content-block');
-            $('.modal-body #medical-content-div')
-                .addClass('hidden-main-content-block');
-            $('.modal-body #shelter-content-div')
-                .addClass('hidden-main-content-block');
-            // SUPPLY DESCRIPTION
-            $('.modal-body #supplies-description-id')
-                .text(resource.description);
-            $('.modal-body #supplies-description-id')
-                .attr('readonly', true);
-            // SUPPLY QUESTION ONE
-            if (resource.question_one) {
-                $('.modal-body #supplies-q1-yes').prop('checked', true);
-                $('.modal-body #supplies-q1-yes').attr('readonly', true);
-            } else {
-                $('.modal-body #supplies-q1-no').prop('checked', true);
-                $('.modal-body #supplies-q1-no').attr('readonly', true);
-            }
-            // SUPPLY QUESTION TWO
-            if (resource.question_two) {
-                $('.modal-body #supplies-q2-yes').prop('checked', true);
-                $('.modal-body #supplies-q2-yes').attr('readonly', true);
-            } else {
-                $('.modal-body #supplies-q2-no').prop('checked', true);
-                $('.modal-body #supplies-q2-no').attr('readonly', true);
-            }
-
-
-            break;
-        case 'MEDICAL':
-            // Hiding RESOURCES TYPE BUTTONS
-            $('.modal-body #medical-btn')
-                .removeClass('hidden-main-content-block');
-            $('.modal-body #supplies-btn')
-                .addClass('hidden-main-content-block');
-            $('.modal-body #shelter-btn')
-                .addClass('hidden-main-content-block');
-
-            $('.modal-body #medical-content-div')
-                .removeClass('hidden-main-content-block');
-            $('.modal-body #supplies-content-div')
-                .addClass('hidden-main-content-block');
-            $('.modal-body #shelter-content-div')
-                .addClass('hidden-main-content-block');
-            // MEDICAL description
-            $('.modal-body #medical-description-id')
-                .text(resource.description);
-            $('.modal-body #medical-description-id')
-                .attr('readonly', true);
-            // MEDICAL QUESTION ONE
-            if (resource.question_one) {
-                $('.modal-body #medical-q1-yes').prop('checked', true);
-                $('.modal-body #medical-q1-yes').attr('readonly', true);
-            } else {
-                $('.modal-body #medical-q1-no').prop('checked', true);
-                $('.modal-body #medical-q1-no').attr('readonly', true);
-            }
-
-            break;
-        case 'SHELTER':
-            // Hiding RESOURCES TYPE BUTTONS
-            $('.modal-body shelter-btn')
-                .removeClass('hidden-main-content-block');
-            $('.modal-body #supplies-btn')
-                .addClass('hidden-main-content-block');
-            $('.modal-body #medical-btn')
-                .addClass('hidden-main-content-block');
-
-            $('.modal-body #shelter-content-div')
-                .removeClass('hidden-main-content-block');
-            $('.modal-body #medical-content-div')
-                .addClass('hidden-main-content-block');
-            $('.modal-body #supplies-content-div')
-                .addClass('hidden-main-content-block');
-            // SHELTER description
-            $('.modal-body #shelter-description-id')
-                .text(resource.description);
-            $('.modal-body #shelter-description-id')
-                .attr('readonly', true);
-            // SHELTER QUESTION ONE
-            if (resource.question_one) {
-                $('.modal-body #shelter-q1-yes').prop('checked', true);
-                $('.modal-body #shelter-q1-yes').attr('readonly', true);
-            } else {
-                $('.modal-body #shelter-q1-no').prop('checked', true);
-                $('.modal-body #shelter-q1-no').attr('readonly', true);
-            }
-            // SHELTER QUESTION TWO
-            if (resource.question_two) {
-                $('.modal-body #shelter-q2-yes').prop('checked', true);
-                $('.modal-body #shelter-q2-yes').attr('readonly', true);
-            } else {
-                $('.modal-body #shelter-q2-no').prop('checked', true);
-                $('.modal-body #shelter-q2-no').attr('readonly', true);
-            }
-
-            break;
-        default:
-            break;
+    /**
+     * Method to initialize resource view
+     * @param resource
+     */
+    showResourceDetail(resource) {
+        ResourcesList.getInstance().initializeCommonElements(resource);
+        const resourceSelected= resource.resource_type.toLowerCase();
+        let resourceOneToHide;
+        let resourceTwoToHide;
+        if (resource.resource_type === 'SUPPLIES') {
+            resourceOneToHide = 'medical';
+            resourceTwoToHide = 'shelter';
+        } else if (resource.resource_type === 'MEDICAL') {
+            resourceOneToHide = 'supplies';
+            resourceTwoToHide = 'shelter';
+        } else {
+            resourceOneToHide = 'supplies';
+            resourceTwoToHide = 'medical';
         }
 
-        $('.modal-body #resources-content')
-            .removeClass('hidden-main-content-block');
-        $('.modal-body #resources-content')
-            .removeClass('hidden');
+        ResourcesList.getInstance().addClassElements('hidden-main-content-block',
+            $('.modal-body #'+ resourceOneToHide +'-btn'), $('.modal-body #'+ resourceTwoToHide +'-btn'),
+            $('.modal-body #'+ resourceOneToHide +'-content-div'), $('.modal-body #'+ resourceTwoToHide +'-content-div'));
+
+        ResourcesList.getInstance().removeClassElements('hidden-main-content-block',
+            $('.modal-body #'+ resourceSelected +'-btn'), $('.modal-body #'+ resourceSelected +'-content-div'));
+
+        $('.modal-body #'+ resourceSelected +'-description-id').text(resource.description);
+        $('.modal-body #'+ resourceSelected +'-description-id').attr('readonly', true);
+
+        if (resource.question_one) {
+            $('.modal-body #'+ resourceSelected +'-q1-yes').prop('checked', true);
+            $('.modal-body #'+ resourceSelected +'-q1-yes').attr('readonly', true);
+        } else {
+            $('.modal-body #'+ resourceSelected +'-q1-no').prop('checked', true);
+            $('.modal-body #'+ resourceSelected +'-q1-no').attr('readonly', true);
+        }
+        if (resource.resource_type !== 'MEDICAL') {
+            if (resource.question_two) {
+                $('.modal-body #'+ resourceSelected +'-q2-yes').prop('checked', true);
+                $('.modal-body #'+ resourceSelected +'-q2-yes').attr('readonly', true);
+            } else {
+                $('.modal-body #'+ resourceSelected +'-q2-no').prop('checked', true);
+                $('.modal-body #'+ resourceSelected +'-q2-no').attr('readonly', true);
+            }
+        }
+        $('.modal-body #resources-content').removeClass('hidden-main-content-block');
+        $('.modal-body #resources-content').removeClass('hidden');
         $('#exampleModalCenter').modal('show');
     }
 
 
-     async readURL(image) {
+    /**
+     * Method to show the image on the page
+     * @param image
+     * @returns {Promise<void>}
+     */
+    async readURL(image) {
         const base64Flag = 'data:image/png;base64,';
         const imageStr =
-            await  ResourcesList.getInstance().arrayBufferToBase64(image.data.data);
+            await ResourcesList.getInstance().arrayBufferToBase64(image.data.data);
         $('.modal-body  #image-preview').attr('src', base64Flag + imageStr);
     }
 
-     arrayBufferToBase64(buffer) {
+    /**
+     * Convert image data to Base64 to render on the view
+     * @param buffer
+     * @returns {string}
+     */
+    arrayBufferToBase64(buffer) {
         let binary = '';
         const bytes = [].slice.call(new Uint8Array(buffer));
         bytes.forEach((b) => binary += String.fromCharCode(b));
@@ -202,7 +145,12 @@ class ResourcesList {
     };
 
 
-     getResourceById(resourceId) {
+    /**
+     * Method to request an specific resource information
+     * @param resourceId
+     * @returns {Promise<unknown>}
+     */
+    getResourceById(resourceId) {
         return new Promise((resolve, reject) => {
             APIHandler.getInstance()
                 .sendRequest('/resources/' + resourceId,
@@ -217,7 +165,11 @@ class ResourcesList {
         });
     }
 
-     getResources() {
+    /**
+     * Method to request all the resources registered
+     * @returns {Promise<unknown>}
+     */
+    getResources() {
         return new Promise((resolve, reject) => {
             APIHandler.getInstance()
                 .sendRequest('/resources/',
@@ -231,7 +183,11 @@ class ResourcesList {
         });
     }
 
-     drawResources(resources) {
+    /**
+     * Method to draw all resources on the list
+     * @param resources
+     */
+    drawResources(resources) {
         const containerId = 'resources_list-content';
         $('#resources-list-div .no-results-message').addClass('hidden');
         // 1. find templates in html
@@ -248,10 +204,8 @@ class ResourcesList {
                     template = resourceTemplate.content.cloneNode(true);
                 }
                 if (template != undefined && template != null) {
-                    template.querySelector('.resource-name').innerText =
-                        resource.name;
-                    template.querySelector('.fa-info-circle')
-                        .classList.add('id-' + resource._id);
+                    template.querySelector('.resource-name').innerText = resource.name;
+                    template.querySelector('.fa-info-circle').classList.add('id-' + resource._id);
                     // set message counter from user
                     listContainer.appendChild(template);
                 }
@@ -260,8 +214,10 @@ class ResourcesList {
         }
     }
 
-    // todo pass this to a class AddressBook that has an attribute currentUser
-     updateResourceListView() {
+    /**
+     * Update the resource view
+     */
+    updateResourceListView() {
         // get resource data
         ResourcesList.getInstance().getResources().then((resources) => {
             if (resources.length > 0) {
@@ -269,6 +225,28 @@ class ResourcesList {
             }
         }).catch((err) => {
         });
+    }
+
+    /**
+     * Remove classes from elements
+     * @param nameClass
+     * @param showElement
+     */
+    removeClassElements(nameClass, ...showElement) {
+        for (const element of showElement) {
+            element.removeClass(nameClass);
+        }
+    }
+
+    /**
+     * Add classes to elements
+     * @param nameClass
+     * @param showElement
+     */
+    addClassElements(nameClass, ...showElement) {
+        for (const element of showElement) {
+            element.addClass(nameClass);
+        }
     }
 }
 

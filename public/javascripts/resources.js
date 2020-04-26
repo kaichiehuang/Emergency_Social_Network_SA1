@@ -1,4 +1,6 @@
-
+/**
+ * Class for Resources Module
+ */
 class Resources {
     /**
      * Initializing view
@@ -50,71 +52,70 @@ class Resources {
         });
     }
 
+
+    /**
+     * Remove and add button classes to selected option
+     * @param idElementSelected
+     * @param idElementOneHide
+     * @param idElementTwoHide
+     */
+    buttonSelectionElements(idElementSelected, idElementOneHide, idElementTwoHide) {
+        Resources.getInstance().addClassElements('selected-btn', $('#'+ idElementSelected +'-btn'));
+        Resources.getInstance().removeClassElements('selected-btn', $('#'+ idElementOneHide+'-btn'),
+            $('#'+ idElementTwoHide+'-btn'));
+    }
+
+    /**
+     * Hide and show content depending on the Resource Type selected
+     * @param idElementSelected
+     * @param idElementOneHide
+     * @param idElementTwoHide
+     */
+    hideShowContentElements(idElementSelected, idElementOneHide, idElementTwoHide) {
+        Resources.getInstance().removeClassElements('hidden-main-content-block',
+            $('#'+ idElementSelected +'-content-div'));
+        Resources.getInstance().addClassElements('hidden-main-content-block',
+            $('#'+ idElementOneHide+'-content-div'), $('#'+ idElementTwoHide+'-content-div'));
+    }
     /**
      * Initialize button events for Resource Type
      */
     initializeResourceTypeButtons() {
         $('#supplies-btn').on('click', (e) => {
-            Resources.getInstance().addClassElements('selected-btn',
-                $('#supplies-btn'));
-            Resources.getInstance().removeClassElements('selected-btn',
-                $('#shelter-btn'), $('#medical-btn'));
-
-            Resources.getInstance().removeClassElements('hidden-main-content-block',
-                $('#supplies-content-div'));
-            Resources.getInstance().addClassElements('hidden-main-content-block',
-                $('#medical-content-div'), $('#shelter-content-div'));
+            Resources.getInstance().buttonSelectionElements('supplies', 'shelter',
+                'medical');
+            Resources.getInstance().hideShowContentElements('supplies', 'shelter',
+                'medical');
         });
-
         $('#medical-btn').on('click', (e) => {
-            Resources.getInstance().addClassElements('selected-btn',
-                $('#medical-btn'));
-            Resources.getInstance().removeClassElements('selected-btn',
-                $('#supplies-btn'), $('#shelter-btn'));
-
-            Resources.getInstance().removeClassElements('hidden-main-content-block',
-                $('#medical-content-div'));
-            Resources.getInstance().addClassElements('hidden-main-content-block',
-                $('#supplies-content-div'), $('#shelter-content-div'));
+            Resources.getInstance().buttonSelectionElements('medical', 'supplies',
+                'shelter');
+            Resources.getInstance().hideShowContentElements('medical', 'supplies',
+                'shelter');
         });
-
-
         $('#shelter-btn').on('click', (e) => {
-            Resources.getInstance().addClassElements('selected-btn',
-                $('#shelter-btn'));
-            Resources.getInstance().removeClassElements('selected-btn',
-                $('#supplies-btn'), $('#medical-btn'));
-
-            Resources.getInstance().removeClassElements('hidden-main-content-block',
-                $('#shelter-content-div'));
-            Resources.getInstance().addClassElements('hidden-main-content-block',
-                $('#medical-content-div'), $('#supplies-content-div'));
+            Resources.getInstance().buttonSelectionElements('shelter', 'supplies',
+                'medical');
+            Resources.getInstance().hideShowContentElements('shelter', 'supplies',
+                'medical');
         });
     }
-
     /**
      * Initialize buttons for steps events
      */
     initializeStepButtonEvents() {
         $('#step-one-btn').on('click', (e) => {
-            Resources.getInstance().addClassElements('selected-btn',
-                $('#step-one-btn'));
-            Resources.getInstance().removeClassElements('selected-btn',
-                $('#step-two-btn'), $('#step-three-btn'));
-
-
+            Resources.getInstance().buttonSelectionElements('step-one', 'step-two',
+                'step-three');
             Resources.getInstance().removeClassElements('hidden-main-content-block',
                 $('#step-one-content'), $('#div-resource-type'));
             Resources.getInstance().addClassElements('hidden-main-content-block',
                 $('#resource-location-div'), $('#resource-picture-div'));
         });
 
-        $('#step-two-btn', '#step-three-btn').on('click', (e) => {
-            Resources.getInstance().removeClassElements('selected-btn',
-                $('#step-one-btn'), $('#step-two-btn'), $('#step-three-btn'));
-            Resources.getInstance().addClassElements('selected-btn',
-                $("#" + $(this).attr("id")));
-
+        $('#step-two-btn').on('click', (e) => {
+            Resources.getInstance().buttonSelectionElements('step-two', 'step-one',
+                'step-three');
             Resources.getInstance().removeClassElements('hidden-main-content-block',
                 $('#resource-location-div'));
             Resources.getInstance().addClassElements('hidden-main-content-block',
@@ -123,20 +124,16 @@ class Resources {
         });
 
 
-        // $('#step-three-btn').on('click', (e) => {
-        //     Resources.getInstance().addClassElements('selected-btn',
-        //         $('#step-three-btn'));
-        //     Resources.getInstance().removeClassElements('selected-btn',
-        //         $('#step-two-btn'), $('#step-one-btn'));
-
-        //     Resources.getInstance().removeClassElements('hidden-main-content-block',
-        //         $('#resource-picture-div'));
-        //     Resources.getInstance().addClassElements('hidden-main-content-block',
-        //         $('#step-one-content'), $('#resource-location-div'),
-        //         $('#div-resource-type'));
-        // });
+        $('#step-three-btn').on('click', (e) => {
+            Resources.getInstance().buttonSelectionElements('step-three', 'step-two',
+                'step-one');
+            Resources.getInstance().removeClassElements('hidden-main-content-block',
+                $('#resource-picture-div'));
+            Resources.getInstance().addClassElements('hidden-main-content-block',
+                $('#step-one-content'), $('#resource-location-div'),
+                $('#div-resource-type'));
+        });
     }
-
     /**
      * Initialize buttons selection
      */
@@ -144,15 +141,22 @@ class Resources {
         $('#step-one-btn').trigger('click');
         $('#supplies-btn').trigger('click');
     }
-
-
+    /**
+     * Remove classes from elements
+     * @param nameClass
+     * @param showElement
+     */
     removeClassElements(nameClass, ...showElement) {
         for (const element of showElement) {
             element.removeClass(nameClass);
         }
     }
 
-
+    /**
+     * Add classes to elements
+     * @param nameClass
+     * @param showElement
+     */
     addClassElements(nameClass, ...showElement) {
         for (const element of showElement) {
             element.addClass(nameClass);
@@ -178,33 +182,17 @@ class Resources {
      * Getting values from the form to save the resource
      */
     getValues() {
-        let description;
-        let questionOne;
-        let questionTwo;
-
-        switch ($('#div-resource-type button.selected-btn').attr('name')) {
-        case 'SUPPLIES':
-            description = $('#supplies-description-id').val();
-            questionOne = $('#supplies-q1-div input[type=\'radio\']:checked').val();
-            questionTwo = $('#supplies-q2-div input[type=\'radio\']:checked').val();
-
-            break;
-        case 'MEDICAL':
-            description = $('#medical-description-id').val();
-            questionOne = $('#medical-q1-div input[type=\'radio\']:checked').val();
-            break;
-        case 'SHELTER':
-            description = $('#shelter-description-id').val();
-            questionOne = $('#shelter-q1-div input[type=\'radio\']:checked').val();
-            questionTwo = $('#shelter-q2-div input[type=\'radio\']:checked').val();
-            break;
-        default:
-            alert('error' + $('#div-resource-type button.selected-btn').attr('name'));
-            break;
+        let questionTwo = false;
+        const resourceType = $('#div-resource-type button.selected-btn').attr('name').toLowerCase();
+        const description = $('#' + resourceType +'-description-id').val();
+        const questionOne = $('#' + resourceType + '-q1-div input[type=\'radio\']:checked').val();
+        // Only medical supplies type has one question
+        if (resourceType!== 'medical') {
+            questionTwo = $('#' + resourceType + '-q2-div input[type=\'radio\']:checked').val();
         }
         const resourceObject = {
             user_id: Cookies.get('user-id'),
-            resourceType: $('#div-resource-type button.selected-btn').attr('name'),
+            resourceType: resourceType,
             name: $('#resource-name-id').val(),
             location: $('#resource-location').val(),
             description: description,
@@ -221,6 +209,7 @@ class Resources {
      */
     validateRequireFields() {
         const resourceType = ('#div-resource-type button.selected-btn');
+        const pictureElement = $('#resource-picture').prop('files');
         let stringValidations ='';
         if (resourceType.length === 0) {
             stringValidations += 'Please select a Resource Type, ';
@@ -231,74 +220,44 @@ class Resources {
         if ($('#resource-name-id').val() === '') {
             stringValidations += 'Resource Name is  a required field, ';
         }
-
-        if ($('#resource-picture').prop('files').length !== 0 &&
-            $('#resource-picture').prop('files')[0].size>2000000) {
+        if (pictureElement.length !== 0 &&
+            pictureElement[0].size>2000000) {
             stringValidations += 'Picture Size limit 2Mb, ';
         }
-
         const type = $('#div-resource-type button.selected-btn').attr('name');
-        if(type == "" ){
-            stringValidations += draw('medical');
-        }else if(type == "" ){
-            draw('supplies');
-        }else if(type == ""){
-            draw('shelter');
-        }else{
+        if (type === 'SUPPLIES' ) {
+            stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('supplies');
+        } else if (type === 'MEDICAL' ) {
+            stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('medical');
+        } else if (type === 'SHELTER') {
+            stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('shelter');
+        } else {
             return false;
         }
-
-        // switch ($('#div-resource-type button.selected-btn').attr('name')) {
-        // case 'SUPPLIES':
-        //     if ($('#supplies-description-id').val() === '' ||
-        //                 $('#supplies-q1-div input[type=\'radio\']:checked')
-        //                     .length === 0 ||
-        //                 $('#supplies-q2-div input[type=\'radio\']:checked')
-        //                     .length === 0) {
-        //         stringValidations += 'Description and questions answers ' +
-        //                 'are mandatory fields, ';
-        //     }
-        //     break;
-        // case 'MEDICAL':
-        //     if ($('#medical-description-id').val() === '' ||
-        //                 $('#medical-q1-div input[type=\'radio\']:checked')
-        //                     .length === 0) {
-        //         stringValidations += 'Description and questions answers ' +
-        //                 'are mandatory fields, ';
-        //     }
-        //     break;
-        // case 'SHELTER':
-
-        //     if ($('#shelter-description-id').val() === '' ||
-        //                 $('#shelter-q1-div input[type=\'radio\']:checked')
-        //                     .length === 0 ||
-        //                 $('#shelter-q2-div input[type=\'radio\']:checked')
-        //                     .length === 0) {
-        //         stringValidations += 'Description and questions answers ' +
-        //                 'are mandatory fields, ';
-        //     }
-        //     break;
-        // default:
-        //     return 'false';
-        //     break;
-        // }
-
         return stringValidations;
     }
 
-    //id = shelter, medical, supplies
-    draw(id){
+    /**
+     * Method to validate questions fields are selected
+     * @param id
+     */
+    validateDescriptionQuestionsValues(id) {
+        let validateMessage = '';
 
-        if ($('#'+id+'-description-id').val() === '' ||
-                    $('#'+id+'-q1-div input[type=\'radio\']:checked')
-                        .length === 0 ||
-                    $('#'+id+'-q2-div input[type=\'radio\']:checked')
-                        .length === 0) {
-            stringValidations += 'Description and questions answers ' +
-                    'are mandatory fields, ';
+        if ($('#'+id+'-description-id').val() === '') {
+            validateMessage += 'Description is a mandatory field, ';
         }
+        if ($('#'+id+'-q1-div input[type=\'radio\']:checked').length === 0) {
+            validateMessage += 'Question 1 answers is a mandatory field, ';
+        } else {
+            if (id!=='medical') {
+                if ($('#'+id+'-q2-div input[type=\'radio\']:checked').length === 0) {
+                    validateMessage += 'Question 2 answer is a mandatory field, ';
+                }
+            }
+        }
+        return validateMessage;
     }
-
     /**
      * Saving resource information
      * @param resourceObject
@@ -306,6 +265,7 @@ class Resources {
      */
     postResource(resourceObject) {
         const formData = new FormData();
+        const fileElement = $('#resource-picture').prop('files');
         formData.append('user_id', Cookies.get('user-id'));
         formData.append('resourceType', $('#div-resource-type button.selected-btn').attr('name'));
         formData.append('name', $('#resource-name-id').val());
@@ -314,10 +274,24 @@ class Resources {
         formData.append('questionOne', resourceObject.questionOne);
         formData.append('questionTwo', resourceObject.questionTwo);
 
-        if ($('#resource-picture').prop('files').length !== 0) {
+        if (fileElement.length !== 0) {
             formData.append('resourceImage',
-                $('#resource-picture').prop('files')[0]);
+                fileElement[0]);
         }
+
+        Resources.getInstance().ajaxResourcePost(formData)
+            .then()
+            .catch((error) =>{
+                alert('Error saving resource ' + error);
+            });
+    }
+
+    /**
+     * Ajax request to save resources values
+     * @param formData
+     * @returns {Promise<unknown>}
+     */
+    ajaxResourcePost(formData) {
         return new Promise((resolve, reject) => {
             const jwt = Cookies.get('user-jwt-esn');
             $.ajax({
