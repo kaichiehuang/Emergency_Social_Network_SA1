@@ -157,7 +157,7 @@ body {
 .spinner>div {
     width: 20px;
     height: 20px;
-    background-color: #ff9f40;
+    background-color: $brand_color1;
     border-radius: 100%;
     display: inline-block;
     -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
