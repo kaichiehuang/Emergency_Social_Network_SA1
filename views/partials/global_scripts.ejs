@@ -1,5 +1,5 @@
 <!-- Loading fonts and icons with webfontloader https://github.com/typekit/webfontloader -->
-<script src="//ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js?v=100"></script>
+<script src="//ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js"></script>
 <script>
     WebFont.load({
         custom: {
@@ -12,10 +12,10 @@
     });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js?v=106"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js?v=106"></script>
-<script src="/socket.io/socket.io.js?v=106"></script>
-<script src="/bootstrap/javascripts/bootstrap.min.js?v=106"></script>
-<script src="/javascripts/app.js?v=106"></script>
-<script src="/javascripts/GlobalEventDispatcher.js?v=106"></script>
-<script src="/javascripts/APIHandler.js?v=106" ></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="<%= getVersionedPath('socket.io/socket.io.js') %>"></script>
+<script src="<%= getVersionedPath('bootstrap/javascripts/bootstrap.min.js') %>"></script>
+<script src="<%= getVersionedPath('javascripts/app.js') %>"></script>
+<script src="<%= getVersionedPath('javascripts/GlobalEventDispatcher.js') %>"></script>
+<script src="<%= getVersionedPath('javascripts/APIHandler.js') %>" ></script>

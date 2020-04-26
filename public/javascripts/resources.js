@@ -108,11 +108,11 @@ class Resources {
                 $('#resource-location-div'), $('#resource-picture-div'));
         });
 
-        $('#step-two-btn').on('click', (e) => {
-            Resources.getInstance().addClassElements('selected-btn',
-                $('#step-two-btn'));
+        $('#step-two-btn', '#step-three-btn').on('click', (e) => {
             Resources.getInstance().removeClassElements('selected-btn',
-                $('#step-one-btn'), $('#step-three-btn'));
+                $('#step-one-btn'), $('#step-two-btn'), $('#step-three-btn'));
+            Resources.getInstance().addClassElements('selected-btn',
+                $("#" + $(this).attr("id"));
 
             Resources.getInstance().removeClassElements('hidden-main-content-block',
                 $('#resource-location-div'));
@@ -122,18 +122,18 @@ class Resources {
         });
 
 
-        $('#step-three-btn').on('click', (e) => {
-            Resources.getInstance().addClassElements('selected-btn',
-                $('#step-three-btn'));
-            Resources.getInstance().removeClassElements('selected-btn',
-                $('#step-two-btn'), $('#step-one-btn'));
+        // $('#step-three-btn').on('click', (e) => {
+        //     Resources.getInstance().addClassElements('selected-btn',
+        //         $('#step-three-btn'));
+        //     Resources.getInstance().removeClassElements('selected-btn',
+        //         $('#step-two-btn'), $('#step-one-btn'));
 
-            Resources.getInstance().removeClassElements('hidden-main-content-block',
-                $('#resource-picture-div'));
-            Resources.getInstance().addClassElements('hidden-main-content-block',
-                $('#step-one-content'), $('#resource-location-div'),
-                $('#div-resource-type'));
-        });
+        //     Resources.getInstance().removeClassElements('hidden-main-content-block',
+        //         $('#resource-picture-div'));
+        //     Resources.getInstance().addClassElements('hidden-main-content-block',
+        //         $('#step-one-content'), $('#resource-location-div'),
+        //         $('#div-resource-type'));
+        // });
     }
 
     /**
@@ -214,7 +214,10 @@ class Resources {
         Resources.getInstance().postResource(resourceObject);
     }
 
-
+    /**
+     * Frontend validations
+     * @return {[type]} [description]
+     */
     validateRequireFields() {
         const resourceType = ('#div-resource-type button.selected-btn');
         let stringValidations ='';
@@ -233,42 +236,66 @@ class Resources {
             stringValidations += 'Picture Size limit 2Mb, ';
         }
 
-        switch ($('#div-resource-type button.selected-btn').attr('name')) {
-        case 'SUPPLIES':
-            if ($('#supplies-description-id').val() === '' ||
-                        $('#supplies-q1-div input[type=\'radio\']:checked')
-                            .length === 0 ||
-                        $('#supplies-q2-div input[type=\'radio\']:checked')
-                            .length === 0) {
-                stringValidations += 'Description and questions answers ' +
-                        'are mandatory fields, ';
-            }
-            break;
-        case 'MEDICAL':
-            if ($('#medical-description-id').val() === '' ||
-                        $('#medical-q1-div input[type=\'radio\']:checked')
-                            .length === 0) {
-                stringValidations += 'Description and questions answers ' +
-                        'are mandatory fields, ';
-            }
-            break;
-        case 'SHELTER':
-
-            if ($('#shelter-description-id').val() === '' ||
-                        $('#shelter-q1-div input[type=\'radio\']:checked')
-                            .length === 0 ||
-                        $('#shelter-q2-div input[type=\'radio\']:checked')
-                            .length === 0) {
-                stringValidations += 'Description and questions answers ' +
-                        'are mandatory fields, ';
-            }
-            break;
-        default:
-            return 'false';
-            break;
+        const type = $('#div-resource-type button.selected-btn').attr('name');
+        if(type == "" ){
+            stringValidations += draw('medical');
+        }else if(type == "" ){
+            draw('supplies');
+        }else if(type == ""){
+            draw('shelter');
+        }else{
+            return false;
         }
 
+        // switch ($('#div-resource-type button.selected-btn').attr('name')) {
+        // case 'SUPPLIES':
+        //     if ($('#supplies-description-id').val() === '' ||
+        //                 $('#supplies-q1-div input[type=\'radio\']:checked')
+        //                     .length === 0 ||
+        //                 $('#supplies-q2-div input[type=\'radio\']:checked')
+        //                     .length === 0) {
+        //         stringValidations += 'Description and questions answers ' +
+        //                 'are mandatory fields, ';
+        //     }
+        //     break;
+        // case 'MEDICAL':
+        //     if ($('#medical-description-id').val() === '' ||
+        //                 $('#medical-q1-div input[type=\'radio\']:checked')
+        //                     .length === 0) {
+        //         stringValidations += 'Description and questions answers ' +
+        //                 'are mandatory fields, ';
+        //     }
+        //     break;
+        // case 'SHELTER':
+
+        //     if ($('#shelter-description-id').val() === '' ||
+        //                 $('#shelter-q1-div input[type=\'radio\']:checked')
+        //                     .length === 0 ||
+        //                 $('#shelter-q2-div input[type=\'radio\']:checked')
+        //                     .length === 0) {
+        //         stringValidations += 'Description and questions answers ' +
+        //                 'are mandatory fields, ';
+        //     }
+        //     break;
+        // default:
+        //     return 'false';
+        //     break;
+        // }
+
         return stringValidations;
+    }
+
+    //id = shelter, medical, supplies
+    draw(id){
+
+        if ($('#'+id+'-description-id').val() === '' ||
+                    $('#'+id+'-q1-div input[type=\'radio\']:checked')
+                        .length === 0 ||
+                    $('#'+id+'-q2-div input[type=\'radio\']:checked')
+                        .length === 0) {
+            stringValidations += 'Description and questions answers ' +
+                    'are mandatory fields, ';
+        }
     }
 
     /**
