@@ -90,19 +90,27 @@ class ResourcesList {
             $('.modal-body #'+ resourceSelected +'-btn'), $('.modal-body #'+ resourceSelected +'-content-div'));
         $('.modal-body #'+ resourceSelected +'-description-id').text(resource.description).attr('readonly', true);
         if (resource.question_one) {
-            $('.modal-body #'+ resourceSelected +'-q1-yes').prop('checked', true).attr('readonly', true);
+            ResourcesList.getInstance().setQuestionValue('.modal-body #'+ resourceSelected +'-q1-yes');
         } else {
-            $('.modal-body #'+ resourceSelected +'-q1-no').prop('checked', true).attr('readonly', true);
+            ResourcesList.getInstance().setQuestionValue('.modal-body #'+ resourceSelected +'-q1-no');
         }
         if (resource.resource_type !== 'MEDICAL') {
             if (resource.question_two) {
-                $('.modal-body #'+ resourceSelected +'-q2-yes').prop('checked', true).attr('readonly', true);
+                ResourcesList.getInstance().setQuestionValue('.modal-body #'+ resourceSelected +'-q2-yes');
             } else {
-                $('.modal-body #'+ resourceSelected +'-q2-no').prop('checked', true).attr('readonly', true);
+                ResourcesList.getInstance().setQuestionValue('.modal-body #'+ resourceSelected +'-q2-no');
             }
         }
         $('.modal-body #resources-content').removeClass('hidden-main-content-block').removeClass('hidden');
         $('#exampleModalCenter').modal('show');
+    }
+
+    /**
+     * Activvate the checkbox of the selected question
+     * @param id
+     */
+    setQuestionValue(id) {
+        $(id).prop('checked', true).attr('readonly', true);
     }
 
 
