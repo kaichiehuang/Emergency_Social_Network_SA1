@@ -214,8 +214,11 @@ class UserList {
         // assign view change event for chat button for each user in the list
         menuContentChangerEvent();
         $('.chat-button').click(function(event) {
+            $('.menu-content-changer').removeClass('active');
+            $("#private-chat-content-menu").addClass('active');
             // eslint-disable-next-line no-invalid-this
             PrivateChatMessage.getInstance().initiatePrivateChat($(this).data('user-id'), $(this).data('username'));
+
         });
         $('.username').click(function(event) {
             // eslint-disable-next-line no-invalid-this

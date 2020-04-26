@@ -291,15 +291,15 @@ class BaseMessage {
             modelElement.sendMessage();
         });
         // capture event to load messages and display view
-        $('.content-changer').click(function(event) {
+        $('.content-changer, .menu-content-changer').click(function(event) {
             event.preventDefault();
             // eslint-disable-next-line no-invalid-this
             const newID = $(this).data('view-id');
             if (newID === stringType+'-content') {
                 page = 0;
                 modelElement.updateMessageListView('', page);
-                this.containerWall.scrollTop =
-                    this.containerWall.scrollHeight;
+                modelElement.containerWall.scrollTop =
+                    modelElement.containerWall.scrollHeight;
             }
         });
         /**
