@@ -27,7 +27,6 @@ class EmergencyStatusDetail {
             });
             newEmergencyStatusDetail.save()
                 .then((result) => {
-                    console.log('initial emergency detail created');
                     this.id = result.id;
                     resolve(newEmergencyStatusDetail);
                 })
@@ -89,7 +88,6 @@ class EmergencyStatusDetail {
         return new Promise((resolve, reject) => {
             PictureAndDescriptionModel.find({user_id: userId})
                 .then((result) => {
-                    console.log('find all picture and description successful');
                     this.id = result.id;
                     resolve(result);
                 })
@@ -117,7 +115,6 @@ class EmergencyStatusDetail {
             });
             newPictureAndDescription.save()
                 .then((result) => {
-                    console.log('add picture and description successful');
                     this.id = result.id;
                     resolve(newPictureAndDescription);
                 })

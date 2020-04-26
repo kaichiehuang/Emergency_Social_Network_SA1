@@ -14,7 +14,6 @@ class SpamReportController {
      * @param res
      */
     createSpamReport(req, res) {
-        console.log(req.body);
         const requestData = req.body;
         const level = requestData['level'] === 'message' ?
             constants.MESSAGE_LEVEL_SPAM: constants.USER_LEVEL_SPAM;

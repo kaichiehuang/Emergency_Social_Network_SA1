@@ -14,8 +14,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="<%= getVersionedPath('socket.io/socket.io.js') %>"></script>
-<script src="<%= getVersionedPath('bootstrap/javascripts/bootstrap.min.js') %>"></script>
-<script src="<%= getVersionedPath('javascripts/app.js') %>"></script>
-<script src="<%= getVersionedPath('javascripts/GlobalEventDispatcher.js') %>"></script>
-<script src="<%= getVersionedPath('javascripts/APIHandler.js') %>" ></script>
+<script src="<%= '/socket.io/socket.io.js?v=' + versionedAssets %>"></script>
+<script src="<%= '/bootstrap/javascripts/bootstrap.min.js?v=' + versionedAssets %>"></script>
+<script src="<%= '/javascripts/app.js?v=' + versionedAssets %>"></script>
+<script src="<%= '/javascripts/GlobalEventDispatcher.js?v=' + versionedAssets %>"></script>
+<script src="<%= '/javascripts/APIHandler.js?v=' + versionedAssets %>"></script>

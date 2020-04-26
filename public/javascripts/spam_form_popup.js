@@ -12,7 +12,6 @@ class SpamForm {
     }
 
     sendSpamReport() {
-        console.log('-----sending----------');
         const spamMsgId = $('#spam_msg_id').val();
         const spamUserId = $('#spam_user_id').val();
         const level = $('input[name=\'level\']:checked').val();
@@ -33,9 +32,7 @@ class SpamForm {
             .then((response) => {
                 $('#spam-modal').modal('hide');
             })
-            .catch((error) => {
-                console.log('err happens:' + error);
-            });
+            .catch((error) => {});
     }
 }
 

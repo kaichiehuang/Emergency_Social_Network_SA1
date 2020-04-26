@@ -111,7 +111,6 @@ describe('Getting a resource', () => {
         await resource.saveResource();
 
         const resources = await Resource.findResources();
-        console.log(resources);
         expect(resources.length).toBe(2);
     });
 });

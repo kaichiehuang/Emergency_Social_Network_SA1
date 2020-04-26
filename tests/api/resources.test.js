@@ -45,9 +45,6 @@ beforeEach(async () => {
             token = res.body.tokens.token;
             userId = res.body.user.userId;
         });
-
-    console.log('token: ' + token);
-    console.log('userId: ' + userId);
 });
 
 
@@ -158,9 +155,7 @@ describe('Testing searching Resources  API', () =>{
             .attach('resourceImage', pictureTest)
             .set('Authorization', token)
             .set('accept', 'json')
-            .then((res) =>{
-                console.log('second resource created');
-            });
+            .then((res) =>{});
     });
 
 
