@@ -40,7 +40,7 @@ $(function() {
 
                     $('.user-name-placeholder').html(username);
                     if (user_acknowledgement) {
-                        setOnline(true);
+                        User.getInstance().setOnline(true);
                         GlobalEventDispatcher.updateAllUserLists();
                         window.location.replace('/app');
                     } else {
