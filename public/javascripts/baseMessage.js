@@ -8,10 +8,12 @@ class BaseMessage {
      * [constructor description]
      * @return {[type]} [description]
      */
-    constructor() {
+    constructor(containerWall) {
         this._id = null;
         this.message = '';
+        this.type = '';
         this.user_id = null;
+        this.containerWall = containerWall;
     }
 
     /**
@@ -19,7 +21,7 @@ class BaseMessage {
      * @param type
      * @param message
      */
-    drawMessageItem(type, message) {
+    drawMessageItem(message) {
         if (message.sender_user_id != undefined) {
             message.user_id = message.sender_user_id;
         }
@@ -28,12 +30,12 @@ class BaseMessage {
         }
         // 1. find template
         const messagesTemplate = document
-            .querySelector('template#' + type + '-template');
+            .querySelector('template#' + this.type + '-template');
         // 2. find container
-        const listContainer = document.getElementById(type + '-chat');
+        const listContainer = document.getElementById(this.type + '-chat');
 
         if (listContainer != undefined) {
-            const listLength = $('#'+type + '-chat > li').length;
+            const listLength = $('#'+this.type + '-chat > li').length;
             // 3. iterate over users list and draw using the
             // appropiate template based on online/offline state
             const template = messagesTemplate.content.cloneNode(true);
@@ -113,27 +115,26 @@ class BaseMessage {
 
     /**
      *
-     * @param type
      * @param messages
      * @param page
      */
-    drawMessages(type, messages, page) {
+    drawMessages(messages, page) {
         // only delete previous results if page is 0
         if (page == undefined || page == 0) {
-            $('ul#' + type + '-chat li').remove();
+            $('ul#' + this.type + '-chat li').remove();
         }
 
         messages.forEach((element) => {
-            this.drawMessageItem(type, element);
+            this.drawMessageItem(element);
         });
 
-        $('#'+type+'-msg_area .no-results-message').addClass('hidden');
+        $('#'+this.type+'-msg_area .no-results-message').addClass('hidden');
         if (messages.length == 0) {
             if (page == 0) {
-                $('#'+type+'-msg_area .no-results-message')
+                $('#'+this.type+'-msg_area .no-results-message')
                     .removeClass('hidden');
             }
-            this.deactivateSearchButtonsLoadMore(type);
+            this.deactivateSearchButtonsLoadMore();
         }
     }
 
@@ -141,7 +142,7 @@ class BaseMessage {
      * Sends and saves the message the user post.
      * @param type
      */
-    sendMessage(type) {
+    sendMessage() {
         const user_id = Cookies.get('user-id');
 
         let url = '/chat-messages';
@@ -151,7 +152,7 @@ class BaseMessage {
             user_id: user_id
         };
         // for private messages
-        if (type === 'private') {
+        if (this.type === 'private') {
             url = '/private-chat-messages';
             messageContent = '#private-send-message-content';
             data = {
@@ -161,7 +162,7 @@ class BaseMessage {
             };
         }
         // for announcements
-        if (type === 'announcement') {
+        if (this.type === 'announcement') {
             url = '/announcements';
             messageContent = '#announcement-send-message-content';
             data = {
@@ -174,13 +175,13 @@ class BaseMessage {
             .sendRequest(url, 'post', data, true, null)
             .then((response) => {
                 $(messageContent).val('');
-                if (type === 'public' && response.spam) {
+                if (this.type === 'public' && response.spam) {
                     $('#user-spam-modal').modal('show');
                 }
             })
             .catch((error) => {
-                if (error.msg != undefined){
-                    alert(error);
+                if (error.responseJSON.msg != undefined){
+                    alert(error.responseJSON.msg);
                 }
 
             });
@@ -193,7 +194,7 @@ class BaseMessage {
      * @param page
      * @returns {Promise<unknown>}
      */
-    getMessages(type, keywords, page) {
+    getMessages(keywords, page) {
         let url = '/chat-messages';
         let data = {
             'page': page,
@@ -201,12 +202,12 @@ class BaseMessage {
         };
 
         if (keywords != undefined && keywords.length > 0) {
-            this.activateSearchButtonsLoadMore(type);
+            this.activateSearchButtonsLoadMore();
         }
 
         return new Promise((resolve, reject) => {
             // data for private chat
-            if (type === 'private') {
+            if (this.type === 'private') {
                 url = '/private-chat-messages';
                 data = {
                     'page': page,
@@ -216,7 +217,7 @@ class BaseMessage {
                 };
             }
             // data for announcements
-            if (type === 'announcement') {
+            if (this.type === 'announcement') {
                 url = '/announcements';
                 data = {
                     'page': page,
@@ -240,15 +241,15 @@ class BaseMessage {
      * @param  {[type]} searchKeyword [description]
      * @param  {number} page          [description]
      */
-    updateMessageListView(type, searchKeyword, page) {
+    updateMessageListView(searchKeyword, page) {
         const self = this;
         if (searchKeyword == undefined || searchKeyword.length == 0) {
-            this.deactivateSearchButtonsLoadMore(type);
+            this.deactivateSearchButtonsLoadMore();
         }
         // get user data and then get messages to
         // paint and to check for unread messages
-        this.getMessages(type, searchKeyword, page).then((results) => {
-            self.drawMessages(type, results, page);
+        this.getMessages(searchKeyword, page).then((results) => {
+            self.drawMessages(results, page);
         }).catch((err) => {
             console.log(err);
         });
@@ -258,9 +259,9 @@ class BaseMessage {
      * [activateSearchButtonsLoadMore description]
      * @param  {[type]} type [description]
      */
-    activateSearchButtonsLoadMore(type) {
-        this.deactivateSearchButtonsLoadMore(type);
-        $('#search-'+type+'-chat__more').removeClass('hidden');
+    activateSearchButtonsLoadMore() {
+        this.deactivateSearchButtonsLoadMore();
+        $('#search-'+this.type+'-chat__more').removeClass('hidden');
     }
 
     /**
@@ -268,7 +269,64 @@ class BaseMessage {
      * @param  {[type]} type [description]
      * @return {[type]}      [description]
      */
-    deactivateSearchButtonsLoadMore(type) {
+    deactivateSearchButtonsLoadMore() {
         $('.more-results-button-container').addClass('hidden');
+    }
+
+    /**
+     * [registerEventsAfterDraw description]
+     */
+     registerEventsAfterDraw() {
+        let modelElement = this;
+        let stringType = this.type + '-chat';
+        if(this.type == "announcement"){
+            stringType = this.type;
+        }
+        /** **** events declaration ********/
+        $('#'+this.type+'-msg-form').on('submit', function(e) {
+            e.preventDefault();
+            modelElement.sendMessage();
+        });
+        $('#'+this.type+'-send-btn').click(function(e) {
+            modelElement.sendMessage();
+        });
+        // capture event to load messages and display view
+        $('.content-changer, .menu-content-changer').click(function(event) {
+            event.preventDefault();
+            // eslint-disable-next-line no-invalid-this
+            const newID = $(this).data('view-id');
+            if (newID === stringType+'-content') {
+                page = 0;
+                modelElement.updateMessageListView('', page);
+                modelElement.containerWall.scrollTop =
+                    modelElement.containerWall.scrollHeight;
+            }
+        });
+        /**
+         * search form submit and load more
+         */
+
+        $('#search-'+stringType+'__button').click(function(e) {
+            e.preventDefault();
+            const searchKeyword = $('#search-'+stringType+'__input').val();
+            page = 0;
+            modelElement.updateMessageListView(searchKeyword, page);
+        });
+        $('#search-'+stringType+'__more-button').click(function(e) {
+            e.preventDefault();
+            const searchKeyword = $('#search-'+stringType+'__input').val();
+            page++;
+            modelElement.updateMessageListView(searchKeyword, page);
+        });
+    }
+
+    /**
+     * Reacts and draw received new messages
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+     */
+    reactToNewMessage(data){
+        this.drawMessageItem(data);
+        this.containerWall.scrollTop = this.containerWall.scrollHeight;
     }
 }

@@ -15,6 +15,7 @@ const emergencyStatusDetailRouter = require('./routes/emergencyStatusDetail');
 const testRouter = require('./routes/testroute');
 const spamReportRouter = require('./routes/spamReport');
 const compression = require('compression')
+const staticify = require('staticify')(path.join(__dirname, 'public'));
 
 let ENVIRONMENT = 'development';
 
@@ -94,7 +95,6 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 // application/json
-// app.use(bodyParser.json());
 app.use(bodyParser.json({limit: '5mb'}));
 
 app.use(compression({ filter: shouldCompress }))
@@ -120,6 +120,11 @@ var publicOptions = {
   redirect: false,
 }
 app.use(express.static(path.join(__dirname, 'public'), publicOptions));
+
+//cache invalidation
+app.use(staticify.middleware);
+app.locals.getVersionedPath = staticify.getVersionedPath;
+
 app.use('/public/pictures', express.static(path.join(__dirname, 'public/pictures')));
 app.use('/', indexRouter);
 // app.use('/sign-up', registrationRouter);

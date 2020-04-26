@@ -1,6 +1,6 @@
 class EmergencyStatusDetail {
-    static instance = undefined;
     constructor() {
+        this.instance = null;
         this._id = null;
         this.user_id = null;
     }
@@ -19,8 +19,6 @@ class EmergencyStatusDetail {
      setEditDescriptionEvent() {
         $('.edit-button').click(function(event) {
             event.preventDefault();
-            console.log('edit button clicked!');
-
             // hide paragraph and edit button
             $('#briefDescriptionPreview').addClass('hidden');
             $('.edit-button').addClass('hidden');
@@ -31,8 +29,6 @@ class EmergencyStatusDetail {
 
         $('.loc-edit-button').click(function(event) {
             event.preventDefault();
-            console.log('location edit button clicked!');
-
             // hide paragraph and edit button
             $('#locationDescriptionPreview').addClass('hidden');
             $('.loc-edit-button').addClass('hidden');
@@ -46,9 +42,7 @@ class EmergencyStatusDetail {
      setSaveDescriptionEvent() {
         const user_id = Cookies.get('user-id');
         $('.save-button').click(function(event) {
-            event.preventDefault();
-            console.log('save button clicked!');
-            // hide textarea and save button
+            event.preventDefault();            // hide textarea and save button
             $('#briefDescriptionEdit').addClass('hidden');
             $('.save-button').addClass('hidden');
 
@@ -61,9 +55,7 @@ class EmergencyStatusDetail {
             APIHandler.getInstance()
                 .sendRequest('/emergencyStatusDetail/' + user_id,
                     'put', data, true, null)
-                .then((response) => {
-                    console.log(response);
-                    document.getElementById('briefDescriptionPreview')
+                .then((response) => {                    document.getElementById('briefDescriptionPreview')
                         .innerHTML = response.status_description;
                     document.getElementById('briefDescriptionEdit')
                         .innerHTML = response.status_description;
@@ -115,9 +107,7 @@ class EmergencyStatusDetail {
             APIHandler.getInstance()
                 .sendRequest('/emergencyStatusDetail/picture/' + pictureId,
                     'delete', null, true, null)
-                .then((response) => {
-                    console.log(response);
-                })
+                .then((response) => {                })
                 .catch((error) => {
                     $('#delete-alert').html(error);
                     $('#delte-alert').show();
@@ -148,11 +138,9 @@ class EmergencyStatusDetail {
     // done
      setUploadEvent() {
         $('.upload-button').unbind().click(function(event) {
-            console.log('upload button pressed');
             event.preventDefault();
             const jwt = Cookies.get('user-jwt-esn');
             const user_id = Cookies.get('user-id');
-
             const fd = new FormData();
             const files = $('#file')[0].files[0];
             fd.append('picture', files);
@@ -170,7 +158,6 @@ class EmergencyStatusDetail {
                 contentType: false,
                 processData: false,
             }).done(function(response) {
-                console.log(response);
                 EmergencyStatusDetail.getInstance().drawPictureAndDescription(response);
                 $('#picDiscription').val('');
                 $('#file').val('');
@@ -179,8 +166,6 @@ class EmergencyStatusDetail {
             }).fail(function(e) {
                 $('#upload-alert').html(e);
                 $('#upload-alert').show();
-            }).always(function() {
-                console.log('complete');
             });
         });
     }
@@ -191,7 +176,6 @@ class EmergencyStatusDetail {
         t.content.querySelector('img').src = pictureObj.picture_path;
         t.content.querySelector('button').id = pictureObj._id;
         t.content.querySelector('p').innerHTML = pictureObj.picture_description;
-
         const clone = document.importNode(t.content, true);
         clone.querySelector('.picAndDesBlock')
             .setAttribute('data-pic-id', pictureObj._id);
@@ -205,15 +189,11 @@ class EmergencyStatusDetail {
     // done
      generatePreviewPage() {
         EmergencyStatusDetail.getInstance().setEditDescriptionEvent();
-
         EmergencyStatusDetail.getInstance().setSaveDescriptionEvent();
-
         EmergencyStatusDetail.getInstance().setAddPictureEvent();
-
         // retrieve detailed data
         const user_id = Cookies.get('user-id');
         // get brief description and location description
-
         APIHandler.getInstance()
             .sendRequest('/emergencyStatusDetail/' + user_id,
                 'get', null, true, null)
@@ -225,7 +205,6 @@ class EmergencyStatusDetail {
                     document.getElementById('briefDescriptionEdit')
                         .innerHTML = response.status_description;
                     $('#briefDescriptionPreview').removeClass('hidden');
-
                     // location description
                     document.getElementById('locationDescriptionPreview')
                         .innerHTML = response.share_location;
@@ -245,9 +224,7 @@ class EmergencyStatusDetail {
             .sendRequest('/emergencyStatusDetail/picture/' + user_id,
                 'get', null, true, null)
             .then((response) => {
-                response.forEach(function(pictureObj) {
-                    console.log(pictureObj);
-                    EmergencyStatusDetail.getInstance()
+                response.forEach(function(pictureObj) {                    EmergencyStatusDetail.getInstance()
                         .drawPictureAndDescription(pictureObj);
                 });
             })
