@@ -28,7 +28,6 @@ class PublicChatMessage extends BaseMessage {
 
         $('.list-group').on('click', '.report-link', function(e) {
             e.preventDefault();
-            console.log(e.target);
             $('#spam_user_id').val(e.toElement.getAttribute('user_id'));
             $('#spam_msg_id').val(e.toElement.getAttribute('msg_id'));
         });
@@ -47,7 +46,6 @@ $(function() {
 
     // listen for spam number update (user/message) events
     socket.on('spam-report-number', (data) => {
-        console.log(data);
         $('#public-chat li').remove();
         publicChatMessageModel.updateMessageListView();
     });

@@ -16,7 +16,6 @@ class RoleBasedAccessControl {
     static checkActive(userId, res) {
         return User.findUserById(userId).then((user) => {
             // true or false
-            console.log(user.active);
             return user.active;
         }).catch((err) => {
             return res.status(500).send(err);
@@ -31,7 +30,6 @@ class RoleBasedAccessControl {
      */
     static getRole(userId, res) {
         return User.findUserById(userId).then((user) => {
-            console.log(user.role);
             return user.role;
         }).catch((err) => {
             return res.status(500).send(err);
@@ -47,19 +45,12 @@ class RoleBasedAccessControl {
      */
     static async doValidation(req, res, next) {
         res.contentType('application/json');
-        console.log('in validate user');
         const userId = req.tokenUserId;
         const route = req.baseUrl;
         const method = Object.keys(req.route.methods)[0];
         const role = await RoleBasedAccessControl.getRole(userId, res);
-        console.log('The role is ' + role);
         const action = route + ':' + method;
         const active = await RoleBasedAccessControl.checkActive(userId, res);
-
-        console.log('req body message in RBAC is + ' + req.body.message);
-
-        console.log('the action is: ' + action);
-
 
         if (method === 'put' && req.params.pictureId == null && route === '/api/users') {
             if (req.params.userId != userId && role != 'administrator') {
@@ -72,8 +63,6 @@ class RoleBasedAccessControl {
                 .then((result) => {
                     if (result) {
                         // we are allowed access
-                        console.log(userId + ' is allowed to ' + action);
-                        // return res.status(200).send(userId + " is allowed to " + action).end();// UNAUTHORIZED
                         next();
                     } else {
                         // we are not allowed access

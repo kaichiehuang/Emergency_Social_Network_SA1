@@ -41,12 +41,10 @@ class TokenServer {
                 })
                 .catch((err) => {
                     /* istanbul ignore next */
-                    console.log('error en verify: ' + err);
                     return res.status(401).send(err.message).end();// UNAUTHORIZED
                 });
         } else {
             /* istanbul ignore next */
-            console.log('before (next) no token provided');
             return res.status(401).send('NOT TOKEN PROVIDED').end(); // UNAUTHORIZED
         }
     }
@@ -62,10 +60,8 @@ class TokenServer {
             let expTime;
 
             if (refreshToken) {
-                console.log('Generete normal token');
                 expTime = EXP_TOKEN_TIME;
             } else {
-                console.log('Generete refresh token');
                 expTime = EXP_REFRESH_TOKEN_TIME;
             }
             const generatedToken = jwt.sign({

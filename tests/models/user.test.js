@@ -39,7 +39,6 @@ describe('Business Validations for user', () => {
         const user = new User();
         user.setRegistrationData('asdasdasdasdasd', password);
         return user.validateCreate().catch((err) => {
-            console.log(err);
             expect(err).not.toBe(null);
         });
     });
@@ -433,23 +432,18 @@ describe('Test profile access for only authorized users', () => {
                     'privacy_terms_data_accepted': 1
                 });
             })
-            .then((res) => {
-            // console.log(createdUser1, createdUser2, createdUser3);
-            })
+            .then((res) => {})
             .catch((_) => {});
     });
     test('NO ACCESS TO PROFILE - invalid must fail', async () => {
-        console.log(user1Id);
         expect.assertions(1);
         return await User.findUserByIdIfAuthorized(user1Id, user3Id)
             .then((listUser) => {
             }).catch((err) => {
-                console.log(user1Id, user3Id);
                 expect(err).toBe('You are not authorized');
             });
     });
     test('ACCESS TO PROFILE, matching phone - must work', async () => {
-        console.log(user1Id);
         expect.assertions(1);
         return await User.findUserByIdIfAuthorized(user1Id, user2Id)
             .then((listUser) => {
@@ -458,7 +452,6 @@ describe('Test profile access for only authorized users', () => {
     });
 
     test('ACCESS TO PERSONAL MESSAGE, WRONG ANSWER - must fail', async () => {
-        console.log(createdUser1.personal_message);
         expect.assertions(1);
         return createdUser1.getPersonalMessage('wrong answer').catch((err) => {
             expect(err).toMatch('Invalid answer');

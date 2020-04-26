@@ -38,7 +38,6 @@ class ChatMessage {
             });
             newChatMessage.save()
                 .then((result) => {
-                    console.log('message created');
                     this._id = result.id;
                     resolve(newChatMessage);
                 })

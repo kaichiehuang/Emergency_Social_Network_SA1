@@ -250,9 +250,7 @@ class BaseMessage {
         // paint and to check for unread messages
         this.getMessages(searchKeyword, page).then((results) => {
             self.drawMessages(results, page);
-        }).catch((err) => {
-            console.log(err);
-        });
+        }).catch((err) => {});
     }
 
     /**

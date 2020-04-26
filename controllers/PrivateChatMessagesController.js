@@ -19,7 +19,6 @@ class PrivateChatMessagesController {
         let receiverUser = null;
         // 0. validate right data from request body
         if (requestData['message'] == undefined) {
-            console.log("in undefined private message");
             return res.status(422).send(JSON.stringify({
                 msg: 'invalid message'
             }));
@@ -70,8 +69,6 @@ class PrivateChatMessagesController {
                 }
             });
         }).catch((err) => {
-            /* istanbul ignore next */
-            console.log(err);
             /* istanbul ignore next */
             return res.status(422).send({
                 "msg": err

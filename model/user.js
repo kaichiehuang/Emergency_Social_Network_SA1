@@ -412,7 +412,6 @@ class UserModel {
             if (!isAdmin) {
                 data.active = true;
             }
-            console.log(data);
             this.find(data).select('username onLine status').sort({
                 onLine: -1,
                 username: 'asc'
