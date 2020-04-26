@@ -59,13 +59,9 @@ class ResourcesList {
             $('.modal-body  #imageDiv'));
         ResourcesList.getInstance().readURL(resource.image);
         // Adding Location
-        const resourceLocationElement =$('.modal-body #resource-location');
-        resourceLocationElement.text(resource.location);
-        resourceLocationElement.attr('readonly', true);
+        $('.modal-body #resource-location').text(resource.location).attr('readonly', true);
         // Adding resource name
-        const resourceNameElement =$('.modal-body #resource-name-id');
-        resourceNameElement.val(resource.name);
-        resourceNameElement.attr('readonly', true);
+        $('.modal-body #resource-name-id').val(resource.name).attr('readonly', true);
     }
 
     /**
@@ -87,35 +83,25 @@ class ResourcesList {
             resourceOneToHide = 'supplies';
             resourceTwoToHide = 'medical';
         }
-
         ResourcesList.getInstance().addClassElements('hidden-main-content-block',
             $('.modal-body #'+ resourceOneToHide +'-btn'), $('.modal-body #'+ resourceTwoToHide +'-btn'),
             $('.modal-body #'+ resourceOneToHide +'-content-div'), $('.modal-body #'+ resourceTwoToHide +'-content-div'));
-
         ResourcesList.getInstance().removeClassElements('hidden-main-content-block',
             $('.modal-body #'+ resourceSelected +'-btn'), $('.modal-body #'+ resourceSelected +'-content-div'));
-
-        $('.modal-body #'+ resourceSelected +'-description-id').text(resource.description);
-        $('.modal-body #'+ resourceSelected +'-description-id').attr('readonly', true);
-
+        $('.modal-body #'+ resourceSelected +'-description-id').text(resource.description).attr('readonly', true);
         if (resource.question_one) {
-            $('.modal-body #'+ resourceSelected +'-q1-yes').prop('checked', true);
-            $('.modal-body #'+ resourceSelected +'-q1-yes').attr('readonly', true);
+            $('.modal-body #'+ resourceSelected +'-q1-yes').prop('checked', true).attr('readonly', true);
         } else {
-            $('.modal-body #'+ resourceSelected +'-q1-no').prop('checked', true);
-            $('.modal-body #'+ resourceSelected +'-q1-no').attr('readonly', true);
+            $('.modal-body #'+ resourceSelected +'-q1-no').prop('checked', true).attr('readonly', true);
         }
         if (resource.resource_type !== 'MEDICAL') {
             if (resource.question_two) {
-                $('.modal-body #'+ resourceSelected +'-q2-yes').prop('checked', true);
-                $('.modal-body #'+ resourceSelected +'-q2-yes').attr('readonly', true);
+                $('.modal-body #'+ resourceSelected +'-q2-yes').prop('checked', true).attr('readonly', true);
             } else {
-                $('.modal-body #'+ resourceSelected +'-q2-no').prop('checked', true);
-                $('.modal-body #'+ resourceSelected +'-q2-no').attr('readonly', true);
+                $('.modal-body #'+ resourceSelected +'-q2-no').prop('checked', true).attr('readonly', true);
             }
         }
-        $('.modal-body #resources-content').removeClass('hidden-main-content-block');
-        $('.modal-body #resources-content').removeClass('hidden');
+        $('.modal-body #resources-content').removeClass('hidden-main-content-block').removeClass('hidden');
         $('#exampleModalCenter').modal('show');
     }
 
