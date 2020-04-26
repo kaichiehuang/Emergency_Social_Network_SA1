@@ -10,7 +10,6 @@ class Resources {
         this.initializeStepButtonEvents();
         this.initializeResourceTypeButtons();
         this.initializePictureEvents();
-
         $('#resource-submit-btn').on('click', async (e) => {
             const valid = await Resources.getInstance().validateRequireFields();
             if (valid.length===0) {
@@ -208,7 +207,7 @@ class Resources {
      * @return {[type]} [description]
      */
     validateRequireFields() {
-        const resourceType = ('#div-resource-type button.selected-btn');
+        const resourceType = $('#div-resource-type button.selected-btn');
         const pictureElement = $('#resource-picture').prop('files');
         let stringValidations ='';
         if (resourceType.length === 0) {
@@ -220,19 +219,15 @@ class Resources {
         if ($('#resource-name-id').val() === '') {
             stringValidations += 'Resource Name is  a required field, ';
         }
-        if (pictureElement.length !== 0 &&
-            pictureElement[0].size>2000000) {
+        if (pictureElement.length !== 0 && pictureElement[0].size>2000000) {
             stringValidations += 'Picture Size limit 2Mb, ';
         }
-        const type = $('#div-resource-type button.selected-btn').attr('name');
-        if (type === 'SUPPLIES' ) {
+        if ( resourceType.attr('name') === 'SUPPLIES' ) {
             stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('supplies');
-        } else if (type === 'MEDICAL' ) {
+        } else if ( resourceType.attr('name') === 'MEDICAL' ) {
             stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('medical');
-        } else if (type === 'SHELTER') {
+        } else if ( resourceType.attr('name') === 'SHELTER') {
             stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('shelter');
-        } else {
-            return false;
         }
         return stringValidations;
     }
@@ -243,7 +238,6 @@ class Resources {
      */
     validateDescriptionQuestionsValues(id) {
         let validateMessage = '';
-
         if ($('#'+id+'-description-id').val() === '') {
             validateMessage += 'Description is a mandatory field, ';
         }
