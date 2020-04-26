@@ -1,16 +1,18 @@
 class PrivateChatMessage extends BaseMessage {
-    static instance = undefined;
-    constructor() {
-        super();
+
+    constructor(containerWall) {
+        super(containerWall);
         this.type = 'private';
     }
+
     /**
      * Singleton instance element
      * @return {[type]} [description]
      */
     static getInstance(){
         if (this.instance === undefined) {
-            this.instance = new PrivateChatMessage();
+            let containerWall = document.getElementById('private-msg_area');
+            this.instance = new PrivateChatMessage(containerWall);
         }
         return this.instance;
     }
@@ -19,59 +21,32 @@ class PrivateChatMessage extends BaseMessage {
      * changes the receiver for the private chat
      * @param  {[type]} receiver_user_id [description]
      */
-     initiatePrivateChat(receiver_user_id) {
+     initiatePrivateChat(receiver_user_id, username) {
         Cookies.set('receiver_user_id', receiver_user_id);
         $("#private-chat > li").remove();
+        $("#receiver-username").html(username);
         let privateChatMessageModel = PrivateChatMessage.getInstance();
-        privateChatMessageModel.updateMessageListView('private', "", 0);
+        privateChatMessageModel.updateMessageListView("", 0);
     }
 
     /**
-     * [registerEventsAfterDraw description]
+     * Reacts and draw received new messages
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
      */
-     registerEventsAfterDraw() {
-        /** **** events declaration ********/
-        $('#private-send-btn').click(function(e) {
-            privateChatMessageModel.sendMessage('private');
-        });
-        $('#private-msg-form').on('submit', function(e) {
-            e.preventDefault();
-            privateChatMessageModel.sendMessage('private');
-        });
-        // capture event to load messages
-        $('.content-changer').click(function(event) {
-            event.preventDefault();
-            // eslint-disable-next-line no-invalid-this
-            const newID = $(this).data('view-id');
-            if (newID === 'private-chat-content') {
-                page = 0;
-                privateChatMessageModel.updateMessageListView('private', '', page);
-                private_wall_container.scrollTop =
-                    private_wall_container.scrollHeight;
-            }
-        });
-        /**
-         * form submit button event
-         * triggered by submit and enter event by default
-         */
-        $('#search-private-chat__button').click(function(e) {
-            e.preventDefault();
-            const searchKeyword = $('#search-private-chat__input').val();
-            page = 0;
-            privateChatMessageModel.updateMessageListView('private', searchKeyword, page);
-        });
-        $('#search-private-chat__more-button').click(function(e) {
-            e.preventDefault();
-            const searchKeyword = $('#search-private-chat__input').val();
-            page++;
-            privateChatMessageModel.updateMessageListView('private', searchKeyword, page);
-        });
+    reactToNewMessage(data){
+        // only draw elements received from the user I am speaking with
+        if (data.sender_user_id._id == Cookies.get('receiver_user_id') ||
+            data.sender_user_id._id == Cookies.get('user-id')) {
+            this.drawMessageItem(data);
+            private_wall_container.scrollTop =
+                private_wall_container.scrollHeight;
+        }
     }
 }
 
 //* ***********************************************
 //* ***********************************************
-let private_wall_container = document.getElementById('private-msg_area');
 const privateChatMessageModel =  PrivateChatMessage.getInstance();
 $(function() {
     // eslint-disable-next-line no-unused-vars
@@ -82,29 +57,20 @@ $(function() {
         // delete old socket from db
         if (oldSocketId != undefined && oldSocketId != '') {
             if (oldSocketId !== socket.id) {
-                syncSocketId(oldSocketId, true);
+                User.getInstance().syncSocketId(oldSocketId, true);
             }
         }
         // register new socket in db
-        syncSocketId(socket.id, false);
+        User.getInstance().syncSocketId(socket.id, false);
         // store new socket on cookie for future reference
         Cookies.set('user-socket-id', socket.id);
     });
+
     // listen for private chat events
     socket.on('new-private-chat-message', (data) => {
-        // only draw elements received from the user I am speaking with
-        if (data.sender_user_id._id == Cookies.get('receiver_user_id') ||
-            data.sender_user_id._id == Cookies.get('user-id')) {
-            privateChatMessageModel.drawMessageItem('private', data);
-            private_wall_container.scrollTop =
-                private_wall_container.scrollHeight;
-        } else {
-            // refreshes user list to update the unseen messages
-            // counter for other
-            // updateUserListView();
-        }
+        privateChatMessageModel.reactToNewMessage(data);
     });
-    // init private chat messages and announcements
-    privateChatMessageModel.updateMessageListView('private');
-    PrivateChatMessage.getInstance().registerEventsAfterDraw();
+
+    // init private chat messages events
+    privateChatMessageModel.registerEventsAfterDraw();
 });

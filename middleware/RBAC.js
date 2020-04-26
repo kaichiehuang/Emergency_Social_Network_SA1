@@ -46,6 +46,7 @@ class RoleBasedAccessControl {
      * @returns {Promise<*>}
      */
     static async doValidation(req, res, next) {
+        res.contentType('application/json');
         console.log('in validate user');
         const userId = req.tokenUserId;
         const route = req.baseUrl;
@@ -62,7 +63,7 @@ class RoleBasedAccessControl {
 
         if (method === 'put' && req.params.pictureId == null && route === '/api/users') {
             if (req.params.userId != userId && role != 'administrator') {
-                return res.status(401).send('Invalid attempt to modify other user\'s profile').end();
+                return res.status(401).send({msg:'Invalid attempt to modify other user\'s profile'}).end();
             }
         }
 
@@ -76,7 +77,7 @@ class RoleBasedAccessControl {
                         next();
                     } else {
                         // we are not allowed access
-                        return res.status(401).send('rbac not passed').end();// UNAUTHORIZED
+                        return res.status(401).send({msg:'You are not allowed to do this action'}).end();// UNAUTHORIZED
                     }
                 })
                 .catch((err) => {
@@ -84,7 +85,7 @@ class RoleBasedAccessControl {
                     return res.status(401).send(err.message).end();
                 });
         } else {
-            return res.status(401).send('user not active').end();// UNAUTHORIZED
+            return res.status(401).send({msg:'Inactive User'}).end();// UNAUTHORIZED
         }
     }
 

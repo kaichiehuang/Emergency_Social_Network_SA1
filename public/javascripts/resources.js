@@ -1,3 +1,4 @@
+
 class Resources {
     /**
      * Initializing view
@@ -112,7 +113,7 @@ class Resources {
             Resources.getInstance().removeClassElements('selected-btn',
                 $('#step-one-btn'), $('#step-two-btn'), $('#step-three-btn'));
             Resources.getInstance().addClassElements('selected-btn',
-                $("#" + $(this).attr("id"));
+                $("#" + $(this).attr("id")));
 
             Resources.getInstance().removeClassElements('hidden-main-content-block',
                 $('#resource-location-div'));

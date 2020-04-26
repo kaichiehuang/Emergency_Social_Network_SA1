@@ -15,16 +15,17 @@ class ChatMessagesController {
      * @return {[type]}     [description]
      */
     createMessage(req, res) {
+        res.contentType('application/json');
         const requestData = req.body;
         if (requestData['message'] == undefined) {
-            return res.status(422).send(JSON.stringify({
-                'msg': 'invalid message'
-            }));
+            return res.status(422).send({
+                'msg': 'Invalid message'
+            });
         }
         if (requestData['user_id'] == undefined) {
-            return res.status(422).send(JSON.stringify({
-                'msg': 'invalid user'
-            }));
+            return res.status(422).send({
+                'msg': 'Invalid user'
+            });
         }
         const message = requestData['message'];
         const userId = requestData['user_id'];
@@ -59,7 +60,6 @@ class ChatMessagesController {
             const socketIO = new SocketIO(res.io);
             socketIO.emitMessage('new-chat-message', message);
             // 5. return a response
-            res.contentType('application/json');
             return res.status(201).send(JSON.stringify({
                 'result': 'chat message created',
                 'data': {
@@ -77,7 +77,6 @@ class ChatMessagesController {
                     'spam': true
                 });
             } else {
-                res.contentType('application/json');
                 /* istanbul ignore next */
                 return res.status(422).send({
                     'msg': err

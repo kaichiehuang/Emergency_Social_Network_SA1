@@ -5,6 +5,7 @@
                 <div class="messaging">
                     <div class="msg_area msg_area-<%= block_id %>" id="<%= block_id %>-msg_area">
                         <% if (messageBlockTitle != '') { %> <h4 class="text-center block-title"><%= messageBlockTitle %></h4> <% } %>
+                        <% if (block_id == 'private') { %> <h4 class="text-center block-title">Chatting with <span id="receiver-username">--</span></h4> <br /><% } %>
                         <ul class="list-group list-group-flush" id="<%= block_id %>-chat">
                             <template id="<%= block_id %>-template">
                                 <li class="user-post user-post- list-group-item list-group-item-action flex-column align-items-center">

@@ -126,7 +126,7 @@ class User {
                     currentUser.name.length === 0) {
                     setTimeout(function(){
                         showElements('profile-update-invite')
-                    }, 15000);
+                    }, 30000 * 6);
                     User.getInstance().initUpdateInvite();
                 }
             }).catch((err) => {
@@ -157,6 +157,55 @@ class User {
      initUpdateInvite() {
         window.setInterval(function() {
             showElements('profile-update-invite');
-        }, 60000 * 5);
+        }, 60000 * 20);
     }
+
+
+    /**
+     * Updates de status online of the user
+     * @param status
+     */
+    setOnline(online_status, socketId) {
+        const user_id = Cookies.get('user-id');
+        const data = {
+            onLine: online_status,
+            acknowledgement: Cookies.get('user-acknowledgement'),
+            status: Cookies.get('user-status')
+        }
+        APIHandler.getInstance()
+            .sendRequest('/users/' + userId, 'put',
+                JSON.stringify(data), true, 'application/json')
+            .then((response) => {
+                Cookies.set('online-status', online_status);
+                console.log(response);
+            })
+            .catch((error) => {});
+    }
+
+    /**
+     * Syncs socket ids to the users data in the backend. It can delete old socket connections and it can create new ones.
+     * @param status
+     */
+    syncSocketId(socketId, deleteSocket) {
+        const user_id = Cookies.get('user-id');
+        const jwt = Cookies.get('user-jwt-esn');
+        let url = '/users/' + user_id + '/sockets';
+        let method = 'post';
+        let data = {
+            'socketId': socketId
+        };
+        // delete scenario
+        if (deleteSocket) {
+            url = '/users/' + user_id + '/sockets/' + socketId;
+            method = 'delete';
+            data = {};
+        }
+
+        APIHandler.getInstance()
+            .sendRequest(url, method,
+                JSON.stringify(data), true, 'application/json')
+            .then((response) => {})
+            .catch((error) => {});
+    }
+
 }
