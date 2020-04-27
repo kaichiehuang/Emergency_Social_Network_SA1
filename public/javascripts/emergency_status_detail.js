@@ -16,7 +16,7 @@ class EmergencyStatusDetail {
     }
     /**
      * Set up the click event for edit button for both
-     * brief description of situation and location 
+     * brief description of situation and location
      * description
      */
     setEditDescriptionEvent() {
@@ -42,8 +42,8 @@ class EmergencyStatusDetail {
     }
     /**
      * Set up the click event for saving
-     * brief description of situation and location 
-     * description 
+     * brief description of situation and location
+     * description
      */
     setSaveDescriptionEvent() {
         const userId = Cookies.get('user-id');
