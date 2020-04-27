@@ -1,6 +1,7 @@
 const ValidatorInterface = require('./validatorInterface.js');
 const blacklist = require('the-big-username-blacklist');
 
+
 /**
 * Our class for user model taht will be attached to the schema
 */
@@ -9,8 +10,8 @@ class NewUserValidator extends ValidatorInterface {
     * [constructor description]
     * @return {[type]} [description]
     */
-    constructor() {
-        super();
+    constructor(ownerElement) {
+        super(ownerElement);
         const commonMsg = 'Invalid username and password.';
         this.validatorRules = {
             'requiredRules': [
@@ -38,7 +39,7 @@ class NewUserValidator extends ValidatorInterface {
                 {
                     'customRuleName': 'validateBannedUsername',
                     'msg': 'Invalid username, this username is reserved for the platform. Please enter a different username.',
-                },
+                }
             ],
         };
     }

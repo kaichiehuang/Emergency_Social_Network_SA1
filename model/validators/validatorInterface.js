@@ -3,7 +3,8 @@
  */
 class ValidatorInterface {
     // eslint-disable-next-line require-jsdoc
-    constructor() {
+    constructor(ownerElement) {
+        this.ownerElement = ownerElement;
         this.validateData = [];
         this.validatorRules = {
             'requiredRules': [], // list of variables
@@ -42,22 +43,22 @@ class ValidatorInterface {
      */
     validateRequiredFields() {
         return new Promise((resolve, reject) => {
-            if (this.validatorRules.requiredRules != undefined && this.validatorRules.requiredRules.length > 0) {
-                for (let i = 0; i < this.validatorRules.requiredRules.length; i++) {
-                    const field = this.validatorRules.requiredRules[i];
-                    let validationResult = false;
-                    if (field.innerObject != undefined) {
-                        validationResult = this.validateRequiredField(field.fieldName, field.innerObject);
-                    } else {
-                        validationResult = this.validateRequiredField(field.fieldName);
+            if (this.validatorRules.requiredRules == undefined || this.validatorRules.requiredRules.length == 0) {
+                return resolve(true);
+            }
+            for (let i = 0; i < this.validatorRules.requiredRules.length; i++) {
+                const field = this.validatorRules.requiredRules[i];
+                let validationResult = false;
+                if (field.innerObject != undefined) {
+                    validationResult = this.validateRequiredField(field.fieldName, field.innerObject);
+                } else {
+                    validationResult = this.validateRequiredField(field.fieldName);
+                }
+                if (validationResult == false) {
+                    if (field.msg == undefined || field.msg.length == 0) {
+                        return reject(field.fieldName + ' is a required field');
                     }
-                    if (validationResult == false) {
-                        /* istanbul ignore next */
-                        if (field.msg == undefined || field.msg.length == 0) {
-                            return reject(field.fieldName + ' is a required field');
-                        }
-                        return reject(field.msg);
-                    }
+                    return reject(field.msg);
                 }
             }
             return resolve(true);
@@ -89,33 +90,32 @@ class ValidatorInterface {
      */
     validateFieldsByLength() {
         return new Promise((resolve, reject) => {
-            if (this.validatorRules.lengthRules != undefined && this.validatorRules.lengthRules.length > 0) {
-                for ( let i = 0; i < this.validatorRules.lengthRules.length; i++) {
-                    const field = this.validatorRules.lengthRules[i];
-                    let validationResult = false;
-                    let allowEmpty = false;
-                    /* istanbul ignore next */
-                    if (field.allowEmpty) {
-                        allowEmpty = field.allowEmpty;
-                    }
-
-                    if (field.innerObject != undefined) {
-                        validationResult = this.validateFieldByLength(field.fieldName, field.minLength, field.innerObject, allowEmpty);
-                    } else {
-                        validationResult = this.validateFieldByLength(field.fieldName, field.minLength, null, allowEmpty);
-                    }
-                    if (!validationResult) {
-                        /* istanbul ignore next */
-                        if (field.msg == undefined || field.msg.length == 0) {
-                            return reject('Minimum length for ' + field.fieldName + ' is ' + field.minLength );
-                        }
-                        return reject(field.msg);
-                    }
-                }
-                return resolve(true);
-            } else {
+            if (this.validatorRules.lengthRules == undefined || this.validatorRules.lengthRules.length == 0) {
                 return resolve(true);
             }
+            for ( let i = 0; i < this.validatorRules.lengthRules.length; i++) {
+                const field = this.validatorRules.lengthRules[i];
+                let validationResult = false;
+                let allowEmpty = false;
+                if (field.allowEmpty) {
+                    allowEmpty = field.allowEmpty;
+                }
+
+                if (field.innerObject != undefined) {
+                    validationResult = this.validateFieldByLength(field.fieldName, field.minLength, field.innerObject, allowEmpty);
+                } else {
+                    validationResult = this.validateFieldByLength(field.fieldName, field.minLength, null, allowEmpty);
+                }
+                if (!validationResult) {
+                    if (field.msg == undefined || field.msg.length == 0) {
+                        return reject('Minimum length for ' + field.fieldName + ' is ' + field.minLength );
+
+                    }
+                    return reject(field.msg);
+                }
+            }
+            return resolve(true);
+
         });
     }
     /**
@@ -152,25 +152,25 @@ class ValidatorInterface {
      */
     validateCustomRules() {
         return new Promise((resolve, reject) => {
-            if (this.validatorRules.customRules != undefined && this.validatorRules.customRules.length > 0) {
-                for (let i = 0; i < this.validatorRules.customRules.length; i++) {
-                    const field = this.validatorRules.customRules[i];
-                    let validationResult = false;
-                    // call custom function
-                    /* istanbul ignore next */
-                    if (field.customRuleName.length > 0) {
-                        validationResult = this[field.customRuleName]();
-                    }
+            if (this.validatorRules.customRules == undefined || this.validatorRules.customRules.length == 0) {
+                return resolve(true);
+            }
+            for (let i = 0; i < this.validatorRules.customRules.length; i++) {
+                const field = this.validatorRules.customRules[i];
+                let validationResult = false;
+                // call custom function
+                if (field.customRuleName.length > 0) {
+                    validationResult = this[field.customRuleName]();
+                }
 
-                    if (!validationResult) {
-                        /* istanbul ignore next */
-                        if (field.msg == undefined) {
-                            return reject('Error');
-                        }
-                        return reject(field.msg);
+                if (!validationResult) {
+                    if (field.msg == undefined) {
+                        return reject('Error');
                     }
+                    return reject(field.msg);
                 }
             }
+
             return resolve(true);
         });
     }

@@ -76,7 +76,7 @@ $(function() {
             }).done(function(response) {
                 user_acknowledgement = response.acknowledgement;
                 Cookies.set('user-acknowledgement', user_acknowledgement);
-                setOnline(true);
+                User.getInstance().setOnline(true);
                 GlobalEventDispatcher.updateAllUserLists();
                 window.location.replace('/app');
             }).fail(function() {

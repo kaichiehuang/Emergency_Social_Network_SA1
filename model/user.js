@@ -4,7 +4,6 @@ const Roles = require('../utils/Roles');
 const UserHelper = require('../utils/userHelper');
 const constants = require('../constants');
 const NewUserValidator = require('./validators/newUserValidator.js');
-const UserAccountValidator = require('./validators/userAccountValidator.js');
 /**
  * Our class for user model taht will be attached to the schema
  */
@@ -44,7 +43,7 @@ class UserModel {
         });
     }
 
-    /** *****************
+    /*******************
 
           OPERATIONS
 
@@ -75,32 +74,22 @@ class UserModel {
                 if (data.status != undefined) {
                     this.status_timestamp = new Date();
                 }
-                if (data['username'] != undefined || data['password'] != undefined) {
-                    new UserAccountValidator()
-                        .validateDataRules({
-                            'username': data['username'],
-                            'password': data['password']
-                        })
-                        .then((result) => {
-                            User.findUserByUsername(data['username'])
-                                .then((user) => {
-                                    if (user == null || user._id == userId) {
-                                        return resolve(true);
-                                    } else {
-                                        return reject('username already existed');
-                                    }
-                                });
-                        }).catch((err) => {
-                            return reject(err);
-                        });
-                    if (data.password != undefined && data.password.length > 0) {
-                        data.password = UserHelper.hashPassword(data.password);
-                    } else if (data.password != undefined) {
-                        delete data.password;
-                    }
+                if (data['password'] != undefined && data.step == 0 && data.password.length > 0) {
+                    data.password = UserHelper.hashPassword(data.password);
                 }
-                this.set(data);
-                return this.save();
+                if (data.username != undefined) {
+                    return User.findUserByUsername(data.username);
+                } else {
+                    delete data.password;
+                    return User.findUserById(data.userId);
+                }
+            }).then((existingUser) => {
+                if (existingUser != null && this._id.toString().localeCompare(existingUser._id.toString()) != 0) {
+                    return reject('Invalid username, already exists.');
+                } else {
+                    this.set(data);
+                    return this.save();
+                }
             }).then((usr) => {
                 return resolve(true);
             }).catch((err) => {
@@ -109,6 +98,19 @@ class UserModel {
         });
     }
 
+    /**
+     * Finds if the new username is unique
+     * @param  {[type]} newUsername [description]
+     * @return {[type]}             [description]
+     */
+    async validateUniqueUsername(newUsername) {
+        const existingUser = await User.findUserByUsername(newUsername);
+
+        if (existingUser != null && this._id.toString().localeCompare(existingUser._id.toString()) != 0 ) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Inserts a socket to the sockets map attribute

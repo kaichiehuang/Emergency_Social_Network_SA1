@@ -8,9 +8,8 @@ class UserMedicalValidator extends ValidatorInterface {
      * [constructor description]
      * @return {[type]} [description]
      */
-    constructor() {
-        super();
-        const commonMsg = 'All fields are mandatory in this step.';
+    constructor(ownerElement) {
+        super(ownerElement);
         this.validatorRules = {
             'requiredRules': [{
                 'innerObject': 'medical_information',
