@@ -122,7 +122,7 @@ var publicOptions = {
 app.use(express.static(path.join(__dirname, 'public'), publicOptions));
 
 //cache invalidation
-app.locals.versionedAssets = 200;
+app.locals.versionedAssets = 201;
 
 app.use('/public/pictures', express.static(path.join(__dirname, 'public/pictures')));
 app.use('/', indexRouter);
