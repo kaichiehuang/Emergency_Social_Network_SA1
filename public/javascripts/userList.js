@@ -29,7 +29,7 @@ class UserList {
      * @param  {[type]} containerId [description]
      * @return {[type]}             [description]
      */
-     drawUsers(users, currentUser) {
+    drawUsers(users, currentUser) {
         const containerId = 'user-list-content__list';
         $('#user-list-content .no-results-message').addClass('hidden');
         // 1. find templates in html
@@ -77,14 +77,13 @@ class UserList {
                     currentUser.unread_messages[user._id];
             }
 
-            if(user.status != undefined) {
+            if (user.status != undefined) {
                 this.drawUserStatues(template, user);
             }
 
             listContainer.appendChild(template);
         }
         this.registerEventsAfterDraw();
-
     }
 
     /**
@@ -190,7 +189,13 @@ class UserList {
         $('#user-list-content .no-results-message').removeClass('hidden');
     }
 
-    // todo pass this to a class AddressBook that has an attribute currentUser
+    /**
+     * Updates the component when needed
+     * @param  {[type]} currentUser   [description]
+     * @param  {[type]} searchKeyword [description]
+     * @param  {[type]} searchStatus  [description]
+     * @return {[type]}               [description]
+     */
     updateComponentView(currentUser, searchKeyword, searchStatus) {
         // get user data and then get messages to
         // paint and to check for unread messages
@@ -219,7 +224,6 @@ class UserList {
             $('#private-chat-content-menu').addClass('active');
             // eslint-disable-next-line no-invalid-this
             PrivateChatMessage.getInstance().initiatePrivateChat($(this).data('user-id'), $(this).data('username'));
-
         });
         $('.username').click(function(event) {
             // eslint-disable-next-line no-invalid-this
