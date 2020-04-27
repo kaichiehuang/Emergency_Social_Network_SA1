@@ -49,10 +49,9 @@ class EmergencyStatusDetail {
     }
     /**
      * Set up the click event for saving
-     * brief description of situation and location
-     * description
+     * brief description
      */
-    setSaveDescriptionEvent() {
+    setSaveBriefDescriptionEvent() {
         $('.save-button').click(function(event) {
             event.preventDefault(); // hide textarea and save button
             $('#briefDescriptionEdit').addClass('hidden');
@@ -63,7 +62,12 @@ class EmergencyStatusDetail {
             };
             EmergencyStatusDetail.getInstance().saveDescriptionEvent('situation', data);
         });
-
+    }
+    /**
+     * Set up the click event for saving
+     * location description
+     */
+    setSaveLocationDescriptionEvent() {
         $('.loc-save-button').click(function(event) {
             event.preventDefault();
             // hide textarea and save button
@@ -76,6 +80,8 @@ class EmergencyStatusDetail {
             EmergencyStatusDetail.getInstance().saveDescriptionEvent('location', data);
         });
     }
+
+
     /**
      * Saves the emergency status data by type of detail
      * @param  {[type]} type [description]
@@ -228,7 +234,8 @@ class EmergencyStatusDetail {
      */
     generatePreviewPage() {
         EmergencyStatusDetail.getInstance().setEditDescriptionEvent();
-        EmergencyStatusDetail.getInstance().setSaveDescriptionEvent();
+        EmergencyStatusDetail.getInstance().setSaveBriefDescriptionEvent();
+        EmergencyStatusDetail.getInstance().setSaveLocationDescriptionEvent();
         EmergencyStatusDetail.getInstance().setAddPictureEvent();
         // retrieve brief description and location description
         EmergencyStatusDetail.getInstance().retrieveBriefAndLocDescription();
