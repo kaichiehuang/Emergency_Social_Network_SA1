@@ -1,7 +1,5 @@
 class APIHandler {
 
-    static instance = null;
-
     /**
      * Sends requests to API for every component or object using Jquery
      * @param  {[type]} url         [description]
@@ -14,16 +12,12 @@ class APIHandler {
     sendRequest(url, operation, data, token, contentType) {
         $("#boxloader").show();
         const jwt = Cookies.get('user-jwt-esn');
-
         let contentTypeOption = contentType ?
             contentType : "application/x-www-form-urlencoded; charset=UTF-8";
-
         let headers = token ? {
             Authorization: jwt
         } : {};
-
         let dataSend = data ? data : {};
-
         let options = {
             url: apiPath + url,
             type: operation,
@@ -43,7 +37,7 @@ class APIHandler {
                         SignoutComponent.getInstance().signout();
                         return reject(false);
                     }else{
-                        reject(e);
+                        return reject(e);
                     }
                 })
                 .always(function(){

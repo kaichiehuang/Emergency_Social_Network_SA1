@@ -54,12 +54,13 @@ class ValidatorInterface {
                 } else {
                     validationResult = this.validateRequiredField(field.fieldName);
                 }
-                if (validationResult == false) {
-                    if (field.msg == undefined || field.msg.length == 0) {
-                        return reject(field.fieldName + ' is a required field');
-                    }
-                    return reject(field.msg);
+                if (validationResult == true) {
+                    continue;
                 }
+                if (field.msg == undefined || field.msg.length == 0) {
+                    return reject(field.fieldName + ' is a required field');
+                }
+                return reject(field.msg);
             }
             return resolve(true);
         });
@@ -106,16 +107,15 @@ class ValidatorInterface {
                 } else {
                     validationResult = this.validateFieldByLength(field.fieldName, field.minLength, null, allowEmpty);
                 }
-                if (!validationResult) {
-                    if (field.msg == undefined || field.msg.length == 0) {
-                        return reject('Minimum length for ' + field.fieldName + ' is ' + field.minLength );
-
-                    }
-                    return reject(field.msg);
+                if (validationResult == true) {
+                    continue;
                 }
+                if (field.msg == undefined || field.msg.length == 0) {
+                    return reject('Minimum length for ' + field.fieldName + ' is ' + field.minLength );
+                }
+                return reject(field.msg);
             }
             return resolve(true);
-
         });
     }
     /**
@@ -130,7 +130,6 @@ class ValidatorInterface {
         if (allowEmpty && (this.validateData[fieldName] == undefined || this.validateData[fieldName].length == 0)) {
             return true;
         }
-
         // else check for length rule
         if (innerObject != undefined) {
             /* istanbul ignore next */
@@ -162,13 +161,13 @@ class ValidatorInterface {
                 if (field.customRuleName.length > 0) {
                     validationResult = this[field.customRuleName]();
                 }
-
-                if (!validationResult) {
-                    if (field.msg == undefined) {
-                        return reject('Error');
-                    }
-                    return reject(field.msg);
+                if (validationResult == true) {
+                    continue;
                 }
+                if (field.msg == undefined) {
+                    return reject('Error');
+                }
+                return reject(field.msg);
             }
 
             return resolve(true);
