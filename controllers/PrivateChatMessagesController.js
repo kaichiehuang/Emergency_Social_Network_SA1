@@ -58,6 +58,7 @@ class PrivateChatMessagesController {
         const otherUser = PrivateChatMessagesController.getOtherUser(requestData);
         const user = await User.findUserById(otherUser);
         // Validate the other account user status; if it is inactive, we block the conversation.
+        /* istanbul ignore next */
         if (!user.active) {
             return res.status(401).send({});
         } else {
@@ -75,6 +76,7 @@ class PrivateChatMessagesController {
      */
     static getOtherUser(requestData) {
         let otherUser;
+        /* istanbul ignore next */
         if (requestData.tokenUserId === requestData['sender_user_id']) {
             otherUser = requestData['receiver_user_id'];
         } else {
@@ -95,6 +97,7 @@ class PrivateChatMessagesController {
         const privateChatMessage = new PrivateChatMessage();
         const otherUser = PrivateChatMessagesController.getOtherUser(requestData);
         const user = await User.findUserById(otherUser);
+        /* istanbul ignore next */
         if (!user.active) {
             res.status(401).send({}).end();
         } else {
@@ -128,6 +131,7 @@ class PrivateChatMessagesController {
      */
     static emitToSockets(privateChatMessageCreated, sockets, response, senderUser, receiverUser, status) {
         // 1. iterate the list of sockects and emit the data
+        /* istanbul ignore next */
         if (sockets != undefined && sockets.size > 0) {
             const privateMessage = {
                 'id': privateChatMessageCreated._id,

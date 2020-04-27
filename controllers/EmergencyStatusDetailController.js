@@ -21,7 +21,9 @@ class EmergencyStatusDetailController {
                 }
                 res.contentType('application/json');
                 return res.status(201).send(JSON.stringify(statusDetail));
+                /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }
@@ -40,7 +42,9 @@ class EmergencyStatusDetailController {
             .then((statusDetail) => {
                 res.contentType('application/json');
                 return res.status(201).send(JSON.stringify(statusDetail));
+                /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }
@@ -57,7 +61,9 @@ class EmergencyStatusDetailController {
             .then((allPicAndDes) => {
                 res.contentType('application/json');
                 return res.status(201).send(JSON.stringify(allPicAndDes));
+                /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }
@@ -77,7 +83,9 @@ class EmergencyStatusDetailController {
             .then((picAndDes) => {
                 res.contentType('application/json');
                 return res.status(201).send(JSON.stringify(picAndDes));
+                /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }
@@ -95,7 +103,9 @@ class EmergencyStatusDetailController {
             .then((updatedPicAndDes) => {
                 res.contentType('application/json');
                 return res.status(201).send(JSON.stringify(updatedPicAndDes));
+                /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }
@@ -111,13 +121,16 @@ class EmergencyStatusDetailController {
             .then((result) => {
                 const path = result.picture_path;
                 fs.unlink(path, (err) => {
+                    /* istanbul ignore next */
                     if (err) {
                         console.error(err);
                     }
                 });
                 res.contentType('application/json');
                 return res.status(201).send(JSON.stringify(result));
+                /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }

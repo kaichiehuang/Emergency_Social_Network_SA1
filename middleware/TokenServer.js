@@ -39,12 +39,12 @@ class TokenServer {
                     req.tokenUserId = userId.data;
                     next();
                 })
+                /* istanbul ignore next */
                 .catch((err) => {
-                    /* istanbul ignore next */
                     return res.status(401).send(err.message).end();// UNAUTHORIZED
                 });
-        } else {
             /* istanbul ignore next */
+        } else {
             return res.status(401).send('NOT TOKEN PROVIDED').end(); // UNAUTHORIZED
         }
     }

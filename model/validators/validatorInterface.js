@@ -52,6 +52,7 @@ class ValidatorInterface {
                         validationResult = this.validateRequiredField(field.fieldName);
                     }
                     if (validationResult == false) {
+                        /* istanbul ignore next */
                         if (field.msg == undefined || field.msg.length == 0) {
                             return reject(field.fieldName + ' is a required field');
                         }
@@ -93,6 +94,7 @@ class ValidatorInterface {
                     const field = this.validatorRules.lengthRules[i];
                     let validationResult = false;
                     let allowEmpty = false;
+                    /* istanbul ignore next */
                     if (field.allowEmpty) {
                         allowEmpty = field.allowEmpty;
                     }
@@ -103,6 +105,7 @@ class ValidatorInterface {
                         validationResult = this.validateFieldByLength(field.fieldName, field.minLength, null, allowEmpty);
                     }
                     if (!validationResult) {
+                        /* istanbul ignore next */
                         if (field.msg == undefined || field.msg.length == 0) {
                             return reject('Minimum length for ' + field.fieldName + ' is ' + field.minLength );
                         }
@@ -123,12 +126,14 @@ class ValidatorInterface {
      */
     validateFieldByLength(fieldName, minLength, innerObject, allowEmpty) {
         // if it allows empty values move foward
+        /* istanbul ignore next */
         if (allowEmpty && (this.validateData[fieldName] == undefined || this.validateData[fieldName].length == 0)) {
             return true;
         }
 
         // else check for length rule
         if (innerObject != undefined) {
+            /* istanbul ignore next */
             if (this.validateData[innerObject][fieldName] == undefined || this.validateData[innerObject][fieldName].length < minLength) {
                 return false;
             }
@@ -152,11 +157,13 @@ class ValidatorInterface {
                     const field = this.validatorRules.customRules[i];
                     let validationResult = false;
                     // call custom function
+                    /* istanbul ignore next */
                     if (field.customRuleName.length > 0) {
                         validationResult = this[field.customRuleName]();
                     }
 
                     if (!validationResult) {
+                        /* istanbul ignore next */
                         if (field.msg == undefined) {
                             return reject('Error');
                         }
