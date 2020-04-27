@@ -39,14 +39,14 @@ class Resources {
             e.preventDefault();
             $('#resource-picture').val('');
             $('#image-preview').attr('src', '#');
-            Resources.getInstance().addClassElements('hidden-main-content-block',
+            Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'add',
                 $('#imageDiv'));
         });
 
 
         $('#resource-picture').on('change', (e) => {
             Resources.getInstance().readURL();
-            Resources.getInstance().removeClassElements('hidden-main-content-block',
+            Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'remove',
                 $('#imageDiv'));
         });
     }
@@ -59,9 +59,9 @@ class Resources {
      * @param idElementTwoHide
      */
     buttonSelectionElements(idElementSelected, idElementOneHide, idElementTwoHide) {
-        Resources.getInstance().addClassElements('selected-btn', $('#'+ idElementSelected +'-btn'));
-        Resources.getInstance().removeClassElements('selected-btn', $('#'+ idElementOneHide+'-btn'),
-            $('#'+ idElementTwoHide+'-btn'));
+        Resources.getInstance().addRemoveClassElements('selected-btn', 'add', $('#'+ idElementSelected +'-btn'));
+        Resources.getInstance().addRemoveClassElements('selected-btn', $('#'+ idElementOneHide+'-btn'),
+            'remove', $('#'+ idElementTwoHide+'-btn'));
     }
 
     /**
@@ -71,9 +71,9 @@ class Resources {
      * @param idElementTwoHide
      */
     hideShowContentElements(idElementSelected, idElementOneHide, idElementTwoHide) {
-        Resources.getInstance().removeClassElements('hidden-main-content-block',
+        Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'remove',
             $('#'+ idElementSelected +'-content-div'));
-        Resources.getInstance().addClassElements('hidden-main-content-block',
+        Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'add',
             $('#'+ idElementOneHide+'-content-div'), $('#'+ idElementTwoHide+'-content-div'));
     }
     /**
@@ -143,9 +143,9 @@ class Resources {
             }
             Resources.getInstance().buttonSelectionElements(buttonSelected, buttonideOne,
                 butonHideTwo);
-            Resources.getInstance().removeClassElements('hidden-main-content-block',
+            Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'remove',
                 showOne, showTwo);
-            Resources.getInstance().addClassElements('hidden-main-content-block',
+            Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'add',
                 hideOne, hideTwo, hideThree);
         });
     }
@@ -156,28 +156,22 @@ class Resources {
         $('#step-one-btn').trigger('click');
         $('#supplies-btn').trigger('click');
     }
+
+
     /**
      * Remove classes from elements
      * @param nameClass
+     * @param operation
      * @param showElement
      */
-    removeClassElements(nameClass, ...showElement) {
+    addRemoveClassElements(nameClass, operation, ...showElement) {
         for (const element of showElement) {
             if (element !== '') {
-                element.removeClass(nameClass);
-            }
-        }
-    }
-
-    /**
-     * Add classes to elements
-     * @param nameClass
-     * @param showElement
-     */
-    addClassElements(nameClass, ...showElement) {
-        for (const element of showElement) {
-            if (element !== '') {
-                element.addClass(nameClass);
+                if (operation === 'add') {
+                    element.addClass(nameClass);
+                } else {
+                    element.removeClass(nameClass);
+                }
             }
         }
     }
