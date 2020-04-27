@@ -105,8 +105,6 @@ const EmergencyStatusDetailSchema = new Schema(
         user_id: {type: Schema.Types.ObjectId, ref: 'User'},
         status_description: String,
         share_location: String,
-
-
     },
     schemaOptions
 );

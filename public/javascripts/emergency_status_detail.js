@@ -53,38 +53,15 @@ class EmergencyStatusDetail {
      * description
      */
     setSaveDescriptionEvent() {
-        const userId = Cookies.get('user-id');
         $('.save-button').click(function(event) {
             event.preventDefault(); // hide textarea and save button
             $('#briefDescriptionEdit').addClass('hidden');
             $('.save-button').addClass('hidden');
-
             const data = {
                 description: $('#briefDescriptionEdit').val(),
                 detailType: 'situation',
             };
-
-            APIHandler.getInstance()
-                .sendRequest(
-                    '/emergencyStatusDetail/' + userId,
-                    'put',
-                    data,
-                    true,
-                    null
-                )
-                .then((response) => {
-                    document.getElementById('briefDescriptionPreview').innerHTML =
-                        response.status_description;
-                    document.getElementById('briefDescriptionEdit').innerHTML =
-                        response.status_description;
-                    // show paragraph and edit button
-                    $('#briefDescriptionPreview').removeClass('hidden');
-                    $('.edit-button').removeClass('hidden');
-                })
-                .catch((error) => {
-                    $('#update-brief-description-alert').html(error);
-                    $('#update-brief-description-alert').show();
-                });
+            EmergencyStatusDetail.getInstance().saveDescriptionEvent("situation", data);
         });
 
         $('.loc-save-button').click(function(event) {
@@ -92,35 +69,55 @@ class EmergencyStatusDetail {
             // hide textarea and save button
             $('#locationDescriptionEdit').addClass('hidden');
             $('.loc-save-button').addClass('hidden');
-
             const data = {
                 description: $('#locationDescriptionEdit').val(),
                 detailType: 'location',
             };
-
-            APIHandler.getInstance()
-                .sendRequest(
-                    '/emergencyStatusDetail/' + userId,
-                    'put',
-                    data,
-                    true,
-                    null
-                )
-                .then((response) => {
+            EmergencyStatusDetail.getInstance().saveDescriptionEvent("location", data);
+        });
+    }
+    /**
+     * Saves the emergency status data by type of detail
+     * @param  {[type]} type [description]
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+     */
+    saveDescriptionEvent(type, data){
+        const userId = Cookies.get('user-id');
+        APIHandler.getInstance()
+            .sendRequest(
+                '/emergencyStatusDetail/' + userId,
+                'put',
+                data,
+                true,
+                null
+            )
+            .then((response) => {
+                if(type.localeCompare("situation") == 0){
+                    document.getElementById('briefDescriptionPreview').innerHTML =
+                        response.status_description;
+                    document.getElementById('briefDescriptionEdit').innerHTML =
+                        response.status_description;
+                    $('#briefDescriptionPreview').removeClass('hidden');
+                    $('.edit-button').removeClass('hidden');
+                }else{
                     document.getElementById('locationDescriptionPreview').innerHTML =
                         response.share_location;
                     document.getElementById('locationDescriptionEdit').innerHTML =
                         response.share_location;
-                    // show paragraph and edit button
                     $('#locationDescriptionPreview').removeClass('hidden');
                     $('.loc-edit-button').removeClass('hidden');
-                })
-                .catch((error) => {
-                    $('#update-location-description-alert').html(error);
-                    $('#update-location-description-alert').show();
-                });
-        });
+                }
+
+                // show paragraph and edit button
+                $('#locationDescriptionPreview').removeClass('hidden');
+                $('.loc-edit-button').removeClass('hidden');
+            })
+            .catch((error) => {
+                alert(error);
+            });
     }
+
     /**
      * Set up the click event for delete one picture and
      * its description
