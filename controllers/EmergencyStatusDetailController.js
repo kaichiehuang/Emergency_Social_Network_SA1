@@ -23,6 +23,7 @@ class EmergencyStatusDetailController {
                 return res.status(201).send(JSON.stringify(statusDetail));
                 /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }
@@ -43,6 +44,7 @@ class EmergencyStatusDetailController {
                 return res.status(201).send(JSON.stringify(statusDetail));
                 /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }
@@ -61,6 +63,7 @@ class EmergencyStatusDetailController {
                 return res.status(201).send(JSON.stringify(allPicAndDes));
                 /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }
@@ -82,6 +85,7 @@ class EmergencyStatusDetailController {
                 return res.status(201).send(JSON.stringify(picAndDes));
                 /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }
@@ -101,6 +105,7 @@ class EmergencyStatusDetailController {
                 return res.status(201).send(JSON.stringify(updatedPicAndDes));
                 /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }
@@ -125,6 +130,7 @@ class EmergencyStatusDetailController {
                 return res.status(201).send(JSON.stringify(result));
                 /* istanbul ignore next */
             }).catch((err) => {
+            /* istanbul ignore next */
                 return res.status(500).send(err);
             });
     }
