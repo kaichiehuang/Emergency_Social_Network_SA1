@@ -1,5 +1,12 @@
+/**
+ * Announcements class, inherits from base message
+ */
 class Announcement extends BaseMessage {
-
+    /**
+     * [constructor description]
+     * @param  {[type]} containerWall [description]
+     * @return {[type]}               [description]
+     */
     constructor(containerWall) {
         super(containerWall);
         this.type = 'announcement';
@@ -20,7 +27,7 @@ class Announcement extends BaseMessage {
      * [initiateAnnouncementsList description]
      * @return {[type]} [description]
      */
-     initiateAnnouncementsList() {
+    initiateAnnouncementsList() {
         this.updateMessageListView();
         this.containerWall.scrollTop = 0;
         //hide input area for citizen
@@ -64,7 +71,7 @@ class Announcement extends BaseMessage {
      * @return {[type]} [description]
      */
     initEvents() {
-        let announcementModel = this;
+        const announcementModel = this;
         // announcement button header
         $('#announcement-button').click(function(event) {
             event.preventDefault();
@@ -78,7 +85,7 @@ class Announcement extends BaseMessage {
      * @param  {[type]} data [description]
      * @return {[type]}      [description]
      */
-    reactToNewMessage(data){
+    reactToNewMessage(data) {
         this.drawLastAnnouncement(data);
         super.reactToNewMessage(data);
         this.containerWall.scrollTop = 0;
@@ -88,8 +95,8 @@ class Announcement extends BaseMessage {
 //* ***********************************************
 //* ***********************************************
 
-const announcementModel =  Announcement.getInstance();
-let page = 0;
+const announcementModel = Announcement.getInstance();
+const page = 0;
 $(function() {
     // listen for public chat events
     socket.on('new-announcement', (data) => {

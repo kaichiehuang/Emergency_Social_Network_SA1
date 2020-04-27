@@ -28,15 +28,16 @@ class UserOtherValidator extends ValidatorInterface {
         if (this.validateData.personal_message == undefined) {
             return true;
         }
-        else if (this.validateData.personal_message.message.length != 0 && (this.validateData.personal_message.security_question_answer.length == 0 || this.validateData.personal_message.security_question.length == 0)) {
+        const personalMessage = this.validateData.personal_message;
+        if (personalMessage.message.length != 0 && (personalMessage.security_question_answer.length == 0 || personalMessage.security_question.length == 0)) {
             return false;
         }
-        else if (this.validateData.personal_message.security_question.length == 0 && this.validateData.personal_message.security_question_answer.length != 0) {
-            return false;
-        } else if (this.validateData.personal_message.security_question.length != 0 && this.validateData.personal_message.security_question_answer.length == 0) {
+        if (personalMessage.security_question.length == 0 && personalMessage.security_question_answer.length != 0) {
             return false;
         }
-
+        if (personalMessage.security_question.length != 0 && personalMessage.security_question_answer.length == 0) {
+            return false;
+        }
         return true;
     }
 }
