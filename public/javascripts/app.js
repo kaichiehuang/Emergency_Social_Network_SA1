@@ -11,7 +11,6 @@ let oldContentPageID = '';
 let currentContentGroupClass = '';
 let userJWT = null;
 let user_id = null;
-let user_name = null;
 let user_acknowledgement = null;
 const apiPath = '/api';
 let currentUser = null;
@@ -113,22 +112,22 @@ function executeSwapContent(element) {
     let hideViewClass = element.data('hide-view-class');
     let hideSubViewClass = element.data('sub-view-hide-class');
     let hideGroupClass = element.data('group-hide-class');
+    if (hideViewClass == undefined) {
+        hideViewClass = 'main-content-block';
+    }
+    if (hideSubViewClass == undefined) {
+        hideSubViewClass = 'hideable-group-component';
+    }
+    if (hideGroupClass == undefined) {
+        hideGroupClass = 'hideable-group-component';
+    }
     if (viewID != undefined && viewID != '') {
-        if (hideViewClass == undefined) {
-            hideViewClass = 'main-content-block';
-        }
         swapViewContent(viewID, hideViewClass);
     }
     if (subViewID != undefined && subViewID != '') {
-        if (hideSubViewClass == undefined) {
-            hideSubViewClass = 'hideable-group-component';
-        }
         swapViewContent(subViewID, hideSubViewClass);
     }
     if (groupClass != undefined && groupClass != '') {
-        if (hideGroupClass == undefined) {
-            hideGroupClass = 'hideable-group-component';
-        }
         swapGroupContent(groupClass, hideGroupClass);
     }
 }
@@ -197,7 +196,12 @@ function swapGroupContent(newGroupClass, classToHide) {
     $('.' + newGroupClass).removeClass('hidden');
     currentContentGroupClass = newGroupClass;
 }
-
+/**
+ * Shows elements with a matching class or ID
+ * @param  {[type]} idToDisplay    [description]
+ * @param  {[type]} classToDisplay [description]
+ * @return {[type]}                [description]
+ */
 function showElements(idToDisplay, classToDisplay) {
     if ($('#' + idToDisplay).length > 0) {
         $('#' + idToDisplay).removeClass('hidden');
@@ -206,7 +210,12 @@ function showElements(idToDisplay, classToDisplay) {
         $('.' + classToDisplay).removeClass('hidden');
     }
 }
-
+/**
+ * Hides elements with a matching class or ID
+ * @param  {[type]} idToHide    [description]
+ * @param  {[type]} classToHide [description]
+ * @return {[type]}             [description]
+ */
 function hideElements(idToHide, classToHide) {
     if ($('#' + idToHide).length > 0) {
         $('#' + idToHide).addClass('hidden');

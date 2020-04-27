@@ -1,7 +1,11 @@
+/**
+ * modal component for status selection
+ */
 class StatusSelection {
-    static instance;
-
-
+    /**
+     * [constructor description]
+     * @return {[type]} [description]
+     */
     constructor() {
         const statusButton = document.getElementById('status-button');
         statusButton.addEventListener('click', this.showModal);
@@ -18,7 +22,6 @@ class StatusSelection {
         }
         return this.instance;
     }
-
 
     /**
      * [statusConfirm description]
@@ -67,7 +70,10 @@ class StatusSelection {
                 $('#update-status-alert').show();
             });
     }
-
+    /**
+     * Displays the modal
+     * @return {[type]} [description]
+     */
     showModal() {
         const newID = $(this).data('view-id');
         if (newID === 'status-content') {
@@ -80,5 +86,5 @@ class StatusSelection {
 }
 
 $(function() {
-     StatusSelection.getInstance();
+    StatusSelection.getInstance();
 });
