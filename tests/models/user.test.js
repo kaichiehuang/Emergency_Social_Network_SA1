@@ -599,7 +599,7 @@ describe('get all users ordered by online status and username', () => {
     });
     test('get users ordered', () => {
         expect.assertions(2);
-        return User.getUsers().then((listUsers) => {
+        return User.findUsersByParams({}).then((listUsers) => {
             expect(listUsers[0].username).toBe('CcccUser'); // createdUser1.username
             expect(listUsers[0].onLine).toBeTruthy();
         });

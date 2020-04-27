@@ -3,17 +3,17 @@ module.exports = {
         await db.createCollection('reserved_names');
         const fs = require('fs').promises;
         const data = await fs.readFile('migrations/reserved_username_list.txt', 'utf-8');
-        const name_arr = [];
+        const nameArr = [];
         for (item of data.split('\n')) {
             if (item.length != 1) {
                 const words = item.split(' ');
                 for (word of words) {
-                    name_arr.push({'name': word});
+                    nameArr.push({'name': word});
                 }
             }
         }
         const collection = db.collection('reserved_names');
-        collection.insertMany(name_arr);
+        collection.insertMany(nameArr);
     },
 
     async down(db) {

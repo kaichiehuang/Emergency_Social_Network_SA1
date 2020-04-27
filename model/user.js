@@ -338,24 +338,6 @@ class UserModel {
         });
     }
     /**
-     * [getUsers description]
-     * @return {[type]} [description]
-     */
-    static getUsers(isAdmin) {
-        return new Promise((resolve, reject) => {
-            const condition = isAdmin ? {} : {active: true};
-            this.find(condition).select('username onLine status').sort({
-                onLine: -1,
-                username: 'asc'
-            }).then((users) => {
-                return resolve(users);
-            }).catch((err) => {
-                /* istanbul ignore next */
-                return reject(err);
-            });
-        });
-    }
-    /**
      * Find users by user name (contains)
      * @param username
      * @return {Promise<unknown>}

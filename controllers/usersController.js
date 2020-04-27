@@ -194,7 +194,7 @@ class UsersController {
             User.findUserById(req.tokenUserId)
                 .then((userInfo) => {
                     // If there's not a query parameter return all users.
-                    User.getUsers(Roles.isAdministrator(userInfo.role)).then((users) => {
+                    User.findUsersByParams({}, Roles.isAdministrator(userInfo.role)).then((users) => {
                         return res.status(201).send(JSON.stringify(users));
                         /* istanbul ignore next */
                     }).catch((err) => {
