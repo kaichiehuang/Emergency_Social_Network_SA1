@@ -13,7 +13,6 @@ class SocketIO {
      * @param message
      */
     emitMessage(emitEvent, message) {
-        console.log('Emiting event:' + emitEvent);
         this.socketIO.emit(emitEvent, message);
     }
 }

@@ -12,7 +12,6 @@ class Database {
             useUnifiedTopology: true
         }).then(() => {
         }).catch((err) => {
-            console.log('Error on start: ' + err.stack);
             process.exit(1);
         });
     }

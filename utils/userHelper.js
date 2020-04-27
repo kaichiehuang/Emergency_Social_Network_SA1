@@ -1,5 +1,10 @@
 const bcrypt = require('bcrypt');
 const TokenServerClass = require('../middleware/TokenServer');
+const UserPersonalValidator = require('../model/validators/userPersonalValidator.js');
+const UserMedicalValidator = require('../model/validators/userMedicalValidator.js');
+const UserOtherValidator = require('../model/validators/userOtherValidator.js');
+const UserDefaultValidator = require('../model/validators/userDefaultValidator.js');
+const UserAccountValidator = require('../model/validators/userAccountValidator.js');
 /**
  * user helper class
  */
@@ -48,6 +53,34 @@ class UserHelper {
             }).catch((err) => {
                 return reject(err);
             });
+        });
+    }
+
+    /**
+     * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
+     * @return {[type]} [description]
+     */
+    static validateUpdate(data) {
+        return new Promise((resolve, reject) => {
+            let dataValidator;
+            if (data.step != undefined && data.step == 0) {
+                dataValidator = new UserAccountValidator();
+            } else if (data.step != undefined && data.step == 1) {
+                dataValidator = new UserPersonalValidator();
+            } else if (data.step != undefined && data.step == 2) {
+                dataValidator = new UserMedicalValidator();
+            } else if (data.step != undefined && data.step == 3) {
+                dataValidator = new UserOtherValidator();
+            } else {
+                // default validator
+                dataValidator = new UserDefaultValidator();
+            }
+            dataValidator.validateDataRules(data)
+                .then((result) => {
+                    return resolve(true);
+                }).catch((err) => {
+                    return reject(err);
+                });
         });
     }
 }

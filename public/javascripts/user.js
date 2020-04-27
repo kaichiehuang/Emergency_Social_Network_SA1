@@ -177,7 +177,6 @@ class User {
                 JSON.stringify(data), true, 'application/json')
             .then((response) => {
                 Cookies.set('online-status', online_status);
-                console.log(response);
             })
             .catch((error) => {});
     }

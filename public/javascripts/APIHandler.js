@@ -38,7 +38,6 @@ class APIHandler {
                     resolve(response);
                 })
                 .fail(function(e) {
-                    console.log('Request Error' + e);
                     if(e.responseText == "jwt expired" || e.responseText == "invalid algorithm" || e.responseText == "invalid token" || e.responseText == "jwt malformed" ){
                         SignoutComponent.getInstance().removeCookies();
                         SignoutComponent.getInstance().signout();

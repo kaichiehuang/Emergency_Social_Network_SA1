@@ -97,7 +97,6 @@ class Announcement {
             }
             const totalSkip = index * constants.PAGINATION_NUMBER;
             StopWords.removeStopWords(keywords).then((filteredKeyWords) => {
-                console.log('after clean keywords: ' + filteredKeyWords);
                 AnnouncementModel.find(
                     {$text: {$search: filteredKeyWords}})
                     .populate(populateQuery)

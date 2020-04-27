@@ -3,20 +3,11 @@ const UserSchema = require('./model').UserSchema;
 const Roles = require('../utils/Roles');
 const UserHelper = require('../utils/userHelper');
 const constants = require('../constants');
-const UserPersonalValidator = require('./validators/userPersonalValidator.js');
-const UserMedicalValidator = require('./validators/userMedicalValidator.js');
-const UserOtherValidator = require('./validators/userOtherValidator.js');
-const UserDefaultValidator = require('./validators/userDefaultValidator.js');
 const NewUserValidator = require('./validators/newUserValidator.js');
-const UserAccountValidator = require('./validators/userAccountValidator.js');
 /**
  * Our class for user model taht will be attached to the schema
  */
 class UserModel {
-    // eslint-disable-next-line require-jsdoc
-    constructor() {
-        this.dataValidator = null;
-    }
     /**
      * Sets registration data
      * @param {[type]} username [description]
@@ -40,8 +31,7 @@ class UserModel {
      */
     validateCreate() {
         return new Promise((resolve, reject) => {
-            this.setUserDataValidator(new NewUserValidator(this));
-            this.dataValidator.validateDataRules({
+            new NewUserValidator().validateDataRules({
                 'username': this.username,
                 'password': this.password
             })
@@ -53,39 +43,7 @@ class UserModel {
         });
     }
 
-    /**
-     * Validates structure of registered data, it doesn't validate is username and password match, this is done in isPasswordMatch
-     * @return {[type]} [description]
-     */
-    validateUpdate(data) {
-        return new Promise((resolve, reject) => {
-            if (data.step != undefined && data.step == 0) {
-                this.setUserDataValidator(new UserAccountValidator(this));
-            } else if (data.step != undefined && data.step == 1) {
-                this.setUserDataValidator(new UserPersonalValidator(this));
-            } else if (data.step != undefined && data.step == 2) {
-                this.setUserDataValidator(new UserMedicalValidator(this));
-            } else if (data.step != undefined && data.step == 3) {
-                this.setUserDataValidator(new UserOtherValidator(this));
-            } else {
-                // default validator
-                this.setUserDataValidator(new UserDefaultValidator(this));
-            }
-
-            // fail because it has no validator for this
-            if (this.dataValidator == null) {
-                return reject('Error');
-            }
-            this.dataValidator.validateDataRules(data)
-                .then((result) => {
-                    return resolve(true);
-                }).catch((err) => {
-                    return reject(err);
-                });
-        });
-    }
-
-    /** *****************
+    /*******************
 
           OPERATIONS
 
@@ -112,7 +70,7 @@ class UserModel {
      */
     updateUser(data, userId) {
         return new Promise((resolve, reject) => {
-            this.validateUpdate(data).then((result) => {
+            UserHelper.validateUpdate(data).then((result) => {
                 if (data.status != undefined) {
                     this.status_timestamp = new Date();
                 }
@@ -258,14 +216,6 @@ class UserModel {
                 return reject('Invalid answer');
             }
         });
-    }
-
-    /**
-     * [setUserDataValidator description]
-     * @param {[type]} dataValidator [description]
-     */
-    setUserDataValidator(dataValidator) {
-        this.dataValidator = dataValidator;
     }
     /** ****************************
 
@@ -415,7 +365,6 @@ class UserModel {
             if (!isAdmin) {
                 data.active = true;
             }
-            console.log(data);
             this.find(data).select('username onLine status').sort({
                 onLine: -1,
                 username: 'asc'

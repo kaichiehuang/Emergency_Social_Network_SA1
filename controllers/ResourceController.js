@@ -13,12 +13,7 @@ class ResourceController {
      * @param res
      */
     registerResource(req, res) {
-        console.log('in register resource');
-        console.log(req.body );
-        console.log(req.file );
-        // console.log(JSON.parse(req.body));
         const requestData = req.body;
-        console.log(requestData.user_id);
         // Getting the parameters from request body
         const userId = requestData.user_id;
         const resourceType = requestData['resourceType'];
@@ -28,10 +23,6 @@ class ResourceController {
         const questionOne = requestData['questionOne'];
         const questionTwo = requestData['questionTwo'];
         const questionThree = requestData['questionThree'];
-
-        console.log('questionOne:'+ questionOne);
-        console.log('questionTwo:'+ questionTwo);
-
 
         let file;
         let fileType;
