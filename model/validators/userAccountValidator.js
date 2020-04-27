@@ -7,8 +7,8 @@ class UserAccountValidator extends NewUserValidator {
     * [constructor description]
     * @return {[type]} [description]
     */
-    constructor() {
-        super();
+    constructor(ownerElement) {
+        super(ownerElement);
         const commonMsg = 'Invalid username and password.';
         // allow empty for update account
         this.validatorRules.requiredRules = [

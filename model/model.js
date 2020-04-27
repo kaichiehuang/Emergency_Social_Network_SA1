@@ -7,8 +7,15 @@ const schemaOptions = {
 
 const UserSchema = new Schema(
     {
-        username: String,
-        password: String,
+        username: {
+            type: String,
+            required: true,
+            index: true,
+            unique: true,
+        },
+        password: {
+            type: String
+        },
         name: String,
         last_name: String,
         acknowledgement: Boolean,
@@ -69,6 +76,7 @@ const UserSchema = new Schema(
 
 //user collection index
 UserSchema.index({ onLine: -1, name: 1 });
+UserSchema.index({ active: 1, status: 1, onLine: -1, name: 1 });
 
 const ReservedNameSchema = new Schema({
     name: String
@@ -97,8 +105,6 @@ const EmergencyStatusDetailSchema = new Schema(
         user_id: {type: Schema.Types.ObjectId, ref: 'User'},
         status_description: String,
         share_location: String,
-
-
     },
     schemaOptions
 );

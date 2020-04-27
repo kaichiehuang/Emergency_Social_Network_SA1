@@ -16,14 +16,16 @@ class ChatMessagesController {
      */
     async createMessage(req, res) {
         const requestData = req.body;
-        if (requestData['message'] == undefined || requestData['user_id'] == undefined) {
-            return res.status(422).send({'msg': 'Invalid body'});
+        if (requestData['message'] == undefined || requestData['user_id'] == undefined || requestData['message'].length == 0) {
+            return res.status(422).send({'msg': 'Invalid message, cannot be empty'});
         }
+
         const userFound = await User.findUserById(requestData['user_id']);
         if (userFound.spam) {
             return res.send({'spam': true});
         }
         const chatMessageCreated = await new ChatMessage(requestData['message'], userFound._id, userFound.status).createNewMessage();
+
         const message = ChatMessagesController.constructMsg(chatMessageCreated, userFound);
         new SocketIO(res.io).emitMessage('new-chat-message', message);
         return res.status(201).send(JSON.stringify({

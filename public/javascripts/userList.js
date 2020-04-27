@@ -1,6 +1,7 @@
+/**
+ * Component for list of users
+ */
 class UserList {
-
-    static instance;
     /**
      * Singleton instance element
      * @return {[type]} [description]
@@ -28,7 +29,7 @@ class UserList {
      * @param  {[type]} containerId [description]
      * @return {[type]}             [description]
      */
-     drawUsers(users, currentUser) {
+    drawUsers(users, currentUser) {
         const containerId = 'user-list-content__list';
         $('#user-list-content .no-results-message').addClass('hidden');
         // 1. find templates in html
@@ -57,7 +58,7 @@ class UserList {
                 return;
             }
 
-            //draw
+            // draw
             template.querySelector('.username')
                 .innerText = user.username;
             template.querySelector('.username')
@@ -76,14 +77,13 @@ class UserList {
                     currentUser.unread_messages[user._id];
             }
 
-            if(user.status != undefined){
-                this.drawUserStatues(template, user)
+            if (user.status != undefined) {
+                this.drawUserStatues(template, user);
             }
 
             listContainer.appendChild(template);
         }
         this.registerEventsAfterDraw();
-
     }
 
     /**
@@ -92,7 +92,7 @@ class UserList {
      * @return {[type]}          [description]
      */
     drawUserStatues(template, user){
-        let userStatusLC = user.status.toLowerCase();
+        const userStatusLC = user.status.toLowerCase();
         template.querySelector('#statusSpan')
             .classList.add('background-color-' + userStatusLC);
         template.querySelector('.status-button')
@@ -121,16 +121,16 @@ class UserList {
      */
     showEmergencyStatus(userId) {
         $('#userEmergencyDetail').modal('show');
-        //display detail
+        // display detail
         this.getUserStatusDetail(userId);
-        //display picture
+        // display picture
         this.getUserStatusPictures(userId);
     }
     /**
      * [getUserStatusDetail description]
      * @return {[type]} [description]
      */
-    getUserStatusDetail(userId){
+    getUserStatusDetail(userId) {
         // get brief description and location
         APIHandler.getInstance()
             .sendRequest('/emergencyStatusDetail/' + userId,
@@ -152,7 +152,7 @@ class UserList {
      * Gets picture for user status
      * @return {[type]} [description]
      */
-    getUserStatusPictures(userId){
+    getUserStatusPictures(userId) {
         $('.userPicAndDesBlock').empty();
         // get picutures and description
         APIHandler.getInstance()
@@ -189,8 +189,14 @@ class UserList {
         $('#user-list-content .no-results-message').removeClass('hidden');
     }
 
-    // todo pass this to a class AddressBook that has an attribute currentUser
-     updateComponentView(currentUser, searchKeyword, searchStatus) {
+    /**
+     * Updates the component when needed
+     * @param  {[type]} currentUser   [description]
+     * @param  {[type]} searchKeyword [description]
+     * @param  {[type]} searchStatus  [description]
+     * @return {[type]}               [description]
+     */
+    updateComponentView(currentUser, searchKeyword, searchStatus) {
         // get user data and then get messages to
         // paint and to check for unread messages
         User.getInstance().getUser(currentUser._id).then((user) => {
@@ -209,16 +215,15 @@ class UserList {
     /**
      * [registerEventsAfterDraw description]
      */
-     registerEventsAfterDraw() {
+    registerEventsAfterDraw() {
         globalContentChangerEvent();
         // assign view change event for chat button for each user in the list
         menuContentChangerEvent();
         $('.chat-button').click(function(event) {
             $('.menu-content-changer').removeClass('active');
-            $("#private-chat-content-menu").addClass('active');
+            $('#private-chat-content-menu').addClass('active');
             // eslint-disable-next-line no-invalid-this
             PrivateChatMessage.getInstance().initiatePrivateChat($(this).data('user-id'), $(this).data('username'));
-
         });
         $('.username').click(function(event) {
             // eslint-disable-next-line no-invalid-this

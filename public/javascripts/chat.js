@@ -1,7 +1,12 @@
+/**
+ * Public chat component, inherits from base message component
+ */
 class PublicChatMessage extends BaseMessage {
-
-    static instance = undefined;
-
+    /**
+     * [constructor description]
+     * @param  {[type]} containerWall [description]
+     * @return {[type]}               [description]
+     */
     constructor(containerWall) {
         super(containerWall);
         this.type = 'public';

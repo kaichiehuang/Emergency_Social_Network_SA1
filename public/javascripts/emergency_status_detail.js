@@ -1,22 +1,32 @@
+/**
+ * Emergency status detail class
+ */
 class EmergencyStatusDetail {
+    /**
+     * Constructor for EmergencyStatusDetail class
+     * @return {[type]} [description]
+     */
     constructor() {
         this.instance = null;
         this._id = null;
-        this.user_id = null;
+        this.userId = null;
     }
     /**
      * Singleton instance element
      * @return {[type]} [description]
      */
-     static getInstance(){
+    static getInstance() {
         if (this.instance === undefined) {
             this.instance = new EmergencyStatusDetail();
         }
         return this.instance;
     }
-
-    // done
-     setEditDescriptionEvent() {
+    /**
+     * Set up the click event for edit button for both
+     * brief description of situation and location
+     * description
+     */
+    setEditDescriptionEvent() {
         $('.edit-button').click(function(event) {
             event.preventDefault();
             // hide paragraph and edit button
@@ -37,77 +47,100 @@ class EmergencyStatusDetail {
             $('.loc-save-button').removeClass('hidden');
         });
     }
-
-    // done
-     setSaveDescriptionEvent() {
-        const user_id = Cookies.get('user-id');
+    /**
+     * Set up the click event for saving
+     * brief description
+     */
+    setSaveBriefDescriptionEvent() {
         $('.save-button').click(function(event) {
-            event.preventDefault();            // hide textarea and save button
+            event.preventDefault(); // hide textarea and save button
             $('#briefDescriptionEdit').addClass('hidden');
             $('.save-button').addClass('hidden');
-
-            // TODO update paragraph
             const data = {
                 description: $('#briefDescriptionEdit').val(),
-                detailType: 'situation'
+                detailType: 'situation',
             };
-
-            APIHandler.getInstance()
-                .sendRequest('/emergencyStatusDetail/' + user_id,
-                    'put', data, true, null)
-                .then((response) => {                    document.getElementById('briefDescriptionPreview')
-                        .innerHTML = response.status_description;
-                    document.getElementById('briefDescriptionEdit')
-                        .innerHTML = response.status_description;
-                    // show paragraph and edit button
-                    $('#briefDescriptionPreview').removeClass('hidden');
-                    $('.edit-button').removeClass('hidden');
-                })
-                .catch((error) => {
-                    $('#update-brief-description-alert').html(error);
-                    $('#update-brief-description-alert').show();
-                });
+            EmergencyStatusDetail.getInstance().saveDescriptionEvent('situation', data);
         });
-
+    }
+    /**
+     * Set up the click event for saving
+     * location description
+     */
+    setSaveLocationDescriptionEvent() {
         $('.loc-save-button').click(function(event) {
             event.preventDefault();
             // hide textarea and save button
             $('#locationDescriptionEdit').addClass('hidden');
             $('.loc-save-button').addClass('hidden');
-
             const data = {
                 description: $('#locationDescriptionEdit').val(),
-                detailType: 'location'
+                detailType: 'location',
             };
-
-            APIHandler.getInstance()
-                .sendRequest('/emergencyStatusDetail/' + user_id,
-                    'put', data, true, null)
-                .then((response) => {
-                    document.getElementById('locationDescriptionPreview')
-                        .innerHTML = response.share_location;
-                    document.getElementById('locationDescriptionEdit')
-                        .innerHTML = response.share_location;
-                    // show paragraph and edit button
-                    $('#locationDescriptionPreview').removeClass('hidden');
-                    $('.loc-edit-button').removeClass('hidden');
-                })
-                .catch((error) => {
-                    $('#update-location-description-alert').html(error);
-                    $('#update-location-description-alert').show();
-                });
+            EmergencyStatusDetail.getInstance().saveDescriptionEvent('location', data);
         });
     }
 
-    // done
-     setDeletePictureEvent(pictureId) {
+
+    /**
+     * Saves the emergency status data by type of detail
+     * @param  {[type]} type [description]
+     * @param  {[type]} data [description]
+     * @return {[type]}      [description]
+     */
+    saveDescriptionEvent(type, data) {
+        const userId = Cookies.get('user-id');
+        APIHandler.getInstance()
+            .sendRequest(
+                '/emergencyStatusDetail/' + userId,
+                'put',
+                data,
+                true,
+                null
+            )
+            .then((response) => {
+                if (type.localeCompare('situation') == 0) {
+                    document.getElementById('briefDescriptionPreview').innerHTML =
+                        response.status_description;
+                    document.getElementById('briefDescriptionEdit').innerHTML =
+                        response.status_description;
+                    $('#briefDescriptionPreview').removeClass('hidden');
+                    $('.edit-button').removeClass('hidden');
+                } else {
+                    document.getElementById('locationDescriptionPreview').innerHTML =
+                        response.share_location;
+                    document.getElementById('locationDescriptionEdit').innerHTML =
+                        response.share_location;
+                    $('#locationDescriptionPreview').removeClass('hidden');
+                    $('.loc-edit-button').removeClass('hidden');
+                }
+
+                // show paragraph and edit button
+                $('#locationDescriptionPreview').removeClass('hidden');
+                $('.loc-edit-button').removeClass('hidden');
+            })
+            .catch((error) => {
+                alert(error);
+            });
+    }
+
+    /**
+     * Set up the click event for delete one picture and
+     * its description
+     */
+    setDeletePictureEvent(pictureId) {
         $('#' + pictureId).click(function(event) {
             event.preventDefault();
 
             APIHandler.getInstance()
-                .sendRequest('/emergencyStatusDetail/picture/' + pictureId,
-                    'delete', null, true, null)
-                .then((response) => {                })
+                .sendRequest(
+                    '/emergencyStatusDetail/picture/' + pictureId,
+                    'delete',
+                    null,
+                    true,
+                    null
+                )
+                .then((response) => { })
                 .catch((error) => {
                     $('#delete-alert').html(error);
                     $('#delte-alert').show();
@@ -119,9 +152,11 @@ class EmergencyStatusDetail {
             // $("#"+pictureId).remove();
         });
     }
-
-    // done
-     setAddPictureEvent() {
+    /**
+     * Set up the click event for adding one picture and
+     * its description
+     */
+    setAddPictureEvent() {
         $('.add-button').click(function(event) {
             event.preventDefault();
             $('#addPictureModal').modal('show');
@@ -134,82 +169,100 @@ class EmergencyStatusDetail {
             EmergencyStatusDetail.getInstance().setUploadEvent();
         });
     }
+    /**
+     * Set up the click event for uploading one picture and
+     * its description
+     */
+    setUploadEvent() {
+        $('.upload-button')
+            .unbind()
+            .click(function(event) {
+                event.preventDefault();
+                const jwt = Cookies.get('user-jwt-esn');
+                const userId = Cookies.get('user-id');
+                const fd = new FormData();
+                const files = $('#file')[0].files[0];
+                fd.append('picture', files);
+                fd.append('pictureDescription', $('#picDiscription').val());
 
-    // done
-     setUploadEvent() {
-        $('.upload-button').unbind().click(function(event) {
-            event.preventDefault();
-            const jwt = Cookies.get('user-jwt-esn');
-            const user_id = Cookies.get('user-id');
-            const fd = new FormData();
-            const files = $('#file')[0].files[0];
-            fd.append('picture', files);
-            fd.append('pictureDescription', $('#picDiscription').val());
+                $('#addPictureModal').modal('hide');
 
-            $('#addPictureModal').modal('hide');
-
-            $.ajax({
-                url: apiPath + '/emergencyStatusDetail/' + user_id,
-                type: 'post',
-                headers: {
-                    'Authorization': jwt
-                },
-                data: fd,
-                contentType: false,
-                processData: false,
-            }).done(function(response) {
-                EmergencyStatusDetail.getInstance().drawPictureAndDescription(response);
-                $('#picDiscription').val('');
-                $('#file').val('');
-                $('#picDiscription').addClass('hidden');
-                $('.upload-button').addClass('hidden');
-            }).fail(function(e) {
-                $('#upload-alert').html(e);
-                $('#upload-alert').show();
+                $.ajax({
+                    url: apiPath + '/emergencyStatusDetail/' + userId,
+                    type: 'post',
+                    headers: {
+                        Authorization: jwt,
+                    },
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                })
+                    .done(function(response) {
+                        EmergencyStatusDetail.getInstance().drawPictureAndDescription(
+                            response
+                        );
+                        $('#picDiscription').val('');
+                        $('#file').val('');
+                        $('#picDiscription').addClass('hidden');
+                        $('.upload-button').addClass('hidden');
+                    })
+                    .fail(function(e) {
+                        $('#upload-alert').html(e);
+                        $('#upload-alert').show();
+                    });
             });
-        });
     }
-
-    // done
-     drawPictureAndDescription(pictureObj) {
+    /**
+     * Function for drawing pictures and discriptions to the view
+     */
+    drawPictureAndDescription(pictureObj) {
         const t = document.querySelector('#pictureAndDescriptionTemplate');
         t.content.querySelector('img').src = pictureObj.picture_path;
         t.content.querySelector('button').id = pictureObj._id;
         t.content.querySelector('p').innerHTML = pictureObj.picture_description;
         const clone = document.importNode(t.content, true);
-        clone.querySelector('.picAndDesBlock')
+        clone
+            .querySelector('.picAndDesBlock')
             .setAttribute('data-pic-id', pictureObj._id);
-        const pictureContainer = document
-            .getElementsByClassName('sharePicture');
+        const pictureContainer = document.getElementsByClassName('sharePicture');
         pictureContainer[0].appendChild(clone);
 
         EmergencyStatusDetail.getInstance().setDeletePictureEvent(pictureObj._id);
     }
-
-    // done
-     generatePreviewPage() {
+    /**
+     * Function for generating the emergency status detail page
+     */
+    generatePreviewPage() {
         EmergencyStatusDetail.getInstance().setEditDescriptionEvent();
-        EmergencyStatusDetail.getInstance().setSaveDescriptionEvent();
+        EmergencyStatusDetail.getInstance().setSaveBriefDescriptionEvent();
+        EmergencyStatusDetail.getInstance().setSaveLocationDescriptionEvent();
         EmergencyStatusDetail.getInstance().setAddPictureEvent();
-        // retrieve detailed data
-        const user_id = Cookies.get('user-id');
+        // retrieve brief description and location description
+        EmergencyStatusDetail.getInstance().retrieveBriefAndLocDescription();
+        // get picture and description
+        EmergencyStatusDetail.getInstance().retrievePicAndDescription();
+    }
+    /**
+     * Function for retrieving brief description and location description
+     */
+    retrieveBriefAndLocDescription() {
+        const userId = Cookies.get('user-id');
         // get brief description and location description
         APIHandler.getInstance()
-            .sendRequest('/emergencyStatusDetail/' + user_id,
-                'get', null, true, null)
+            .sendRequest('/emergencyStatusDetail/' + userId, 'get', null, true, null)
             .then((response) => {
                 if (response != null) {
                     // brief description
-                    document.getElementById('briefDescriptionPreview')
-                        .innerHTML = response.status_description;
-                    document.getElementById('briefDescriptionEdit')
-                        .innerHTML = response.status_description;
+                    document.getElementById('briefDescriptionPreview').innerHTML =
+                        response.status_description;
+                    document.getElementById('briefDescriptionEdit').innerHTML =
+                        response.status_description;
                     $('#briefDescriptionPreview').removeClass('hidden');
                     // location description
-                    document.getElementById('locationDescriptionPreview')
-                        .innerHTML = response.share_location;
-                    document.getElementById('locationDescriptionEdit')
-                        .innerHTML = response.share_location;
+                    document.getElementById('locationDescriptionPreview').innerHTML =
+                        response.share_location;
+                    document.getElementById('locationDescriptionEdit').innerHTML =
+                        response.share_location;
                     $('#locationDescriptionPreview').removeClass('hidden');
                 }
             })
@@ -217,15 +270,25 @@ class EmergencyStatusDetail {
                 $('#get-emergency-detail-alert').html(error);
                 $('#get-emergency-detail-alert').show();
             });
-
-        // get picture and description
-
+    }
+    /**
+     * Function for getting picture and description
+     */
+    retrievePicAndDescription() {
+        const userId = Cookies.get('user-id');
         APIHandler.getInstance()
-            .sendRequest('/emergencyStatusDetail/picture/' + user_id,
-                'get', null, true, null)
+            .sendRequest(
+                '/emergencyStatusDetail/picture/' + userId,
+                'get',
+                null,
+                true,
+                null
+            )
             .then((response) => {
-                response.forEach(function(pictureObj) {                    EmergencyStatusDetail.getInstance()
-                        .drawPictureAndDescription(pictureObj);
+                response.forEach(function(pictureObj) {
+                    EmergencyStatusDetail.getInstance().drawPictureAndDescription(
+                        pictureObj
+                    );
                 });
             })
             .catch((error) => {

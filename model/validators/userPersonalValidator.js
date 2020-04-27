@@ -7,8 +7,8 @@ class UserPersonalValidator extends ValidatorInterface {
      * [constructor description]
      * @return {[type]} [description]
      */
-    constructor() {
-        super();
+    constructor(ownerElement) {
+        super(ownerElement);
         const commonMsg = 'Missing required fields. Every field in this step is mandatory.';
         this.validatorRules = {
             'requiredRules': [

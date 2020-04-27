@@ -15,15 +15,16 @@ class PrivateChatMessagesController {
      */
     async createMessage(req, res) {
         const requestData = req.body; let senderUser = null; let receiverUser = null;
-        if (requestData['message'] == undefined || requestData['sender_user_id'] == undefined || requestData['receiver_user_id'] == undefined) {
-            return res.status(422).send(JSON.stringify({
-                msg: 'invalid body'
-            }));
+        if (requestData['message'] == undefined || requestData['sender_user_id'] == undefined || requestData['receiver_user_id'] == undefined || requestData['message'].length == 0) {
+            return res.status(422).send({
+                msg: 'Invalid message, cannot be empty'
+            });
         }
         const message = requestData['message']; const sendeUserId = requestData['sender_user_id']; const receiverUserId = requestData['receiver_user_id'];
         senderUser = await User.findUserById(sendeUserId);
         receiverUser = await User.findUserById(receiverUserId);
         const privateChatMessageCreated = await new PrivateChatMessage(message, sendeUserId, receiverUserId, senderUser.status).createNewMessage();
+
         // emit the chat message to both users using their current list of sockets
         PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, senderUser.sockets, res, senderUser, receiverUser, senderUser.status);
         PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, receiverUser.sockets, res, senderUser, receiverUser, senderUser.status);
@@ -148,10 +149,10 @@ class PrivateChatMessagesController {
                 'status': status
             };
             /* istanbul ignore next */
+            const socketIO = new SocketIO(response.io);
             for (const socketId of sockets.keys()) {
-                const socketIO = new SocketIO(response.io.to(socketId));
-                socketIO.emitMessage('new-private-chat-message', privateMessage);
-                socketIO.emitMessage('user-list-update', '');
+                socketIO.emitMessage('new-private-chat-message', privateMessage, socketId);
+                socketIO.emitMessage('user-list-update', '', socketId);
             }
         }
     }

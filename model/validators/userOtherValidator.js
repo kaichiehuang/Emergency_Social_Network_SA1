@@ -8,13 +8,13 @@ class UserOtherValidator extends ValidatorInterface {
     * [constructor description]
     * @return {[type]} [description]
     */
-    constructor() {
-        super();
+    constructor(ownerElement) {
+        super(ownerElement);
         this.validatorRules = {
             'customRules': [
                 {
                     'customRuleName': 'validateSecurityQuestion',
-                    'msg': 'The security question and the answer to this cannot be empty if one of these is sent.',
+                    'msg': 'Message, security question and answer are required if any of these are sent.',
                 },
             ],
         };
@@ -25,14 +25,20 @@ class UserOtherValidator extends ValidatorInterface {
      * @return {[type]} [description]
      */
     validateSecurityQuestion() {
-        if (this.validateData.personal_message != undefined) {
-            if (this.validateData.personal_message.security_question.length == 0 && this.validateData.personal_message.security_question_answer.length != 0) {
-                return false;
-            } else if (this.validateData.personal_message.security_question.length != 0 && this.validateData.personal_message.security_question_answer.length == 0) {
-                return false;
-            }
+        if (this.validateData.personal_message == undefined) {
             return true;
         }
+        const personalMessage = this.validateData.personal_message;
+        if (personalMessage.message.length != 0 && (personalMessage.security_question_answer.length == 0 || personalMessage.security_question.length == 0)) {
+            return false;
+        }
+        if (personalMessage.security_question.length == 0 && personalMessage.security_question_answer.length != 0) {
+            return false;
+        }
+        if (personalMessage.security_question.length != 0 && personalMessage.security_question_answer.length == 0) {
+            return false;
+        }
+        return true;
     }
 }
 

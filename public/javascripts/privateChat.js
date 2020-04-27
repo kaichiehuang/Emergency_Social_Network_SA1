@@ -1,5 +1,12 @@
+/**
+ * Private chat component, inherits form baseChat
+ */
 class PrivateChatMessage extends BaseMessage {
-
+    /**
+     * [constructor description]
+     * @param  {[type]} containerWall [description]
+     * @return {[type]}               [description]
+     */
     constructor(containerWall) {
         super(containerWall);
         this.type = 'private';
@@ -9,7 +16,7 @@ class PrivateChatMessage extends BaseMessage {
      * Singleton instance element
      * @return {[type]} [description]
      */
-    static getInstance(){
+    static getInstance() {
         if (this.instance === undefined) {
             let containerWall = document.getElementById('private-msg_area');
             this.instance = new PrivateChatMessage(containerWall);
@@ -21,12 +28,12 @@ class PrivateChatMessage extends BaseMessage {
      * changes the receiver for the private chat
      * @param  {[type]} receiver_user_id [description]
      */
-     initiatePrivateChat(receiver_user_id, username) {
+    initiatePrivateChat(receiver_user_id, username) {
         Cookies.set('receiver_user_id', receiver_user_id);
-        $("#private-chat > li").remove();
-        $("#receiver-username").html(username);
+        $('#private-chat > li').remove();
+        $('#receiver-username').html(username);
         let privateChatMessageModel = PrivateChatMessage.getInstance();
-        privateChatMessageModel.updateMessageListView("", 0);
+        privateChatMessageModel.updateMessageListView('', 0);
     }
 
     /**
@@ -39,8 +46,8 @@ class PrivateChatMessage extends BaseMessage {
         if (data.sender_user_id._id == Cookies.get('receiver_user_id') ||
             data.sender_user_id._id == Cookies.get('user-id')) {
             this.drawMessageItem(data);
-            private_wall_container.scrollTop =
-                private_wall_container.scrollHeight;
+            this.containerWall.scrollTop =
+                this.containerWall.scrollHeight;
         }
     }
 }
@@ -50,7 +57,7 @@ class PrivateChatMessage extends BaseMessage {
 const privateChatMessageModel =  PrivateChatMessage.getInstance();
 $(function() {
     // eslint-disable-next-line no-unused-vars
-    let page = 0;
+    const page = 0;
     // sync sockets
     socket.on('connect', (data) => {
         const oldSocketId = Cookies.get('user-socket-id');

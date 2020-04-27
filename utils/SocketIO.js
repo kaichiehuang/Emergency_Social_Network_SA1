@@ -12,8 +12,12 @@ class SocketIO {
      * @param emitEvent
      * @param message
      */
-    emitMessage(emitEvent, message) {
-        this.socketIO.emit(emitEvent, message);
+    emitMessage(emitEvent, message, socketId) {
+        if (socketId == undefined) {
+            this.socketIO.emit(emitEvent, message);
+        } else {
+            this.socketIO.to(socketId).emit(emitEvent, message);
+        }
     }
 }
 

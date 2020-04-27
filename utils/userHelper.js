@@ -4,6 +4,7 @@ const UserPersonalValidator = require('../model/validators/userPersonalValidator
 const UserMedicalValidator = require('../model/validators/userMedicalValidator.js');
 const UserOtherValidator = require('../model/validators/userOtherValidator.js');
 const UserDefaultValidator = require('../model/validators/userDefaultValidator.js');
+const UserAccountValidator = require('../model/validators/userAccountValidator.js');
 /**
  * user helper class
  */
