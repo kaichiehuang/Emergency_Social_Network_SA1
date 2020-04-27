@@ -218,7 +218,6 @@ class Resources {
             questionOne: questionOne,
             questionTwo: questionTwo,
         };
-
         Resources.getInstance().postResource(resourceObject);
     }
 
@@ -244,9 +243,11 @@ class Resources {
         }
         if ( resourceType.attr('name') === 'SUPPLIES' ) {
             stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('supplies');
-        } else if ( resourceType.attr('name') === 'MEDICAL' ) {
+        }
+        if ( resourceType.attr('name') === 'MEDICAL' ) {
             stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('medical');
-        } else if ( resourceType.attr('name') === 'SHELTER') {
+        }
+        if ( resourceType.attr('name') === 'SHELTER') {
             stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('shelter');
         }
         return stringValidations;
@@ -263,12 +264,8 @@ class Resources {
         }
         if ($('#'+id+'-q1-div input[type=\'radio\']:checked').length === 0) {
             validateMessage += 'Question 1 answers is a mandatory field, ';
-        } else {
-            if (id!=='medical') {
-                if ($('#'+id+'-q2-div input[type=\'radio\']:checked').length === 0) {
-                    validateMessage += 'Question 2 answer is a mandatory field, ';
-                }
-            }
+        } else if (id!=='medical' && $('#'+id+'-q2-div input[type=\'radio\']:checked').length === 0) {
+            validateMessage += 'Question 2 answer is a mandatory field, ';
         }
         return validateMessage;
     }
