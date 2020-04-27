@@ -43,6 +43,7 @@ class TokenServer {
                     /* istanbul ignore next */
                     return res.status(401).send(err.message).end();// UNAUTHORIZED
                 });
+            /* istanbul ignore next */
         } else {
             /* istanbul ignore next */
             return res.status(401).send('NOT TOKEN PROVIDED').end(); // UNAUTHORIZED
