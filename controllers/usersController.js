@@ -67,6 +67,7 @@ class UsersController {
             newStatus.active.toString().localeCompare('0') === 0) {
             console.log('dentro del evento');
             const sockets = userData.sockets;
+            /* istanbul ignore next */
             if (sockets !== undefined && sockets.size > 0) {
                 sockets.forEach(function(value, index) {
                     const socketIO = new SocketIO(resSocket.to(index));
@@ -99,6 +100,7 @@ class UsersController {
             jsonResponseData['userId'] = userInstance._id;
             res.contentType('application/json');
             return res.status(201).send(JSON.stringify(jsonResponseData));
+            /* istanbul ignore next */
         }).catch((err) => {
             /* istanbul ignore next */
             res.contentType('application/json');
@@ -140,6 +142,7 @@ class UsersController {
      */
     getPersonalMessageUser(req, res) {
         res.contentType('application/json');
+        /* istanbul ignore next */
         if (req.query.security_question_answer == undefined || req.query.security_question_answer.length == 0) {
             return res.status(403).send({
                 msg: 'Invalid answer'
