@@ -8,15 +8,15 @@ class EmergencyStatusDetail {
      * Singleton instance element
      * @return {[type]} [description]
      */
-     static getInstance(){
+    static getInstance(){
         if (this.instance === undefined) {
             this.instance = new EmergencyStatusDetail();
         }
         return this.instance;
     }
 
-    // done
-     setEditDescriptionEvent() {
+
+    setEditDescriptionEvent() {
         $('.edit-button').click(function(event) {
             event.preventDefault();
             // hide paragraph and edit button
@@ -38,15 +38,13 @@ class EmergencyStatusDetail {
         });
     }
 
-    // done
-     setSaveDescriptionEvent() {
+    setSaveDescriptionEvent() {
         const user_id = Cookies.get('user-id');
         $('.save-button').click(function(event) {
             event.preventDefault();            // hide textarea and save button
             $('#briefDescriptionEdit').addClass('hidden');
             $('.save-button').addClass('hidden');
 
-            // TODO update paragraph
             const data = {
                 description: $('#briefDescriptionEdit').val(),
                 detailType: 'situation'
@@ -56,7 +54,7 @@ class EmergencyStatusDetail {
                 .sendRequest('/emergencyStatusDetail/' + user_id,
                     'put', data, true, null)
                 .then((response) => {                    document.getElementById('briefDescriptionPreview')
-                        .innerHTML = response.status_description;
+                    .innerHTML = response.status_description;
                     document.getElementById('briefDescriptionEdit')
                         .innerHTML = response.status_description;
                     // show paragraph and edit button
@@ -99,8 +97,7 @@ class EmergencyStatusDetail {
         });
     }
 
-    // done
-     setDeletePictureEvent(pictureId) {
+    setDeletePictureEvent(pictureId) {
         $('#' + pictureId).click(function(event) {
             event.preventDefault();
 
@@ -120,8 +117,7 @@ class EmergencyStatusDetail {
         });
     }
 
-    // done
-     setAddPictureEvent() {
+    setAddPictureEvent() {
         $('.add-button').click(function(event) {
             event.preventDefault();
             $('#addPictureModal').modal('show');
@@ -135,8 +131,7 @@ class EmergencyStatusDetail {
         });
     }
 
-    // done
-     setUploadEvent() {
+    setUploadEvent() {
         $('.upload-button').unbind().click(function(event) {
             event.preventDefault();
             const jwt = Cookies.get('user-jwt-esn');
@@ -170,8 +165,7 @@ class EmergencyStatusDetail {
         });
     }
 
-    // done
-     drawPictureAndDescription(pictureObj) {
+    drawPictureAndDescription(pictureObj) {
         const t = document.querySelector('#pictureAndDescriptionTemplate');
         t.content.querySelector('img').src = pictureObj.picture_path;
         t.content.querySelector('button').id = pictureObj._id;
@@ -186,8 +180,7 @@ class EmergencyStatusDetail {
         EmergencyStatusDetail.getInstance().setDeletePictureEvent(pictureObj._id);
     }
 
-    // done
-     generatePreviewPage() {
+    generatePreviewPage() {
         EmergencyStatusDetail.getInstance().setEditDescriptionEvent();
         EmergencyStatusDetail.getInstance().setSaveDescriptionEvent();
         EmergencyStatusDetail.getInstance().setAddPictureEvent();
@@ -219,7 +212,6 @@ class EmergencyStatusDetail {
             });
 
         // get picture and description
-
         APIHandler.getInstance()
             .sendRequest('/emergencyStatusDetail/picture/' + user_id,
                 'get', null, true, null)
