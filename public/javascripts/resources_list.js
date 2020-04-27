@@ -90,16 +90,17 @@ class ResourcesList {
         ResourcesList.getInstance().removeClassElements('hidden-main-content-block',
             $('.modal-body #'+ resourceSelected +'-btn'), $('.modal-body #'+ resourceSelected +'-content-div'));
         $('.modal-body #'+ resourceSelected +'-description-id').text(resource.description).attr('readonly', true);
-        ResourcesList.getInstance().initializingQuestions(resource,resourceSelected);
+        ResourcesList.getInstance().initializingQuestions(resource, resourceSelected);
         $('.modal-body #resources-content').removeClass('hidden-main-content-block').removeClass('hidden');
         $('#exampleModalCenter').modal('show');
     }
 
     /**
      * Method to set previous values to questions
+     * @param resource
      * @param resourceSelected
      */
-    initializingQuestions(resource,resourceSelected) {
+    initializingQuestions(resource, resourceSelected) {
         let questionActivate;
         if (resource.question_one) {
             questionActivate = '-q1-yes';
