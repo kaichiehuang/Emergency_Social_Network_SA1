@@ -4,7 +4,6 @@
  */
 class UserProfileForm {
 
-    static instance = undefined;
     /**
      * Singleton instance element
      * @return {[type]} [description]
@@ -24,7 +23,6 @@ class UserProfileForm {
         Cookies.set('profile_form_user_id', profileFormUserId);
         this.updateComponentView(profileFormUserId, step);
         this.initEvent();
-
     }
 
     /**
@@ -61,7 +59,6 @@ class UserProfileForm {
                 else if (step == 3) {
                     template =  this.fillProfileFormStep3(user, template);
                 }
-
                 profileFormContainer.appendChild(template);
             }
         }
@@ -78,12 +75,10 @@ class UserProfileForm {
         if (user.username != undefined) {
             template.querySelector('input#user-profile-form__username').value = user.username;
         }
-
         // set last name
         if (user.password != undefined) {
             template.querySelector('input#user-profile-form__password').value = "";
         }
-
         // set privilege
         if (user != undefined && (currentUser.role == "coordinator" || currentUser.role == "administrator")) {
             template.querySelector('select#user-profile-form__role').value = user.role;
@@ -91,7 +86,6 @@ class UserProfileForm {
             template.querySelector('select#user-profile-form__role').remove();
             template.querySelector('label#user-profile-form__role_label').remove();
         }
-
         // set privilege
         template.querySelector('select#user-profile-form__active').value = 1;
         if (user.active != undefined && (currentUser.role == "coordinator" || currentUser.role == "administrator")) {
@@ -100,7 +94,6 @@ class UserProfileForm {
             template.querySelector('select#user-profile-form__active').remove();
             template.querySelector('label#user-profile-form__active_label').remove();
         }
-
         return template;
     }
 
@@ -115,17 +108,14 @@ class UserProfileForm {
         if (user.name != undefined) {
             template.querySelector('input#user-profile-form__name').value = user.name;
         }
-
         // set last name
         if (user.last_name != undefined) {
             template.querySelector('input#user-profile-form__last_name').value = user.last_name;
         }
-
         // set birth date
         if (user.birth_date != undefined) {
             template.querySelector('input#user-profile-form__birth_date').value = user.birth_date;
         }
-
         // set address
         if (user.address != undefined) {
             template.querySelector('input#user-profile-form__address').value = user.address;
@@ -150,7 +140,6 @@ class UserProfileForm {
                 template.querySelector('input#user-profile-form__emergency_contact_address').value = user.emergency_contact.address;
             }
         }
-
         return template;
     }
 
@@ -165,11 +154,9 @@ class UserProfileForm {
         if (user.medical_information != undefined && user.medical_information.blood_type != undefined) {
             template.querySelector('select#user-profile-form__blood_type').value = user.medical_information.blood_type;
         }
-
         if (user.medical_information != undefined && user.medical_information.prescribed_drugs != undefined) {
             template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = user.medical_information.prescribed_drugs;
         }
-
         if (user.medical_information != undefined && user.medical_information.prescribed_drugs != undefined && user.medical_information.prescribed_drugs != '') {
             template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = user.medical_information.prescribed_drugs;
             template.querySelector('input#has_prescribed_drugs1').checked = 'checked';
@@ -178,7 +165,6 @@ class UserProfileForm {
             template.querySelector('textarea#user-profile-form__prescribed_drugs').innerText = '';
             template.querySelector('input#has_prescribed_drugs0').checked = 'checked';
         }
-
         if (user.medical_information != undefined && user.medical_information.allergies != undefined && user.medical_information.allergies != '') {
             template.querySelector('textarea#user-profile-form__allergies').innerText = user.medical_information.allergies;
             template.querySelector('textarea#user-profile-form__allergies').classList.remove('hidden');
@@ -187,7 +173,6 @@ class UserProfileForm {
             template.querySelector('textarea#user-profile-form__allergies').innerText = '';
             template.querySelector('input#has_allergies0').checked = 'checked';
         }
-
         return template;
     }
 
@@ -262,7 +247,6 @@ class UserProfileForm {
                 finalData = this.buildDataDefaultStep(finalData, key, value);
             }
         }
-
         return finalData;
     }
 
@@ -289,7 +273,6 @@ class UserProfileForm {
         if (finalData.emergency_contact == undefined) {
             finalData.emergency_contact = {};
         }
-
         if (key == 'emergency_contact') {
             finalData.emergency_contact.name = value;
         } else if (key == 'emergency_contact_phone_number') {
@@ -313,7 +296,6 @@ class UserProfileForm {
         if (finalData.medical_information == undefined) {
             finalData.medical_information = {};
         }
-
         if (key == 'prescribed_drugs') {
             finalData.medical_information.prescribed_drugs = '';
             if (finalData.has_prescribed_drugs == '1') {
@@ -353,7 +335,6 @@ class UserProfileForm {
         } else {
             finalData[key] = value;
         }
-
         return finalData;
     }
 
@@ -386,7 +367,6 @@ class UserProfileForm {
             // eslint-disable-next-line no-invalid-this
             UserProfileForm.getInstance().saveUserProfile($(this).attr('id'), step);
         });
-
         showElementEvent();
         hideElementEvent();
         globalContentChangerEvent();
