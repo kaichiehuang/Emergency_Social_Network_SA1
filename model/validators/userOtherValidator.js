@@ -28,7 +28,7 @@ class UserOtherValidator extends ValidatorInterface {
         if (this.validateData.personal_message == undefined) {
             return true;
         }
-        const personalMessage = this.validateData.personal_message.message;
+        const personalMessage = this.validateData.personal_message;
         if (personalMessage.message.length != 0 && (personalMessage.security_question_answer.length == 0 || personalMessage.security_question.length == 0)) {
             return false;
         }
