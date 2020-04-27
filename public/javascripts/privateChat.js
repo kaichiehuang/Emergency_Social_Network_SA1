@@ -46,8 +46,8 @@ class PrivateChatMessage extends BaseMessage {
         if (data.sender_user_id._id == Cookies.get('receiver_user_id') ||
             data.sender_user_id._id == Cookies.get('user-id')) {
             this.drawMessageItem(data);
-            private_wall_container.scrollTop =
-                private_wall_container.scrollHeight;
+            this.containerWall.scrollTop =
+                this.containerWall.scrollHeight;
         }
     }
 }
