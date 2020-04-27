@@ -7,8 +7,15 @@ const schemaOptions = {
 
 const UserSchema = new Schema(
     {
-        username: String,
-        password: String,
+        username: {
+            type: String,
+            required: true,
+            index: true,
+            unique: true,
+        },
+        password: {
+            type: String
+        },
         name: String,
         last_name: String,
         acknowledgement: Boolean,

@@ -40,7 +40,7 @@ class UserModel {
      */
     validateCreate() {
         return new Promise((resolve, reject) => {
-            this.setUserDataValidator(new NewUserValidator());
+            this.setUserDataValidator(new NewUserValidator(this));
             this.dataValidator.validateDataRules({
                 'username': this.username,
                 'password': this.password
@@ -60,16 +60,16 @@ class UserModel {
     validateUpdate(data) {
         return new Promise((resolve, reject) => {
             if (data.step != undefined && data.step == 0) {
-                this.setUserDataValidator(new UserAccountValidator());
+                this.setUserDataValidator(new UserAccountValidator(this));
             } else if (data.step != undefined && data.step == 1) {
-                this.setUserDataValidator(new UserPersonalValidator());
+                this.setUserDataValidator(new UserPersonalValidator(this));
             } else if (data.step != undefined && data.step == 2) {
-                this.setUserDataValidator(new UserMedicalValidator());
+                this.setUserDataValidator(new UserMedicalValidator(this));
             } else if (data.step != undefined && data.step == 3) {
-                this.setUserDataValidator(new UserOtherValidator());
+                this.setUserDataValidator(new UserOtherValidator(this));
             } else {
                 // default validator
-                this.setUserDataValidator(new UserDefaultValidator());
+                this.setUserDataValidator(new UserDefaultValidator(this));
             }
 
             // fail because it has no validator for this
@@ -116,32 +116,22 @@ class UserModel {
                 if (data.status != undefined) {
                     this.status_timestamp = new Date();
                 }
-                if (data['username'] != undefined || data['password'] != undefined) {
-                    new UserAccountValidator()
-                        .validateDataRules({
-                            'username': data['username'],
-                            'password': data['password']
-                        })
-                        .then((result) => {
-                            User.findUserByUsername(data['username'])
-                                .then((user) => {
-                                    if (user == null || user._id == userId) {
-                                        return resolve(true);
-                                    } else {
-                                        return reject('username already existed');
-                                    }
-                                });
-                        }).catch((err) => {
-                            return reject(err);
-                        });
-                    if (data.password != undefined && data.password.length > 0) {
-                        data.password = UserHelper.hashPassword(data.password);
-                    } else if (data.password != undefined) {
-                        delete data.password;
-                    }
+                if (data['password'] != undefined && data.step == 0 && data.password.length > 0) {
+                    data.password = UserHelper.hashPassword(data.password);
                 }
-                this.set(data);
-                return this.save();
+                if (data.username != undefined) {
+                    return User.findUserByUsername(data.username);
+                } else {
+                    delete data.password;
+                    return User.findUserById(data.userId);
+                }
+            }).then((existingUser) => {
+                if (existingUser != null && this._id.toString().localeCompare(existingUser._id.toString()) != 0) {
+                    return reject('Invalid username, already exists.');
+                } else {
+                    this.set(data);
+                    return this.save();
+                }
             }).then((usr) => {
                 return resolve(true);
             }).catch((err) => {
@@ -150,6 +140,19 @@ class UserModel {
         });
     }
 
+    /**
+     * Finds if the new username is unique
+     * @param  {[type]} newUsername [description]
+     * @return {[type]}             [description]
+     */
+    async validateUniqueUsername(newUsername) {
+        const existingUser = await User.findUserByUsername(newUsername);
+
+        if (existingUser != null && this._id.toString().localeCompare(existingUser._id.toString()) != 0 ) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Inserts a socket to the sockets map attribute

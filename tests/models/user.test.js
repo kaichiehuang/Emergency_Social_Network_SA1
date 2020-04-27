@@ -322,7 +322,35 @@ describe('Update operations on a user - profile information and validation rules
                 'security_question_answer': ''
             }
         }).catch((err) => {
-            expect(err).toMatch('The security question and the answer to this cannot be empty if one of these is sent.');
+            expect(err).toMatch('Message, security question and answer are required if any of these are sent.');
+        });
+    });
+    test('update data validation required fields - user info step 3 - message other empty', () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 3,
+
+            'personal_message': {
+                'message': 'a question',
+                'security_question': '',
+                'security_question_answer': ''
+            }
+        }).catch((err) => {
+            expect(err).toMatch('Message, security question and answer are required if any of these are sent.');
+        });
+    });
+    test('update data validation required fields - user info step 3 - message and answer', () => {
+        return createdUser.updateUser({
+            // step1
+            'step': 3,
+
+            'personal_message': {
+                'message': 'a question',
+                'security_question': '',
+                'security_question_answer': 'answer'
+            }
+        }).catch((err) => {
+            expect(err).toMatch('Message, security question and answer are required if any of these are sent.');
         });
     });
     test('update data validation OK - user info step 3 - all data complete', () => {
@@ -471,6 +499,83 @@ describe('Test profile access for only authorized users', () => {
         });
     });
 });
+
+describe('Test profile change username and password in account scenario', () => {
+    let user1Id = null;
+    let user2Id = null;
+    let createdUser1 = null;
+    let createdUser2 = null;
+
+    beforeEach(async () => {
+        createdUser1 = new User();
+        createdUser1.setRegistrationData('username1', 'zzzzzzzzz');
+        return createdUser1.registerUser()
+            .then( (result) =>{
+                createdUser2 = new User();
+                createdUser2.setRegistrationData('username2', 'zzzzzzzzz');
+                return createdUser2.registerUser();
+            })
+            .then((res) => {
+            // console.log(createdUser1, createdUser2, createdUser3);
+            })
+            .catch((_) => {});
+    });
+    test('Update user should fail, used username', () => {
+        expect.assertions(1);
+        return createdUser1.updateUser({
+            'step': 0,
+            'username': 'username2',
+        }).then((listUser) => {
+            }).catch((err) => {
+                expect(err).toBe('Invalid username, already exists.');
+            });
+    });
+    test('Update user should not fail, new username', () => {
+        expect.assertions(2);
+        return createdUser1.updateUser({
+            'step': 0,
+            'username': 'username11',
+        }).then((res) => {
+            expect(createdUser1.username).toBe('username11');
+            expect(res).toBe(true);
+        }).catch((err) => {});
+    });
+    test('Update user should fail, banned', () => {
+        expect.assertions(1);
+        return createdUser1.updateUser({
+            'step': 0,
+            'username': 'admin',
+        }).then((res) => {
+        }).catch((err) => {
+            expect(err).toBe('Invalid username, this username is reserved for the platform. Please enter a different username.');
+        });
+    });
+    test('Update user should fail, password structure', () => {
+        expect.assertions(1);
+        return createdUser1.updateUser({
+            'step': 0,
+            'username': createdUser1.username,
+            'password': '123',
+        }).then((res) => {
+        }).catch((err) => {
+            expect(err).toBe('Invalid password, please enter a longer password (min 4 characters)');
+        });
+    });
+    test('Update user should leave password untouched', () => {
+        expect.assertions(2);
+        const oldPasswordString = createdUser1.password;
+        return createdUser1.updateUser({
+            'step': 0,
+            'username': createdUser1.username + '1',
+        }).then((res) => {
+            expect(res).toBe(true);
+            expect(createdUser1.password).toBe(oldPasswordString);
+
+        }).catch((err) => {
+        });
+    });
+});
+
 describe('get all users ordered by online status and username', () => {
     let createdUser1;
     let createdUser2;
