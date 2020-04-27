@@ -80,57 +80,73 @@ class Resources {
      * Initialize button events for Resource Type
      */
     initializeResourceTypeButtons() {
-        $('#supplies-btn').on('click', (e) => {
-            Resources.getInstance().buttonSelectionElements('supplies', 'shelter',
-                'medical');
-            Resources.getInstance().hideShowContentElements('supplies', 'shelter',
-                'medical');
-        });
-        $('#medical-btn').on('click', (e) => {
-            Resources.getInstance().buttonSelectionElements('medical', 'supplies',
-                'shelter');
-            Resources.getInstance().hideShowContentElements('medical', 'supplies',
-                'shelter');
-        });
-        $('#shelter-btn').on('click', (e) => {
-            Resources.getInstance().buttonSelectionElements('shelter', 'supplies',
-                'medical');
-            Resources.getInstance().hideShowContentElements('shelter', 'supplies',
-                'medical');
+        $('#supplies-btn, #medical-btn, #shelter-btn').on('click', (e) => {
+            let select;
+            let hideOne;
+            let hideTwo;
+            if (e.currentTarget.id=== 'supplies-btn') {
+                select = 'supplies';
+                hideOne = 'shelter';
+                hideTwo = 'medical';
+            } else if (e.currentTarget.id === 'medical-btn') {
+                select = 'medical';
+                hideOne = 'supplies';
+                hideTwo = 'shelter';
+            } else {
+                select = 'shelter';
+                hideOne = 'medical';
+                hideTwo = 'medical';
+            }
+            Resources.getInstance().buttonSelectionElements(select, hideOne,
+                hideTwo);
+            Resources.getInstance().hideShowContentElements(select, hideOne,
+                hideTwo);
         });
     }
     /**
      * Initialize buttons for steps events
      */
     initializeStepButtonEvents() {
-        $('#step-one-btn').on('click', (e) => {
-            Resources.getInstance().buttonSelectionElements('step-one', 'step-two',
-                'step-three');
+        $('#step-one-btn, #step-two-btn, #step-three-btn').on('click', (e) => {
+            let buttonSelected;
+            let buttonideOne;
+            let butonHideTwo;
+            let hideTwo = '';
+            let hideOne = '';
+            let hideThree = '';
+            let showOne = '';
+            let showTwo = '';
+            if (e.target.id === 'step-one-btn') {
+                buttonSelected = 'step-one';
+                buttonideOne = 'step-two';
+                butonHideTwo = 'step-three';
+                hideOne = $('#resource-location-div');
+                hideTwo = $('#resource-picture-div');
+                showOne = $('#step-one-content');
+                showTwo = $('#div-resource-type');
+            } else if (e.target.id === 'step-two-btn') {
+                buttonSelected = 'step-two';
+                buttonideOne = 'step-one';
+                butonHideTwo = 'step-three';
+                showOne = $('#resource-location-div');
+                hideOne = $('#step-one-content');
+                hideTwo = $('#resource-picture-div');
+                hideThree = $('#div-resource-type');
+            } else {
+                buttonSelected = 'step-three';
+                buttonideOne = 'step-one';
+                butonHideTwo = 'step-two';
+                showOne = $('#resource-picture-div');
+                hideOne = $('#step-one-content');
+                hideTwo = $('#resource-location-div');
+                hideThree = $('#div-resource-type');
+            }
+            Resources.getInstance().buttonSelectionElements(buttonSelected, buttonideOne,
+                butonHideTwo);
             Resources.getInstance().removeClassElements('hidden-main-content-block',
-                $('#step-one-content'), $('#div-resource-type'));
+                showOne, showTwo);
             Resources.getInstance().addClassElements('hidden-main-content-block',
-                $('#resource-location-div'), $('#resource-picture-div'));
-        });
-
-        $('#step-two-btn').on('click', (e) => {
-            Resources.getInstance().buttonSelectionElements('step-two', 'step-one',
-                'step-three');
-            Resources.getInstance().removeClassElements('hidden-main-content-block',
-                $('#resource-location-div'));
-            Resources.getInstance().addClassElements('hidden-main-content-block',
-                $('#step-one-content'), $('#resource-picture-div'),
-                $('#div-resource-type'));
-        });
-
-
-        $('#step-three-btn').on('click', (e) => {
-            Resources.getInstance().buttonSelectionElements('step-three', 'step-two',
-                'step-one');
-            Resources.getInstance().removeClassElements('hidden-main-content-block',
-                $('#resource-picture-div'));
-            Resources.getInstance().addClassElements('hidden-main-content-block',
-                $('#step-one-content'), $('#resource-location-div'),
-                $('#div-resource-type'));
+                hideOne, hideTwo, hideThree);
         });
     }
     /**
@@ -147,7 +163,9 @@ class Resources {
      */
     removeClassElements(nameClass, ...showElement) {
         for (const element of showElement) {
-            element.removeClass(nameClass);
+            if (element !== '') {
+                element.removeClass(nameClass);
+            }
         }
     }
 
@@ -158,7 +176,9 @@ class Resources {
      */
     addClassElements(nameClass, ...showElement) {
         for (const element of showElement) {
-            element.addClass(nameClass);
+            if (element !== '') {
+                element.addClass(nameClass);
+            }
         }
     }
 
