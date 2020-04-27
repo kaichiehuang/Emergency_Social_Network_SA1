@@ -61,7 +61,7 @@ class EmergencyStatusDetail {
                 description: $('#briefDescriptionEdit').val(),
                 detailType: 'situation',
             };
-            EmergencyStatusDetail.getInstance().saveDescriptionEvent("situation", data);
+            EmergencyStatusDetail.getInstance().saveDescriptionEvent('situation', data);
         });
 
         $('.loc-save-button').click(function(event) {
@@ -73,7 +73,7 @@ class EmergencyStatusDetail {
                 description: $('#locationDescriptionEdit').val(),
                 detailType: 'location',
             };
-            EmergencyStatusDetail.getInstance().saveDescriptionEvent("location", data);
+            EmergencyStatusDetail.getInstance().saveDescriptionEvent('location', data);
         });
     }
     /**
@@ -82,7 +82,7 @@ class EmergencyStatusDetail {
      * @param  {[type]} data [description]
      * @return {[type]}      [description]
      */
-    saveDescriptionEvent(type, data){
+    saveDescriptionEvent(type, data) {
         const userId = Cookies.get('user-id');
         APIHandler.getInstance()
             .sendRequest(
@@ -93,14 +93,14 @@ class EmergencyStatusDetail {
                 null
             )
             .then((response) => {
-                if(type.localeCompare("situation") == 0){
+                if (type.localeCompare('situation') == 0) {
                     document.getElementById('briefDescriptionPreview').innerHTML =
                         response.status_description;
                     document.getElementById('briefDescriptionEdit').innerHTML =
                         response.status_description;
                     $('#briefDescriptionPreview').removeClass('hidden');
                     $('.edit-button').removeClass('hidden');
-                }else{
+                } else {
                     document.getElementById('locationDescriptionPreview').innerHTML =
                         response.share_location;
                     document.getElementById('locationDescriptionEdit').innerHTML =
@@ -230,7 +230,15 @@ class EmergencyStatusDetail {
         EmergencyStatusDetail.getInstance().setEditDescriptionEvent();
         EmergencyStatusDetail.getInstance().setSaveDescriptionEvent();
         EmergencyStatusDetail.getInstance().setAddPictureEvent();
-        // retrieve detailed data
+        // retrieve brief description and location description
+        EmergencyStatusDetail.getInstance().retrieveBriefAndLocDescription();
+        // get picture and description
+        EmergencyStatusDetail.getInstance().retrievePicAndDescription();
+    }
+    /**
+     * Function for retrieving brief description and location description
+     */
+    retrieveBriefAndLocDescription() {
         const userId = Cookies.get('user-id');
         // get brief description and location description
         APIHandler.getInstance()
@@ -255,8 +263,12 @@ class EmergencyStatusDetail {
                 $('#get-emergency-detail-alert').html(error);
                 $('#get-emergency-detail-alert').show();
             });
-
-        // get picture and description
+    }
+    /**
+     * Function for getting picture and description
+     */
+    retrievePicAndDescription() {
+        const userId = Cookies.get('user-id');
         APIHandler.getInstance()
             .sendRequest(
                 '/emergencyStatusDetail/picture/' + userId,
