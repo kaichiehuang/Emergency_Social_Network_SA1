@@ -26,6 +26,7 @@ class ResourcesList {
         // Click event, to update user list when the user switch between views
         $('.menu-content-changer').click(function(event) {
             event.preventDefault();
+            // eslint-disable-next-line no-invalid-this
             const newID = $(this).data('view-id');
             if (newID === 'resources-list-content') {
                 ResourcesList.getInstance().updateResourceListView();
@@ -89,20 +90,32 @@ class ResourcesList {
         ResourcesList.getInstance().removeClassElements('hidden-main-content-block',
             $('.modal-body #'+ resourceSelected +'-btn'), $('.modal-body #'+ resourceSelected +'-content-div'));
         $('.modal-body #'+ resourceSelected +'-description-id').text(resource.description).attr('readonly', true);
-        if (resource.question_one) {
-            ResourcesList.getInstance().setQuestionValue('.modal-body #'+ resourceSelected +'-q1-yes');
-        } else {
-            ResourcesList.getInstance().setQuestionValue('.modal-body #'+ resourceSelected +'-q1-no');
-        }
-        if (resource.resource_type !== 'MEDICAL') {
-            if (resource.question_two) {
-                ResourcesList.getInstance().setQuestionValue('.modal-body #'+ resourceSelected +'-q2-yes');
-            } else {
-                ResourcesList.getInstance().setQuestionValue('.modal-body #'+ resourceSelected +'-q2-no');
-            }
-        }
+        ResourcesList.getInstance().initializingQuestions(resourceSelected);
         $('.modal-body #resources-content').removeClass('hidden-main-content-block').removeClass('hidden');
         $('#exampleModalCenter').modal('show');
+    }
+
+    /**
+     * Method to set previous values to questions
+     * @param resourceSelected
+     */
+    initializingQuestions(resourceSelected){
+        let questionActivate;
+        if (resource.question_one) {
+            questionActivate = '-q1-yes';
+        } else {
+            questionActivate = '-q1-no';
+        }
+        ResourcesList.getInstance().setQuestionValue(resourceSelected + questionActivate);
+        questionActivate = '';
+        if (resource.resource_type !== 'MEDICAL' ) {
+            if (resource.question_two) {
+                questionActivate = '-q2-yes';
+            } else {
+                questionActivate = '-q2-no';
+            }
+            ResourcesList.getInstance().setQuestionValue(resourceSelected + questionActivate);
+        }
     }
 
     /**
@@ -110,7 +123,7 @@ class ResourcesList {
      * @param id
      */
     setQuestionValue(id) {
-        $(id).prop('checked', true).attr('readonly', true);
+        $('.modal-body #'+ id ).prop('checked', true).attr('readonly', true);
     }
 
 
