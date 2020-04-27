@@ -76,6 +76,7 @@ const UserSchema = new Schema(
 
 //user collection index
 UserSchema.index({ onLine: -1, name: 1 });
+UserSchema.index({ active: 1, status: 1, onLine: -1, name: 1 });
 
 const ReservedNameSchema = new Schema({
     name: String
