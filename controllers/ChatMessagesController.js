@@ -23,7 +23,13 @@ class ChatMessagesController {
         if (userFound.spam) {
             return res.send({'spam': true});
         }
-        const chatMessageCreated = await new ChatMessage(requestData['message'], userFound._id, userFound.status).createNewMessage();
+        try {
+            const chatMessageCreated = await new ChatMessage(requestData['message'], userFound._id, userFound.status).createNewMessage();
+        } catch(err) {
+            return res.status(422).send({
+                msg: err
+            });
+        }
         const message = ChatMessagesController.constructMsg(chatMessageCreated, userFound);
         new SocketIO(res.io).emitMessage('new-chat-message', message);
         return res.status(201).send(JSON.stringify({

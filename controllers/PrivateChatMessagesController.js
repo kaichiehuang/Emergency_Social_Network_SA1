@@ -23,7 +23,14 @@ class PrivateChatMessagesController {
         const message = requestData['message']; const sendeUserId = requestData['sender_user_id']; const receiverUserId = requestData['receiver_user_id'];
         senderUser = await User.findUserById(sendeUserId);
         receiverUser = await User.findUserById(receiverUserId);
-        const privateChatMessageCreated = await new PrivateChatMessage(message, sendeUserId, receiverUserId, senderUser.status).createNewMessage();
+        try {
+            const privateChatMessageCreated = await new PrivateChatMessage(message, sendeUserId, receiverUserId, senderUser.status).createNewMessage();
+        } catch(err) {
+            return res.status(422).send({
+                msg: err
+            });
+        }
+
         // emit the chat message to both users using their current list of sockets
         PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, senderUser.sockets, res, senderUser, receiverUser, senderUser.status);
         PrivateChatMessagesController.emitToSockets(privateChatMessageCreated, receiverUser.sockets, res, senderUser, receiverUser, senderUser.status);
@@ -148,10 +155,10 @@ class PrivateChatMessagesController {
                 'status': status
             };
             /* istanbul ignore next */
+            const socketIO = new SocketIO(response.io);
             for (const socketId of sockets.keys()) {
-                const socketIO = new SocketIO(response.io.to(socketId));
-                socketIO.emitMessage('new-private-chat-message', privateMessage);
-                socketIO.emitMessage('user-list-update', '');
+                socketIO.emitMessage('new-private-chat-message', privateMessage, socketId);
+                socketIO.emitMessage('user-list-update', '', socketId);
             }
         }
     }

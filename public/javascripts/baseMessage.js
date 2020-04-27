@@ -14,6 +14,7 @@ class BaseMessage {
         this.type = '';
         this.user_id = null;
         this.containerWall = containerWall;
+        this.page = 0;
     }
 
     /**
@@ -118,9 +119,9 @@ class BaseMessage {
      * @param messages
      * @param page
      */
-    drawMessages(messages, page) {
+    drawMessages(messages) {
         // only delete previous results if page is 0
-        if (page == undefined || page == 0) {
+        if (this.page == undefined || this.page == 0) {
             $('ul#' + this.type + '-chat li').remove();
         }
 
@@ -130,7 +131,7 @@ class BaseMessage {
 
         $('#'+this.type+'-msg_area .no-results-message').addClass('hidden');
         if (messages.length == 0) {
-            if (page == 0) {
+            if (this.page == 0) {
                 $('#'+this.type+'-msg_area .no-results-message')
                     .removeClass('hidden');
             }
@@ -194,10 +195,10 @@ class BaseMessage {
      * @param page
      * @returns {Promise<unknown>}
      */
-    getMessages(keywords, page) {
+    getMessages(keywords) {
         let url = '/chat-messages';
         let data = {
-            'page': page,
+            'page': this.page,
             'q': keywords
         };
 
@@ -210,7 +211,7 @@ class BaseMessage {
             if (this.type === 'private') {
                 url = '/private-chat-messages';
                 data = {
-                    'page': page,
+                    'page': this.page,
                     'q': keywords,
                     'sender_user_id': Cookies.get('user-id'),
                     'receiver_user_id': Cookies.get('receiver_user_id')
@@ -220,7 +221,7 @@ class BaseMessage {
             if (this.type === 'announcement') {
                 url = '/announcements';
                 data = {
-                    'page': page,
+                    'page': this.page,
                     'q': keywords
                 };
             }
@@ -242,14 +243,15 @@ class BaseMessage {
      * @param  {number} page          [description]
      */
     updateMessageListView(searchKeyword, page) {
+        this.page = page;
         const self = this;
         if (searchKeyword == undefined || searchKeyword.length == 0) {
             this.deactivateSearchButtonsLoadMore();
         }
         // get user data and then get messages to
         // paint and to check for unread messages
-        this.getMessages(searchKeyword, page).then((results) => {
-            self.drawMessages(results, page);
+        this.getMessages(searchKeyword).then((results) => {
+            self.drawMessages(results);
         }).catch((err) => {});
     }
 
@@ -294,8 +296,7 @@ class BaseMessage {
             // eslint-disable-next-line no-invalid-this
             const newID = $(this).data('view-id');
             if (newID === stringType+'-content') {
-                page = 0;
-                modelElement.updateMessageListView('', page);
+                modelElement.updateMessageListView('', 0);
                 modelElement.containerWall.scrollTop =
                     modelElement.containerWall.scrollHeight;
             }
@@ -303,12 +304,11 @@ class BaseMessage {
         /**
          * search form submit and load more
          */
-
+        let page = this.page;
         $('#search-'+stringType+'__button').click(function(e) {
             e.preventDefault();
             const searchKeyword = $('#search-'+stringType+'__input').val();
-            page = 0;
-            modelElement.updateMessageListView(searchKeyword, page);
+            modelElement.updateMessageListView(searchKeyword, 0);
         });
         $('#search-'+stringType+'__more-button').click(function(e) {
             e.preventDefault();
