@@ -180,7 +180,7 @@ class BaseMessage {
                 }
             })
             .catch((error) => {
-                if (error.responseJSON.msg != undefined){
+                if (error.responseJSON.msg != undefined) {
                     alert(error.responseJSON.msg);
                 }
 
@@ -274,10 +274,10 @@ class BaseMessage {
     /**
      * [registerEventsAfterDraw description]
      */
-     registerEventsAfterDraw() {
-        let modelElement = this;
+    registerEventsAfterDraw() {
+        const modelElement = this;
         let stringType = this.type + '-chat';
-        if(this.type == "announcement"){
+        if (this.type == 'announcement') {
             stringType = this.type;
         }
         /** **** events declaration ********/
@@ -323,7 +323,7 @@ class BaseMessage {
      * @param  {[type]} data [description]
      * @return {[type]}      [description]
      */
-    reactToNewMessage(data){
+    reactToNewMessage(data) {
         this.drawMessageItem(data);
         this.containerWall.scrollTop = this.containerWall.scrollHeight;
     }
