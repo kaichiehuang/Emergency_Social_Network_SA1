@@ -77,10 +77,10 @@ class UserProfileForm {
         }
         // set last name
         if (user.password != undefined) {
-            template.querySelector('input#user-profile-form__password').value = "";
+            template.querySelector('input#user-profile-form__password').value = '';
         }
         // set privilege
-        if (user != undefined && (currentUser.role == "coordinator" || currentUser.role == "administrator")) {
+        if (user != undefined && (currentUser.role == 'coordinator' || currentUser.role == 'administrator')) {
             template.querySelector('select#user-profile-form__role').value = user.role;
         } else {
             template.querySelector('select#user-profile-form__role').remove();
@@ -88,7 +88,7 @@ class UserProfileForm {
         }
         // set privilege
         template.querySelector('select#user-profile-form__active').value = 1;
-        if (user.active != undefined && (currentUser.role == "coordinator" || currentUser.role == "administrator")) {
+        if (user.active != undefined && (currentUser.role == 'coordinator' || currentUser.role == 'administrator')) {
             template.querySelector('select#user-profile-form__active').value = 0;
         } else {
             template.querySelector('select#user-profile-form__active').remove();
