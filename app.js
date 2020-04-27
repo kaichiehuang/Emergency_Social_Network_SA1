@@ -74,6 +74,7 @@ if (serverType == 'http') {
 
 const io = require('socket.io')(server);
 let count = 0;
+/* istanbul ignore next */
 io.sockets.on('connection', function(socket) {
     /* istanbul ignore next */
     count++;
@@ -144,6 +145,7 @@ app.use('/api/test', testRouter);
 // app.use(function(req, res, next) {
 //   next(createError(404));
 // });
+/* istanbul ignore next */
 app.get('*', (req, res, next) => {
     /* istanbul ignore next */
     res.render('error', {
@@ -151,6 +153,7 @@ app.get('*', (req, res, next) => {
     });
 });
 // error handler
+/* istanbul ignore next */
 app.use(function(err, req, res, next) {
     /* istanbul ignore next */
     // set locals, only providing error in development
