@@ -17,8 +17,8 @@ class RoleBasedAccessControl {
         return User.findUserById(userId).then((user) => {
             // true or false
             return user.active;
-        }).catch((err) => {
             /* istanbul ignore next */
+        }).catch((err) => {
             return res.status(500).send(err);
         });
     }
@@ -32,8 +32,8 @@ class RoleBasedAccessControl {
     static getRole(userId, res) {
         return User.findUserById(userId).then((user) => {
             return user.role;
-        }).catch((err) => {
             /* istanbul ignore next */
+        }).catch((err) => {
             return res.status(500).send(err);
         });
     }
@@ -67,19 +67,19 @@ class RoleBasedAccessControl {
                     if (result) {
                         // we are allowed access
                         next();
+                        /* istanbul ignore next */
                     } else {
                         // we are not allowed access
-                        /* istanbul ignore next */
                         return res.status(401).send({msg: 'You are not allowed to do this action'}).end();// UNAUTHORIZED
                     }
                 })
+                /* istanbul ignore next */
                 .catch((err) => {
-                // something else went wrong - refer to err object
-                    /* istanbul ignore next */
+                    // something else went wrong - refer to err object
                     return res.status(401).send(err.message).end();
                 });
-        } else {
             /* istanbul ignore next */
+        } else {
             return res.status(401).send({msg: 'Inactive User'}).end();// UNAUTHORIZED
         }
     }
