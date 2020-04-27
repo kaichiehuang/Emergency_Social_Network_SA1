@@ -1,6 +1,8 @@
 // eslint-disable-next-line no-unused-vars
+/**
+ * User class, makes requests to api
+ */
 class User {
-    static instance;
     /**
      * Singleton instance element
      * @return {[type]} [description]
