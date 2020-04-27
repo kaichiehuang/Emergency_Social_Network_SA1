@@ -109,6 +109,7 @@ class ValidatorInterface {
                 if (!validationResult) {
                     if (field.msg == undefined || field.msg.length == 0) {
                         return reject('Minimum length for ' + field.fieldName + ' is ' + field.minLength );
+
                     }
                     return reject(field.msg);
                 }
@@ -125,12 +126,14 @@ class ValidatorInterface {
      */
     validateFieldByLength(fieldName, minLength, innerObject, allowEmpty) {
         // if it allows empty values move foward
+        /* istanbul ignore next */
         if (allowEmpty && (this.validateData[fieldName] == undefined || this.validateData[fieldName].length == 0)) {
             return true;
         }
 
         // else check for length rule
         if (innerObject != undefined) {
+            /* istanbul ignore next */
             if (this.validateData[innerObject][fieldName] == undefined || this.validateData[innerObject][fieldName].length < minLength) {
                 return false;
             }

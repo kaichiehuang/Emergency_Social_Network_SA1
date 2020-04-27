@@ -20,11 +20,13 @@ class PrivateChatMessage {
      */
     createNewMessage() {
         return new Promise((resolve, reject) => {
+            /* istanbul ignore next */
             if (this.senderUserId == this.receiverUserId) {
                 /* istanbul ignore next */
                 return reject('Cannot chat with yourself');
             }
             // validate for empty announcement
+            /* istanbul ignore next */
             if (this.message.localeCompare('') == 0) {
                 // eslint-disable-next-line prefer-promise-reject-errors
                 return reject('Invalid message, cannot be empty');
@@ -72,7 +74,9 @@ class PrivateChatMessage {
             // FIXME sort it by time
                 .then((results) => {
                     resolve(results);
-                }).catch(function(err) {
+                })
+                /* istanbul ignore next */
+                .catch(function(err) {
                     /* istanbul ignore next */
                     reject(err);
                 });
@@ -104,6 +108,7 @@ class PrivateChatMessage {
                     .then((result) => {
                         resolve(result);
                     })
+                    /* istanbul ignore next */
                     .catch(function(err) {
                         /* istanbul ignore next */
                         reject(err);

@@ -18,6 +18,7 @@ class RoleBasedAccessControl {
             // true or false
             return user.active;
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(500).send(err);
         });
     }
@@ -32,6 +33,7 @@ class RoleBasedAccessControl {
         return User.findUserById(userId).then((user) => {
             return user.role;
         }).catch((err) => {
+            /* istanbul ignore next */
             return res.status(500).send(err);
         });
     }
@@ -53,8 +55,9 @@ class RoleBasedAccessControl {
         const active = await RoleBasedAccessControl.checkActive(userId, res);
 
         if (method === 'put' && req.params.pictureId == null && route === '/api/users') {
+            /* istanbul ignore next */
             if (req.params.userId != userId && role != 'administrator') {
-                return res.status(401).send({msg:'Invalid attempt to modify other user\'s profile'}).end();
+                return res.status(401).send({msg: 'Invalid attempt to modify other user\'s profile'}).end();
             }
         }
 
@@ -66,15 +69,18 @@ class RoleBasedAccessControl {
                         next();
                     } else {
                         // we are not allowed access
-                        return res.status(401).send({msg:'You are not allowed to do this action'}).end();// UNAUTHORIZED
+                        /* istanbul ignore next */
+                        return res.status(401).send({msg: 'You are not allowed to do this action'}).end();// UNAUTHORIZED
                     }
                 })
                 .catch((err) => {
-                // something else went wrong - refer to err object
+                    // something else went wrong - refer to err object
+                    /* istanbul ignore next */
                     return res.status(401).send(err.message).end();
                 });
         } else {
-            return res.status(401).send({msg:'Inactive User'}).end();// UNAUTHORIZED
+            /* istanbul ignore next */
+            return res.status(401).send({msg: 'Inactive User'}).end();// UNAUTHORIZED
         }
     }
 
