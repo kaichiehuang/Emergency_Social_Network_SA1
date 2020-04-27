@@ -1,3 +1,6 @@
+/**
+ * Emergency status detail class
+ */
 class EmergencyStatusDetail {
     constructor() {
         this.instance = null;
@@ -20,7 +23,7 @@ class EmergencyStatusDetail {
      * description
      */
     setEditDescriptionEvent() {
-        $('.edit-button').click(function (event) {
+        $('.edit-button').click(function(event) {
             event.preventDefault();
             // hide paragraph and edit button
             $('#briefDescriptionPreview').addClass('hidden');
@@ -30,7 +33,7 @@ class EmergencyStatusDetail {
             $('.save-button').removeClass('hidden');
         });
 
-        $('.loc-edit-button').click(function (event) {
+        $('.loc-edit-button').click(function(event) {
             event.preventDefault();
             // hide paragraph and edit button
             $('#locationDescriptionPreview').addClass('hidden');
@@ -47,7 +50,7 @@ class EmergencyStatusDetail {
      */
     setSaveDescriptionEvent() {
         const userId = Cookies.get('user-id');
-        $('.save-button').click(function (event) {
+        $('.save-button').click(function(event) {
             event.preventDefault(); // hide textarea and save button
             $('#briefDescriptionEdit').addClass('hidden');
             $('.save-button').addClass('hidden');
@@ -80,7 +83,7 @@ class EmergencyStatusDetail {
                 });
         });
 
-        $('.loc-save-button').click(function (event) {
+        $('.loc-save-button').click(function(event) {
             event.preventDefault();
             // hide textarea and save button
             $('#locationDescriptionEdit').addClass('hidden');
@@ -119,7 +122,7 @@ class EmergencyStatusDetail {
      * its description
      */
     setDeletePictureEvent(pictureId) {
-        $('#' + pictureId).click(function (event) {
+        $('#' + pictureId).click(function(event) {
             event.preventDefault();
 
             APIHandler.getInstance()
@@ -147,11 +150,11 @@ class EmergencyStatusDetail {
      * its description
      */
     setAddPictureEvent() {
-        $('.add-button').click(function (event) {
+        $('.add-button').click(function(event) {
             event.preventDefault();
             $('#addPictureModal').modal('show');
 
-            $('#file').change(function () {
+            $('#file').change(function() {
                 $('#picDiscription').removeClass('hidden');
                 $('.upload-button').removeClass('hidden');
             });
@@ -166,7 +169,7 @@ class EmergencyStatusDetail {
     setUploadEvent() {
         $('.upload-button')
             .unbind()
-            .click(function (event) {
+            .click(function(event) {
                 event.preventDefault();
                 const jwt = Cookies.get('user-jwt-esn');
                 const userId = Cookies.get('user-id');
@@ -187,7 +190,7 @@ class EmergencyStatusDetail {
                     contentType: false,
                     processData: false,
                 })
-                    .done(function (response) {
+                    .done(function(response) {
                         EmergencyStatusDetail.getInstance().drawPictureAndDescription(
                             response
                         );
@@ -196,7 +199,7 @@ class EmergencyStatusDetail {
                         $('#picDiscription').addClass('hidden');
                         $('.upload-button').addClass('hidden');
                     })
-                    .fail(function (e) {
+                    .fail(function(e) {
                         $('#upload-alert').html(e);
                         $('#upload-alert').show();
                     });
@@ -262,7 +265,7 @@ class EmergencyStatusDetail {
                 null
             )
             .then((response) => {
-                response.forEach(function (pictureObj) {
+                response.forEach(function(pictureObj) {
                     EmergencyStatusDetail.getInstance().drawPictureAndDescription(
                         pictureObj
                     );
@@ -275,6 +278,6 @@ class EmergencyStatusDetail {
     }
 }
 
-$(function () {
+$(function() {
     EmergencyStatusDetail.getInstance().generatePreviewPage();
 });
