@@ -30,7 +30,7 @@ class UserProfileForm {
      * @param user
      * @param step
      */
-     drawUserProfileForm(user, step) {
+    drawUserProfileForm(user, step) {
         const containerId = 'user-profile-form-content__container-' + step;
         // 1. find templates in html
         const profileTemplate = document.querySelector('template#userProfileFormTemplate' + step);
@@ -51,13 +51,13 @@ class UserProfileForm {
                     template = this.fillProfileFormStep0(user, template);
                 }
                 else if (step == 1) {
-                    template =  this.fillProfileFormStep1(user, template);
+                    template = this.fillProfileFormStep1(user, template);
                 }
                 else if (step == 2) {
-                    template =  this.fillProfileFormStep2(user, template);
+                    template = this.fillProfileFormStep2(user, template);
                 }
                 else if (step == 3) {
-                    template =  this.fillProfileFormStep3(user, template);
+                    template = this.fillProfileFormStep3(user, template);
                 }
                 profileFormContainer.appendChild(template);
             }
@@ -82,7 +82,7 @@ class UserProfileForm {
         // set privilege
         if (user != undefined && (currentUser.role == "coordinator" || currentUser.role == "administrator")) {
             template.querySelector('select#user-profile-form__role').value = user.role;
-        }else{
+        } else {
             template.querySelector('select#user-profile-form__role').remove();
             template.querySelector('label#user-profile-form__role_label').remove();
         }
@@ -90,7 +90,7 @@ class UserProfileForm {
         template.querySelector('select#user-profile-form__active').value = 1;
         if (user.active != undefined && (currentUser.role == "coordinator" || currentUser.role == "administrator")) {
             template.querySelector('select#user-profile-form__active').value = 0;
-        }else{
+        } else {
             template.querySelector('select#user-profile-form__active').remove();
             template.querySelector('label#user-profile-form__active_label').remove();
         }
@@ -103,7 +103,7 @@ class UserProfileForm {
      * @param  {[type]} template [description]
      * @return {[type]}          [description]
      */
-     fillProfileFormStep1(user, template) {
+    fillProfileFormStep1(user, template) {
         // set name
         if (user.name != undefined) {
             template.querySelector('input#user-profile-form__name').value = user.name;
@@ -149,7 +149,7 @@ class UserProfileForm {
      * @param  {[type]} template the template loaded in the draw function
      * @return {[type]}          the template with all the data
      */
-     fillProfileFormStep2(user, template) {
+    fillProfileFormStep2(user, template) {
         // set emergency_contact
         if (user.medical_information != undefined && user.medical_information.blood_type != undefined) {
             template.querySelector('select#user-profile-form__blood_type').value = user.medical_information.blood_type;
@@ -182,7 +182,7 @@ class UserProfileForm {
      * @param  {[type]} template the template loaded in the draw function
      * @return {[type]}          the template with all the data
      */
-     fillProfileFormStep3(user, template) {
+    fillProfileFormStep3(user, template) {
         // set emergency_contact
         if (user.personal_message != undefined && user.personal_message.message != undefined) {
             template.querySelector('textarea#user-profile-form__personal_message').innerText = user.personal_message.message;
@@ -201,10 +201,10 @@ class UserProfileForm {
      * @param  {[type]} formId [description]
      * @return {[type]}        [description]
      */
-     saveUserProfile(formId, step) {
+    saveUserProfile(formId, step) {
         return new Promise((resolve, reject) => {
             const userId = $('#' + formId).find('#form_user_id').val();
-            const data =  this.buildData(formId);
+            const data = this.buildData(formId);
             User.getInstance().updateUser(userId, data)
                 .then((user) => {
                     User.getInstance().updateCurrentUser();
@@ -229,7 +229,7 @@ class UserProfileForm {
      * @param  {[type]} formId [description]
      * @return {[type]}        [description]
      */
-     buildData(formId) {
+    buildData(formId) {
         const data = $('#' + formId).serializeArray();
         const step = $('#' + formId).find('#form_step').val();
         let finalData = {};
@@ -238,12 +238,12 @@ class UserProfileForm {
             const key = object.name;
             const value = object.value;
             if (step == 1) {
-                finalData =  this.buildDataStep1(finalData, key, value);
+                finalData = this.buildDataStep1(finalData, key, value);
             } else if (step == 2) {
-                finalData =  this.buildDataStep2(finalData, key, value);
+                finalData = this.buildDataStep2(finalData, key, value);
             } else if (step == 3) {
-                finalData =  this.buildDataStep3(finalData, key, value);
-            }else{
+                finalData = this.buildDataStep3(finalData, key, value);
+            } else {
                 finalData = this.buildDataDefaultStep(finalData, key, value);
             }
         }
@@ -257,7 +257,7 @@ class UserProfileForm {
      * @param  {[type]} value     [description]
      * @return {[type]}           [description]
      */
-     buildDataDefaultStep(finalData, key, value) {
+    buildDataDefaultStep(finalData, key, value) {
         finalData[key] = value;
         return finalData;
     }
@@ -269,7 +269,7 @@ class UserProfileForm {
      * @param  {[type]} value     [description]
      * @return {[type]}           [description]
      */
-     buildDataStep1(finalData, key, value) {
+    buildDataStep1(finalData, key, value) {
         if (finalData.emergency_contact == undefined) {
             finalData.emergency_contact = {};
         }
@@ -292,7 +292,7 @@ class UserProfileForm {
      * @param  {[type]} value     [description]
      * @return {[type]}           [description]
      */
-     buildDataStep2(finalData, key, value) {
+    buildDataStep2(finalData, key, value) {
         if (finalData.medical_information == undefined) {
             finalData.medical_information = {};
         }
@@ -322,7 +322,7 @@ class UserProfileForm {
      * @param  {[type]} value     [description]
      * @return {[type]}           [description]
      */
-     buildDataStep3(finalData, key, value) {
+    buildDataStep3(finalData, key, value) {
         if (finalData.personal_message == undefined) {
             finalData.personal_message = {};
         }
@@ -344,7 +344,7 @@ class UserProfileForm {
      * @param  {[type]} step        [description]
      * @return {[type]}             [description]
      */
-     updateComponentView(currentUserId, step) {
+    updateComponentView(currentUserId, step) {
         // get user data and then get messages
         // to paint and to check for unread messages
         User.getInstance().getUser(currentUserId).then((user) => {
@@ -361,7 +361,7 @@ class UserProfileForm {
      * @param  {[type]} step [description]
      * @return {[type]}      [description]
      */
-     registerEventsAfterDraw(step) {
+    registerEventsAfterDraw(step) {
         $('.profile-form').submit(function(event) {
             event.preventDefault();
             // eslint-disable-next-line no-invalid-this
@@ -377,7 +377,7 @@ class UserProfileForm {
      * init event when drawn first time
      * @return {[type]} [description]
      */
-     initEvent() {
+    initEvent() {
         $('.user-profile-menu-btn').click(function(event) {
             // eslint-disable-next-line no-invalid-this
             const newID = $(this).data('view-id');
