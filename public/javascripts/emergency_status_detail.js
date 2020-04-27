@@ -2,6 +2,10 @@
  * Emergency status detail class
  */
 class EmergencyStatusDetail {
+    /**
+     * Constructor for EmergencyStatusDetail class
+     * @return {[type]} [description]
+     */
     constructor() {
         this.instance = null;
         this._id = null;
