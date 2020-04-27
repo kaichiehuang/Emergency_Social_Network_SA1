@@ -1,3 +1,6 @@
+/**
+ * Component for list of users
+ */
 class UserList {
     /**
      * Singleton instance element
@@ -55,7 +58,7 @@ class UserList {
                 return;
             }
 
-            //draw
+            // draw
             template.querySelector('.username')
                 .innerText = user.username;
             template.querySelector('.username')
@@ -74,8 +77,8 @@ class UserList {
                     currentUser.unread_messages[user._id];
             }
 
-            if(user.status != undefined){
-                this.drawUserStatues(template, user)
+            if(user.status != undefined) {
+                this.drawUserStatues(template, user);
             }
 
             listContainer.appendChild(template);
@@ -90,7 +93,7 @@ class UserList {
      * @return {[type]}          [description]
      */
     drawUserStatues(template, user){
-        let userStatusLC = user.status.toLowerCase();
+        const userStatusLC = user.status.toLowerCase();
         template.querySelector('#statusSpan')
             .classList.add('background-color-' + userStatusLC);
         template.querySelector('.status-button')
@@ -119,16 +122,16 @@ class UserList {
      */
     showEmergencyStatus(userId) {
         $('#userEmergencyDetail').modal('show');
-        //display detail
+        // display detail
         this.getUserStatusDetail(userId);
-        //display picture
+        // display picture
         this.getUserStatusPictures(userId);
     }
     /**
      * [getUserStatusDetail description]
      * @return {[type]} [description]
      */
-    getUserStatusDetail(userId){
+    getUserStatusDetail(userId) {
         // get brief description and location
         APIHandler.getInstance()
             .sendRequest('/emergencyStatusDetail/' + userId,
@@ -150,7 +153,7 @@ class UserList {
      * Gets picture for user status
      * @return {[type]} [description]
      */
-    getUserStatusPictures(userId){
+    getUserStatusPictures(userId) {
         $('.userPicAndDesBlock').empty();
         // get picutures and description
         APIHandler.getInstance()
@@ -188,7 +191,7 @@ class UserList {
     }
 
     // todo pass this to a class AddressBook that has an attribute currentUser
-     updateComponentView(currentUser, searchKeyword, searchStatus) {
+    updateComponentView(currentUser, searchKeyword, searchStatus) {
         // get user data and then get messages to
         // paint and to check for unread messages
         User.getInstance().getUser(currentUser._id).then((user) => {
@@ -207,13 +210,13 @@ class UserList {
     /**
      * [registerEventsAfterDraw description]
      */
-     registerEventsAfterDraw() {
+    registerEventsAfterDraw() {
         globalContentChangerEvent();
         // assign view change event for chat button for each user in the list
         menuContentChangerEvent();
         $('.chat-button').click(function(event) {
             $('.menu-content-changer').removeClass('active');
-            $("#private-chat-content-menu").addClass('active');
+            $('#private-chat-content-menu').addClass('active');
             // eslint-disable-next-line no-invalid-this
             PrivateChatMessage.getInstance().initiatePrivateChat($(this).data('user-id'), $(this).data('username'));
 
