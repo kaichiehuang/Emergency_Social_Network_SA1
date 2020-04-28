@@ -29,6 +29,9 @@ if (process.env.NODE_ENV != undefined ) {
 const app = express();
 
 // API RATE LIMIT CONFIGURATION
+// Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+// see https://expressjs.com/en/guide/behind-proxies.html
+app.set('trust proxy', 1);
 const limiter = rateLimit({
     // windowMs: 15 * 60 * 1000, // 15 minutes
     windowMs: 60 * 1000, // 1 minutes
