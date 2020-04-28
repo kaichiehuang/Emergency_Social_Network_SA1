@@ -134,7 +134,7 @@ const publicOptions = {
 app.use(express.static(path.join(__dirname, 'public'), publicOptions));
 app.use(limiter);
 // cache invalidation
-app.locals.versionedAssets = 210;
+app.locals.versionedAssets = 211;
 
 app.use('/public/pictures', express.static(path.join(__dirname, 'public/pictures')));
 app.use('/', indexRouter);
