@@ -107,6 +107,7 @@ function doScripts2(done) {
  */
 function jsCompileLogin() {
     return gulp.src([
+            // './node_modules/jquery/dist/jquery.min.js',
             './node_modules/socket.io-client/dist/socket.io.slim.js',
             './node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
             files.jsPath + 'app.js',
@@ -124,6 +125,7 @@ function jsCompileLogin() {
  */
 function jsCompileApp() {
     return gulp.src([
+            // './node_modules/jquery/dist/jquery.min.js',
             './node_modules/socket.io-client/dist/socket.io.slim.js',
             './node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js',
             files.jsPath + 'app.js',
