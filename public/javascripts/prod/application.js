@@ -25,15 +25,9 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
  *
  */
 let currentContentPageID = '';
-let oldContentPageID = '';
-let currentContentGroupClass = '';
 let userJWT = null;
-let user_id = null;
-let user_acknowledgement = null;
-const apiPath = '/api';
+let userAcknowledgement = null;
 let currentUser = null;
-let selectedStatus = null;
-let socket = null;
 /**
  * On load init
  * @param  {[type]} ) {               if (Cookies.get('username') ! [description]
@@ -63,11 +57,9 @@ $(function() {
     // user is logged in
     else {
         // TODO test if cookie is expired
-        user_id = Cookies.get('user-id');
-        user_name = Cookies.get('username');
-        user_acknowledgement = Cookies.get('user-acknowledgement');
+        userAcknowledgement = Cookies.get('user-acknowledgement');
         if (window.location.pathname == '/') {
-            if (user_acknowledgement === 'true') {
+            if (userAcknowledgement === 'true') {
                 window.location.replace('/app');
             } else {
                 swapViewContent('acknowledgement-page-content', 'main-content-block');
@@ -1695,14 +1687,11 @@ class UserProfileForm {
                     .innerText = user.username;
                 if (step == 0) {
                     template = this.fillProfileFormStep0(user, template);
-                }
-                else if (step == 1) {
+                } else if (step == 1) {
                     template = this.fillProfileFormStep1(user, template);
-                }
-                else if (step == 2) {
+                } else if (step == 2) {
                     template = this.fillProfileFormStep2(user, template);
-                }
-                else if (step == 3) {
+                } else if (step == 3) {
                     template = this.fillProfileFormStep3(user, template);
                 }
                 profileFormContainer.appendChild(template);
@@ -2033,6 +2022,7 @@ class UserProfileForm {
         });
     }
 }
+
 $(function() {
     /**
      * [postMessage description]

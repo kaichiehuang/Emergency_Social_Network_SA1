@@ -15,6 +15,7 @@
     "comma-dangle": "off",
     "max-len": "off",
     "valid-jsdoc": "off",
-    "prefer-promise-reject-errors": "off"
+    "prefer-promise-reject-errors": "off",
+    "no-invalid-this": "off"
   }
 }
