@@ -12,7 +12,7 @@ class Resources {
         this.initializePictureEvents();
         $('#resource-submit-btn').on('click', async (e) => {
             const valid = await Resources.getInstance().validateRequireFields();
-            if (valid.length===0) {
+            if (valid.length === 0) {
                 Resources.getInstance().getValues();
             } else {
                 $('#modaltext').text(valid);
@@ -59,9 +59,9 @@ class Resources {
      * @param idElementTwoHide
      */
     buttonSelectionElements(idElementSelected, idElementOneHide, idElementTwoHide) {
-        Resources.getInstance().addRemoveClassElements('selected-btn', 'add', $('#'+ idElementSelected +'-btn'));
-        Resources.getInstance().addRemoveClassElements('selected-btn', $('#'+ idElementOneHide+'-btn'),
-            'remove', $('#'+ idElementTwoHide+'-btn'));
+        Resources.getInstance().addRemoveClassElements('selected-btn', 'add', $('#' + idElementSelected + '-btn'));
+        Resources.getInstance().addRemoveClassElements('selected-btn', 'remove', $('#' + idElementOneHide + '-btn'),
+            $('#' + idElementTwoHide + '-btn'));
     }
 
     /**
@@ -72,9 +72,9 @@ class Resources {
      */
     hideShowContentElements(idElementSelected, idElementOneHide, idElementTwoHide) {
         Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'remove',
-            $('#'+ idElementSelected +'-content-div'));
+            $('#' + idElementSelected + '-content-div'));
         Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'add',
-            $('#'+ idElementOneHide+'-content-div'), $('#'+ idElementTwoHide+'-content-div'));
+            $('#' + idElementOneHide + '-content-div'), $('#' + idElementTwoHide + '-content-div'));
     }
     /**
      * Initialize button events for Resource Type
@@ -84,7 +84,7 @@ class Resources {
             let select;
             let hideOne;
             let hideTwo;
-            if (e.currentTarget.id=== 'supplies-btn') {
+            if (e.currentTarget.id === 'supplies-btn') {
                 select = 'supplies';
                 hideOne = 'shelter';
                 hideTwo = 'medical';
@@ -156,8 +156,6 @@ class Resources {
         $('#step-one-btn').trigger('click');
         $('#supplies-btn').trigger('click');
     }
-
-
     /**
      * Remove classes from elements
      * @param nameClass
@@ -166,16 +164,14 @@ class Resources {
      */
     addRemoveClassElements(nameClass, operation, ...showElement) {
         for (const element of showElement) {
-            if (element !== '') {
-                if (operation === 'add') {
-                    element.addClass(nameClass);
-                } else {
-                    element.removeClass(nameClass);
-                }
+            if (element !== '' && operation === 'add') {
+                element.addClass(nameClass);
+            }
+            if (element !== '' && operation === 'remove') {
+                element.removeClass(nameClass);
             }
         }
     }
-
     /**
      * Method to read the image and show a preview
      */
@@ -197,10 +193,10 @@ class Resources {
     getValues() {
         let questionTwo = false;
         const resourceType = $('#div-resource-type button.selected-btn').attr('name').toLowerCase();
-        const description = $('#' + resourceType +'-description-id').val();
+        const description = $('#' + resourceType + '-description-id').val();
         const questionOne = $('#' + resourceType + '-q1-div input[type=\'radio\']:checked').val();
         // Only medical supplies type has one question
-        if (resourceType!== 'medical') {
+        if (resourceType !== 'medical') {
             questionTwo = $('#' + resourceType + '-q2-div input[type=\'radio\']:checked').val();
         }
         const resourceObject = {
@@ -222,7 +218,7 @@ class Resources {
     validateRequireFields() {
         const resourceType = $('#div-resource-type button.selected-btn');
         const pictureElement = $('#resource-picture').prop('files');
-        let stringValidations ='';
+        let stringValidations = '';
         if (resourceType.length === 0) {
             stringValidations += 'Please select a Resource Type, ';
         }
@@ -232,18 +228,11 @@ class Resources {
         if ($('#resource-name-id').val() === '') {
             stringValidations += 'Resource Name is  a required field, ';
         }
-        if (pictureElement.length !== 0 && pictureElement[0].size>2000000) {
+        if (pictureElement.length !== 0 && pictureElement[0].size > 2000000) {
             stringValidations += 'Picture Size limit 2Mb, ';
         }
-        if ( resourceType.attr('name') === 'SUPPLIES' ) {
-            stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('supplies');
-        }
-        if ( resourceType.attr('name') === 'MEDICAL' ) {
-            stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('medical');
-        }
-        if ( resourceType.attr('name') === 'SHELTER') {
-            stringValidations += Resources.getInstance().validateDescriptionQuestionsValues('shelter');
-        }
+        const selectedResource = resourceType.attr('name').toLowerCase();
+        stringValidations += Resources.getInstance().validateDescriptionQuestionsValues(selectedResource);
         return stringValidations;
     }
 
@@ -253,16 +242,17 @@ class Resources {
      */
     validateDescriptionQuestionsValues(id) {
         let validateMessage = '';
-        if ($('#'+id+'-description-id').val() === '') {
+        if ($('#' + id + '-description-id').val() === '') {
             validateMessage += 'Description is a mandatory field, ';
         }
-        if ($('#'+id+'-q1-div input[type=\'radio\']:checked').length === 0) {
+        if ($('#' + id + '-q1-div input[type=\'radio\']:checked').length === 0) {
             validateMessage += 'Question 1 answers is a mandatory field, ';
-        } else if (id!=='medical' && $('#'+id+'-q2-div input[type=\'radio\']:checked').length === 0) {
+        } else if (id !== 'medical' && $('#' + id + '-q2-div input[type=\'radio\']:checked').length === 0) {
             validateMessage += 'Question 2 answer is a mandatory field, ';
         }
         return validateMessage;
     }
+
     /**
      * Saving resource information
      * @param resourceObject
@@ -286,7 +276,7 @@ class Resources {
 
         Resources.getInstance().ajaxResourcePost(formData)
             .then()
-            .catch((error) =>{
+            .catch((error) => {
                 alert('Error saving resource ' + error);
             });
     }
