@@ -63,19 +63,6 @@ class Resources {
         Resources.getInstance().addRemoveClassElements('selected-btn', 'remove', $('#' + idElementOneHide + '-btn'),
             $('#' + idElementTwoHide + '-btn'));
     }
-
-    /**
-     * Hide and show content depending on the Resource Type selected
-     * @param idElementSelected
-     * @param idElementOneHide
-     * @param idElementTwoHide
-     */
-    hideShowContentElements(idElementSelected, idElementOneHide, idElementTwoHide) {
-        Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'remove',
-            $('#' + idElementSelected + '-content-div'));
-        Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'add',
-            $('#' + idElementOneHide + '-content-div'), $('#' + idElementTwoHide + '-content-div'));
-    }
     /**
      * Initialize button events for Resource Type
      */
@@ -99,8 +86,10 @@ class Resources {
             }
             Resources.getInstance().buttonSelectionElements(select, hideOne,
                 hideTwo);
-            Resources.getInstance().hideShowContentElements(select, hideOne,
-                hideTwo);
+            Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'remove',
+                $('#' + select + '-content-div'));
+            Resources.getInstance().addRemoveClassElements('hidden-main-content-block', 'add',
+                $('#' + hideOne + '-content-div'), $('#' + hideTwo + '-content-div'));
         });
     }
     /**
