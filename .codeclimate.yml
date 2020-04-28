@@ -8,3 +8,5 @@ exclude_patterns:
   - "sass/"
   - "ssl/"
   - "tests/"
+  - "public/javascripts/prod/"
+  - "public/stylesheets/"
