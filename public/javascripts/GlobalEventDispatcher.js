@@ -5,7 +5,7 @@ class GlobalEventDispatcher {
      * @return {[type]} [description]
      */
     static updateAllUserLists() {
-        APIHandler.getInstance().sendRequest('/usersList/', 'get', {}, true, null)
+        APIHandler.getInstance().sendRequest('/usersList/', 'get', {}, true, null, false)
         .then( (res) => {})
         .catch( (err) => {});
     }
