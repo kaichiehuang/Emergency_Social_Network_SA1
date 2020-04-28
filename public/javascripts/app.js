@@ -7,9 +7,15 @@
  *
  */
 let currentContentPageID = '';
+let oldContentPageID = '';
+let currentContentGroupClass = '';
 let userJWT = null;
-let userAcknowledgement = null;
+let user_id = null;
+let user_acknowledgement = null;
+const apiPath = '/api';
 let currentUser = null;
+let selectedStatus = null;
+let socket = null;
 /**
  * On load init
  * @param  {[type]} ) {               if (Cookies.get('username') ! [description]
@@ -39,9 +45,11 @@ $(function() {
     // user is logged in
     else {
         // TODO test if cookie is expired
-        userAcknowledgement = Cookies.get('user-acknowledgement');
+        user_id = Cookies.get('user-id');
+        user_name = Cookies.get('username');
+        user_acknowledgement = Cookies.get('user-acknowledgement');
         if (window.location.pathname == '/') {
-            if (userAcknowledgement === 'true') {
+            if (user_acknowledgement === 'true') {
                 window.location.replace('/app');
             } else {
                 swapViewContent('acknowledgement-page-content', 'main-content-block');
