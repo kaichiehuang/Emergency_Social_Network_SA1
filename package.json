@@ -26,6 +26,7 @@
     "graceful-fs": "^4.2.3",
     "gulp-concat": "^2.6.1",
     "gulp-dependents": "^1.2.3",
+    "gulp-minify": "^3.1.0",
     "http-errors": "~1.6.3",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",

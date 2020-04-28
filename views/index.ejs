@@ -29,13 +29,18 @@
 </footer>
 
 <% include partials/global_stylesheets %>
+<% include partials/external_global_scripts %>
 
 <!-- Scripts at the bottom for better performance -->
-<% include partials/global_scripts %>
-
-<!-- LOCAL SCRIPTS -->
-<script src="<%= '/javascripts/user.js?v=' + versionedAssets %>"></script>
-<script src="<%= '/javascripts/signup.js?v=' + versionedAssets %>"></script>
+<%if (settings.env === 'development') { %>
+    <% include partials/global_scripts %>
+    <!-- LOCAL SCRIPTS -->
+    <script src="<%= '/javascripts/user.js?v=' + versionedAssets %>"></script>
+    <script src="<%= '/javascripts/signup.js?v=' + versionedAssets %>"></script>
+<% } else { %>
+    <!-- LOCAL SCRIPTS -->
+    <script src="<%= '/javascripts/prod/login.js?v=' + versionedAssets %>"></script>
+<% }  %>
 
 
 </body>

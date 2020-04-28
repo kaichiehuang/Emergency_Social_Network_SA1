@@ -328,13 +328,17 @@ form {
                 }
                 .report-msg-number {
                     margin-right: 5px;
-                    font-size: 0.2em;
+                    font-size: 12px;
                     color: $brand_color1;
                 }
                 .report-link {
-                    font-size: 3px;
+                    font-size: 12px;
                     font-weight: lighter;
                     color: $brand_color1;
+                    position: absolute;
+                    top: 27px;
+                    right: 5px;
+                    text-decoration: underline;
                     &:hover {
                         color: #F7241D;
                     }
