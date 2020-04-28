@@ -28,6 +28,7 @@
     "gulp-dependents": "^1.2.3",
     "gulp-minify": "^3.1.0",
     "http-errors": "~1.6.3",
+    "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.2",
