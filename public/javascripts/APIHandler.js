@@ -1,5 +1,7 @@
+/**
+ * Class that manages all API Requests
+ */
 class APIHandler {
-
     /**
      * Sends requests to API for every component or object using Jquery
      * @param  {[type]} url         [description]
@@ -10,15 +12,15 @@ class APIHandler {
      * @return {[type]}             [description]
      */
     sendRequest(url, operation, data, token, contentType) {
-        $("#boxloader").show();
+        $('#boxloader').show();
         const jwt = Cookies.get('user-jwt-esn');
-        let contentTypeOption = contentType ?
-            contentType : "application/x-www-form-urlencoded; charset=UTF-8";
-        let headers = token ? {
+        const contentTypeOption = contentType ?
+            contentType : 'application/x-www-form-urlencoded; charset=UTF-8';
+        const headers = token ? {
             Authorization: jwt
         } : {};
-        let dataSend = data ? data : {};
-        let options = {
+        const dataSend = data ? data : {};
+        const options = {
             url: apiPath + url,
             type: operation,
             data: dataSend,
@@ -32,17 +34,18 @@ class APIHandler {
                     resolve(response);
                 })
                 .fail(function(e) {
-                    if(e.responseText == "jwt expired" || e.responseText == "invalid algorithm" || e.responseText == "invalid token" || e.responseText == "jwt malformed" ){
+                    if (e.responseText === 'jwt expired' || e.responseText === 'invalid algorithm' || e.responseText === 'invalid token' ||
+                        e.responseText === 'jwt malformed' || e.responseText === 'Too many requests from this IP') {
                         SignoutComponent.getInstance().removeCookies();
                         SignoutComponent.getInstance().signout();
                         return reject(false);
-                    }else{
+                    } else {
                         return reject(e);
                     }
                 })
-                .always(function(){
-                    $("#boxloader").hide();
-                })
+                .always(function() {
+                    $('#boxloader').hide();
+                });
         });
     }
 

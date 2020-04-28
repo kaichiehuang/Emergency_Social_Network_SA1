@@ -14,7 +14,8 @@ const resourcesRouter = require('./routes/resources');
 const emergencyStatusDetailRouter = require('./routes/emergencyStatusDetail');
 const testRouter = require('./routes/testroute');
 const spamReportRouter = require('./routes/spamReport');
-const compression = require('compression')
+const compression = require('compression');
+const rateLimit = require('express-rate-limit');
 
 let ENVIRONMENT = 'development';
 
@@ -26,6 +27,15 @@ if (process.env.NODE_ENV != undefined ) {
 // redirect library for https - uncomment on server
 // var httpsRedirectTool = require('express-http-to-https').redirectToHTTPS
 const app = express();
+
+// API RATE LIMIT CONFIGURATION
+const limiter = rateLimit({
+    // windowMs: 15 * 60 * 1000, // 15 minutes
+    windowMs: 60 * 1000, // 1 minutes
+    max: 200, // limit each IP to 200 requests per windowMs
+    message:
+        'Too many requests from this IP',
+});
 
 
 // change if using https fo security issues
@@ -97,12 +107,11 @@ app.use(bodyParser.urlencoded({
 // application/json
 app.use(bodyParser.json({limit: '5mb'}));
 
-app.use(compression({ filter: shouldCompress }))
-function shouldCompress (req, res) {
-  // fallback to standard filter function
-  return compression.filter(req, res)
+app.use(compression({filter: shouldCompress}));
+function shouldCompress(req, res) {
+    // fallback to standard filter function
+    return compression.filter(req, res);
 }
-
 
 
 // view engine setup
@@ -111,17 +120,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(cookieParser());
-//setup static assets cache control
-var publicOptions = {
-  dotfiles: 'ignore',
-  etag: false,
-  index: false,
-  maxAge: '15d',
-  redirect: false,
-}
+// setup static assets cache control
+const publicOptions = {
+    dotfiles: 'ignore',
+    etag: false,
+    index: false,
+    maxAge: '15d',
+    redirect: false,
+};
 app.use(express.static(path.join(__dirname, 'public'), publicOptions));
-
-//cache invalidation
+app.use(limiter);
+// cache invalidation
 app.locals.versionedAssets = 207;
 
 app.use('/public/pictures', express.static(path.join(__dirname, 'public/pictures')));
