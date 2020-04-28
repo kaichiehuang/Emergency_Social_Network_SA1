@@ -11,8 +11,11 @@ class APIHandler {
      * @param  {[type]} contentType [description]
      * @return {[type]}             [description]
      */
-    sendRequest(url, operation, data, token, contentType) {
-        $('#boxloader').show();
+    sendRequest(url, operation, data, token, contentType, loader) {
+        if(loader == undefined || loader === true){
+            $('#boxloader').show();
+        }
+
         const jwt = Cookies.get('user-jwt-esn');
         const contentTypeOption = contentType ?
             contentType : 'application/x-www-form-urlencoded; charset=UTF-8';
