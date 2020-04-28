@@ -37,6 +37,7 @@
     "sass-flex-mixin": "^1.0.3",
     "socket.io": "^2.3.0",
     "staticify": "^4.0.0",
+    "sticky-session": "^1.1.2",
     "superagent": "^5.2.2",
     "the-big-username-blacklist": "^1.5.2"
   },
