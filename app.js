@@ -134,7 +134,7 @@ const publicOptions = {
 app.use(express.static(path.join(__dirname, 'public'), publicOptions));
 app.use(limiter);
 // cache invalidation
-app.locals.versionedAssets = 207;
+app.locals.versionedAssets = 210;
 
 app.use('/public/pictures', express.static(path.join(__dirname, 'public/pictures')));
 app.use('/', indexRouter);
@@ -151,6 +151,7 @@ app.use('/api/resources', resourcesRouter);
 app.use('/api/emergencyStatusDetail', emergencyStatusDetailRouter);
 app.use('/api/spam-report', spamReportRouter);
 app.use('/bootstrap', express.static(path.join(__dirname, 'node_modules/bootstrap-sass/assets')));
+app.use('/jquery', express.static(path.join(__dirname, 'node_modules/jquery/dist')));
 app.use('/requirejs', express.static(path.join(__dirname, 'node_modules/requirejs')));
 app.use('/api/test', testRouter);
 // catch 404 and forward to error handler

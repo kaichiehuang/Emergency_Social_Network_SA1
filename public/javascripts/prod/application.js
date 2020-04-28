@@ -1692,14 +1692,11 @@ class UserProfileForm {
                     .innerText = user.username;
                 if (step == 0) {
                     template = this.fillProfileFormStep0(user, template);
-                }
-                else if (step == 1) {
+                } else if (step == 1) {
                     template = this.fillProfileFormStep1(user, template);
-                }
-                else if (step == 2) {
+                } else if (step == 2) {
                     template = this.fillProfileFormStep2(user, template);
-                }
-                else if (step == 3) {
+                } else if (step == 3) {
                     template = this.fillProfileFormStep3(user, template);
                 }
                 profileFormContainer.appendChild(template);
@@ -2030,6 +2027,7 @@ class UserProfileForm {
         });
     }
 }
+
 $(function() {
     /**
      * [postMessage description]
