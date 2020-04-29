@@ -89,13 +89,19 @@
         <p>&nbsp;</p>
     </div>
 
-    <% include partials/global_stylesheets %>
+<% include partials/external_global_scripts %>
+
+<% include partials/global_stylesheets %>
+
+
+<%if (settings.env === 'development') { %>
 
     <!-- Scripts at the bottom for better performance -->
     <% include partials/global_scripts %>
 
 
     <!-- LOCAL SCRIPTS -->
+
     <script src="<%= '/javascripts/baseMessage.js?v=' + versionedAssets %>"></script>
     <script src="<%= '/javascripts/chat.js?v=' + versionedAssets %>"></script>
     <script src="<%= '/javascripts/privateChat.js?v=' + versionedAssets %>"></script>
@@ -111,6 +117,13 @@
     <script src="<%= '/javascripts/resources.js?v=' + versionedAssets %>"></script>
     <script src="<%= '/javascripts/resources_list.js?v=' + versionedAssets %>"></script>
     <script src="<%= '/javascripts/emergency_status_detail.js?v=' + versionedAssets %>"></script>
+
+
+<% } else { %>
+    <!-- Scripts at the bottom for better performance -->
+    <script src="<%= '/javascripts/prod/application.js?v=' + versionedAssets %>"></script>
+<% }  %>
+
 
 
 

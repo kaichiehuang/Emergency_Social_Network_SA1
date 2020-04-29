@@ -47,7 +47,9 @@ class SignoutComponent {
      * @return {[type]} [description]
      */
     redirectHomePage() {
-        window.location.replace('/');
+        if(window!= undefined && window.location != undefined){
+            window.location.replace('/');
+        }
     }
 
     /**

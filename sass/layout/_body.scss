@@ -20,7 +20,7 @@
         padding: 60px;
         color: $brand_color1;
         font-weight: bold;
-        padding-bottom: 200px;
+        padding-bottom: 60px;
     }
     &.acknowledgement-page-content {
         padding-top: 0;
@@ -170,12 +170,12 @@ form {
     background: white;
     @include respond-to("small") {
         height: auto;
-        min-height: 150vh;
+        min-height: 82.5vh;
         padding-bottom: 100px;
     }
     @include respond-to("extra-small") {
         height: auto;
-        min-height: 150vh;
+        min-height: 82.5vh;
         padding-bottom: 100px;
     }
     .messaging {
@@ -328,13 +328,17 @@ form {
                 }
                 .report-msg-number {
                     margin-right: 5px;
-                    font-size: 0.2em;
+                    font-size: 12px;
                     color: $brand_color1;
                 }
                 .report-link {
-                    font-size: 3px;
+                    font-size: 12px;
                     font-weight: lighter;
                     color: $brand_color1;
+                    position: absolute;
+                    top: 27px;
+                    right: 5px;
+                    text-decoration: underline;
                     &:hover {
                         color: #F7241D;
                     }

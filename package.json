@@ -26,7 +26,9 @@
     "graceful-fs": "^4.2.3",
     "gulp-concat": "^2.6.1",
     "gulp-dependents": "^1.2.3",
+    "gulp-minify": "^3.1.0",
     "http-errors": "~1.6.3",
+    "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.2",
@@ -36,6 +38,7 @@
     "sass-flex-mixin": "^1.0.3",
     "socket.io": "^2.3.0",
     "staticify": "^4.0.0",
+    "sticky-session": "^1.1.2",
     "superagent": "^5.2.2",
     "the-big-username-blacklist": "^1.5.2"
   },
