@@ -252,6 +252,7 @@ class BaseMessage {
         // paint and to check for unread messages
         this.getMessages(searchKeyword).then((results) => {
             self.drawMessages(results);
+            $('.main-content-loggedin').animate({scrollTop: self.containerWall.scrollHeight}, 100);
         }).catch((err) => {});
     }
 
@@ -277,7 +278,7 @@ class BaseMessage {
      * [registerEventsAfterDraw description]
      */
     registerEventsAfterDraw() {
-        const modelElement = this;
+        let modelElement = this;
         let stringType = this.type + '-chat';
         if (this.type == 'announcement') {
             stringType = this.type;
@@ -297,8 +298,7 @@ class BaseMessage {
             const newID = $(this).data('view-id');
             if (newID === stringType+'-content') {
                 modelElement.updateMessageListView('', 0);
-                modelElement.containerWall.scrollTop =
-                    modelElement.containerWall.scrollHeight;
+                $('.main-content-loggedin').animate({scrollTop: modelElement.containerWall.scrollHeight}, 100);
             }
         });
         /**

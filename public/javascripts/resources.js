@@ -294,6 +294,8 @@ class Resources {
                 $('#resources-content-menu').removeClass('active');
                 $('#public-chat-content-menu').addClass('active');
                 swapViewContent('public-chat-content');
+                swapGroupContent('public-chat-components');
+                PublicChatMessage.getInstance().updateMessageListView();
                 resolve(response);
             }).fail(function(e) {
                 reject(e.message);
