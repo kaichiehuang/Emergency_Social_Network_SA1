@@ -61,6 +61,7 @@ class StatusSelection {
                     event.preventDefault();
                     const newID = $('#status-button').data('view-id');
                     if (newID != undefined && newID != '') {
+                        $('.menu-content-changer').removeClass('active');
                         swapViewContent(newID);
                     }
                 }

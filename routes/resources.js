@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const TokenServerClass = require('../middleware/TokenServer');
 const multer = require('multer');
 const storage = multer.memoryStorage();
-const upload = multer({storage: storage, limits: {fileSize: 2000000}});
+const upload = multer({storage: storage, limits: {fileSize: 5000000}});
 const RBAC = require('../middleware/RBAC');
 // application/json parser
 const jsonParser = bodyParser.json();

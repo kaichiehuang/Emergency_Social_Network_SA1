@@ -217,7 +217,7 @@ class Resources {
         if ($('#resource-name-id').val() === '') {
             stringValidations += 'Resource Name is  a required field, ';
         }
-        if (pictureElement.length !== 0 && pictureElement[0].size > 2000000) {
+        if (pictureElement.length !== 0 && pictureElement[0].size > 5000000) {
             stringValidations += 'Picture Size limit 2Mb, ';
         }
         const selectedResource = resourceType.attr('name').toLowerCase();
@@ -291,7 +291,11 @@ class Resources {
                 $('#supplies-form').trigger('reset');
                 $('#image-preview').attr('src', '#');
                 Resources.getInstance().initializeFirstSelection();
+                $('#resources-content-menu').removeClass('active');
+                $('#public-chat-content-menu').addClass('active');
                 swapViewContent('public-chat-content');
+                swapGroupContent('public-chat-components');
+                PublicChatMessage.getInstance().updateMessageListView();
                 resolve(response);
             }).fail(function(e) {
                 reject(e.message);
