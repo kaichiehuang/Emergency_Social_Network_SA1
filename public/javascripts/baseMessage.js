@@ -278,7 +278,7 @@ class BaseMessage {
      * [registerEventsAfterDraw description]
      */
     registerEventsAfterDraw() {
-        let modelElement = this;
+        const modelElement = this;
         let stringType = this.type + '-chat';
         if (this.type == 'announcement') {
             stringType = this.type;
