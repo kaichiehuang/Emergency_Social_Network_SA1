@@ -132,7 +132,7 @@ const publicOptions = {
     redirect: false,
 };
 app.use(express.static(path.join(__dirname, 'public'), publicOptions));
-app.use(limiter);
+app.use('/api/', apiLimiter);
 // cache invalidation
 app.locals.versionedAssets = 207;
 
