@@ -291,6 +291,8 @@ class Resources {
                 $('#supplies-form').trigger('reset');
                 $('#image-preview').attr('src', '#');
                 Resources.getInstance().initializeFirstSelection();
+                $('#resources-content-menu').removeClass('active');
+                $('#public-chat-content-menu').addClass('active');
                 swapViewContent('public-chat-content');
                 resolve(response);
             }).fail(function(e) {
