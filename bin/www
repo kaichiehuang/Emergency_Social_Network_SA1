@@ -6,6 +6,9 @@
 
 const app = require('../app').app;
 const debug = require('debug')('team-sa1-esn:server');
+const cluster = require('cluster');
+const sticky = require('sticky-session');
+const numCPUs = 4;
 // change for http
 
 
@@ -26,10 +29,21 @@ const server = require('../app').server;
 /**
  * Listen on provided port, on all network interfaces.
  */
+if (!sticky.listen(server, port)) {
+    // Fork workers.
+    for (let i = 0; i < numCPUs; i++) {
+        cluster.fork();
+    }
+    cluster.on('exit', (worker, code, signal) => {
+        console.log(`Worker pid ${worker.process.pid} died`);
+    });
+    server.once('listening', function() {
+        console.log(`Master pid ${process.pid} is running`);
+    });
+} else {
+    console.log(`Worker pid ${process.pid} started`);
+}
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
