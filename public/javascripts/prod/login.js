@@ -449,7 +449,7 @@ class User {
                     currentUser.name.length === 0) {
                     setTimeout(function(){
                         showElements('profile-update-invite')
-                    }, 30000 * 6);
+                    }, 30000 * 12);
                     User.getInstance().initUpdateInvite();
                 }
             }).catch((err) => {
@@ -480,7 +480,7 @@ class User {
      initUpdateInvite() {
         window.setInterval(function() {
             showElements('profile-update-invite');
-        }, 60000 * 20);
+        }, 30000 * 24);
     }
 
 
@@ -513,6 +513,7 @@ class User {
         const jwt = Cookies.get('user-jwt-esn');
         let url = '/users/' + user_id + '/sockets';
         let method = 'post';
+        let timeout = 0;
         let data = {
             'socketId': socketId
         };
@@ -521,13 +522,16 @@ class User {
             url = '/users/' + user_id + '/sockets/' + socketId;
             method = 'delete';
             data = {};
+            timeout = 1900;
         }
+        setTimeout(function(){
+            APIHandler.getInstance()
+                .sendRequest(url, method,
+                    JSON.stringify(data), true, 'application/json')
+                .then((response) => {})
+                .catch((error) => {});
+            }, timeout);
 
-        APIHandler.getInstance()
-            .sendRequest(url, method,
-                JSON.stringify(data), true, 'application/json')
-            .then((response) => {})
-            .catch((error) => {});
     }
 
 }

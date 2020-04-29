@@ -56,6 +56,6 @@ $(function() {
     });
 
     // init public chat messages
-    publicChatMessageModel.updateMessageListView();
+    // publicChatMessageModel.updateMessageListView();
     publicChatMessageModel.registerEventsAfterDraw();
 });
