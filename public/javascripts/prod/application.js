@@ -573,6 +573,7 @@ class BaseMessage {
         // paint and to check for unread messages
         this.getMessages(searchKeyword).then((results) => {
             self.drawMessages(results);
+            $('.main-content-loggedin').animate({scrollTop: self.containerWall.scrollHeight}, 100);
         }).catch((err) => {});
     }
 
@@ -618,8 +619,7 @@ class BaseMessage {
             const newID = $(this).data('view-id');
             if (newID === stringType+'-content') {
                 modelElement.updateMessageListView('', 0);
-                modelElement.containerWall.scrollTop =
-                    modelElement.containerWall.scrollHeight;
+                $('.main-content-loggedin').animate({scrollTop: modelElement.containerWall.scrollHeight}, 100);
             }
         });
         /**
@@ -2277,6 +2277,7 @@ class StatusSelection {
                     event.preventDefault();
                     const newID = $('#status-button').data('view-id');
                     if (newID != undefined && newID != '') {
+                        $('.menu-content-changer').removeClass('active');
                         swapViewContent(newID);
                     }
                 }
@@ -2586,7 +2587,7 @@ class Resources {
         if ($('#resource-name-id').val() === '') {
             stringValidations += 'Resource Name is  a required field, ';
         }
-        if (pictureElement.length !== 0 && pictureElement[0].size > 2000000) {
+        if (pictureElement.length !== 0 && pictureElement[0].size > 5000000) {
             stringValidations += 'Picture Size limit 2Mb, ';
         }
         const selectedResource = resourceType.attr('name').toLowerCase();
@@ -2660,7 +2661,11 @@ class Resources {
                 $('#supplies-form').trigger('reset');
                 $('#image-preview').attr('src', '#');
                 Resources.getInstance().initializeFirstSelection();
+                $('#resources-content-menu').removeClass('active');
+                $('#public-chat-content-menu').addClass('active');
                 swapViewContent('public-chat-content');
+                swapGroupContent('public-chat-components');
+                PublicChatMessage.getInstance().updateMessageListView();
                 resolve(response);
             }).fail(function(e) {
                 reject(e.message);
