@@ -299,5 +299,5 @@ class EmergencyStatusDetail {
 }
 
 $(function() {
-    // EmergencyStatusDetail.getInstance().generatePreviewPage();
+    EmergencyStatusDetail.getInstance().generatePreviewPage();
 });
