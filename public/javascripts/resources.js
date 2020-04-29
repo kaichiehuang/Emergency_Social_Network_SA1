@@ -217,7 +217,7 @@ class Resources {
         if ($('#resource-name-id').val() === '') {
             stringValidations += 'Resource Name is  a required field, ';
         }
-        if (pictureElement.length !== 0 && pictureElement[0].size > 2000000) {
+        if (pictureElement.length !== 0 && pictureElement[0].size > 5000000) {
             stringValidations += 'Picture Size limit 2Mb, ';
         }
         const selectedResource = resourceType.attr('name').toLowerCase();
