@@ -893,9 +893,13 @@ form {
         display: inline;
         .btn-primary {
             border-radius: 50%;
+
         }
         .selected-btn {
             background-color: $brand_color2;
+        }
+        .input-group-btn:last-child{
+            z-index: 1;
         }
     }
     #resource-picture-div {
