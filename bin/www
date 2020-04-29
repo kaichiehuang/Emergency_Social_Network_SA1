@@ -8,7 +8,7 @@ const app = require('../app').app;
 const debug = require('debug')('team-sa1-esn:server');
 const cluster = require('cluster');
 const sticky = require('sticky-session');
-const numCPUs = 4;
+const numCPUs = 1;
 // change for http
 
 
@@ -31,9 +31,6 @@ const server = require('../app').server;
  */
 if (!sticky.listen(server, port)) {
     // Fork workers.
-    for (let i = 0; i < numCPUs; i++) {
-        cluster.fork();
-    }
     cluster.on('exit', (worker, code, signal) => {
         console.log(`Worker pid ${worker.process.pid} died`);
     });
